@@ -51,6 +51,7 @@ const loop = [
 const roles = ["Architect", "Creator", "Farmer", "Artist", "Explorer", "Entrepreneur", "Designer", "Builder", "Teacher"];
 const creatorPaths = [["STORY", "Quest Narrative"], ["CHARACTER", "Identity Design"], ["WORLD", "Environment Design"], ["MUSIC", "Cosmic Sound"], ["3D ART", "Living Objects"], ["GAME DESIGN", "Play Systems"], ["AI", "Angel AI Systems"], ["CODE", "Unity / Gameplay"], ["COMMUNITY", "Shared Missions"], ["ARCHITECTURE", "Future Cities"], ["EDUCATION", "Learning Worlds"]];
 const ecosystem = ["FUN Profile", "Angel AI", "FUN Academy", "FUN Farm", "Green Earth", "LoveHUB", "FUN Wallet", "FUN Money", "Camly Coin", "PureLove Protocol"];
+const navItems: Array<[string, string]> = [["Cosmos","cosmos"],["Experience","experience"],["Angel AI","angel"],["Love Score","love-score"],["O2O","o2o"],["Ecosystem","ecosystem"],["Create","create"]];
 
 function Kicker({ children }: { children: React.ReactNode }) {
   return <p className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-glow"><Sparkles className="size-4" />{children}</p>;
@@ -77,7 +78,7 @@ function Index() {
             <span className="truncate font-display text-base font-bold tracking-[0.12em] text-foreground">FUN COSMOS</span>
           </button>
           <div className="ml-auto hidden items-center gap-7 lg:flex">
-            {[["Cosmos","cosmos"],["Experience","experience"],["Angel AI","angel"],["Love Score","love-score"],["O2O","o2o"],["Ecosystem","ecosystem"],["Create","create"]].map(([label,id]) => <button key={id} onClick={() => jump(id)} className="text-xs font-semibold text-muted-foreground transition hover:text-foreground">{label}</button>)}
+            {navItems.map(([label,id]) => <button key={id} onClick={() => jump(id)} className="text-xs font-semibold text-muted-foreground transition hover:text-foreground">{label}</button>)}
           </div>
           <div className="ml-auto flex shrink-0 items-center gap-3">
             <div className="hidden items-center rounded-full border border-border bg-surface-glass p-1 sm:flex" aria-label="Language">
@@ -87,7 +88,7 @@ function Index() {
             <button className="grid size-11 place-items-center rounded-full border border-border bg-surface-glass lg:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Toggle menu">{menuOpen ? <X /> : <Menu />}</button>
           </div>
         </div>
-        {menuOpen && <div className="glass-panel mx-4 mb-4 grid gap-1 rounded-3xl p-4 lg:hidden">{["Cosmos","Experience","Angel AI","Love Score","O2O","Ecosystem","Create"].map(label => <button key={label} onClick={() => jump(label.toLowerCase().replace(" ", "-"))} className="rounded-xl px-4 py-3 text-left text-sm text-foreground hover:bg-accent/20">{label}</button>)}</div>}
+        {menuOpen && <div className="glass-panel mx-4 mb-4 grid gap-1 rounded-3xl p-4 lg:hidden">{navItems.map(([label,id]) => <button key={label} onClick={() => jump(id)} className="rounded-xl px-4 py-3 text-left text-sm text-foreground hover:bg-accent/20">{label}</button>)}</div>}
       </nav>
 
       <section id="cosmos" className="relative flex min-h-[96svh] items-center justify-center overflow-hidden">

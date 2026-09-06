@@ -301,3 +301,213 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
 }
+
+@keyframes star-drift { to { background-position: 70px 95px; } }
+@keyframes float-spark { 50% { transform: translate3d(0, -16px, 0) scale(1.25); opacity: .9; } }
+@keyframes planet-float { 50% { transform: translateY(-8px); } }
+@keyframes refraction { 50% { transform: translateX(150%) skewX(-16deg); opacity: .55; } }
+
+@utility living-cosmos {
+  position: relative;
+  background:
+    radial-gradient(circle at 52% 0%, color-mix(in oklab, var(--color-celestial) 32%, transparent), transparent 28rem),
+    linear-gradient(165deg, oklch(0.19 0.1 272), var(--color-background) 45%, oklch(0.16 0.09 263));
+}
+
+@utility cosmic-nebula {
+  opacity: .8;
+  background:
+    radial-gradient(ellipse at 4% 24%, color-mix(in oklab, var(--color-primary) 24%, transparent), transparent 30%),
+    radial-gradient(ellipse at 94% 54%, color-mix(in oklab, var(--color-celestial) 20%, transparent), transparent 30%),
+    radial-gradient(ellipse at 46% 84%, color-mix(in oklab, var(--color-glow) 11%, transparent), transparent 28%);
+}
+
+@utility stars-near {
+  opacity: .55;
+  background-size: 71px 71px;
+  animation: star-drift 34s linear infinite;
+}
+
+@utility stars-far {
+  opacity: .2;
+  background-size: 127px 127px;
+  transform: scale(1.1);
+  animation: star-drift 58s linear infinite reverse;
+}
+
+@utility cosmos-nav {
+  border-bottom: 1px solid var(--color-border);
+  background: color-mix(in oklab, var(--color-background) 76%, transparent);
+  box-shadow: 0 18px 55px oklch(0.08 0.06 270 / .25);
+  backdrop-filter: blur(24px) saturate(135%);
+}
+
+@utility journey-progress {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-glow), var(--color-gold));
+  box-shadow: 0 0 16px color-mix(in oklab, var(--color-glow) 65%, transparent);
+}
+
+@utility topic-link {
+  color: var(--color-muted-foreground);
+  letter-spacing: 0;
+  white-space: nowrap;
+  &:hover { color: var(--color-foreground); background: color-mix(in oklab, var(--color-primary) 12%, transparent); }
+}
+
+@utility topic-link-active {
+  color: var(--color-glow);
+  background: color-mix(in oklab, var(--color-primary) 16%, transparent);
+  box-shadow: inset 0 -1px 0 var(--color-glow);
+}
+
+@utility cosmic-hero {
+  background:
+    linear-gradient(to top, var(--color-background), transparent 35%),
+    radial-gradient(circle at 76% 45%, color-mix(in oklab, var(--color-primary) 22%, transparent), transparent 30%);
+}
+
+@utility aurora-text {
+  background: linear-gradient(105deg, var(--color-glow), var(--color-foreground) 32%, var(--color-celestial) 70%, var(--color-gold));
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 24px color-mix(in oklab, var(--color-primary) 32%, transparent));
+}
+
+@utility hero-orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px solid color-mix(in oklab, var(--color-glow) 25%, transparent);
+  border-radius: 9999px;
+  transform: translate(-50%, -50%) rotate(-18deg);
+  box-shadow: inset 0 0 28px color-mix(in oklab, var(--color-primary) 8%, transparent);
+}
+@utility hero-orbit-one { width: 23rem; height: 11rem; }
+@utility hero-orbit-two { width: 18rem; height: 18rem; transform: translate(-50%, -50%) rotate(38deg); }
+@utility hero-planet {
+  position: absolute; left: 50%; top: 50%; width: 9rem; height: 9rem; transform: translate(-50%, -50%);
+  display: grid; place-items: center; border-radius: 9999px;
+  background: radial-gradient(circle at 35% 28%, var(--color-glow), var(--color-primary) 28%, var(--color-secondary) 70%);
+  box-shadow: 0 0 45px color-mix(in oklab, var(--color-primary) 60%, transparent), inset -18px -15px 35px oklch(0.15 0.08 280 / .65);
+  & img { width: 72%; height: 72%; object-fit: contain; filter: drop-shadow(0 8px 15px oklch(0.12 0.08 260 / .55)); }
+}
+@utility orbit-dot { position: absolute; display: block; border-radius: 9999px; background: var(--color-gold); box-shadow: 0 0 18px var(--color-gold); animation: pulse-light 3s ease-in-out infinite; }
+@utility orbit-dot-one { width: 1rem; height: 1rem; left: 12%; top: 32%; }
+@utility orbit-dot-two { width: .6rem; height: .6rem; right: 11%; top: 56%; animation-delay: -1s; }
+@utility orbit-dot-three { width: .4rem; height: .4rem; left: 35%; bottom: 3%; animation-delay: -2s; }
+
+@utility cinematic-chapter {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 1.25rem 5rem;
+  isolation: isolate;
+}
+
+@utility chapter-inner {
+  width: min(100%, 1500px);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: minmax(16rem, .75fr) minmax(0, 1.55fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 6rem);
+}
+
+@utility chapter-copy {
+  position: relative;
+  z-index: 2;
+  & h2 { margin-top: 1.5rem; font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 5.75rem); font-weight: 500; line-height: .96; color: var(--color-foreground); text-wrap: balance; }
+  & p { max-width: 31rem; margin-top: 1.5rem; color: var(--color-muted-foreground); font-size: clamp(.95rem, 1.4vw, 1.15rem); line-height: 1.75; }
+}
+
+@utility chapter-kicker {
+  display: flex; align-items: center; gap: .75rem; color: var(--color-celestial); font-size: .7rem; font-weight: 700; text-transform: uppercase;
+  & > span:first-child { color: var(--color-gold); font-family: var(--font-display); font-size: .8rem; }
+}
+@utility chapter-line { width: 2.5rem; height: 1px; background: var(--color-celestial); }
+@utility chapter-index {
+  margin-top: 2.25rem; display: flex; align-items: center; gap: 1rem;
+  & strong { font-family: var(--font-display); font-size: 2.5rem; color: var(--color-foreground); }
+  & span { border-left: 1px solid var(--color-border); padding-left: 1rem; color: var(--color-muted-foreground); font-size: .68rem; line-height: 1.5; text-transform: uppercase; }
+}
+
+@utility chapter-visual { position: relative; min-width: 0; }
+@utility frame-aura {
+  position: absolute; inset: -2rem; z-index: -1; border-radius: 2rem;
+  background: linear-gradient(120deg, color-mix(in oklab, var(--color-primary) 30%, transparent), color-mix(in oklab, var(--color-celestial) 22%, transparent));
+  filter: blur(3rem); opacity: .55;
+}
+@utility image-refraction {
+  position: absolute; inset-block: 0; left: -35%; width: 22%; opacity: .2; pointer-events: none;
+  transform: skewX(-16deg);
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--color-glow) 55%, transparent), transparent);
+  animation: refraction 7s ease-in-out infinite;
+}
+@utility satellite-ring {
+  position: absolute; width: 5rem; height: 5rem; right: -2rem; top: -2.5rem; z-index: -1;
+  border: 1px solid color-mix(in oklab, var(--color-gold) 45%, transparent); border-radius: 9999px;
+  box-shadow: 0 0 25px color-mix(in oklab, var(--color-gold) 18%, transparent);
+}
+@utility floating-spark { position: absolute; display: block; width: .45rem; height: .45rem; border-radius: 9999px; background: var(--color-glow); box-shadow: 0 0 18px var(--color-glow); animation: float-spark 4s ease-in-out infinite; }
+@utility spark-one { left: -1rem; top: 18%; }
+@utility spark-two { right: 8%; bottom: -1.5rem; width: .3rem; height: .3rem; animation-delay: -2s; }
+
+@utility chapter-light {
+  position: absolute; inset: 12% 0; z-index: -1; opacity: .5;
+  background: radial-gradient(circle at 78% 50%, color-mix(in oklab, var(--color-primary) 22%, transparent), transparent 38%);
+}
+
+.chapter-layout-1 .chapter-inner { grid-template-columns: minmax(0, 1.55fr) minmax(16rem, .75fr); }
+.chapter-layout-1 .chapter-visual { order: -1; }
+.chapter-layout-1 .chapter-light { background: radial-gradient(circle at 22% 50%, color-mix(in oklab, var(--color-celestial) 22%, transparent), transparent 38%); }
+.chapter-layout-2 .chapter-inner { display: block; position: relative; }
+.chapter-layout-2 .chapter-copy { position: absolute; inset: auto auto 2.5rem 2.5rem; z-index: 4; max-width: 38rem; padding: 2rem; border-left: 1px solid color-mix(in oklab, var(--color-gold) 45%, transparent); background: linear-gradient(90deg, color-mix(in oklab, var(--color-background) 88%, transparent), transparent); backdrop-filter: blur(12px); }
+.chapter-layout-2 .chapter-copy h2 { font-size: clamp(2.25rem, 4vw, 4.5rem); }
+.chapter-layout-2 .slide-shell::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, color-mix(in oklab, var(--color-background) 68%, transparent), transparent 56%); pointer-events: none; }
+
+@utility ecosystem-orbit {
+  position: relative; width: min(100%, 74rem); height: 36rem; margin: 4rem auto 0;
+  display: grid; place-items: center;
+}
+@utility ecosystem-core {
+  position: relative; z-index: 5; display: grid; place-items: center; width: 11rem; height: 11rem; border-radius: 9999px;
+  background: radial-gradient(circle at 35% 25%, var(--color-glow), var(--color-primary) 30%, var(--color-secondary));
+  box-shadow: 0 0 5rem color-mix(in oklab, var(--color-primary) 55%, transparent);
+  & img { width: 6rem; height: 6rem; object-fit: contain; }
+  & span { position: absolute; top: calc(100% + .75rem); font-family: var(--font-display); font-size: .8rem; font-weight: 700; }
+}
+@utility ecosystem-ring { position: absolute; border: 1px solid color-mix(in oklab, var(--color-glow) 22%, transparent); border-radius: 9999px; transform: rotate(-8deg); }
+@utility ring-one { width: 28rem; height: 12rem; }
+@utility ring-two { width: 48rem; height: 20rem; transform: rotate(12deg); }
+@utility ring-three { width: 68rem; height: 29rem; transform: rotate(-5deg); }
+@utility platform-planet { position: absolute; z-index: 6; display: grid; justify-items: center; gap: .55rem; animation: planet-float 4s ease-in-out infinite; }
+@utility platform-mark { display: grid; width: 3.5rem; height: 3.5rem; place-items: center; border-radius: 9999px; border: 1px solid color-mix(in oklab, var(--color-gold) 50%, transparent); background: var(--color-surface-glass); color: var(--color-foreground); font-family: var(--font-display); font-size: .65rem; font-weight: 700; box-shadow: 0 0 24px color-mix(in oklab, var(--color-primary) 25%, transparent); backdrop-filter: blur(14px); }
+@utility platform-name { color: var(--color-muted-foreground); font-size: .65rem; font-weight: 600; }
+.platform-1 { left: 17%; top: 10%; }.platform-2 { right: 18%; top: 12%; animation-delay: -.5s; }.platform-3 { left: 5%; top: 46%; animation-delay: -1s; }.platform-4 { right: 5%; top: 45%; animation-delay: -1.5s; }.platform-5 { left: 18%; bottom: 5%; animation-delay: -2s; }.platform-6 { right: 18%; bottom: 5%; animation-delay: -2.5s; }.platform-7 { left: 39%; top: 2%; animation-delay: -3s; }.platform-8 { right: 39%; bottom: 0; animation-delay: -3.5s; }
+
+@utility cosmic-footer {
+  border-top: 1px solid var(--color-border);
+  background: linear-gradient(to bottom, transparent, color-mix(in oklab, var(--color-background) 86%, transparent));
+}
+
+@media (max-width: 1023px) {
+  .cosmic-hero { min-height: 80svh; }
+  .cinematic-chapter { min-height: auto; padding-top: 6.5rem; }
+  .chapter-inner, .chapter-layout-1 .chapter-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .chapter-layout-1 .chapter-visual { order: 0; }
+  .chapter-layout-2 .chapter-copy { position: relative; inset: auto; max-width: none; margin-bottom: 2rem; padding: 0 0 0 1.25rem; background: none; backdrop-filter: none; }
+  .chapter-layout-2 .slide-shell::after { display: none; }
+  .ecosystem-orbit { transform: scale(.8); margin-block: -1rem; }
+}
+
+@media (max-width: 640px) {
+  .cosmic-hero { min-height: 88svh; align-items: center; padding-top: 7.5rem; }
+  .cinematic-chapter { padding: 5.5rem .85rem 3.5rem; }
+  .chapter-copy h2, .chapter-layout-2 .chapter-copy h2 { font-size: 2.35rem; }
+  .chapter-copy p { margin-top: 1rem; }
+  .chapter-index { margin-top: 1.25rem; }
+  .chapter-index strong { font-size: 2rem; }
+  .satellite-ring { right: -.3rem; top: -1.5rem; width: 3.5rem; height: 3.5rem; }
+  .ecosystem-orbit { width: 42rem; height: 27rem; left: 50%; margin-left: -21rem; transform: scale(.7); }
+}

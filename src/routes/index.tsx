@@ -141,7 +141,7 @@ function Index() {
     setMenuOpen(false);
   };
 
-  const activeTopic = [...topicNavigation].reverse().find(([, start]) => activeSlide >= start)?.[0] ?? "Khởi nguồn";
+  const activeTopic = chapterCopy[activeSlide - 1]?.[0] ?? "Khởi nguồn";
 
   return (
     <main className="living-cosmos min-h-screen overflow-x-hidden">

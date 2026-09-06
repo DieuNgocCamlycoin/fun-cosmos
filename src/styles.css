@@ -208,6 +208,28 @@
   animation-range: entry 8% cover 30%;
 }
 
+@utility gold-text {
+  background: linear-gradient(120deg, oklch(0.92 0.09 95), var(--color-gold) 42%, oklch(0.72 0.13 74) 72%, oklch(0.94 0.07 98));
+  background-clip: text;
+  color: transparent;
+}
+
+@utility medallion {
+  display: grid;
+  place-items: center;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in oklab, var(--color-gold) 55%, transparent);
+  background: linear-gradient(150deg, oklch(0.4 0.13 255 / .55), oklch(0.25 0.1 280 / .4));
+  box-shadow: 0 0 24px oklch(0.85 0.12 90 / .18), inset 0 1px 0 oklch(1 0 0 / .25);
+  backdrop-filter: blur(14px);
+}
+
+@utility gold-frame {
+  border: 1px solid color-mix(in oklab, var(--color-gold) 45%, transparent);
+  border-radius: 2rem;
+  box-shadow: 0 24px 70px oklch(0.1 0.06 260 / .55), 0 0 34px oklch(0.85 0.12 90 / .12);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
 }

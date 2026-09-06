@@ -95,7 +95,7 @@ function Index() {
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActiveSlide(Number((visible.target as HTMLElement).dataset.slide ?? 1));
+        if (visible) setActiveSlide(Number((visible.target as HTMLElement).dataset["slide"] ?? 1));
       },
       { threshold: [0.25, 0.55, 0.8] },
     );

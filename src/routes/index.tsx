@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronRight, Menu, Orbit, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logoAsset from "@/assets/fun-cosmos-logo.png.asset.json";
 import slide1 from "@/assets/slide-1.webp.asset.json";
@@ -78,13 +78,46 @@ const slideAlt = [
   "Mini game FUN COSMOS và 99.999 Happy Camly Coin",
 ];
 
-const chapters = [
-  { label: "Khởi nguồn", id: "chapter-1", range: "01—05" },
-  { label: "FUN Cosmos", id: "chapter-6", range: "06—10" },
-  { label: "Trải nghiệm", id: "chapter-11", range: "11—17" },
-  { label: "Đóng góp", id: "chapter-18", range: "18—20" },
-  { label: "Cùng sáng tạo", id: "chapter-21", range: "21—27" },
-];
+const chapterCopy = [
+  ["Khởi nguồn", "The cosmos opens", "Mở ra một bức tranh vũ trụ rộng lớn."],
+  ["Khởi nguồn", "A journey of discovery", "Từ một trang sách đến hành trình khám phá vô tận."],
+  ["Khởi nguồn", "The cosmic school", "Mỗi thế giới là một nơi để trải nghiệm và trưởng thành."],
+  ["Khởi nguồn", "Seven mansion worlds", "Bảy thế giới, bảy tầng trải nghiệm đang chờ được mở khóa."],
+  ["Khởi nguồn", "Toward perfection", "Một hành trình hướng về phiên bản tốt đẹp hơn của chính mình."],
+  ["FUN COSMOS", "The journey home", "Chơi giữa vũ trụ. Sống trong một thế giới đầy yêu thương."],
+  ["FUN COSMOS", "A living universe", "Không chỉ là một trò chơi — đây là nơi ý tưởng trở thành trải nghiệm."],
+  ["FUN COSMOS", "Beyond a game", "Một không gian để học, tạo, kết nối và hiện thực hóa."],
+  ["FUN COSMOS", "One connected experience", "Game, học tập, sáng tạo và đời thật cùng tồn tại trong một hành trình."],
+  ["FUN COSMOS", "Seven worlds to explore", "Mỗi cánh cổng mở ra một khả năng mới."],
+  ["Khám phá & Sáng tạo", "Your possibilities", "Khám phá. Sáng tạo. Kết nối. Tiến hóa. Hiện thực hóa."],
+  ["Anna’s Journey", "From dream to action", "Một ý tưởng trong game có thể nảy mầm ngoài đời thật."],
+  ["Core Loop", "The creation cycle", "Mơ ước, mô phỏng, học hỏi, sáng tạo, hành động và tiến hóa."],
+  ["Khám phá & Sáng tạo", "Meet your future self", "Trải nghiệm hôm nay phiên bản tương lai tốt đẹp hơn của bạn."],
+  ["5 Trụ cột", "Five ways to grow", "Năm trụ cột giữ cho mọi trải nghiệm luôn tự do, vui và có ý nghĩa."],
+  ["Angel AI", "Your personal game master", "Một người bạn đồng hành hiểu hành trình của riêng bạn."],
+  ["Angel AI", "Always with you", "Gợi mở và hỗ trợ — không kiểm soát, không quyết định thay bạn."],
+  ["Love Score", "Positive contribution", "Ghi nhận những đóng góp tích cực đã được xác minh."],
+  ["Love Score", "Recognition, not judgment", "Không đo giá trị con người — chỉ phản chiếu hành động tốt đẹp."],
+  ["O2O", "Game meets real life", "Điều bạn tạo trong thế giới số có thể trở thành tác động thật."],
+  ["Your Turn", "What will you create?", "Một nhân vật, một thế giới, một bài hát hay một cộng đồng mới?"],
+  ["Khám phá & Sáng tạo", "Build a better world", "Mỗi ý tưởng là một hạt giống cho tương lai."],
+  ["O2O", "Online to offline", "Nhận nhiệm vụ, hành động, xác minh và mở khóa hành trình tiếp theo."],
+  ["FUN Ecosystem", "One connected cosmos", "Mọi platform trở thành một hành tinh trong cùng hệ sinh thái."],
+  ["FUN COSMOS", "Fun is still fun", "Chơi trước tiên — rồi khám phá điều bạn có thể trở thành."],
+  ["Your Turn", "Five questions", "Mỗi câu trả lời là một viên gạch xây nên FUN COSMOS."],
+  ["Your Turn", "Imagine it. Create it. Share it.", "Vũ trụ bắt đầu từ một ý tưởng của bạn."],
+] as const;
+
+const topicNavigation = [
+  ["Khởi nguồn", 1], ["FUN COSMOS", 6], ["Khám phá & Sáng tạo", 11],
+  ["5 Trụ cột", 15], ["Core Loop", 13], ["Angel AI", 16],
+  ["Anna’s Journey", 12], ["Love Score", 18], ["O2O", 20],
+  ["FUN Ecosystem", 24], ["Your Turn", 21],
+] as const;
+
+const platforms = ["Profile", "Academy", "Green Earth", "LoveHUB", "FUN Farm", "Wallet", "FUN Money", "PLP"];
+
+const layoutFor = (index: number) => index % 3;
 
 function Index() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -108,78 +141,134 @@ function Index() {
     setMenuOpen(false);
   };
 
-  return (
-    <main className="cosmic-bg min-h-screen overflow-x-hidden">
-      <h1 className="sr-only">FUN COSMOS — 5D New Earth Role-Playing Game</h1>
-      <div aria-hidden="true" className="stars pointer-events-none fixed inset-0 opacity-25" />
+  const activeTopic = chapterCopy[activeSlide - 1]?.[0] ?? "Khởi nguồn";
 
-      <nav className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/75 backdrop-blur-2xl" aria-label="Điều hướng hành trình">
-        <div className="mx-auto flex h-16 max-w-[1500px] items-center gap-4 px-4 lg:h-20 lg:px-8">
-          <Button variant="ghost" size="icon" onClick={() => jump("chapter-1")} aria-label="Về trang đầu" className="size-11 shrink-0">
+  return (
+    <main className="living-cosmos min-h-screen overflow-x-hidden">
+      <div aria-hidden="true" className="cosmic-nebula pointer-events-none fixed inset-0" />
+      <div aria-hidden="true" className="stars stars-near pointer-events-none fixed inset-0" />
+      <div aria-hidden="true" className="stars stars-far pointer-events-none fixed inset-0" />
+
+      <nav className="cosmos-nav fixed inset-x-0 top-0 z-50" aria-label="Điều hướng hành trình">
+        <div className="mx-auto flex h-16 max-w-[1500px] items-center gap-3 px-4 lg:px-8">
+          <Button variant="ghost" size="icon" onClick={() => jump("chapter-1")} aria-label="Về trang đầu" className="size-10 shrink-0">
             <img src={logoAsset.url} alt="" className="size-10 object-contain" />
           </Button>
-          <button onClick={() => jump("chapter-1")} className="hidden font-display text-sm font-bold tracking-[0.12em] text-foreground sm:block">FUN COSMOS</button>
-          <div className="mx-auto hidden items-center gap-7 lg:flex">
-            {chapters.map((chapter) => (
-              <button key={chapter.id} onClick={() => jump(chapter.id)} className="group text-left text-xs font-semibold text-muted-foreground transition hover:text-foreground">
-                <span className="mr-2 text-gold">{chapter.range}</span>{chapter.label}
-              </button>
-            ))}
-          </div>
+          <Button variant="ghost" onClick={() => jump("chapter-1")} className="hidden h-auto px-2 font-display text-sm font-bold text-foreground sm:inline-flex">FUN COSMOS</Button>
+          <span className="hidden h-5 w-px bg-border sm:block" />
+          <span className="hidden text-[10px] font-semibold uppercase text-muted-foreground md:block">5D New Earth Role-Playing Game</span>
           <div className="ml-auto flex items-center gap-3">
-            <span className="min-w-16 text-right font-display text-xs font-bold text-muted-foreground"><strong className="text-foreground">{String(activeSlide).padStart(2, "0")}</strong> / 27</span>
+            <span className="hidden items-center gap-2 text-[10px] font-semibold uppercase text-celestial sm:flex"><Sparkles className="size-3" />{activeTopic}</span>
+            <span className="min-w-14 text-right font-display text-xs font-bold text-muted-foreground"><strong className="text-foreground">{String(activeSlide).padStart(2, "0")}</strong> / 27</span>
+            <Button variant="starlight" size="sm" className="hidden sm:inline-flex" onClick={() => jump("chapter-1")}>Mở hành trình</Button>
             <Button variant="ghost" size="icon" className="size-11 lg:hidden" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-label="Mở danh mục">
               {menuOpen ? <X /> : <Menu />}
             </Button>
           </div>
         </div>
-        <div className="h-px bg-border"><div className="h-full bg-gold transition-[width] duration-500" style={{ width: `${(activeSlide / 27) * 100}%` }} /></div>
+        <div className="hidden h-11 items-center border-t border-border px-8 lg:flex">
+          <div className="mx-auto flex w-full max-w-[1500px] items-center justify-between gap-3">
+            {topicNavigation.map(([label, start]) => (
+              <Button key={label} variant="ghost" size="sm" onClick={() => jump(`chapter-${start}`)} className={`topic-link h-8 px-2 text-[10px] ${activeTopic === label ? "topic-link-active" : ""}`}>{label}</Button>
+            ))}
+          </div>
+        </div>
+        <div className="h-px bg-border"><div className="journey-progress h-full transition-[width] duration-500" style={{ width: `${(activeSlide / 27) * 100}%` }} /></div>
         {menuOpen && (
-          <div className="glass-panel mx-3 mt-2 grid gap-1 rounded-2xl p-3 lg:hidden">
-            {chapters.map((chapter) => <Button key={chapter.id} variant="ghost" className="justify-between" onClick={() => jump(chapter.id)}><span>{chapter.label}</span><span className="text-gold">{chapter.range}</span></Button>)}
+          <div className="glass-panel mx-3 mt-2 grid max-h-[70vh] gap-1 overflow-auto rounded-lg p-3 lg:hidden">
+            {topicNavigation.map(([label, start]) => <Button key={label} variant="ghost" className="justify-between" onClick={() => jump(`chapter-${start}`)}><span>{label}</span><span className="text-gold">{String(start).padStart(2, "0")}</span></Button>)}
           </div>
         )}
       </nav>
 
-      <div className="relative z-10 pt-16 lg:pt-20">
+      <header className="cosmic-hero relative z-10 flex min-h-[92svh] items-end px-5 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
+        <div className="mx-auto grid w-full max-w-[1500px] items-end gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <div className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase text-celestial"><span className="h-px w-12 bg-celestial" /> A living universe</div>
+            <h1 className="font-display text-5xl font-light leading-[0.95] text-foreground sm:text-7xl lg:text-8xl xl:text-9xl">PLAY THE<br /><span className="aurora-text font-bold">COSMOS</span></h1>
+            <p className="mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">Một hành trình qua 27 cánh cổng — nơi bạn tự do khám phá, sáng tạo, thử, sai và trở thành phiên bản tương lai tốt đẹp hơn của chính mình.</p>
+            <div className="mt-9 flex flex-wrap items-center gap-4">
+              <Button variant="cosmos" size="lg" onClick={() => jump("chapter-1")}>Bắt đầu hành trình <ChevronRight /></Button>
+              <span className="text-xs font-semibold uppercase text-muted-foreground">Live in heaven</span>
+            </div>
+          </div>
+          <div className="relative hidden min-h-72 lg:col-span-5 lg:block">
+            <div className="hero-orbit hero-orbit-one" /><div className="hero-orbit hero-orbit-two" />
+            <div className="hero-planet"><img src={logoAsset.url} alt="Biểu tượng FUN COSMOS" /></div>
+            <span className="orbit-dot orbit-dot-one" /><span className="orbit-dot orbit-dot-two" /><span className="orbit-dot orbit-dot-three" />
+          </div>
+        </div>
+        <Button variant="ghost" size="icon" onClick={() => jump("chapter-1")} className="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full" aria-label="Đi đến chương đầu"><ArrowDown /></Button>
+      </header>
+
+      <div className="relative z-10">
         {slideAssets.map((asset, index) => {
           const slideNumber = index + 1;
+          const [group, title, description] = chapterCopy[index] ?? chapterCopy[0];
+          const layout = layoutFor(index);
           return (
             <section
               key={slideNumber}
               id={`chapter-${slideNumber}`}
               data-slide={slideNumber}
               aria-label={`Trang ${slideNumber} trên 27`}
-              className={`slide-stage ${slideNumber === 1 ? "slide-stage-first" : ""}`}
+              className={`cinematic-chapter chapter-layout-${layout}`}
             >
-              <div className="slide-shell reveal">
-                <img
-                  src={asset.url}
-                  alt={slideAlt[index] ?? `FUN COSMOS — trang ${slideNumber}`}
-                  width={1920}
-                  height={1080}
-                  loading={slideNumber <= 2 ? "eager" : "lazy"}
-                  fetchPriority={slideNumber === 1 ? "high" : "auto"}
-                  className="slide-image"
-                />
-                <span className="slide-number" aria-hidden="true">{String(slideNumber).padStart(2, "0")}</span>
+              <div aria-hidden="true" className="chapter-light" />
+              <div className="chapter-inner reveal">
+                <div className="chapter-copy">
+                  <div className="chapter-kicker"><span>{String(slideNumber).padStart(2, "0")}</span><span className="chapter-line" />{group}</div>
+                  <h2>{title}</h2>
+                  <p>{description}</p>
+                  <div className="chapter-index"><strong>27</strong><span>Cánh cổng<br />một hành trình</span></div>
+                </div>
+                <div className="chapter-visual">
+                  <div aria-hidden="true" className="frame-aura" />
+                  <div className="slide-shell">
+                    <img
+                      src={asset.url}
+                      alt={slideAlt[index] ?? `FUN COSMOS — trang ${slideNumber}`}
+                      width={1920}
+                      height={1080}
+                      loading={slideNumber <= 2 ? "eager" : "lazy"}
+                      fetchPriority={slideNumber === 1 ? "high" : "auto"}
+                      className="slide-image"
+                    />
+                    <div aria-hidden="true" className="image-refraction" />
+                    <span className="slide-number" aria-hidden="true">{String(slideNumber).padStart(2, "0")}</span>
+                  </div>
+                  <span aria-hidden="true" className="satellite-ring" />
+                  <span aria-hidden="true" className="floating-spark spark-one" />
+                  <span aria-hidden="true" className="floating-spark spark-two" />
+                </div>
               </div>
-              {slideNumber === 1 && (
-                <button onClick={() => jump("chapter-2")} className="mt-5 flex items-center gap-2 text-xs font-bold uppercase text-muted-foreground">
-                  Khám phá 27 trang <ChevronDown className="size-4 animate-bounce" />
-                </button>
-              )}
+              {slideNumber === 24 && <EcosystemOrbit />}
             </section>
           );
         })}
       </div>
 
-      <footer className="relative z-10 border-t border-border px-5 py-10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 text-center sm:flex-row sm:text-left">
-          <div className="flex items-center gap-3"><img src={logoAsset.url} alt="FUN COSMOS" className="size-12 object-contain" /><div><strong className="font-display text-sm tracking-[0.12em]">FUN COSMOS</strong><p className="text-xs text-muted-foreground">PLAY THE COSMOS — LIVE IN HEAVEN</p></div></div>
-          <Button variant="starlight" onClick={() => jump("chapter-1")}>Xem lại từ đầu</Button>
+      <footer className="cosmic-footer relative z-10 px-5 py-16">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-7 text-center sm:flex-row sm:text-left">
+          <div className="flex items-center gap-4"><img src={logoAsset.url} alt="FUN COSMOS" className="size-14 object-contain" /><div><strong className="font-display text-base">FUN COSMOS</strong><p className="mt-1 text-xs uppercase text-muted-foreground">Play the cosmos — live in heaven</p></div></div>
+          <Button variant="starlight" size="lg" onClick={() => jump("chapter-1")}>Xem lại từ đầu <ArrowUp /></Button>
         </div>
       </footer>
     </main>
+  );
+}
+
+function EcosystemOrbit() {
+  return (
+    <div className="ecosystem-orbit" aria-label="Các platform trong hệ sinh thái FUN COSMOS">
+      <div className="ecosystem-core"><img src={logoAsset.url} alt="FUN COSMOS" /><span>FUN COSMOS</span></div>
+      {platforms.map((platform, index) => (
+        <div key={platform} className={`platform-planet platform-${index + 1}`}>
+          <span className="platform-mark">{platform.split(" ").map((word) => word[0]).join("")}</span>
+          <span className="platform-name">{platform}</span>
+        </div>
+      ))}
+      <div aria-hidden="true" className="ecosystem-ring ring-one" /><div aria-hidden="true" className="ecosystem-ring ring-two" /><div aria-hidden="true" className="ecosystem-ring ring-three" />
+    </div>
   );
 }

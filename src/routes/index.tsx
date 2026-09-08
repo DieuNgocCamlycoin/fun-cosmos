@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { platforms, roles } from "@/components/living-data";
+import { GAME_URL } from "@/lib/links";
+
 import fatherPortrait from "@/assets/father-welcome.jpg";
 const heroFallback = "/cosmos/portal.jpg";
 import angelFallback from "@/assets/angel-web.jpg";

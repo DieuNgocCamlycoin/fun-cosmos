@@ -135,9 +135,10 @@ export function NextWorldCTA() {
           Bắt đầu với một ý tưởng <ArrowUpRight size={18} />
         </a>
       </div>
-      <a className="tw-text-link" href="/#love">
-        Khám phá tiếp: Love Score trên trang chủ →
+      <a className="tw-text-link" href="/love-score">
+        Khám phá tiếp: Thế giới Love Score →
       </a>
+
     </WorldSection>
   );
 }

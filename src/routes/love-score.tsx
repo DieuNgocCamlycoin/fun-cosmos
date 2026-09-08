@@ -4,7 +4,7 @@ import { ArrowDown, ArrowUpRight, HandHeart, FileSearch, ShieldCheck, Trophy } f
 import { TopicWorldShell, WorldSection } from "@/components/topic-world/topic-world";
 import { DeepDiveGallery } from "@/components/topic-world/deep-dive-gallery";
 import "@/components/topic-world/love-score-world.css";
-import fatherAsset from "@/assets/father-cosmos.webp.asset.json";
+import fatherAsset from "@/assets/father-cutout.png.asset.json";
 import angelAsset from "@/assets/angel-light.png.asset.json";
 import plpAsset from "@/assets/plp-seal.png.asset.json";
 import infoOne from "@/assets/love-score-info-1.png.asset.json";

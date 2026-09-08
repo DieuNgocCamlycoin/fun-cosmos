@@ -99,7 +99,7 @@ function LoveScoreWorld() {
   return (
     <TopicWorldShell>
       <div className="ls">
-        <section className="tw-hero ls-hero" aria-labelledby="love-title">
+        <section className="ls-hero" aria-labelledby="love-title">
           <div className="ls-hero-sky" aria-hidden="true" />
           <div className="ls-hero-city" aria-hidden="true" />
           <div className="ls-hero-beam" aria-hidden="true" />

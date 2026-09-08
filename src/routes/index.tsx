@@ -70,7 +70,7 @@ function Index() {
     [paused, setPaused] = useState(false),
     [role, setRole] = useState(1),
     [planet, setPlanet] = useState(0),
-    [joinOpen, setJoinOpen] = useState(false),
+    [planetDetail, setPlanetDetail] = useState(false),
     [ideaOpen, setIdeaOpen] = useState(false),
     [draft, setDraft] = useState<string[]>(Array(7).fill("")),
     [notice, setNotice] = useState("");
@@ -563,24 +563,8 @@ function Index() {
         <a href="#home">Về đầu trang ↑</a>
         <span>VI · Tiếng Việt</span>
       </footer>
-      <Dialog open={joinOpen} onOpenChange={setJoinOpen}>
-        <DialogContent className="lc-idea-dialog">
-          <DialogTitle>Bắt đầu hành trình FUN COSMOS</DialogTitle>
-          <DialogDescription>
-            Đăng ký tài khoản và kết nối FUN ID sẽ được mở trong giai đoạn tiếp theo. Hiện chưa nhận
-            thông tin đăng ký.
-          </DialogDescription>
-          <ol className="join-steps">
-            <li>Tạo tài khoản hoặc kết nối FUN ID</li>
-            <li>Chọn phiên bản FUN COSMOS</li>
-            <li>Bắt đầu chơi và khám phá</li>
-          </ol>
-          <a className="lc-gold" href="#games" onClick={() => setJoinOpen(false)}>
-            Xem hai phiên bản game <ArrowRight size={18} />
-          </a>
-        </DialogContent>
-      </Dialog>
       <Dialog open={ideaOpen} onOpenChange={setIdeaOpen}>
+
         <DialogContent className="lc-idea-dialog">
           <DialogTitle>FUN COSMOS của bạn</DialogTitle>
           <DialogDescription>

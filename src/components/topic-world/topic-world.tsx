@@ -51,14 +51,15 @@ export function TopicWorldShell({ children }: { children: ReactNode }) {
           }}
         >
           {destinations.map(([href, title]) => (
-            <a key={href} href={href} aria-current={href === "/angel-ai" ? "page" : undefined}>
+            <a key={href} href={href} aria-current={href === pathname ? "page" : undefined}>
               {title}
             </a>
           ))}
         </nav>
-        <a className="tw-enter" href="/#games">
-          Chơi FUN COSMOS <ArrowUpRight size={16} />
+        <a className="tw-enter" href={GAME_URL} target="_blank" rel="noreferrer">
+          CHƠI NGAY <ArrowUpRight size={16} />
         </a>
+
         <button
           className="tw-menu"
           ref={menuButton}

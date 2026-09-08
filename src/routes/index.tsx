@@ -70,7 +70,7 @@ function Index() {
     [paused, setPaused] = useState(false),
     [role, setRole] = useState(1),
     [planet, setPlanet] = useState(0),
-    [planetDetail, setPlanetDetail] = useState(false),
+    
     [ideaOpen, setIdeaOpen] = useState(false),
     [draft, setDraft] = useState<string[]>(Array(7).fill("")),
     [notice, setNotice] = useState("");

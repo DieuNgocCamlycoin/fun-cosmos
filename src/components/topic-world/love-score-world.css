@@ -53,13 +53,16 @@
 .ls-hero-inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr);
+  grid-template-columns: minmax(140px, 1fr) minmax(300px, 620px) minmax(140px, 1fr);
   align-items: end;
+  justify-items: center;
   gap: clamp(0.5rem, 3vw, 2rem);
-  width: min(1180px, 100%);
+  width: min(1240px, 100%);
 }
 .ls-figure {
   position: relative;
+  width: 100%;
+  max-width: 360px;
 }
 .ls-figure img {
   width: 100%;
@@ -67,6 +70,7 @@
   filter: drop-shadow(0 24px 48px rgba(3, 12, 40, 0.55));
   animation: ls-float 9s ease-in-out infinite;
 }
+
 .ls-figure.ls-angel img {
   animation-delay: -3.5s;
 }

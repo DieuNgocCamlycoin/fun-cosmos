@@ -1,15 +1,18 @@
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import { ArrowLeft, ArrowUpRight, Menu, Pause, Play, X } from "lucide-react";
+import { useRouterState } from "@tanstack/react-router";
+import { GAME_URL } from "@/lib/links";
 import "./topic-world.css";
 
 const destinations = [
   ["/#origin", "URANTIA"],
   ["/#about", "FUN COSMOS"],
   ["/angel-ai", "ANGEL AI"],
-  ["/#love", "LOVE SCORE"],
+  ["/love-score", "LOVE SCORE"],
   ["/#ecosystem", "FUN ECOSYSTEM"],
   ["/#create", "YOUR TURN"],
 ];
+
 
 export function TopicWorldShell({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
@@ -25,6 +28,8 @@ export function TopicWorldShell({ children }: { children: ReactNode }) {
   }, []);
   const [menu, setMenu] = useState(false);
   const [paused, setPaused] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
   return (
     <div className="tw" ref={root} data-paused={paused}>
       <a className="tw-skip" href="#world-content">
@@ -46,14 +51,15 @@ export function TopicWorldShell({ children }: { children: ReactNode }) {
           }}
         >
           {destinations.map(([href, title]) => (
-            <a key={href} href={href} aria-current={href === "/angel-ai" ? "page" : undefined}>
+            <a key={href} href={href} aria-current={href === pathname ? "page" : undefined}>
               {title}
             </a>
           ))}
         </nav>
-        <a className="tw-enter" href="/#games">
-          Chơi FUN COSMOS <ArrowUpRight size={16} />
+        <a className="tw-enter" href={GAME_URL} target="_blank" rel="noreferrer">
+          CHƠI NGAY <ArrowUpRight size={16} />
         </a>
+
         <button
           className="tw-menu"
           ref={menuButton}
@@ -129,9 +135,10 @@ export function NextWorldCTA() {
           Bắt đầu với một ý tưởng <ArrowUpRight size={18} />
         </a>
       </div>
-      <a className="tw-text-link" href="/#love">
-        Khám phá tiếp: Love Score trên trang chủ →
+      <a className="tw-text-link" href="/love-score">
+        Khám phá tiếp: Thế giới Love Score →
       </a>
+
     </WorldSection>
   );
 }

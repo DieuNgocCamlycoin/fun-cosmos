@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { platforms, roles } from "@/components/living-data";
+import { GAME_URL } from "@/lib/links";
+
 import fatherPortrait from "@/assets/father-welcome.jpg";
 const heroFallback = "/cosmos/portal.jpg";
 import angelFallback from "@/assets/angel-web.jpg";
@@ -68,7 +70,7 @@ function Index() {
     [paused, setPaused] = useState(false),
     [role, setRole] = useState(1),
     [planet, setPlanet] = useState(0),
-    [joinOpen, setJoinOpen] = useState(false),
+    
     [ideaOpen, setIdeaOpen] = useState(false),
     [draft, setDraft] = useState<string[]>(Array(7).fill("")),
     [notice, setNotice] = useState("");
@@ -179,24 +181,25 @@ function Index() {
             </div>
           </details>
           {[
-            ["angel", "ANGEL AI"],
-            ["love", "LOVE SCORE"],
-            ["ecosystem", "FUN ECOSYSTEM"],
-            ["create", "YOUR TURN"],
+            ["/angel-ai", "ANGEL AI"],
+            ["/love-score", "LOVE SCORE"],
+            ["#ecosystem", "FUN ECOSYSTEM"],
+            ["#create", "YOUR TURN"],
           ].map(([id, label]) => (
             <a
               key={id}
-              href={`#${id}`}
+              href={id!.startsWith("#") ? id! : id!}
               onClick={() => setMenu(false)}
-              aria-current={active === id ? "location" : undefined}
+              aria-current={active === id!.replace("#", "") ? "location" : undefined}
             >
               {label}
             </a>
           ))}
         </div>
-        <button className="lc-gold compact-register" onClick={() => setJoinOpen(true)}>
-          Đăng ký tài khoản
-        </button>
+        <a className="lc-gold compact-register" href={GAME_URL} target="_blank" rel="noreferrer">
+          CHƠI NGAY
+        </a>
+
         <button
           className="compact-menu"
           onClick={() => setMenu(!menu)}
@@ -289,21 +292,26 @@ function Index() {
       ))}
       <section id="games" data-chapter className="lc-section lc-games">
         <Heading label="Chơi FUN COSMOS" title="Chọn cánh cửa bước vào thế giới của bạn.">
-          Hai phiên bản Unity của FUN COSMOS. Liên kết chơi sẽ được cập nhật tại đây.
+          Bấm CHƠI NGAY để mở FUN COSMOS. Việc đăng ký, xác minh email và đăng nhập được thực hiện
+          ngay trong game.
         </Heading>
         <div className="lc-game-options">
-          {[1, 2].map((version) => (
-            <article key={version} className="lc-game-option">
+          {[
+            ["Chơi trên trình duyệt", "Mở FUN COSMOS và bắt đầu ngay trong tab mới."],
+            ["Đăng ký & đăng nhập trong game", "Tạo tài khoản, xác minh email rồi vào thế giới."],
+          ].map(([title, note]) => (
+            <article key={title} className="lc-game-option">
               <span aria-hidden="true">✧</span>
-              <h3>Phiên bản {version}</h3>
-              <p>Thông tin phiên bản và thiết bị hỗ trợ sẽ hiển thị cùng liên kết chơi.</p>
-              <button className="lc-gold" disabled>
-                Chơi ngay — chờ liên kết
-              </button>
+              <h3>{title}</h3>
+              <p>{note}</p>
+              <a className="lc-gold" href={GAME_URL} target="_blank" rel="noreferrer">
+                CHƠI NGAY <ExternalLink size={16} />
+              </a>
             </article>
           ))}
         </div>
       </section>
+
       <section id="angel" data-chapter className="lc-section lc-angel">
         <div className="lc-split">
           <div className="lc-angel-art">
@@ -555,24 +563,8 @@ function Index() {
         <a href="#home">Về đầu trang ↑</a>
         <span>VI · Tiếng Việt</span>
       </footer>
-      <Dialog open={joinOpen} onOpenChange={setJoinOpen}>
-        <DialogContent className="lc-idea-dialog">
-          <DialogTitle>Bắt đầu hành trình FUN COSMOS</DialogTitle>
-          <DialogDescription>
-            Đăng ký tài khoản và kết nối FUN ID sẽ được mở trong giai đoạn tiếp theo. Hiện chưa nhận
-            thông tin đăng ký.
-          </DialogDescription>
-          <ol className="join-steps">
-            <li>Tạo tài khoản hoặc kết nối FUN ID</li>
-            <li>Chọn phiên bản FUN COSMOS</li>
-            <li>Bắt đầu chơi và khám phá</li>
-          </ol>
-          <a className="lc-gold" href="#games" onClick={() => setJoinOpen(false)}>
-            Xem hai phiên bản game <ArrowRight size={18} />
-          </a>
-        </DialogContent>
-      </Dialog>
       <Dialog open={ideaOpen} onOpenChange={setIdeaOpen}>
+
         <DialogContent className="lc-idea-dialog">
           <DialogTitle>FUN COSMOS của bạn</DialogTitle>
           <DialogDescription>

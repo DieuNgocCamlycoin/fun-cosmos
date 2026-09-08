@@ -28,6 +28,8 @@ export function TopicWorldShell({ children }: { children: ReactNode }) {
   }, []);
   const [menu, setMenu] = useState(false);
   const [paused, setPaused] = useState(false);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
   return (
     <div className="tw" ref={root} data-paused={paused}>
       <a className="tw-skip" href="#world-content">

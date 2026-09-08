@@ -2,42 +2,50 @@ import { useRef, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "../ui/dialog";
 import { descriptions } from "../artwork-descriptions";
 
-export function DeepDiveGallery({ images }: { images: readonly number[] }) {
+export type DeepDiveItem = { thumb: string; full: string; title: string };
+
+export function DeepDiveGallery({
+  images,
+  items,
+}: {
+  images?: readonly number[];
+  items?: readonly DeepDiveItem[];
+}) {
+  const list: DeepDiveItem[] =
+    items?.slice() ??
+    (images ?? []).map((image, index) => ({
+      thumb: `/cosmos/topic-world/angel-concept-${image}.jpg`,
+      full: `/slides/${image}.jpg`,
+      title: descriptions[image] ?? (index === 0 ? "Tư liệu 1" : "Tư liệu 2"),
+    }));
   const opener = useRef<HTMLButtonElement | null>(null);
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
   const [zoom, setZoom] = useState(1);
   const start = useRef<{ x: number; y: number } | null>(null);
   const viewport = useRef<HTMLDivElement>(null);
-  const id = images[selected]!;
+  const current = list[selected]!;
   const change = (next: number) => {
-    setSelected(Math.max(0, Math.min(images.length - 1, next)));
+    setSelected(Math.max(0, Math.min(list.length - 1, next)));
     setZoom(1);
     viewport.current?.scrollTo(0, 0);
   };
   return (
     <>
       <div className="tw-artifacts">
-        {images.map((image, index) => (
+        {list.map((item, index) => (
           <button
-            key={image}
+            key={item.full}
             onClick={(event) => {
               opener.current = event.currentTarget;
               change(index);
               setOpen(true);
             }}
-            aria-label={`Mở infographic: ${descriptions[image]}`}
+            aria-label={`Mở infographic: ${item.title}`}
           >
-            <img
-              src={`/cosmos/topic-world/angel-concept-${image}.jpg`}
-              alt=""
-              width="1920"
-              height="1080"
-              loading="lazy"
-            />
+            <img src={item.thumb} alt="" width="1920" height="1080" loading="lazy" />
             <span>
-              {index === 0 ? "Năm vai trò đồng hành" : "Angel AI hỗ trợ bạn như thế nào?"}{" "}
-              <span aria-hidden="true">↗</span>
+              {item.title} <span aria-hidden="true">↗</span>
             </span>
           </button>
         ))}
@@ -66,7 +74,7 @@ export function DeepDiveGallery({ images }: { images: readonly number[] }) {
             }
           }}
         >
-          <DialogTitle>{descriptions[id]}</DialogTitle>
+          <DialogTitle>{current.title}</DialogTitle>
           <DialogDescription>
             Phóng lớn và cuộn để đọc. Khi ảnh vừa khung, vuốt hoặc dùng phím trái/phải để đổi ảnh.
           </DialogDescription>
@@ -79,10 +87,10 @@ export function DeepDiveGallery({ images }: { images: readonly number[] }) {
               ←
             </button>
             <span aria-live="polite">
-              {selected + 1} / {images.length}
+              {selected + 1} / {list.length}
             </span>
             <button
-              disabled={selected === images.length - 1}
+              disabled={selected === list.length - 1}
               onClick={() => change(selected + 1)}
               aria-label="Ảnh sau"
             >
@@ -133,11 +141,7 @@ export function DeepDiveGallery({ images }: { images: readonly number[] }) {
               start.current = null;
             }}
           >
-            <img
-              src={`/slides/${id}.jpg`}
-              alt={descriptions[id]}
-              style={{ width: `${zoom * 100}%` }}
-            />
+            <img src={current.full} alt={current.title} style={{ width: `${zoom * 100}%` }} />
           </div>
         </DialogContent>
       </Dialog>

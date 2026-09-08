@@ -1,274 +1,625 @@
+import { UrantiaCosmosScene } from "@/components/urantia-cosmos-scene";
+import { ArtworkViewer } from "@/components/story-artwork";
+import { TopicGallery } from "@/components/topic-gallery";
+import { cosmosContents } from "@/components/cosmos-contents";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, ChevronRight, Menu, Orbit, Sparkles, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import logoAsset from "@/assets/fun-cosmos-logo.png.asset.json";
-import slide1 from "@/assets/slide-1.webp.asset.json";
-import slide2 from "@/assets/slide-2.webp.asset.json";
-import slide3 from "@/assets/slide-3.webp.asset.json";
-import slide4 from "@/assets/slide-4.webp.asset.json";
-import slide5 from "@/assets/slide-5.webp.asset.json";
-import slide6 from "@/assets/slide-6.webp.asset.json";
-import slide7 from "@/assets/slide-7.webp.asset.json";
-import slide8 from "@/assets/slide-8.webp.asset.json";
-import slide9 from "@/assets/slide-9.webp.asset.json";
-import slide10 from "@/assets/slide-10.webp.asset.json";
-import slide11 from "@/assets/slide-11.webp.asset.json";
-import slide12 from "@/assets/slide-12.webp.asset.json";
-import slide13 from "@/assets/slide-13.webp.asset.json";
-import slide14 from "@/assets/slide-14.webp.asset.json";
-import slide15 from "@/assets/slide-15.webp.asset.json";
-import slide16 from "@/assets/slide-16.webp.asset.json";
-import slide17 from "@/assets/slide-17.webp.asset.json";
-import slide18 from "@/assets/slide-18.webp.asset.json";
-import slide19 from "@/assets/slide-19.png.asset.json";
-import slide20 from "@/assets/slide-20.png.asset.json";
-import slide21 from "@/assets/slide-21.webp.asset.json";
-import slide22 from "@/assets/slide-22.webp.asset.json";
-import slide23 from "@/assets/slide-23.webp.asset.json";
-import slide24 from "@/assets/slide-24.webp.asset.json";
-import slide25 from "@/assets/slide-25.webp.asset.json";
-import slide26 from "@/assets/slide-26.webp.asset.json";
-import slide27 from "@/assets/slide-27.webp.asset.json";
-
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  ArrowDown,
+  ArrowRight,
+  ExternalLink,
+  Menu,
+  X,
+  Pause,
+  Play,
+  Download,
+  Check,
+  Sparkles,
+} from "lucide-react";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { platforms, roles } from "@/components/living-data";
+import fatherPortrait from "@/assets/father-welcome.jpg";
+const heroFallback = "/cosmos/portal.jpg";
+import angelFallback from "@/assets/angel-web.jpg";
+import "@/living.css";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "FUN COSMOS — Hành Trình 5D New Earth" },
-      { name: "description", content: "Khám phá trọn vẹn hành trình FUN COSMOS qua 27 chương hình ảnh — từ bức tranh vũ trụ đến một thế giới mới do chính bạn sáng tạo." },
-      { property: "og:title", content: "FUN COSMOS — Hành Trình 5D New Earth" },
-      { property: "og:description", content: "27 chương hình ảnh kể trọn hành trình Play the Cosmos — Live in Heaven." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { title: "FUN COSMOS — Play the Cosmos, Live in Heaven" },
+      {
+        name: "description",
+        content:
+          "Khám phá, học hỏi, sáng tạo và kết nối. Một vũ trụ trải nghiệm cùng Angel AI, Love Score và FUN Ecosystem.",
+      },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
 });
-
-const slideAssets = [slide1, slide2, slide3, slide4, slide5, slide6, slide7, slide8, slide9, slide10, slide11, slide12, slide13, slide14, slide15, slide16, slide17, slide18, slide19, slide20, slide21, slide22, slide23, slide24, slide25, slide26, slide27];
-
-const slideAlt = [
-  "Sách Urantia mở ra bức tranh vũ trụ",
-  "Sách Urantia và hành trình khám phá vũ trụ",
-  "Vũ trụ là một trường học vĩ đại",
-  "Bảy thế giới dinh thự",
-  "Một hành trình hướng về sự hoàn thiện",
-  "FUN COSMOS — The Journey Home",
-  "FUN COSMOS là gì?",
-  "FUN COSMOS không chỉ là game",
-  "FUN COSMOS kết nối game, học tập, sáng tạo và đời thật",
-  "Bảy thế giới trải nghiệm trong FUN COSMOS",
-  "Người chơi có thể khám phá, sáng tạo, kết nối, tiến hóa và hiện thực hóa",
-  "Anna’s Journey — Game và Real Life",
-  "Core Loop — vòng lặp cốt lõi FUN COSMOS",
-  "Core Idea — phiên bản tương lai tốt đẹp hơn của chính mình",
-  "Năm trụ cột của FUN COSMOS",
-  "Angel AI — Your Personal Game Master",
-  "Angel AI là người bạn đồng hành thông minh",
-  "Love Score — Verified Positive Contribution",
-  "Love Score ghi nhận đóng góp tích cực đã xác minh",
-  "Từ trồng cây trong game đến hành động thật ngoài đời",
-  "Your Turn — bạn sẽ sáng tạo gì trong FUN COSMOS?",
-  "Core Idea — cùng xây dựng một thế giới tốt đẹp hơn",
-  "O2O kết nối online, offline, xác minh và Love Score",
-  "Hệ sinh thái FUN COSMOS",
-  "Điều làm FUN COSMOS hấp dẫn",
-  "Năm câu hỏi để cùng sáng tạo FUN COSMOS",
-  "Mini game FUN COSMOS và 99.999 Happy Camly Coin",
+const fields = [
+  "Nhân vật",
+  "Ước mơ",
+  "Trải nghiệm / nhiệm vụ",
+  "Angel AI hỗ trợ gì?",
+  "Ghi nhận mong muốn",
+  "Thế giới thay đổi thế nào?",
+  "Kết nối với đời thật",
 ];
-
-const chapterCopy = [
-  ["Khởi nguồn", "The cosmos opens", "Mở ra một bức tranh vũ trụ rộng lớn."],
-  ["Khởi nguồn", "A journey of discovery", "Từ một trang sách đến hành trình khám phá vô tận."],
-  ["Khởi nguồn", "The cosmic school", "Mỗi thế giới là một nơi để trải nghiệm và trưởng thành."],
-  ["Khởi nguồn", "Seven mansion worlds", "Bảy thế giới, bảy tầng trải nghiệm đang chờ được mở khóa."],
-  ["Khởi nguồn", "Toward perfection", "Một hành trình hướng về phiên bản tốt đẹp hơn của chính mình."],
-  ["FUN COSMOS", "The journey home", "Chơi giữa vũ trụ. Sống trong một thế giới đầy yêu thương."],
-  ["FUN COSMOS", "A living universe", "Không chỉ là một trò chơi — đây là nơi ý tưởng trở thành trải nghiệm."],
-  ["FUN COSMOS", "Beyond a game", "Một không gian để học, tạo, kết nối và hiện thực hóa."],
-  ["FUN COSMOS", "One connected experience", "Game, học tập, sáng tạo và đời thật cùng tồn tại trong một hành trình."],
-  ["FUN COSMOS", "Seven worlds to explore", "Mỗi cánh cổng mở ra một khả năng mới."],
-  ["Khám phá & Sáng tạo", "Your possibilities", "Khám phá. Sáng tạo. Kết nối. Tiến hóa. Hiện thực hóa."],
-  ["Anna’s Journey", "From dream to action", "Một ý tưởng trong game có thể nảy mầm ngoài đời thật."],
-  ["Core Loop", "The creation cycle", "Mơ ước, mô phỏng, học hỏi, sáng tạo, hành động và tiến hóa."],
-  ["Khám phá & Sáng tạo", "Meet your future self", "Trải nghiệm hôm nay phiên bản tương lai tốt đẹp hơn của bạn."],
-  ["5 Trụ cột", "Five ways to grow", "Năm trụ cột giữ cho mọi trải nghiệm luôn tự do, vui và có ý nghĩa."],
-  ["Angel AI", "Your personal game master", "Một người bạn đồng hành hiểu hành trình của riêng bạn."],
-  ["Angel AI", "Always with you", "Gợi mở và hỗ trợ — không kiểm soát, không quyết định thay bạn."],
-  ["Love Score", "Positive contribution", "Ghi nhận những đóng góp tích cực đã được xác minh."],
-  ["Love Score", "Recognition, not judgment", "Không đo giá trị con người — chỉ phản chiếu hành động tốt đẹp."],
-  ["O2O", "Game meets real life", "Điều bạn tạo trong thế giới số có thể trở thành tác động thật."],
-  ["Your Turn", "What will you create?", "Một nhân vật, một thế giới, một bài hát hay một cộng đồng mới?"],
-  ["Khám phá & Sáng tạo", "Build a better world", "Mỗi ý tưởng là một hạt giống cho tương lai."],
-  ["O2O", "Online to offline", "Nhận nhiệm vụ, hành động, xác minh và mở khóa hành trình tiếp theo."],
-  ["FUN Ecosystem", "One connected cosmos", "Mọi platform trở thành một hành tinh trong cùng hệ sinh thái."],
-  ["FUN COSMOS", "Fun is still fun", "Chơi trước tiên — rồi khám phá điều bạn có thể trở thành."],
-  ["Your Turn", "Five questions", "Mỗi câu trả lời là một viên gạch xây nên FUN COSMOS."],
-  ["Your Turn", "Imagine it. Create it. Share it.", "Vũ trụ bắt đầu từ một ý tưởng của bạn."],
-] as const;
-
-const topicNavigation = [
-  ["Khởi nguồn", 1], ["FUN COSMOS", 6], ["Khám phá & Sáng tạo", 11],
-  ["5 Trụ cột", 15], ["Core Loop", 13], ["Angel AI", 16],
-  ["Anna’s Journey", 12], ["Love Score", 18], ["O2O", 20],
-  ["FUN Ecosystem", 24], ["Your Turn", 21],
-] as const;
-
-const platforms = ["Profile", "Academy", "Green Earth", "LoveHUB", "FUN Farm", "Wallet", "FUN Money", "PLP"];
-
-const layoutFor = (index: number) => index % 3;
-
-function Index() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSlide, setActiveSlide] = useState(1);
-
-  useEffect(() => {
-    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-slide]"));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActiveSlide(Number((visible.target as HTMLElement).dataset["slide"] ?? 1));
-      },
-      { threshold: [0.25, 0.55, 0.8] },
-    );
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
-
-  const jump = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setMenuOpen(false);
-  };
-
-  const activeTopic = chapterCopy[activeSlide - 1]?.[0] ?? "Khởi nguồn";
-
+function Heading({
+  label,
+  title,
+  children,
+}: {
+  label: string;
+  title: string;
+  children?: ReactNode;
+}) {
   return (
-    <main className="living-cosmos min-h-screen overflow-x-hidden">
-      <div aria-hidden="true" className="cosmic-nebula pointer-events-none fixed inset-0" />
-      <div aria-hidden="true" className="stars stars-near pointer-events-none fixed inset-0" />
-      <div aria-hidden="true" className="stars stars-far pointer-events-none fixed inset-0" />
-
-      <nav className="cosmos-nav fixed inset-x-0 top-0 z-50" aria-label="Điều hướng hành trình">
-        <div className="mx-auto flex h-16 max-w-[1500px] items-center gap-3 px-4 lg:px-8">
-          <Button variant="ghost" size="icon" onClick={() => jump("chapter-1")} aria-label="Về trang đầu" className="size-10 shrink-0">
-            <img src={logoAsset.url} alt="" className="size-10 object-contain" />
-          </Button>
-          <Button variant="ghost" onClick={() => jump("chapter-1")} className="hidden h-auto px-2 font-display text-sm font-bold text-foreground sm:inline-flex">FUN COSMOS</Button>
-          <span className="hidden h-5 w-px bg-border sm:block" />
-          <span className="hidden text-[10px] font-semibold uppercase text-muted-foreground md:block">5D New Earth Role-Playing Game</span>
-          <div className="ml-auto flex items-center gap-3">
-            <span className="hidden items-center gap-2 text-[10px] font-semibold uppercase text-celestial sm:flex"><Sparkles className="size-3" />{activeTopic}</span>
-            <span className="min-w-14 text-right font-display text-xs font-bold text-muted-foreground"><strong className="text-foreground">{String(activeSlide).padStart(2, "0")}</strong> / 27</span>
-            <Button variant="starlight" size="sm" className="hidden sm:inline-flex" onClick={() => jump("chapter-1")}>Mở hành trình</Button>
-            <Button variant="ghost" size="icon" className="size-11 lg:hidden" onClick={() => setMenuOpen((open) => !open)} aria-expanded={menuOpen} aria-label="Mở danh mục">
-              {menuOpen ? <X /> : <Menu />}
-            </Button>
-          </div>
-        </div>
-        <div className="hidden h-11 items-center border-t border-border px-8 lg:flex">
-          <div className="mx-auto flex w-full max-w-[1500px] items-center justify-between gap-3">
-            {topicNavigation.map(([label, start]) => (
-              <Button key={label} variant="ghost" size="sm" onClick={() => jump(`chapter-${start}`)} className={`topic-link h-8 px-2 text-[10px] ${activeTopic === label ? "topic-link-active" : ""}`}>{label}</Button>
-            ))}
-          </div>
-        </div>
-        <div className="h-px bg-border"><div className="journey-progress h-full transition-[width] duration-500" style={{ width: `${(activeSlide / 27) * 100}%` }} /></div>
-        {menuOpen && (
-          <div className="glass-panel mx-3 mt-2 grid max-h-[70vh] gap-1 overflow-auto rounded-lg p-3 lg:hidden">
-            {topicNavigation.map(([label, start]) => <Button key={label} variant="ghost" className="justify-between" onClick={() => jump(`chapter-${start}`)}><span>{label}</span><span className="text-gold">{String(start).padStart(2, "0")}</span></Button>)}
-          </div>
-        )}
-      </nav>
-
-      <header className="cosmic-hero relative z-10 flex min-h-[92svh] items-end px-5 pb-16 pt-28 lg:px-10 lg:pb-20 lg:pt-36">
-        <div className="mx-auto grid w-full max-w-[1500px] items-end gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <div className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase text-celestial"><span className="h-px w-12 bg-celestial" /> A living universe</div>
-            <h1 className="font-display text-5xl font-light leading-[0.95] text-foreground sm:text-7xl lg:text-8xl xl:text-9xl">PLAY THE<br /><span className="aurora-text font-bold">COSMOS</span></h1>
-            <p className="mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">Một hành trình qua 27 cánh cổng — nơi bạn tự do khám phá, sáng tạo, thử, sai và trở thành phiên bản tương lai tốt đẹp hơn của chính mình.</p>
-            <div className="mt-9 flex flex-wrap items-center gap-4">
-              <Button variant="cosmos" size="lg" onClick={() => jump("chapter-1")}>Bắt đầu hành trình <ChevronRight /></Button>
-              <span className="text-xs font-semibold uppercase text-muted-foreground">Live in heaven</span>
-            </div>
-          </div>
-          <div className="relative hidden min-h-72 lg:col-span-5 lg:block">
-            <div className="hero-orbit hero-orbit-one" /><div className="hero-orbit hero-orbit-two" />
-            <div className="hero-planet"><img src={logoAsset.url} alt="Biểu tượng FUN COSMOS" /></div>
-            <span className="orbit-dot orbit-dot-one" /><span className="orbit-dot orbit-dot-two" /><span className="orbit-dot orbit-dot-three" />
-          </div>
-        </div>
-        <Button variant="ghost" size="icon" onClick={() => jump("chapter-1")} className="absolute bottom-5 left-1/2 -translate-x-1/2 rounded-full" aria-label="Đi đến chương đầu"><ArrowDown /></Button>
-      </header>
-
-      <div className="relative z-10">
-        {slideAssets.map((asset, index) => {
-          const slideNumber = index + 1;
-          const [group, title, description] = chapterCopy[index] ?? chapterCopy[0];
-          const layout = layoutFor(index);
-          return (
-            <section
-              key={slideNumber}
-              id={`chapter-${slideNumber}`}
-              data-slide={slideNumber}
-              aria-label={`Trang ${slideNumber} trên 27`}
-              className={`cinematic-chapter chapter-layout-${layout}`}
-            >
-              <div aria-hidden="true" className="chapter-light" />
-              <div className="chapter-inner reveal">
-                <div className="chapter-copy">
-                  <div className="chapter-kicker"><span>{String(slideNumber).padStart(2, "0")}</span><span className="chapter-line" />{group}</div>
-                  <h2>{title}</h2>
-                  <p>{description}</p>
-                  <div className="chapter-index"><strong>27</strong><span>Cánh cổng<br />một hành trình</span></div>
-                </div>
-                <div className="chapter-visual">
-                  <div aria-hidden="true" className="frame-aura" />
-                  <div className="slide-shell">
-                    <img
-                      src={asset.url}
-                      alt={slideAlt[index] ?? `FUN COSMOS — trang ${slideNumber}`}
-                      width={1920}
-                      height={1080}
-                      loading={slideNumber <= 2 ? "eager" : "lazy"}
-                      fetchPriority={slideNumber === 1 ? "high" : "auto"}
-                      className="slide-image"
-                    />
-                    <div aria-hidden="true" className="image-refraction" />
-                    <span className="slide-number" aria-hidden="true">{String(slideNumber).padStart(2, "0")}</span>
-                  </div>
-                  <span aria-hidden="true" className="satellite-ring" />
-                  <span aria-hidden="true" className="floating-spark spark-one" />
-                  <span aria-hidden="true" className="floating-spark spark-two" />
-                </div>
-              </div>
-              {slideNumber === 24 && <EcosystemOrbit />}
-            </section>
-          );
-        })}
-      </div>
-
-      <footer className="cosmic-footer relative z-10 px-5 py-16">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-7 text-center sm:flex-row sm:text-left">
-          <div className="flex items-center gap-4"><img src={logoAsset.url} alt="FUN COSMOS" className="size-14 object-contain" /><div><strong className="font-display text-base">FUN COSMOS</strong><p className="mt-1 text-xs uppercase text-muted-foreground">Play the cosmos — live in heaven</p></div></div>
-          <Button variant="starlight" size="lg" onClick={() => jump("chapter-1")}>Xem lại từ đầu <ArrowUp /></Button>
-        </div>
-      </footer>
-    </main>
+    <div className="lc-heading">
+      <span className="lc-eyebrow">✧ {label}</span>
+      <h2>{title}</h2>
+      {children && <p>{children}</p>}
+    </div>
   );
 }
-
-function EcosystemOrbit() {
+function Index() {
+  const [active, setActive] = useState("home"),
+    [menu, setMenu] = useState(false),
+    [paused, setPaused] = useState(false),
+    [role, setRole] = useState(1),
+    [planet, setPlanet] = useState(0),
+    [joinOpen, setJoinOpen] = useState(false),
+    [ideaOpen, setIdeaOpen] = useState(false),
+    [draft, setDraft] = useState<string[]>(Array(7).fill("")),
+    [notice, setNotice] = useState("");
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      const header = document.querySelector("nav")?.getBoundingClientRect().height ?? 76;
+      const sections = [...document.querySelectorAll<HTMLElement>("[data-chapter]")];
+      const current = sections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= header + 80 && rect.bottom > header + 80;
+      });
+      if (current) setActive(current.dataset["chapter"] || current.id);
+    };
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    update();
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
+  function openIdea() {
+    try {
+      const stored = JSON.parse(localStorage.getItem("fun-cosmos-idea-v2") || "null");
+      if (
+        Array.isArray(stored) &&
+        stored.length === 7 &&
+        stored.every((v) => typeof v === "string")
+      )
+        setDraft(stored);
+    } catch {
+      /* Optional local draft. */
+    }
+    setNotice("");
+    setIdeaOpen(true);
+  }
+  function save() {
+    try {
+      localStorage.setItem("fun-cosmos-idea-v2", JSON.stringify(draft));
+      setNotice("Đã lưu ý tưởng trên trình duyệt này.");
+    } catch {
+      setNotice("Chưa thể lưu trên trình duyệt. Bạn có thể tải thẻ ý tưởng.");
+    }
+  }
+  function download() {
+    const blob = new Blob(
+      ["FUN COSMOS — Ý tưởng của tôi\n\n" + fields.map((f, i) => f + ": " + draft[i]).join("\n\n")],
+      { type: "text/plain;charset=utf-8" },
+    );
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "fun-cosmos-y-tuong.txt";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  const selected = platforms[planet] ?? platforms[0];
   return (
-    <div className="ecosystem-orbit" aria-label="Các platform trong hệ sinh thái FUN COSMOS">
-      <div className="ecosystem-core"><img src={logoAsset.url} alt="FUN COSMOS" /><span>FUN COSMOS</span></div>
-      {platforms.map((platform, index) => (
-        <div key={platform} className={`platform-planet platform-${index + 1}`}>
-          <span className="platform-mark">{platform.split(" ").map((word) => word[0]).join("")}</span>
-          <span className="platform-name">{platform}</span>
+    <main className={`lc-page ${paused ? "lc-paused" : ""}`}>
+      <a className="lc-skip" href="#about">
+        Đến nội dung chính
+      </a>
+      <nav className="lc-nav compact-nav" aria-label="Điều hướng FUN COSMOS">
+        <a href="#home" className="compact-logo" aria-label="FUN COSMOS — Về đầu trang">
+          <img src="/cosmos/cosmos.png" alt="" />
+        </a>
+        <div id="lc-topics" className={`compact-links ${menu ? "is-open" : ""}`}>
+          <a
+            href="#origin"
+            onClick={() => setMenu(false)}
+            aria-current={active === "origin" ? "location" : undefined}
+          >
+            URANTIA
+          </a>
+          <details
+            className="cosmos-dropdown"
+            onKeyDown={(e) => {
+              if (e.key === "Escape") e.currentTarget.open = false;
+            }}
+          >
+            <summary>
+              FUN COSMOS <span aria-hidden="true">⌄</span>
+            </summary>
+            <div className="cosmos-dropdown-list">
+              {[
+                { id: "about", title: "Hành trình trở về" },
+                ...cosmosContents,
+                { id: "games", title: "Chơi game" },
+              ].map((item) => (
+                <a
+                  key={item.id}
+                  href={`#${item.id}`}
+                  onClick={(e) => {
+                    setMenu(false);
+                    const parent = e.currentTarget.closest("details");
+                    if (parent) parent.open = false;
+                  }}
+                >
+                  {item.title}
+                </a>
+              ))}
+            </div>
+          </details>
+          {[
+            ["angel", "ANGEL AI"],
+            ["love", "LOVE SCORE"],
+            ["ecosystem", "FUN ECOSYSTEM"],
+            ["create", "YOUR TURN"],
+          ].map(([id, label]) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              onClick={() => setMenu(false)}
+              aria-current={active === id ? "location" : undefined}
+            >
+              {label}
+            </a>
+          ))}
         </div>
+        <button className="lc-gold compact-register" onClick={() => setJoinOpen(true)}>
+          Đăng ký tài khoản
+        </button>
+        <button
+          className="compact-menu"
+          onClick={() => setMenu(!menu)}
+          aria-expanded={menu}
+          aria-controls="lc-topics"
+          aria-label="Mở danh mục"
+        >
+          {menu ? <X /> : <Menu />}
+        </button>
+      </nav>
+      <section
+        id="home"
+        data-chapter
+        className="lc-hero"
+        style={{ "--scene": `url(${heroFallback})` } as CSSProperties}
+      >
+        <div className="lc-scene lc-hero-scene" />
+        <div className="lc-stars" aria-hidden="true" />
+        <div className="lc-portal-aura" aria-hidden="true" />
+        <div className="lc-crystals" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </div>
+        <div className="lc-hero-copy">
+          <span className="lc-eyebrow">5D NEW EARTH ROLE-PLAYING GAME</span>
+          <h1>
+            <span className="lc-metal-blue">Chơi Vũ Trụ.</span>
+            <br />
+            <em>Sống Thiên Đàng.</em>
+          </h1>
+          <p>
+            Một thế giới để tự do khám phá, học điều bạn yêu, sáng tạo điều bạn mơ và cùng nhau kiến
+            tạo tương lai.
+          </p>
+          <div className="lc-actions">
+            <a href="#games" className="lc-gold">
+              Chơi game <ArrowRight size={18} />
+            </a>
+            <a className="lc-outline" href="#about">
+              Khám phá FUN COSMOS
+            </a>
+          </div>
+          <div className="lc-hero-note">
+            <span>✧</span> Từ một ước mơ · Đến một thế giới mới
+          </div>
+        </div>
+        <img
+          className="lc-father"
+          src={fatherPortrait}
+          alt="Cha Vũ Trụ dang tay chào đón"
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
+        />
+        <a className="lc-scroll" href="#origin">
+          HÀNH TRÌNH BẮT ĐẦU <ArrowDown size={15} />
+        </a>
+      </section>
+      <UrantiaCosmosScene background="/cosmos/cosmic-orbits.png" />
+      <TopicGallery
+        id="urantia-gallery"
+        chapter="origin"
+        title="Urantia — Lời mời khám phá"
+        images={[1, 2, 3, 4, 5]}
+        labels={[
+          "Bức tranh vũ trụ",
+          "Khám phá Sách Urantia",
+          "Trường học vĩ đại",
+          "Bảy thế giới dinh thự",
+          "Hành trình hoàn thiện",
+        ]}
+      />
+      <section id="about" data-chapter="about" className="lc-section tg-cosmos-intro">
+        <div className="tg-cosmos-copy">
+          <img src="/cosmos/cosmos.png" alt="FUN COSMOS" />
+          <Heading label="FUN COSMOS" title="Hành trình trở về.">
+            Một thế giới để khám phá, học hỏi, sáng tạo và cùng nhau kiến tạo tương lai.
+          </Heading>
+          <a href="#cosmos-definition" className="lc-gold">
+            Khám phá thế giới <ArrowRight size={18} />
+          </a>
+        </div>
+        <div className="tg-cosmos-art">
+          <ArtworkViewer id={6} />
+        </div>
+      </section>
+      {cosmosContents.map((content) => (
+        <TopicGallery key={content.id} {...content} chapter="about" />
       ))}
-      <div aria-hidden="true" className="ecosystem-ring ring-one" /><div aria-hidden="true" className="ecosystem-ring ring-two" /><div aria-hidden="true" className="ecosystem-ring ring-three" />
-    </div>
+      <section id="games" data-chapter className="lc-section lc-games">
+        <Heading label="Chơi FUN COSMOS" title="Chọn cánh cửa bước vào thế giới của bạn.">
+          Hai phiên bản Unity của FUN COSMOS. Liên kết chơi sẽ được cập nhật tại đây.
+        </Heading>
+        <div className="lc-game-options">
+          {[1, 2].map((version) => (
+            <article key={version} className="lc-game-option">
+              <span aria-hidden="true">✧</span>
+              <h3>Phiên bản {version}</h3>
+              <p>Thông tin phiên bản và thiết bị hỗ trợ sẽ hiển thị cùng liên kết chơi.</p>
+              <button className="lc-gold" disabled>
+                Chơi ngay — chờ liên kết
+              </button>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section id="angel" data-chapter className="lc-section lc-angel">
+        <div className="lc-split">
+          <div className="lc-angel-art">
+            <img
+              src="/cosmos/angel-cutout.png"
+              onError={(e) => {
+                e.currentTarget.src = angelFallback;
+              }}
+              alt="Angel AI, người bạn đồng hành"
+              loading="lazy"
+            />
+            <span className="lc-float-label">✧ ALWAYS WITH YOU</span>
+          </div>
+          <div>
+            <Heading label="Angel AI" title="Cùng bạn, trên mỗi bước đi.">
+              Người bạn đồng hành giúp bạn khám phá, học hỏi và biến ý tưởng thành trải nghiệm.
+            </Heading>
+            <div className="lc-role-tabs">
+              {roles.map(([t], i) => (
+                <button key={t} onClick={() => setRole(i)} aria-pressed={role === i}>
+                  {t}
+                </button>
+              ))}
+            </div>
+            <div className="lc-conversation" aria-live="polite">
+              <small>ANGEL AI · {roles[role]![1]} · MINH HỌA</small>
+              <p>“{roles[role]![2]}”</p>
+            </div>
+            <a
+              className="lc-outline"
+              href="/angel-ai"
+              style={{ marginRight: 12, marginBottom: 12 }}
+            >
+              Khám phá Angel AI <ArrowRight size={16} />
+            </a>
+            <a className="lc-gold" href="https://angel.fun.rich/" target="_blank" rel="noreferrer">
+              Gặp Angel AI <ExternalLink size={16} />
+            </a>
+          </div>
+        </div>
+      </section>
+      <TopicGallery
+        id="angel-gallery"
+        chapter="angel"
+        title="Angel AI luôn đồng hành"
+        images={[16, 17]}
+        labels={["Năm vai trò đồng hành", "Angel AI hỗ trợ bạn như thế nào?"]}
+      />
+      <section id="love" data-chapter className="lc-section lc-love">
+        <Heading label="Love Score" title="Mỗi đóng góp, một vì sao.">
+          Love Score ghi nhận những đóng góp tích cực đã được xác minh.
+        </Heading>
+        <div className="lc-proof">
+          {["Hành động", "Bằng chứng", "Xác minh", "Ghi nhận"].map((t, i) => (
+            <div key={t}>
+              <span>{["♡", "◇", "✓", "✧"][i]}</span>
+              <h3>{t}</h3>
+              <p>
+                {
+                  [
+                    "Học hỏi, sáng tạo, giúp đỡ và đóng góp.",
+                    "Ghi lại kết quả phù hợp với hoạt động.",
+                    "Kiểm tra đóng góp trước khi ghi nhận.",
+                    "Lưu dấu những giá trị bạn đã tạo ra.",
+                  ][i]
+                }
+              </p>
+            </div>
+          ))}
+        </div>
+        <p className="lc-love-note">
+          Love Score là lịch sử đóng góp — không đo linh hồn, mức độ giác ngộ hay giá trị con người.
+        </p>
+      </section>
+      <TopicGallery
+        id="love-gallery"
+        chapter="love"
+        title="Ghi nhận những điều tốt đẹp"
+        images={[18, 19]}
+        labels={["Hành động đến ghi nhận", "Những đóng góp có ý nghĩa"]}
+      />
+      <section id="ecosystem" data-chapter className="lc-section lc-ecosystem">
+        <Heading label="FUN Ecosystem" title="Một vũ trụ kết nối.">
+          NỀN KINH TẾ ÁNH SÁNG 5D
+        </Heading>
+        <p className="lc-equation">
+          A.I. + BLOCKCHAIN + <em>PURELOVE</em> = INFINITE ASSETS
+        </p>
+        <p className="lc-equation-vi">A.I. + Blockchain + Tình Yêu Thuần Khiết = Tài Sản Vô Hạn</p>
+        <div className="lc-solar-system">
+          <div className="lc-solar-ring" />
+          <div className="lc-solar-ring outer" />
+          <a className="lc-sun" href="https://cosmos.fun.rich/" target="_blank" rel="noreferrer">
+            <img src="/cosmos/cosmos.png" alt="Mở FUN COSMOS" />
+            <span>FUN COSMOS</span>
+          </a>
+          <div className="eco-outer-orbit">
+            {[
+              ...platforms.filter((p) => !["cosmos", "money", "camly"].includes(p[0])),
+              ["urantia", "Sách Urantia", "", "", "https://urantia.fun.rich/"],
+            ].map((p, i, all) => (
+              <div
+                className="eco-position"
+                key={p[0]}
+                style={{
+                  left: `${50 + 43 * Math.cos((i / all.length) * 2 * Math.PI - Math.PI / 2)}%`,
+                  top: `${50 + 43 * Math.sin((i / all.length) * 2 * Math.PI - Math.PI / 2)}%`,
+                }}
+              >
+                <a
+                  className="eco-logo"
+                  href={p[4]}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={p[1]}
+                  onMouseEnter={() => {
+                    const index = platforms.findIndex((v) => v[0] === p[0]);
+                    if (index >= 0) setPlanet(index);
+                  }}
+                  onFocus={() => {
+                    const index = platforms.findIndex((v) => v[0] === p[0]);
+                    if (index >= 0) setPlanet(index);
+                  }}
+                >
+                  <img src={`/cosmos/${p[0]}.png`} alt={p[1]} loading="lazy" />
+                </a>
+              </div>
+            ))}
+          </div>
+          <div className="eco-money-orbit">
+            {Array.from({ length: 12 }, (_, i) => {
+              const type = i % 2 === 0 ? "money" : "camly";
+              return (
+                <div
+                  className="eco-position"
+                  key={i}
+                  style={{
+                    left: `${50 + 25 * Math.cos((i * Math.PI) / 6)}%`,
+                    top: `${50 + 25 * Math.sin((i * Math.PI) / 6)}%`,
+                  }}
+                >
+                  <a
+                    className="eco-coin"
+                    href={type === "money" ? "https://money.fun.rich/" : "https://camly.co/"}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={type === "money" ? "FUN Money" : "Camly Coin"}
+                  >
+                    <img src={`/cosmos/${type}.png`} alt="" />
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="lc-planet-detail" aria-live="polite">
+          <img src={`/cosmos/${selected[0]}.png`} alt="" loading="lazy" />
+          <div>
+            <small>{selected[2]}</small>
+            <h3>{selected[1]}</h3>
+            <p>{selected[3]}</p>
+          </div>
+          <a className="lc-outline" href={selected[4]} target="_blank" rel="noreferrer">
+            Khám phá <ExternalLink size={16} />
+          </a>
+        </div>
+        <details className="lc-platform-list">
+          <summary>Tất cả nền tảng — mở danh sách</summary>
+          <div>
+            {platforms.map((p) => (
+              <a key={p[0]} href={p[4]} target="_blank" rel="noreferrer">
+                <img src={`/cosmos/${p[0]}.png`} alt="" loading="lazy" />
+                <div>
+                  <h3>{p[1]} ↗</h3>
+                  <p>{p[3]}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </details>
+        <a
+          className="lc-consensus"
+          href="https://urantia.fun.rich/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Tài liệu đồng thuận toàn cầu · Sách Urantia ↗
+        </a>
+      </section>
+      <TopicGallery
+        id="ecosystem-gallery"
+        chapter="ecosystem"
+        title="Kết nối FUN Ecosystem"
+        images={[24]}
+        labels={["Một thế giới — nhiều điểm đến"]}
+      />
+      <section id="create" data-chapter className="lc-section lc-create">
+        <Heading label="Your turn" title="Vũ trụ bắt đầu từ ý tưởng của bạn.">
+          Bạn không cần biết tất cả. Hãy bắt đầu từ điều mình yêu thích nhất.
+        </Heading>
+        <div className="lc-questions">
+          {[
+            "Bạn muốn làm điều gì đầu tiên?",
+            "Bạn muốn nhân vật trở thành ai?",
+            "Bạn muốn xây dựng nơi nào?",
+            "Bạn muốn Angel AI giúp điều gì?",
+            "Bạn muốn đóng góp bằng tài năng nào?",
+          ].map((q, i) => (
+            <button key={q} onClick={openIdea}>
+              <small>0{i + 1}</small>
+              <span>{q}</span>
+              <ArrowRight size={20} />
+            </button>
+          ))}
+        </div>
+        <div className="lc-create-cta">
+          <Sparkles />
+          <h3>Imagine it. Create it. Share it.</h3>
+          <button className="lc-gold" onClick={openIdea}>
+            Tạo thẻ ý tưởng <ArrowRight size={18} />
+          </button>
+          <p>Bảy bước nhỏ để phác thảo thế giới bạn muốn tạo.</p>
+        </div>
+      </section>
+      <TopicGallery
+        id="create-gallery"
+        chapter="create"
+        title="Ý tưởng của bạn bắt đầu từ đây"
+        images={[21, 26, 27]}
+        labels={[
+          "Your Turn — Bạn muốn tạo điều gì?",
+          "Năm câu hỏi tìm ý tưởng",
+          "Mini game — 99.999 Happy Camly Coin",
+        ]}
+      />
+      <footer className="lc-footer">
+        <button className="compact-motion" onClick={() => setPaused(!paused)} aria-pressed={paused}>
+          {paused ? <Play size={16} /> : <Pause size={16} />}{" "}
+          {paused ? "Bật chuyển động" : "Tạm dừng chuyển động"}
+        </button>
+        <a className="lc-brand" href="#home">
+          <img src="/cosmos/cosmos.png" alt="" />
+          <span>
+            FUN COSMOS<small>PLAY THE COSMOS · LIVE IN HEAVEN</small>
+          </span>
+        </a>
+        <a href="#ecosystem">Hệ sinh thái</a>
+        <a href="#create">Cùng sáng tạo</a>
+        <a href="#home">Về đầu trang ↑</a>
+        <span>VI · Tiếng Việt</span>
+      </footer>
+      <Dialog open={joinOpen} onOpenChange={setJoinOpen}>
+        <DialogContent className="lc-idea-dialog">
+          <DialogTitle>Bắt đầu hành trình FUN COSMOS</DialogTitle>
+          <DialogDescription>
+            Đăng ký tài khoản và kết nối FUN ID sẽ được mở trong giai đoạn tiếp theo. Hiện chưa nhận
+            thông tin đăng ký.
+          </DialogDescription>
+          <ol className="join-steps">
+            <li>Tạo tài khoản hoặc kết nối FUN ID</li>
+            <li>Chọn phiên bản FUN COSMOS</li>
+            <li>Bắt đầu chơi và khám phá</li>
+          </ol>
+          <a className="lc-gold" href="#games" onClick={() => setJoinOpen(false)}>
+            Xem hai phiên bản game <ArrowRight size={18} />
+          </a>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={ideaOpen} onOpenChange={setIdeaOpen}>
+        <DialogContent className="lc-idea-dialog">
+          <DialogTitle>FUN COSMOS của bạn</DialogTitle>
+          <DialogDescription>
+            Phác thảo ý tưởng qua bảy thành phần. Bản nháp lưu trên trình duyệt của bạn; chưa gửi
+            đến hệ thống.
+          </DialogDescription>
+          <div className="lc-idea-fields">
+            {fields.map((f, i) => (
+              <label key={f}>
+                {i + 1}. {f}
+                <textarea
+                  maxLength={1000}
+                  value={draft[i]}
+                  onChange={(e) => {
+                    setDraft((d) => d.map((v, j) => (j === i ? e.target.value : v)));
+                    setNotice("");
+                  }}
+                  placeholder={
+                    [
+                      "Một người làm vườn…",
+                      "Tạo một nơi mọi người gặp nhau…",
+                      "Trồng cây và thiết kế khu vườn…",
+                      "Hướng dẫn chăm sóc cây…",
+                      "Kỹ năng mới, dấu mốc đóng góp…",
+                      "Một khu đất trở nên xanh hơn…",
+                      "Tham gia trồng cây cùng cộng đồng…",
+                    ][i]
+                  }
+                />
+              </label>
+            ))}
+          </div>
+          <div className="lc-actions">
+            <button className="lc-gold" disabled={!draft.some((v) => v.trim())} onClick={save}>
+              <Check size={16} /> Lưu bản nháp
+            </button>
+            <button
+              className="lc-outline"
+              disabled={!draft.some((v) => v.trim())}
+              onClick={download}
+            >
+              <Download size={16} /> Tải thẻ ý tưởng
+            </button>
+          </div>
+          <p role="status">{notice}</p>
+        </DialogContent>
+      </Dialog>
+    </main>
   );
 }

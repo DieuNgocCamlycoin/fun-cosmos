@@ -1,0 +1,65 @@
+.uc-scene{position:relative;isolation:isolate;overflow:hidden;background-position:center;background-size:cover;padding:28px 4vw 20px;min-height:calc(100svh - var(--lc-nav-height));display:flex;flex-direction:column;color:white;scroll-margin-top:var(--lc-nav-height)}
+.uc-heading{text-align:center;position:relative;z-index:1;text-shadow:0 2px 5px #042247,0 0 14px #082957}
+.uc-heading p{margin:0 0 10px;font-size:clamp(15px,1.45vw,21px)}
+.uc-heading p:first-child{color:#ffe296;letter-spacing:.2em;font-size:14px}
+.uc-heading h2{font-family:Georgia,serif;font-size:clamp(30px,3.6vw,60px);line-height:1.12;margin:10px 0;color:#fff}
+.uc-heading em{font-style:normal;color:#ffda65;text-shadow:0 1px #fff5c0,0 3px #825514,0 5px 6px #092848}
+.uc-orbit.lc-mansions{position:relative;display:block;flex:1;width:100%;max-width:1350px;min-height:330px;margin:8px auto 20px}
+.uc-orbit-rings{position:absolute;inset:14% 9% 5%;border:1px solid #ffe5a4aa;border-radius:50%;box-shadow:0 0 20px #a2dfff66,inset 0 0 18px #ffe6a455;pointer-events:none}
+.uc-orbit button{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-15%);width:170px;padding:0 4px 8px;background:none!important;text-align:center;border:0;color:white}
+.uc-orbit.lc-mansions .lc-mansion-world{width:80px;max-width:80px;margin:auto auto 6px}
+.uc-orbit strong,.uc-orbit small{display:block!important;width:fit-content;margin:auto;padding:3px 9px;background:#082b59dc;border-radius:7px;text-shadow:none;color:#fff!important;line-height:1.35;font-size:14px}
+.uc-orbit strong{color:#ffe393!important;font-size:16px}
+.uc-orbit button[aria-pressed=true] strong{outline:1px solid #ffde85;background:#16497c}
+.uc-footer{text-align:center;font-size:16px;position:relative;z-index:1}
+.uc-footer p{margin:5px auto;width:fit-content;padding:4px 18px;border-radius:20px;background:#082b59df;color:#fff}
+.uc-footer a{display:inline-block;margin-top:5px;color:#ffe393;background:#082b59df;border:1px solid #e2bd68;border-radius:20px;padding:6px 18px}
+@media(max-width:700px){.uc-scene{padding:26px 16px;background-position:center top}.uc-orbit.lc-mansions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 8px;margin:24px auto}.uc-orbit button{position:static;transform:none;width:auto}.uc-orbit button:last-child{grid-column:1/-1}.uc-orbit-rings{display:none}.uc-heading h2{font-size:32px}.uc-footer{font-size:16px}}
+
+/* A single viewport composition: foreground traveler and selectable worlds. */
+.uc-scene{height:calc(100svh - var(--lc-nav-height));min-height:0;padding:20px 4vw 14px;box-sizing:border-box;background-position:center;}
+.uc-heading h2{font-size:clamp(25px,3.1vw,54px);white-space:nowrap;margin:8px 0 10px;}
+.uc-heading p:first-child{font-size:12px;margin-bottom:8px;}
+.uc-traveler{position:absolute;left:0;bottom:0;height:73%;width:28%;object-fit:contain;object-position:left bottom;z-index:2;pointer-events:none;}
+.uc-orbit.lc-mansions{width:72%;margin:0 0 0 24%;min-height:0;}
+.uc-orbit button{width:140px;transform:translate(-50%,-30%);}
+.uc-orbit.lc-mansions .lc-mansion-world{width:clamp(48px,9svh,100px);max-width:100px;margin-bottom:4px;}
+.uc-orbit strong{font-size:clamp(12px,1.15vw,18px);}
+.uc-orbit-rings{display:none;}
+.uc-footer{margin-left:24%;font-size:clamp(13px,1.2vw,18px);}
+.uc-footer p{background:#f5faffeb;color:#153d70;border:1px solid #e3c475;}
+.uc-detail{background:#f5faff;color:#153d70;border:2px solid #e3c475;}
+.uc-detail p{font-size:20px;line-height:1.6;color:#234f7c;}
+@media(max-width:700px){.uc-scene{height:auto;min-height:calc(100svh - var(--lc-nav-height));padding:24px 16px;}.uc-heading h2{white-space:normal;font-size:30px;}.uc-traveler{height:300px;width:36%;bottom:100px;opacity:1;}.uc-orbit.lc-mansions{width:70%;margin:20px 0 24px 30%;min-height:420px;gap:14px 4px;}.uc-orbit button{width:auto;transform:none;}.uc-orbit strong{font-size:13px;}.uc-footer{margin-left:0;}.uc-orbit.lc-mansions .lc-mansion-world{width:60px;}}
+
+/* Unlabelled worlds reveal their story on deliberate interaction. */
+.uc-heading h2{font-weight:500;letter-spacing:.025em;text-transform:uppercase;font-size:clamp(23px,2.65vw,48px);line-height:1.25;}
+.uc-heading em{color:#ffe4a0;text-shadow:0 1px #fff4d2,0 2px 3px #79582966;}
+.uc-heading p:last-child{margin:14px 0 24px;}
+.uc-traveler{filter:drop-shadow(0 0 3px #fffbea) drop-shadow(0 0 12px #bcefff88);}
+.uc-orbit.lc-mansions .lc-mansion-world{filter:drop-shadow(0 0 3px #e6fbff) drop-shadow(0 0 12px #89dbff);}
+.uc-orbit.lc-mansions .lc-mansion-world i{mix-blend-mode:screen;}
+.uc-orbit button:focus-visible{outline:1px solid #fff0b6;outline-offset:6px;border-radius:50%;}
+.uc-orbit button:hover .lc-mansion-world{filter:drop-shadow(0 0 5px white) drop-shadow(0 0 18px #adeaff);}
+.uc-footer>small{display:block;color:#fff8dc;text-shadow:0 1px 4px #092851;font-size:13px;margin-bottom:8px;}
+.uc-detail{max-width:380px;border:1px solid #d6b469;border-radius:18px;background:linear-gradient(135deg,#fffdf3,#eef8ff);box-shadow:0 15px 60px #07244644,inset 0 1px white;}
+.uc-detail h2{font-family:Georgia,serif;font-size:25px;color:#78551f;}
+.uc-detail p{font-size:18px;}
+@media(max-width:700px){.uc-heading h2{font-size:27px;}.uc-heading p:last-child{margin-bottom:12px;}}
+.uc-urantia-logo{position:absolute;right:3%;bottom:3%;width:clamp(65px,10svh,115px);z-index:3;filter:drop-shadow(0 0 8px #fff1b8aa);}
+.uc-urantia-logo img{width:100%;}
+.uc-orbit.lc-mansions{width:76%;margin-left:21%;margin-top:16px;margin-bottom:30px;}
+.uc-orbit.lc-mansions .lc-mansion-world{width:clamp(68px,12svh,125px);max-width:125px;animation:none;background:none;border:0;box-shadow:none;}
+.uc-orbit.lc-mansions .lc-mansion-world i{mix-blend-mode:normal;mask-image:radial-gradient(circle,#000 48%,transparent 60%);}
+.uc-world-note{width:250px;padding:18px 32px 16px 18px;border:1px solid #d4ae5a;border-radius:14px;background:linear-gradient(130deg,#fffdf2,#edf7ff);color:#23466b;box-shadow:0 8px 24px #08274b33;}
+.uc-world-note h3{font-size:19px;color:#805b20;margin:0 0 8px;}
+.uc-world-note p{font-size:16px;line-height:1.5;margin:0;}
+.uc-note-close{position:absolute;right:5px;top:5px;width:30px;height:30px;font-size:24px;color:#805b20;}
+@keyframes uc-travel{to{offset-distance:100%;}}
+@media(min-width:701px){
+ .uc-orbit>button{left:0;top:0;offset-path:ellipse(40% 31% at 50% 58%);offset-rotate:0deg;offset-anchor:center;transform:none;animation:uc-travel 90s linear infinite;animation-delay:var(--orbit-delay);}
+ .uc-orbit:hover>button,.uc-orbit:focus-within>button,.uc-orbit[data-reading=true]>button{animation-play-state:paused;}
+}
+@media(max-width:700px){.uc-orbit.lc-mansions{width:70%;margin:18px 0 75px 30%;}.uc-urantia-logo{bottom:15px;right:16px;width:65px;}}
+@media(prefers-reduced-motion:reduce){.uc-orbit>button{animation:none;offset-path:none;left:var(--x);top:var(--y);transform:translate(-50%,-30%);}}
+@media(max-width:700px) and (prefers-reduced-motion:reduce){.uc-orbit>button{transform:none;}}

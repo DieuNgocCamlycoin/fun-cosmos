@@ -292,21 +292,26 @@ function Index() {
       ))}
       <section id="games" data-chapter className="lc-section lc-games">
         <Heading label="Chơi FUN COSMOS" title="Chọn cánh cửa bước vào thế giới của bạn.">
-          Hai phiên bản Unity của FUN COSMOS. Liên kết chơi sẽ được cập nhật tại đây.
+          Bấm CHƠI NGAY để mở FUN COSMOS. Việc đăng ký, xác minh email và đăng nhập được thực hiện
+          ngay trong game.
         </Heading>
         <div className="lc-game-options">
-          {[1, 2].map((version) => (
-            <article key={version} className="lc-game-option">
+          {[
+            ["Chơi trên trình duyệt", "Mở FUN COSMOS và bắt đầu ngay trong tab mới."],
+            ["Đăng ký & đăng nhập trong game", "Tạo tài khoản, xác minh email rồi vào thế giới."],
+          ].map(([title, note]) => (
+            <article key={title} className="lc-game-option">
               <span aria-hidden="true">✧</span>
-              <h3>Phiên bản {version}</h3>
-              <p>Thông tin phiên bản và thiết bị hỗ trợ sẽ hiển thị cùng liên kết chơi.</p>
-              <button className="lc-gold" disabled>
-                Chơi ngay — chờ liên kết
-              </button>
+              <h3>{title}</h3>
+              <p>{note}</p>
+              <a className="lc-gold" href={GAME_URL} target="_blank" rel="noreferrer">
+                CHƠI NGAY <ExternalLink size={16} />
+              </a>
             </article>
           ))}
         </div>
       </section>
+
       <section id="angel" data-chapter className="lc-section lc-angel">
         <div className="lc-split">
           <div className="lc-angel-art">

@@ -1,15 +1,18 @@
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import { ArrowLeft, ArrowUpRight, Menu, Pause, Play, X } from "lucide-react";
+import { useRouterState } from "@tanstack/react-router";
+import { GAME_URL } from "@/lib/links";
 import "./topic-world.css";
 
 const destinations = [
   ["/#origin", "URANTIA"],
   ["/#about", "FUN COSMOS"],
   ["/angel-ai", "ANGEL AI"],
-  ["/#love", "LOVE SCORE"],
+  ["/love-score", "LOVE SCORE"],
   ["/#ecosystem", "FUN ECOSYSTEM"],
   ["/#create", "YOUR TURN"],
 ];
+
 
 export function TopicWorldShell({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AngelAiRouteImport } from './routes/angel-ai'
+import { Route as LoveScoreRouteImport } from './routes/love-score'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const AngelAiRoute = AngelAiRouteImport.update({
   path: '/angel-ai',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoveScoreRoute = LoveScoreRouteImport.update({
+  id: '/love-score',
+  path: '/love-score',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/angel-ai': typeof AngelAiRoute
+  '/love-score': typeof LoveScoreRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/angel-ai': typeof AngelAiRoute
+  '/love-score': typeof LoveScoreRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/angel-ai': typeof AngelAiRoute
+  '/love-score': typeof LoveScoreRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/angel-ai'
+  fullPaths: '/' | '/angel-ai' | '/love-score'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/angel-ai'
-  id: '__root__' | '/' | '/angel-ai'
+  to: '/' | '/angel-ai' | '/love-score'
+  id: '__root__' | '/' | '/angel-ai' | '/love-score'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AngelAiRoute: typeof AngelAiRoute
+  LoveScoreRoute: typeof LoveScoreRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AngelAiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/love-score': {
+      id: '/love-score'
+      path: '/love-score'
+      fullPath: '/love-score'
+      preLoaderRoute: typeof LoveScoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AngelAiRoute: AngelAiRoute,
+  LoveScoreRoute: LoveScoreRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

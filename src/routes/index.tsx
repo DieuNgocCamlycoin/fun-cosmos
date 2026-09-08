@@ -179,24 +179,25 @@ function Index() {
             </div>
           </details>
           {[
-            ["angel", "ANGEL AI"],
-            ["love", "LOVE SCORE"],
-            ["ecosystem", "FUN ECOSYSTEM"],
-            ["create", "YOUR TURN"],
+            ["/angel-ai", "ANGEL AI"],
+            ["/love-score", "LOVE SCORE"],
+            ["#ecosystem", "FUN ECOSYSTEM"],
+            ["#create", "YOUR TURN"],
           ].map(([id, label]) => (
             <a
               key={id}
-              href={`#${id}`}
+              href={id!.startsWith("#") ? id! : id!}
               onClick={() => setMenu(false)}
-              aria-current={active === id ? "location" : undefined}
+              aria-current={active === id!.replace("#", "") ? "location" : undefined}
             >
               {label}
             </a>
           ))}
         </div>
-        <button className="lc-gold compact-register" onClick={() => setJoinOpen(true)}>
-          Đăng ký tài khoản
-        </button>
+        <a className="lc-gold compact-register" href={GAME_URL} target="_blank" rel="noreferrer">
+          CHƠI NGAY
+        </a>
+
         <button
           className="compact-menu"
           onClick={() => setMenu(!menu)}

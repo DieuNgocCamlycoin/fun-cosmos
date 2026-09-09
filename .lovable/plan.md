@@ -1,52 +1,52 @@
-# FUN COSMOS Home — Cinematic Consolidation
+# FUN COSMOS — Nâng cấp Home điện ảnh (gộp phần FUN COSMOS)
 
-## Quick inspection report
+## Báo cáo khảo sát nhanh
 
-1. **Sections consolidated into one Story Gallery** — the nine FUN COSMOS blocks currently listed in `src/components/cosmos-contents.ts` (FUN COSMOS là gì, Không chỉ là một trò chơi, Người chơi có thể làm gì, Game–Real Life/Anna, Core Idea, Core Loop, Năm trụ cột, O2O, FUN COSMOS thu hút vì điều gì) plus the "Hành trình trở về" intro artwork. Today each renders as its own full section; all artwork is kept, none is rewritten into cards.
-2. **Reusable components** — the existing `TopicGallery` (autoplay, progress line, thumbnails, swipe, pause) and `ArtworkViewer` (full-image zoom) already do everything needed. The new gallery is built on the same pieces, extended to carry chapter titles per item, not a new viewer.
-3. **Video** — `Fun_Cosmos_HERO_202609091213.mp4` is used for the FUN COSMOS cinematic section. A second file `VD.mp4` was also supplied; it is not used unless you say where it belongs.
-4. **Game covers** — Kingdom Hotel and FUN CITY & BEACH covers supplied. No Camly Coin Adventure cover arrived in this batch, so the existing approved Camly artwork already in the project (the 99.999 Happy Camly Coin scene) is used as its cover. Send the real cover and it is swapped in.
-5. **Game links** — Kingdom Hotel: funkingdom.itch.io/funcosmos10d · City & Beach: funkingdom.itch.io/funcosmos5d · Camly/Treasure City: fun-cosmos.pages.dev. No invented links.
-6. **Untouched** — opening hero, Urantia scene and gallery, header hide-on-scroll behaviour, Angel AI, Love Score, FUN Ecosystem, Your Turn, all other routes.
+1. **Các mục sẽ gộp vào một Story Gallery** — chín khối FUN COSMOS hiện có trong `src/components/cosmos-contents.ts`: FUN COSMOS là gì, Không chỉ là một trò chơi, Người chơi có thể làm gì, Game–Real Life/Anna, Core Idea, Core Loop, Năm trụ cột, O2O, FUN COSMOS thu hút vì điều gì — cộng thêm tác phẩm mở đầu "Hành trình trở về". Hiện mỗi mục là một section dọc riêng; toàn bộ hình ảnh được giữ nguyên, không chuyển thành card hay đoạn chữ.
+2. **Thành phần tái sử dụng** — `TopicGallery` hiện có (tự chuyển, vạch tiến trình vàng, thumbnail, vuốt, nút tạm dừng) và `ArtworkViewer` (phóng to xem ảnh) đã đủ dùng. Gallery mới được dựng trên nền này, mở rộng để mang tiêu đề theo từng ảnh — không làm một viewer mới.
+3. **Video** — dùng `Fun_Cosmos_HERO_202609091213.mp4` cho phần FUN COSMOS điện ảnh. Có thêm một file `VD.mp4` nữa; chưa dùng trừ khi cha nói nó thuộc về đâu.
+4. **Ảnh bìa game** — đã có bìa Kingdom Hotel và FUN CITY & BEACH. Ảnh bìa Camly Coin Adventure chưa có trong lần gửi này, nên con tạm dùng tác phẩm Camly đã duyệt sẵn trong dự án (cảnh mini game 99.999 Happy Camly Coin) làm bìa. Khi nào cha gửi bìa thật, con thay ngay.
+5. **Link game thật** — Kingdom Hotel: funkingdom.itch.io/funcosmos10d · City & Beach: funkingdom.itch.io/funcosmos5d · Camly/Treasure City: fun-cosmos.pages.dev. Không tự bịa link.
+6. **Giữ nguyên tuyệt đối** — Hero mở đầu, phần Urantia và gallery Urantia, cơ chế header ẩn khi cuộn xuống/hiện khi cuộn lên, Angel AI, Love Score, FUN Ecosystem, Your Turn và mọi route khác.
 
-## New Home rhythm
+## Nhịp trang Home mới
 
 ```text
-01 Opening hero        (unchanged)
-02 Urantia             (unchanged)
-03 FUN COSMOS cinematic video stage   (new)
-04 Discover FUN COSMOS — one story gallery   (replaces 9 stacked sections)
-05 Choose your world — 3 game covers  (new, replaces current text-only "games" block)
-06 Angel AI · 07 Love Score · 08 Ecosystem · 09 Your Turn  (unchanged)
-10 Final portal CTA    (existing direction)
+01 Hero mở đầu            (giữ nguyên)
+02 Urantia                (giữ nguyên)
+03 Sân khấu video FUN COSMOS điện ảnh   (mới)
+04 Khám phá FUN COSMOS — một Story Gallery duy nhất   (thay cho 9 section chồng nhau)
+05 Chọn thế giới — 3 bìa game   (mới, thay khối "games" chỉ có chữ)
+06 Angel AI · 07 Love Score · 08 Ecosystem · 09 Your Turn  (giữ nguyên)
+10 CTA / cổng cuối trang  (theo hướng hiện có)
 ```
 
-## 03 — Cinematic video stage
+## 03 — Sân khấu video điện ảnh
 
-Centered stage, ~90vw wide and ~66vh tall on desktop, cosmic breathing space around it, gold hairline frame and soft outer glow. Video autoplays muted, loops, plays inline, no native controls, `object-fit: cover` with tuned focus point per breakpoint. Small elegant sound toggle in a corner (HTML, keyboard reachable). Reduced motion or no-autoplay: a still frame from the video is shown instead.
+Sân khấu căn giữa, rộng tối đa khoảng 90vw và cao khoảng 66vh trên máy tính, xung quanh là khoảng thở vũ trụ, viền vàng mảnh và quầng sáng nhẹ. Video tự phát ở chế độ tắt tiếng, lặp vô hạn, phát inline, không thanh điều khiển mặc định của trình duyệt, `object-fit: cover` với điểm lấy nét tinh chỉnh theo từng mức màn hình. Nút bật/tắt âm thanh nhỏ, tinh tế ở một góc (HTML thật, dùng được bằng bàn phím). Với chế độ giảm chuyển động hoặc khi không tự phát được: hiển thị một khung hình tĩnh lấy từ video.
 
-Overlay text in HTML over the video, using the existing gold title treatment:
-eyebrow `5D NEW EARTH ROLE-PLAYING GAME`, title `CHƠI VŨ TRỤ. / SỐNG THIÊN ĐÀNG.`, one supporting line, primary `KHÁM PHÁ FUN COSMOS` → `/cosmos`, secondary `CHƠI NGAY` → existing game entry behaviour.
+Chữ phủ lên video bằng HTML, giữ ngôn ngữ tiêu đề vàng kim loại đã duyệt:
+dòng mở đầu `5D NEW EARTH ROLE-PLAYING GAME`, tiêu đề `CHƠI VŨ TRỤ. / SỐNG THIÊN ĐÀNG.`, một câu hỗ trợ ngắn, nút chính `KHÁM PHÁ FUN COSMOS` → `/cosmos`, nút phụ `CHƠI NGAY` → giữ hành vi vào game hiện tại.
 
-## 04 — Discover FUN COSMOS story gallery
+## 04 — Khám phá FUN COSMOS: một Story Gallery duy nhất
 
-One dominant canvas: large active infographic, thumbnail strip, position indicator, prev/next, gold progress line, slow luminous cross-fade with a slight recede/blur on the outgoing image. Autoplay continues as today and suspends after direct interaction; pause control kept. Beside the artwork: the chapter headline plus one short sentence only — no re-typed infographic content. Click the artwork to open the existing full-image zoom viewer. Keyboard arrows, mobile swipe.
+Một sân khấu kể chuyện thống trị: ảnh infographic lớn đang chọn, dải thumbnail, chỉ số vị trí, nút qua/lại, vạch tiến trình vàng, chuyển cảnh chậm kiểu ánh sáng với ảnh cũ lùi nhẹ và mờ dần. Tự chuyển tiếp như hiện tại và tạm dừng sau khi người xem tương tác trực tiếp; nút tạm dừng được giữ. Bên cạnh tác phẩm chỉ có tiêu đề chương cộng một câu ngắn — không gõ lại nội dung trong ảnh. Bấm vào ảnh mở trình xem phóng to hiện có. Hỗ trợ phím mũi tên và vuốt trên di động.
 
-## 05 — Choose your world
+## 05 — Chọn thế giới bạn muốn bước vào
 
-Heading `CHỌN THẾ GIỚI BẠN MUỐN BƯỚC VÀO`, one supporting line. Desktop: three covers in one equal row, artwork dominant, no white cards. Hover/focus lifts the chosen portal slightly, adds a luminous rim and glow, softly recedes the other two, and strengthens its description and CTA.
+Tiêu đề `CHỌN THẾ GIỚI BẠN MUỐN BƯỚC VÀO`, một câu phụ. Trên máy tính: ba bìa xếp thành một hàng ngang bằng nhau, hình bìa là nhân vật chính, không card trắng. Khi rê/chọn: cánh cổng được chọn nhô nhẹ về phía trước, viền phát sáng và quầng sáng phản hồi, hai bìa còn lại lùi nhẹ, mô tả và nút CTA hiện rõ hơn.
 
-- Kingdom Hotel — Bé Trí — tour and explore the dream hotel world — `BƯỚC VÀO KINGDOM HOTEL`
-- FUN City & Beach — Bé Trí — change outfits, unlimited fashion, explore city and beach — `KHÁM PHÁ CITY & BEACH`
-- Camly Coin Adventure — Bé Hoàng — explore the city and collect Camly Coin — `BẮT ĐẦU CAMLY COIN ADVENTURE`
+- Kingdom Hotel — Bé Trí — tham quan và khám phá thế giới khách sạn trong mơ — `BƯỚC VÀO KINGDOM HOTEL`
+- FUN City & Beach — Bé Trí — thay đổi trang phục, phong cách thời trang không giới hạn, tham quan thành phố và biển — `KHÁM PHÁ CITY & BEACH`
+- Camly Coin Adventure — Bé Hoàng — khám phá thành phố và sưu tầm Camly Coin — `BẮT ĐẦU CAMLY COIN ADVENTURE`
 
-Each CTA opens the real game URL in a new tab. No login, no account handling on the website — the games keep their own.
+Mỗi CTA mở link game thật trong tab mới. Website không làm đăng ký/đăng nhập — game giữ nguyên luồng riêng.
 
-Mobile: one cover at a time with horizontal snap-swipe, the next cover peeking, dots, and a large CTA.
+Trên di động: một bìa mỗi lần, vuốt ngang có điểm dừng, phần bìa kế lộ nhẹ, chấm báo vị trí, CTA to dễ bấm.
 
-## Technical notes
+## Ghi chú kỹ thuật
 
-- New files: `src/components/cosmos-cinema.tsx` + css (video stage), `src/components/cosmos-story-gallery.tsx` + css (built on `TopicGallery`/`ArtworkViewer`), `src/components/game-worlds.tsx` + css.
-- `src/routes/index.tsx`: remove the nine `cosmosContents` sections and the current `#games` text block; insert sections 03–05. Chapter/nav anchors `about` and `games` are preserved so the header menu keeps working.
-- Video, logo and the two supplied covers go through `lovable-assets` CDN pointers, not into the repo.
-- CSS-only motion (transforms/opacity), no Three.js/GSAP, reduced-motion honoured, lazy loading for offscreen artwork.
+- File mới: `src/components/cosmos-cinema.tsx` + css (sân khấu video), `src/components/cosmos-story-gallery.tsx` + css (dựng trên `TopicGallery`/`ArtworkViewer`), `src/components/game-worlds.tsx` + css.
+- `src/routes/index.tsx`: gỡ chín section từ `cosmosContents` và khối `#games` hiện tại, chèn các phần 03–05. Neo chương `about` và `games` được giữ để menu header hoạt động như cũ.
+- Video, logo và hai bìa game đưa lên CDN qua `lovable-assets` (file con trỏ `.asset.json`), không để file nặng trong repo.
+- Chuyển động chỉ bằng CSS (transform/opacity), không thêm Three.js/GSAP, tôn trọng reduced-motion, lazy-load ảnh ngoài màn hình.

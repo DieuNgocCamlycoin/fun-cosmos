@@ -1,14 +1,11 @@
+import { ArtworkFragment } from "@/components/topic-world/artwork-fragment";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { ArrowDown, ArrowUpRight, HandHeart, FileSearch, ShieldCheck, Trophy } from "lucide-react";
 import { TopicWorldShell, WorldSection } from "@/components/topic-world/topic-world";
+import { ArchiveDisclosure } from "@/components/topic-world/living-scene";
 import { DeepDiveGallery } from "@/components/topic-world/deep-dive-gallery";
 import "@/components/topic-world/love-score-world.css";
-import fatherAsset from "@/assets/father-cutout.png.asset.json";
-import angelAsset from "@/assets/angel-light.png.asset.json";
-import plpAsset from "@/assets/plp-seal.png.asset.json";
-import infoOne from "@/assets/love-score-info-1.png.asset.json";
-import infoTwo from "@/assets/love-score-info-2.png.asset.json";
 
 export const Route = createFileRoute("/love-score")({
   head: () => ({
@@ -34,13 +31,33 @@ export const Route = createFileRoute("/love-score")({
 
 const contributions = [
   ["📖", "Hoàn thành một bài học", "Complete a lesson", "Học xong một nội dung trong FUN COSMOS."],
-  ["🧊", "Giúp hoàn thiện một asset", "Help complete an asset", "Góp phần hoàn thiện một tài nguyên chung."],
+  [
+    "🧊",
+    "Giúp hoàn thiện một asset",
+    "Help complete an asset",
+    "Góp phần hoàn thiện một tài nguyên chung.",
+  ],
   ["💻", "Đóng góp code", "Contribute code", "Đóng góp kỹ thuật cho thế giới đang được xây dựng."],
-  ["👥", "Tham gia hoạt động cộng đồng", "Join community activities", "Có mặt và cùng làm với cộng đồng."],
+  [
+    "👥",
+    "Tham gia hoạt động cộng đồng",
+    "Join community activities",
+    "Có mặt và cùng làm với cộng đồng.",
+  ],
   ["🌱", "Trồng cây thật", "Plant real trees", "Một hành động ngoài đời thật được ghi nhận."],
-  ["📜", "Tạo quest được sử dụng", "Create a quest that is used", "Nhiệm vụ bạn tạo được người khác trải nghiệm."],
+  [
+    "📜",
+    "Tạo quest được sử dụng",
+    "Create a quest that is used",
+    "Nhiệm vụ bạn tạo được người khác trải nghiệm.",
+  ],
   ["💜", "Giúp một người mới", "Help a new player", "Đồng hành cùng người vừa bước vào thế giới."],
-  ["🎬", "Tạo nội dung hữu ích", "Create helpful content", "Nội dung giúp người khác hiểu và tham gia."],
+  [
+    "🎬",
+    "Tạo nội dung hữu ích",
+    "Create helpful content",
+    "Nội dung giúp người khác hiểu và tham gia.",
+  ],
 ] as const;
 
 const steps = [
@@ -50,51 +67,9 @@ const steps = [
   [Trophy, "GHI NHẬN", "Recognition", "Đóng góp trở thành một dấu mốc trong lịch sử của bạn."],
 ] as const;
 
-const notList = [
-  ["Điểm đo linh hồn", "A measure of the soul"],
-  ["Độ giác ngộ", "Enlightenment level"],
-  ["Đánh giá người tốt hay người xấu", "A judge of good or bad"],
-  ["Mức độ “cao thấp” của con người", "A rank of human worth"],
-] as const;
-
-const bars = [34, 52, 40, 66, 48, 78, 60, 92, 70, 84, 58, 74];
-
 function LoveScoreWorld() {
   const [node, setNode] = useState(0);
   const [step, setStep] = useState(0);
-  const journeyRef = useRef<HTMLDivElement>(null);
-  const played = useRef(false);
-  useEffect(() => {
-    const target = journeyRef.current;
-    if (!target) return;
-    let timer: ReturnType<typeof setInterval> | undefined;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting || played.current) return;
-        played.current = true;
-        if (reduced) {
-          setStep(steps.length - 1);
-          return;
-        }
-        timer = setInterval(() => {
-          setStep((value) => {
-            if (value >= steps.length - 1) {
-              if (timer) clearInterval(timer);
-              return value;
-            }
-            return value + 1;
-          });
-        }, 1100);
-      },
-      { threshold: 0.4 },
-    );
-    observer.observe(target);
-    return () => {
-      observer.disconnect();
-      if (timer) clearInterval(timer);
-    };
-  }, []);
   const selected = contributions[node]!;
   return (
     <TopicWorldShell>
@@ -106,7 +81,7 @@ function LoveScoreWorld() {
           <div className="ls-hero-inner">
             <div className="ls-figure ls-father">
               <img
-                src={fatherAsset.url}
+                src={"/cosmos/love-score/father-cutout.png"}
                 alt="Cha Vũ Trụ dang tay chào đón trong ánh sáng vàng và xanh sapphire"
                 width="1024"
                 height="1536"
@@ -117,7 +92,9 @@ function LoveScoreWorld() {
               <a className="tw-back" href="/">
                 ← FUN COSMOS / Thế giới Love Score
               </a>
-              <h1 id="love-title">LOVE SCORE</h1>
+              <h1 id="love-title" className="tw-metal">
+                LOVE SCORE
+              </h1>
               <span className="ls-ribbon">Verified Positive Contribution</span>
               <p className="ls-hero-line">MỖI ĐÓNG GÓP, MỘT VÌ SAO.</p>
               <div className="ls-hero-actions">
@@ -131,11 +108,11 @@ function LoveScoreWorld() {
             </div>
             <div className="ls-figure ls-angel">
               <img
-                src={angelAsset.url}
+                src={"/cosmos/love-score/angel-light.webp"}
                 alt="Angel ánh sáng bay giữa bầu trời thiên giới"
                 width="1024"
                 height="1536"
-                loading="lazy"
+                loading="eager"
               />
             </div>
           </div>
@@ -145,193 +122,153 @@ function LoveScoreWorld() {
           <a href="#contributions">Đóng góp được ghi nhận</a>
           <a href="#journey">Hành trình</a>
           <a href="#history">Lịch sử</a>
-          <a href="#not">Không phải là gì</a>
           <a href="#plp">PureLove Protocol</a>
           <a href="#deep-dive">Khám phá sâu</a>
         </nav>
         <div className="ls-body">
-          <WorldSection
-            id="what"
-            number="02"
-            eyebrow="WHAT IS LOVE SCORE"
-            title="LỊCH SỬ NHỮNG ĐIỀU TỐT ĐẸP BẠN ĐÃ LÀM."
-          >
-            <div className="ls-define">
-              <div className="ls-heart" aria-hidden="true">
-                <span>♥</span>
-              </div>
-              <div className="ls-card">
-                <p className="tw-lead">
-                  Love Score là lịch sử những đóng góp tích cực đã được hệ thống ghi nhận.
-                </p>
-                <p>
-                  Là hệ thống ghi nhận các đóng góp tích cực <strong>có thể xác minh</strong> — minh
-                  bạch, công bằng, truy vết được và không thể giả mạo.
-                </p>
-                <p>
-                  <em>Love Score is simply the history of positive contributions recorded by the
-                  system.</em>
-                </p>
-              </div>
-            </div>
-          </WorldSection>
+          <span id="what" />
           <WorldSection
             id="contributions"
-            number="03"
-            eyebrow="VERIFIED POSITIVE CONTRIBUTIONS"
-            title="NHỮNG ĐÓNG GÓP ĐƯỢC GHI NHẬN."
+            number="02"
+            eyebrow="A CONTRIBUTION BECOMES A STAR"
+            title="CHO MỘT ĐIỀU TỐT ĐẸP MỘT DẤU MỐC."
           >
-            <p className="tw-intro">
-              Chạm vào một điểm sáng để xem đóng góp ấy trong thế giới FUN COSMOS.
-            </p>
-            <div className="ls-constellation">
-              {contributions.map(([icon, title, en], index) => (
-                <button
-                  key={title}
-                  className="ls-node"
-                  aria-pressed={node === index}
-                  aria-controls="ls-node-detail"
-                  onClick={() => setNode(index)}
-                  onMouseEnter={() => setNode(index)}
-                  onFocus={() => setNode(index)}
-                >
-                  <em aria-hidden="true">{icon}</em>
-                  <strong>{title}</strong>
-                  <small>{en}</small>
-                </button>
-              ))}
-            </div>
-            <div id="ls-node-detail" className="ls-node-detail ls-card" aria-live="polite">
-              <h3>{selected[1]}</h3>
-              <p>{selected[3]}</p>
-              <p>
-                <small>{selected[2]}</small>
-              </p>
-            </div>
-          </WorldSection>
-          <WorldSection
-            id="journey"
-            number="04"
-            eyebrow="THE LOVE SCORE JOURNEY"
-            title="TỪ HÀNH ĐỘNG ĐẾN GHI NHẬN."
-          >
-            <div className="ls-journey" ref={journeyRef}>
-              <div
-                className="ls-journey-progress"
-                style={{ width: `${(step / (steps.length - 1)) * 88}%` }}
-                aria-hidden="true"
+            <div className="ls-living">
+              <img
+                className="ls-witness"
+                src="/cosmos/love-score/angel-light.webp"
+                alt="Angel đồng hành"
+                loading="lazy"
+                width="320"
+                height="480"
               />
-              {steps.map(([Icon, title, en, note], index) => (
-                <button
-                  key={title}
-                  className="ls-step"
-                  data-on={index <= step}
-                  aria-pressed={index === step}
-                  onClick={() => setStep(index)}
-                >
-                  <i aria-hidden="true">
-                    <Icon size={30} />
-                  </i>
-                  <strong>{title}</strong>
-                  <small>
-                    {en} · {note}
-                  </small>
+              <div className="ls-contribution-picks" aria-label="Chọn một đóng góp minh họa">
+                {contributions.map(([, title], i) => (
+                  <button
+                    key={title}
+                    aria-label={title}
+                    title={title}
+                    aria-pressed={node === i}
+                    onClick={() => {
+                      setNode(i);
+                      setStep(0);
+                    }}
+                  >
+                    <ArtworkFragment kind="contribution" index={i} />
+                  </button>
+                ))}
+              </div>
+              <div className="ls-light-path" id="journey">
+                <div className="ls-beacon" data-step={step} aria-hidden="true">
+                  <ArtworkFragment kind="journey" index={step} />
+                </div>
+                <div className="ls-current" aria-live="polite">
+                  <small>CÂU CHUYỆN MINH HỌA · {step + 1} / 4</small>
+                  <h3>{steps[step]![1]}</h3>
+                  <p>{step === 0 ? selected[3] : steps[step]![3]}</p>
+                  <strong>{selected[1]}</strong>
+                </div>
+                <div className="ls-path-controls" aria-label="Bốn bước ghi nhận">
+                  {steps.map(([Icon, title], i) => (
+                    <button key={title} aria-pressed={step === i} onClick={() => setStep(i)}>
+                      <Icon size={22} />
+                      <span>{title}</span>
+                    </button>
+                  ))}
+                </div>
+                <button className="tw-button" onClick={() => setStep((step + 1) % 4)}>
+                  {step === 3 ? "Bắt đầu câu chuyện khác" : "Bước tiếp theo"}{" "}
+                  <ArrowDown size={16} />
                 </button>
-              ))}
+              </div>
             </div>
+            <p className="ls-principle">
+              Ghi nhận đóng góp đã xác minh. Không đánh giá giá trị con người.
+            </p>
           </WorldSection>
           <WorldSection
             id="history"
-            number="05"
-            eyebrow="POSITIVE CONTRIBUTION HISTORY"
-            title="LỊCH SỬ ĐÓNG GÓP TÍCH CỰC."
+            number="03"
+            eyebrow="YOUR CONTRIBUTION HISTORY"
+            title="TỪNG ĐÓNG GÓP, MỘT VÌ SAO."
           >
-            <div className="ls-history">
-              <div className="ls-card ls-score">
-                <p className="tw-eyebrow">LOVE SCORE</p>
-                <b>12,450</b>
-                <p>
-                  <small>Số minh họa — không phải Love Score thật của bạn.</small>
-                </p>
-              </div>
-              <div className="ls-card">
-                <div className="ls-chart" role="img" aria-label="Biểu đồ minh họa lịch sử đóng góp">
-                  {bars.map((height, index) => (
-                    <span
-                      key={index}
-                      style={{ height: `${height}%`, animationDelay: `${index * 60}ms` }}
-                    />
-                  ))}
-                </div>
-                <p>
-                  Mỗi cột là một quãng thời gian đóng góp đã được ghi nhận. Love Score lớn lên theo
-                  những điều bạn thật sự đã làm.
-                </p>
-              </div>
-            </div>
-          </WorldSection>
-          <WorldSection
-            id="not"
-            number="06"
-            eyebrow="LOVE SCORE SHOULD NOT BE MISUNDERSTOOD AS"
-            title="LOVE SCORE KHÔNG PHẢI LÀ GÌ?"
-          >
-            <div className="ls-not">
-              {notList.map(([vi, en]) => (
-                <div key={vi}>
-                  <span aria-hidden="true">✕</span>
-                  {vi}
-                  <br />
-                  <small>{en}</small>
-                </div>
+            <div className="ls-star-history" aria-label="Minh họa những dấu mốc đóng góp">
+              {["Một bài học", "Một người bạn", "Một cây xanh", "Một ý tưởng"].map((label, i) => (
+                <span key={label} style={{ animationDelay: `${i * -2}s` }}>
+                  <i aria-hidden="true">✦</i>
+                  {label}
+                </span>
               ))}
             </div>
-            <div className="ls-statement">
-              <p>Love Score ghi nhận đóng góp, không đánh giá giá trị con người.</p>
-              <p>Love Score recognizes contributions; it does not judge human worth.</p>
-            </div>
+            <p className="ls-principle">
+              Minh họa lịch sử đóng góp · Chưa kết nối dữ liệu tài khoản.
+            </p>
+            <span id="not" />
+            <ArchiveDisclosure title="Love Score ghi nhận điều gì?">
+              <p>
+                Love Score là lịch sử những đóng góp tích cực đã được hệ thống ghi nhận: minh bạch,
+                có thể xác minh và truy vết.
+              </p>
+              <p>
+                Không đo linh hồn, độ giác ngộ, người tốt hay xấu, hoặc mức độ cao thấp của con
+                người.
+              </p>
+            </ArchiveDisclosure>
           </WorldSection>
           <WorldSection
             id="plp"
-            number="07"
+            number="04"
             eyebrow="PURELOVE PROTOCOL"
-            title="PLP — TRONG CÙNG MỘT HỆ THỐNG."
+            title="YÊU THƯƠNG. GHI NHẬN. TRAO GIÁ TRỊ."
           >
-            <div className="ls-plp">
-              <img src={plpAsset.url} alt="Huy hiệu PureLove Protocol (PLP)" loading="lazy" />
-              <div className="ls-card">
-                <p className="tw-lead">PureLove Protocol (PLP) · Love Score · FUN Money</p>
-                <p>
-                  Trong FUN COSMOS, PureLove Protocol là tên gọi chung của hệ thống mà Love Score
-                  thuộc về: yêu thương — ghi nhận — trao giá trị — xây dựng thế giới tốt đẹp hơn.
-                </p>
-                <p>
-                  <small>Love — Recognize — Give value — Build a better world.</small>
-                </p>
-              </div>
+            <div className="ls-plp-flow">
+              <img
+                src="/cosmos/love-score/plp-seal.webp"
+                alt="PureLove Protocol"
+                width="260"
+                height="260"
+                loading="lazy"
+              />
+              <span aria-hidden="true">✦</span>
+              <img
+                src="/cosmos/money.png"
+                alt="FUN Money"
+                width="180"
+                height="180"
+                loading="lazy"
+              />
             </div>
+            <p className="ls-principle">Love Score thuộc hệ thống PureLove Protocol.</p>
           </WorldSection>
           <WorldSection
             id="deep-dive"
-            number="08"
+            number="05"
             eyebrow="THE KNOWLEDGE ARCHIVE"
             title="KHÁM PHÁ SÂU HAI TƯ LIỆU GỐC."
           >
-            <p className="tw-intro">Bấm vào ảnh để mở bản đầy đủ, phóng lớn và đọc từng chi tiết.</p>
-            <DeepDiveGallery
-              items={[
-                {
-                  thumb: infoOne.url,
-                  full: infoOne.url,
-                  title: "Love Score — Verified Positive Contribution",
-                },
-                { thumb: infoTwo.url, full: infoTwo.url, title: "Love Score là gì?" },
-              ]}
-            />
+            <p className="tw-intro">
+              Bấm vào ảnh để mở bản đầy đủ, phóng lớn và đọc từng chi tiết.
+            </p>
+            <ArchiveDisclosure>
+              <DeepDiveGallery
+                items={[
+                  {
+                    thumb: "/cosmos/love-score/love-score-info-1.webp",
+                    full: "/cosmos/love-score/love-score-info-1.webp",
+                    title: "Love Score — Verified Positive Contribution",
+                  },
+                  {
+                    thumb: "/cosmos/love-score/love-score-info-2.webp",
+                    full: "/cosmos/love-score/love-score-info-2.webp",
+                    title: "Love Score là gì?",
+                  },
+                ]}
+              />
+            </ArchiveDisclosure>
           </WorldSection>
           <WorldSection
             id="continue"
-            number="09"
+            number="06"
             eyebrow="CONTINUE THE COSMOS"
             title="HÀNH TRÌNH CÒN TIẾP TỤC."
             className="tw-finale"

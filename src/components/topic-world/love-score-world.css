@@ -1,6 +1,7 @@
 /* Love Score World — bản sắc riêng: trời sapphire sáng, ánh vàng kim loại, pha lê tím xanh. */
 .ls {
-  --ls-sky: radial-gradient(
+  --ls-sky:
+    radial-gradient(
       120% 80% at 50% 0%,
       rgba(186, 230, 253, 0.55),
       rgba(37, 99, 235, 0.35) 45%,
@@ -12,10 +13,10 @@
 
 .ls-hero {
   position: relative;
-  min-height: 88vh;
+  min-height: min(820px, calc(100svh - 82px));
   display: grid;
   place-items: center;
-  padding: clamp(6rem, 12vw, 9rem) 1.25rem clamp(3rem, 6vw, 5rem);
+  padding: 40px 4%;
   background: var(--ls-sky);
   overflow: hidden;
   text-align: center;
@@ -36,25 +37,16 @@
 }
 .ls-hero-city {
   background: url("/cosmos/portal.jpg") center 60% / cover no-repeat;
-  opacity: 0.4;
-  mask-image: linear-gradient(180deg, transparent, #000 55%, transparent);
+  opacity: 1;
 }
 .ls-hero-beam {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: min(30vw, 320px);
-  height: 100%;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(147, 197, 253, 0) 70%);
-  filter: blur(18px);
-  pointer-events: none;
+  display: none;
 }
 .ls-hero-inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(140px, 1fr) minmax(300px, 620px) minmax(140px, 1fr);
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr) minmax(0, 1fr);
+  align-items: center;
   justify-items: center;
   gap: clamp(0.5rem, 3vw, 2rem);
   width: min(1240px, 100%);
@@ -66,8 +58,9 @@
 }
 .ls-figure img {
   width: 100%;
-  height: auto;
-  filter: drop-shadow(0 24px 48px rgba(3, 12, 40, 0.55));
+  height: min(58svh, 540px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 16px #fff0bd66);
   animation: ls-float 9s ease-in-out infinite;
 }
 
@@ -87,18 +80,17 @@
   display: grid;
   gap: 0.85rem;
   justify-items: center;
-  padding-bottom: clamp(1rem, 4vw, 3rem);
+  padding: 24px 12px;
+  border-radius: 32px;
+  background: radial-gradient(ellipse, #103f72de 0%, #103f7280 58%, transparent 74%);
 }
 .ls-hero-copy h1 {
-  font-size: clamp(2.8rem, 9vw, 6rem);
-  line-height: 0.95;
-  letter-spacing: 0.04em;
+  font-size: clamp(3rem, 5.8vw, 5.8rem);
+  line-height: 1.05;
   margin: 0;
-  background: var(--ls-gold);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 6px 18px rgba(3, 14, 44, 0.6));
+}
+.ls-hero-copy .tw-back {
+  margin-bottom: 18px;
 }
 .ls-ribbon {
   display: inline-block;
@@ -126,7 +118,7 @@
 
 /* Nội dung */
 .ls-body {
-  background: linear-gradient(180deg, #071236, #0a1c4c 50%, #071236);
+  background: #174b80 url("/cosmos/topic-world/clouds.jpg") center / cover fixed;
 }
 .ls-card {
   border: 1px solid rgba(147, 197, 253, 0.28);
@@ -198,7 +190,9 @@
 .ls-node:is(:hover, :focus-visible),
 .ls-node[aria-pressed="true"] {
   border-color: rgba(245, 205, 106, 0.8);
-  box-shadow: 0 0 0 1px rgba(245, 205, 106, 0.35), 0 18px 40px rgba(4, 16, 48, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(245, 205, 106, 0.35),
+    0 18px 40px rgba(4, 16, 48, 0.7);
   transform: translateY(-16px);
 }
 .ls-node-detail {
@@ -217,17 +211,17 @@
 .ls-journey:before {
   content: "";
   position: absolute;
-  left: 6%;
-  right: 6%;
-  top: 50%;
+  left: 12.5%;
+  right: 12.5%;
+  top: calc(clamp(1.5rem, 4vw, 2.5rem) + 1rem + 48px);
   height: 3px;
   border-radius: 999px;
   background: linear-gradient(90deg, rgba(147, 197, 253, 0.25), rgba(147, 197, 253, 0.25));
 }
 .ls-journey-progress {
   position: absolute;
-  left: 6%;
-  top: 50%;
+  left: 12.5%;
+  top: calc(clamp(1.5rem, 4vw, 2.5rem) + 1rem + 48px);
   height: 3px;
   border-radius: 999px;
   background: var(--ls-gold);
@@ -446,4 +440,87 @@
 }
 .tw[data-paused="true"] .ls * {
   animation-play-state: paused;
+}
+
+/* Scoped layout refinements: keep the established Topic World styling elsewhere. */
+.ls .tw-section {
+  padding-block: clamp(44px, 5vw, 72px);
+  background: #103b6dcc;
+}
+.ls .tw-section-heading {
+  max-width: 1000px;
+  margin-bottom: 28px;
+}
+.ls .tw-eyebrow {
+  font-size: 12px;
+}
+.ls .tw-artifacts {
+  max-width: none;
+}
+.ls .tw-local {
+  padding-block: 8px;
+}
+.ls-card p {
+  margin: 0;
+}
+.ls-card p + p {
+  margin-top: 12px;
+}
+.ls-node strong {
+  font-size: 16px;
+}
+.ls-node small,
+.ls-step small {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.ls-node:nth-child(odd) {
+  transform: none;
+}
+.ls-node:is(:hover, :focus-visible),
+.ls-node[aria-pressed="true"] {
+  transform: translateY(-3px);
+}
+.ls-chart {
+  margin-bottom: 18px;
+}
+@media (max-width: 900px) {
+  .ls-hero {
+    min-height: auto;
+    padding: 32px 24px;
+  }
+  .ls-hero-inner {
+    max-width: 680px;
+  }
+  .ls-figure img {
+    height: clamp(180px, 32vw, 280px);
+  }
+  .ls-hero-copy {
+    padding: 20px 0;
+  }
+  .ls-hero-copy h1 {
+    font-size: clamp(40px, 9vw, 72px);
+  }
+  .ls-body {
+    background-attachment: scroll;
+  }
+  .ls-heart {
+    min-height: 160px;
+  }
+}
+@media (max-width: 400px) {
+  .ls-hero {
+    padding-inline: 16px;
+  }
+  .ls-ribbon {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    padding-inline: 12px;
+  }
+  .ls .tw-section {
+    padding-inline: 20px;
+  }
+  .ls-constellation {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,0 +1,892 @@
+/* Shared scene rhythm. Loaded with the shell; specificity keeps route skins consistent. */
+.tw {
+  --scene-nav-height: 64px;
+  background: #12467a url("/cosmos/cosmic-clouds.png") center/cover fixed;
+}
+.tw :is(.cw, .nw, .ls-body) {
+  background: transparent;
+}
+.tw .tw-section {
+  background: linear-gradient(100deg, #103964e8, #174b78b0);
+  padding-block: clamp(36px, 5vw, 64px);
+  border: 0;
+}
+.tw .tw-section:has(.story-scene) {
+  padding-inline: 0;
+  background: transparent;
+  padding-bottom: 0;
+}
+.tw .tw-section:has(.story-scene) > .tw-section-heading {
+  padding-inline: 5%;
+  max-width: 1200px;
+}
+.tw .tw-section-heading {
+  margin-bottom: 24px;
+  max-width: 1000px;
+}
+.tw .tw-section h2 {
+  font-size: clamp(26px, 3vw, 40px);
+}
+.tw .tw-local {
+  padding: 6px 4%;
+  gap: 8px 24px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: flex-start;
+  background: #082b5140;
+  backdrop-filter: blur(14px);
+  border-block: 1px solid #ffe5a655;
+}
+.tw .tw-local a {
+  flex-shrink: 0;
+  color: #ffe294;
+  text-shadow: 0 1px 3px #08234e;
+  font-weight: 700;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+.tw :is(.tw-hero, .cp-arrival, .nw-arrival, .ls-hero) {
+  min-height: min(720px, calc(100svh - 64px));
+  padding-block: 28px;
+}
+.tw :is(.tw-hero-copy, .cp-copy, .nw-arrival-copy, .ls-hero-copy) {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 20px 0;
+  text-shadow: 0 1px 5px #123c67;
+}
+.tw :is(.cp-copy, .nw-arrival-copy) {
+  max-width: 540px;
+}
+.tw :is(.tw-hero h1, .cp-copy h1, .nw-arrival h1, .ls-hero-copy h1) {
+  font-size: clamp(40px, 5.5vw, 78px);
+  white-space: normal;
+  overflow-wrap: normal;
+  letter-spacing: -0.035em;
+}
+.tw :is(.tw-hero-line, .nw-arrival-copy .nw-lead) {
+  font-size: clamp(24px, 2.6vw, 34px);
+}
+.tw .tw-back {
+  margin-bottom: 20px;
+  font-size: 12px;
+}
+.tw .tw-hero {
+  background: linear-gradient(90deg, #113b7090, transparent 68%);
+}
+.tw .tw-hero-art > img {
+  height: min(68svh, 620px);
+}
+.tw .cp-arrival {
+  padding-bottom: 76px;
+}
+.tw .cp-copy {
+  max-width: 48%;
+}
+.tw .cp-rim {
+  border-width: 2px;
+  box-shadow:
+    inset 0 0 0 1px #fffce7,
+    0 0 24px #fff5c080;
+}
+.tw .cp-world {
+  inset: 4px;
+}
+.tw .cp-gateway {
+  top: 10%;
+  bottom: 10%;
+}
+.tw .tw-metal {
+  text-shadow: none;
+}
+.tw .nw-arrival-copy > .tw-button {
+  margin-top: 4px;
+}
+.tw .ls-hero-copy {
+  background: radial-gradient(ellipse, #17447790, transparent 72%);
+}
+.tw .ls-ribbon {
+  background: #12375c99;
+  border: 0;
+  backdrop-filter: none;
+  font-size: 12px;
+}
+.tw .tw-finale {
+  padding-block: 40px;
+  background: linear-gradient(110deg, #224f77ec, #123e70df);
+  border-top: 1px solid #e2c38366;
+}
+.tw .tw-finale p {
+  font-size: 17px;
+}
+.tw .tw-finale .tw-actions {
+  margin-block: 20px 0;
+}
+.story-scene {
+  position: relative;
+  isolation: isolate;
+  min-height: 610px;
+  background: #164578 var(--scene-background) center/cover;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  padding: 34px 5%;
+  gap: 20px;
+  overflow: hidden;
+}
+.story-scene:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(0deg, #102f65a0, transparent 50%);
+}
+.story-character {
+  position: absolute;
+  left: 4%;
+  bottom: 12%;
+  width: 29%;
+  height: 73%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px #fff4c080);
+  animation: story-hover 9s ease-in-out infinite;
+  pointer-events: none;
+}
+.story-object {
+  position: absolute;
+  right: 17%;
+  top: 9%;
+  width: 24%;
+  height: 44%;
+  display: grid;
+  place-items: center;
+  animation: story-appear 0.65s ease-out both;
+}
+.story-object img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 18px #d8f2ff90);
+  animation: story-hover 7s ease-in-out infinite;
+}
+.story-orbit {
+  position: absolute;
+  right: 9%;
+  top: 9%;
+  width: 43%;
+  height: 47%;
+  border: 1px solid #ffe7a280;
+  border-radius: 50%;
+  transform: rotate(-15deg);
+  box-shadow: 0 0 24px #b0e4ff30;
+  pointer-events: none;
+}
+.story-stops {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  grid-column: 1/-1;
+  align-self: end;
+  margin-top: 360px;
+}
+.story-stops button {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #153f65df;
+  color: #fff4d6;
+  border: 1px solid #d5dcdf55;
+  border-radius: 36px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+.story-stops button img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.story-stops button[aria-pressed="true"] {
+  background: linear-gradient(120deg, #fff0b7, #eccc79);
+  color: #503a18;
+  border-color: #fff3c4;
+  box-shadow: 0 0 18px #ffe3a345;
+}
+.story-caption {
+  position: absolute;
+  right: 5%;
+  bottom: 126px;
+  max-width: 430px;
+  width: 40%;
+  background: linear-gradient(120deg, #fffdf2f5, #e6f4fcf5);
+  color: #1a4266;
+  border: 1px solid #dec17d;
+  border-radius: 2px 24px 24px 24px;
+  padding: 20px 36px 20px 24px;
+  box-shadow: 0 8px 32px #16395920;
+  z-index: 3;
+}
+.tw .story-caption h3 {
+  font-size: 24px;
+  margin: 8px 0;
+}
+.tw .story-caption p {
+  font-size: 16px;
+  line-height: 1.65;
+  margin: 0 0 12px;
+}
+.story-caption small {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: #89662c;
+}
+.story-close {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: none;
+  color: #1a4266;
+  display: grid;
+  place-items: center;
+}
+.story-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: #1a4266;
+  padding: 6px 0;
+  font-weight: 800;
+}
+.story-library {
+  border-block: 1px solid #d7c08b70;
+  padding: 0;
+  color: #fff2cf;
+}
+.story-library > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  min-height: 60px;
+  cursor: pointer;
+  font-weight: 700;
+  list-style: none;
+}
+.story-library > div {
+  padding: 18px 0;
+}
+.story-library > summary:focus-visible {
+  outline: 3px solid #68d8ff;
+  outline-offset: 3px;
+}
+.tw .ew-connection {
+  border: 0;
+  background: transparent;
+  padding: 16px 0;
+}
+.tw .ew-path {
+  align-items: center;
+  position: relative;
+  padding: 36px 0;
+}
+.tw .ew-path:before {
+  content: "";
+  position: absolute;
+  top: 45%;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: #f0d592;
+  z-index: 0;
+}
+.tw .ew-path a {
+  position: relative;
+}
+.tw .ew-path img {
+  filter: drop-shadow(0 0 14px #fff0a965);
+}
+.tw .yw-seed {
+  width: min(100%, 420px);
+  background: none;
+}
+.tw .yw-seed img {
+  width: 100%;
+  height: 380px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 16px #fff1ae80);
+  animation: story-hover 9s ease-in-out infinite;
+}
+.yw-building {
+  position: relative;
+  min-height: 320px;
+  background: url("/cosmos/garden.jpg") center/cover;
+  border-radius: 24px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.yw-building img {
+  position: absolute;
+  object-fit: contain;
+  transition:
+    opacity 0.6s,
+    transform 0.6s;
+  filter: drop-shadow(0 0 10px #fff4b890);
+}
+.yw-building small {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: #fff9e9ed;
+  color: #204569;
+  padding: 8px 12px;
+  border-radius: 20px;
+}
+.tw section[data-visible="false"] * {
+  animation-play-state: paused !important;
+}
+@keyframes story-hover {
+  50% {
+    transform: translateY(-7px);
+  }
+}
+@keyframes story-appear {
+  from {
+    opacity: 0.3;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 900px) {
+  .tw :is(.tw-hero, .cp-arrival, .nw-arrival, .ls-hero) {
+    min-height: auto;
+  }
+  .tw .cp-copy {
+    max-width: 100%;
+  }
+  .story-scene {
+    min-height: 640px;
+  }
+  .story-character {
+    width: 42%;
+    left: 0;
+    top: 20px;
+    height: 350px;
+  }
+  .story-object {
+    right: 10%;
+    width: 32%;
+    height: 240px;
+  }
+  .story-caption {
+    width: 52%;
+    bottom: 140px;
+    right: 4%;
+  }
+  .story-stops {
+    margin-top: 410px;
+  }
+  .tw .tw-hero-art > img {
+    height: 360px;
+  }
+}
+@media (max-width: 600px) {
+  .tw {
+    background-attachment: scroll;
+  }
+  .tw .tw-section {
+    padding-block: 36px;
+  }
+  .tw :is(.tw-hero, .nw-arrival, .ls-hero) {
+    padding: 24px 20px;
+  }
+  .tw .tw-hero-art > img {
+    height: 280px;
+  }
+  .tw :is(.cp-copy, .nw-arrival-copy) {
+    padding: 12px 0;
+  }
+  .story-scene {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 0;
+    padding: 300px 20px 24px;
+    gap: 16px;
+  }
+  .story-character {
+    height: 280px;
+    top: 12px;
+    bottom: auto;
+    width: 46%;
+  }
+  .story-object {
+    height: 160px;
+    top: 55px;
+    right: 8%;
+    width: 38%;
+  }
+  .story-orbit {
+    top: 60px;
+    height: 150px;
+    width: 48%;
+    right: 4%;
+  }
+  .story-stops {
+    order: 2;
+    margin: 0;
+    flex-wrap: nowrap;
+    overflow: auto;
+    width: 100%;
+    padding-bottom: 8px;
+  }
+  .story-stops button {
+    flex-shrink: 0;
+  }
+  .story-caption {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    max-width: none;
+    order: 1;
+  }
+  .tw .story-caption h3 {
+    font-size: 22px;
+  }
+  .tw .yw-seed img {
+    height: 260px;
+  }
+  .tw .tw-local {
+    padding-inline: 20px;
+  }
+  .tw .tw-hero h1 {
+    font-size: 48px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-scene *,
+  .yw-seed img,
+  .yw-building img {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.cw-world-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+.cw-world-links a {
+  display: grid;
+  justify-items: center;
+  color: #fff1cf;
+  font-size: 20px;
+}
+.cw-world-links img {
+  height: 230px;
+  width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px #dfecff65);
+  transition: transform 0.4s;
+}
+.cw-world-links a:hover img {
+  transform: translateY(-8px);
+}
+.cw-world-links small {
+  display: block;
+  font-size: 14px;
+  margin-top: 12px;
+}
+.tw .ew-position[data-related="true"] img {
+  filter: drop-shadow(0 0 10px #fff7b7);
+}
+@media (max-width: 600px) {
+  .cw-world-links {
+    grid-template-columns: 1fr;
+  }
+  .cw-world-links img {
+    height: 160px;
+  }
+}
+.tw .ls-living {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 40px;
+  background: url("/cosmos/cosmic-orbits.png") center/cover;
+  padding: 40px;
+  border-radius: 4px 48px 4px 48px;
+  isolation: isolate;
+}
+.ls-witness {
+  position: absolute;
+  width: 24%;
+  height: 50%;
+  left: 6%;
+  bottom: 0;
+  object-fit: contain;
+  filter: drop-shadow(0 0 12px #fff1c5);
+  pointer-events: none;
+  animation: story-hover 10s ease-in-out infinite;
+}
+.ls-contribution-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-content: start;
+  padding-bottom: 220px;
+  z-index: 2;
+}
+.ls-contribution-picks button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #23466d;
+  background: #fffaf0ee;
+  padding: 10px 16px;
+  border: 1px solid #ead196;
+  border-radius: 28px;
+  font-size: 14px;
+  min-height: 44px;
+}
+.ls-contribution-picks button[aria-pressed="true"] {
+  background: linear-gradient(115deg, #fff1ab, #edc35e);
+  box-shadow: 0 0 20px #ffe3a090;
+}
+.ls-light-path {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 16px;
+  text-align: center;
+  min-width: 0;
+}
+.ls-beacon {
+  display: grid;
+  place-items: center;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ffedac;
+  border-radius: 50%;
+  color: #fff5c3;
+  background: radial-gradient(circle, #526ddf, #264b8580);
+  box-shadow:
+    0 0 40px #b4d9ff70,
+    inset 0 0 30px #fff4b560;
+  transition:
+    box-shadow 0.6s,
+    background 0.6s;
+}
+.ls-beacon[data-step="3"] {
+  background: radial-gradient(circle, #ffe9a4, #d29d3c);
+  color: #7f5818;
+  box-shadow: 0 0 65px #fff5bc90;
+}
+.ls-current {
+  background: #fffbefed;
+  color: #1c4268;
+  padding: 18px 24px;
+  border-radius: 24px;
+  min-height: 160px;
+  width: 100%;
+}
+.ls-current small {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+.tw .ls-current h3 {
+  font-size: 24px;
+  margin: 8px 0;
+}
+.tw .ls-current p {
+  font-size: 16px;
+  margin: 0 0 10px;
+}
+.ls-current strong {
+  font-size: 13px;
+}
+.ls-path-controls {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 8px;
+}
+.ls-path-controls button {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  flex: 1;
+  min-height: 64px;
+  background: #164674e8;
+  border: 1px solid #e7d29666;
+  border-radius: 14px;
+  color: #fff0c9;
+  padding: 12px 6px;
+  font-size: 10px;
+}
+.ls-path-controls button[aria-pressed="true"] {
+  background: #fff0b9;
+  color: #65451d;
+}
+.tw .ls-principle {
+  text-align: center;
+  font-size: 16px;
+  max-width: 720px;
+  margin: 24px auto 0;
+}
+.ls-star-history {
+  display: flex;
+  justify-content: space-around;
+  gap: 24px;
+  padding: 30px 0 48px;
+}
+.ls-star-history span {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  font-size: 14px;
+  animation: story-hover 8s ease-in-out infinite;
+}
+.ls-star-history i {
+  font-size: 72px;
+  color: #ffedaf;
+  font-style: normal;
+  text-shadow: 0 0 30px #ffe59790;
+}
+.ls-star-history span:nth-child(even) {
+  margin-top: 42px;
+}
+.ls-plp-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+}
+.ls-plp-flow img {
+  object-fit: contain;
+  max-width: 40%;
+  height: auto;
+  filter: drop-shadow(0 0 24px #b5dcff65);
+}
+.ls-plp-flow span {
+  color: #ffe5a0;
+  font-size: 36px;
+}
+@media (max-width: 700px) {
+  .tw .ls-living {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 24px;
+  }
+  .ls-contribution-picks {
+    padding: 0;
+    flex-wrap: nowrap;
+    overflow: auto;
+    max-width: 100%;
+  }
+  .ls-contribution-picks button {
+    flex: 0 0 180px;
+    text-align: left;
+  }
+  .ls-witness {
+    display: none;
+  }
+  .ls-beacon {
+    width: 110px;
+    height: 110px;
+  }
+  .ls-star-history {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .ls-star-history span:nth-child(even) {
+    margin-top: 0;
+  }
+  .ls-plp-flow {
+    gap: 20px;
+  }
+}
+.art-fragment {
+  display: block;
+  flex-shrink: 0;
+  width: 70px;
+  height: 70px;
+  background-position: var(--fragment-x) var(--fragment-y);
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 0 8px #d9e6ff80);
+}
+.art-contribution {
+  background-image: url("/cosmos/love-score/love-score-info-2.webp");
+  background-size: 1371.4286% 771.4286%;
+  border-radius: 50%;
+  mask-image: radial-gradient(circle, #000 56%, transparent 71%);
+}
+.art-journey {
+  background-image: url("/cosmos/love-score/love-score-info-1.webp");
+  background-size: 1371.4286% 771.4286%;
+  border-radius: 50%;
+  mask-image: radial-gradient(circle, #000 55%, transparent 72%);
+}
+.art-world {
+  background-image: url("/cosmos/mansion-worlds.jpg");
+  background-size: 700% auto;
+  border-radius: 50%;
+  mask-image: radial-gradient(circle, #000 49%, transparent 67%);
+}
+.story-object > .art-world {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 16px #fff8c2);
+  animation: story-hover 8s ease-in-out infinite;
+}
+.story-stops .art-world {
+  width: 48px;
+  height: 48px;
+}
+.ls-contribution-picks .art-fragment {
+  width: 44px;
+  height: 44px;
+}
+.ls-beacon .art-fragment {
+  width: 130px;
+  height: 130px;
+}
+.tw .yw-workshop > div {
+  min-width: 0;
+}
+.tw .tw-section:has(.story-scene) {
+  padding-top: 0;
+}
+.tw .tw-section:has(.story-scene) > .tw-section-heading {
+  position: absolute;
+  top: 32px;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  pointer-events: none;
+  margin: 0;
+}
+.story-scene {
+  min-height: 720px;
+  padding-top: 150px;
+}
+.story-object {
+  top: 23%;
+  height: 32%;
+}
+.story-character {
+  height: 65%;
+  bottom: 10%;
+}
+.story-orbit {
+  top: 25%;
+  height: 35%;
+}
+.story-caption {
+  bottom: 120px;
+}
+.tw :is(.cp-copy, .nw-arrival-copy):before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -18px -32px;
+  background: radial-gradient(ellipse at 35% 50%, #12365cab, transparent 72%);
+  pointer-events: none;
+}
+@media (max-width: 600px) {
+  .tw .tw-section:has(.story-scene) > .tw-section-heading {
+    position: relative;
+    top: auto;
+    padding: 28px 20px 0;
+    background: #194c7b;
+  }
+  .story-scene {
+    min-height: 0;
+    padding-top: 300px;
+  }
+  .story-object {
+    top: 50px;
+    height: 160px;
+  }
+  .story-character {
+    top: 10px;
+    bottom: auto;
+    height: 280px;
+  }
+  .story-caption {
+    bottom: auto;
+  }
+  .story-orbit {
+    top: 40px;
+    height: 180px;
+  }
+}
+.tw :is(.cp-copy, .nw-arrival-copy):before {
+  inset: -18px 0;
+}
+.tw :is(.cp-copy, .nw-arrival-copy, .tw-hero-copy, .ls-hero-copy) :is(a, button) {
+  text-shadow: none;
+}
+.ls-contribution-picks {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-content: start;
+  gap: 16px 8px;
+  padding-bottom: 220px;
+}
+.ls-contribution-picks button {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 76px;
+  padding: 4px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+}
+.ls-contribution-picks .art-fragment {
+  width: 70px;
+  height: 70px;
+}
+.ls-contribution-picks button[aria-pressed="true"] {
+  background: #f5da9230;
+  border-color: #ffe3a0;
+  box-shadow: 0 0 18px #ffe3a060;
+}
+.tw .ls-current {
+  max-width: 430px;
+}
+.ls-path-controls {
+  max-width: 430px;
+}
+@media (max-width: 700px) {
+  .ls-contribution-picks {
+    display: flex;
+    overflow: auto;
+    padding-bottom: 10px;
+  }
+  .ls-contribution-picks button {
+    flex: 0 0 76px;
+  }
+  .ls-witness {
+    display: none;
+  }
+}

@@ -1,21 +1,11 @@
+import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { UrantiaCosmosScene } from "@/components/urantia-cosmos-scene";
 import { ArtworkViewer } from "@/components/story-artwork";
 import { TopicGallery } from "@/components/topic-gallery";
 import { cosmosContents } from "@/components/cosmos-contents";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
-import {
-  ArrowDown,
-  ArrowRight,
-  ExternalLink,
-  Menu,
-  X,
-  Pause,
-  Play,
-  Download,
-  Check,
-  Sparkles,
-} from "lucide-react";
+import { ArrowDown, ArrowRight, ExternalLink, Download, Check, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { platforms, roles } from "@/components/living-data";
 import { GAME_URL } from "@/lib/links";
@@ -66,18 +56,16 @@ function Heading({
 }
 function Index() {
   const [active, setActive] = useState("home"),
-    [menu, setMenu] = useState(false),
     [paused, setPaused] = useState(false),
     [role, setRole] = useState(1),
     [planet, setPlanet] = useState(0),
-    
     [ideaOpen, setIdeaOpen] = useState(false),
     [draft, setDraft] = useState<string[]>(Array(7).fill("")),
     [notice, setNotice] = useState("");
   useEffect(() => {
     let frame = 0;
     const update = () => {
-      const header = document.querySelector("nav")?.getBoundingClientRect().height ?? 76;
+      const header = document.querySelector(".fc-header")?.getBoundingClientRect().height ?? 76;
       const sections = [...document.querySelectorAll<HTMLElement>("[data-chapter]")];
       const current = sections.find((section) => {
         const rect = section.getBoundingClientRect();
@@ -139,77 +127,7 @@ function Index() {
       <a className="lc-skip" href="#about">
         Đến nội dung chính
       </a>
-      <nav className="lc-nav compact-nav" aria-label="Điều hướng FUN COSMOS">
-        <a href="#home" className="compact-logo" aria-label="FUN COSMOS — Về đầu trang">
-          <img src="/cosmos/cosmos.png" alt="" />
-        </a>
-        <div id="lc-topics" className={`compact-links ${menu ? "is-open" : ""}`}>
-          <a
-            href="#origin"
-            onClick={() => setMenu(false)}
-            aria-current={active === "origin" ? "location" : undefined}
-          >
-            URANTIA
-          </a>
-          <details
-            className="cosmos-dropdown"
-            onKeyDown={(e) => {
-              if (e.key === "Escape") e.currentTarget.open = false;
-            }}
-          >
-            <summary>
-              FUN COSMOS <span aria-hidden="true">⌄</span>
-            </summary>
-            <div className="cosmos-dropdown-list">
-              {[
-                { id: "about", title: "Hành trình trở về" },
-                ...cosmosContents,
-                { id: "games", title: "Chơi game" },
-              ].map((item) => (
-                <a
-                  key={item.id}
-                  href={`#${item.id}`}
-                  onClick={(e) => {
-                    setMenu(false);
-                    const parent = e.currentTarget.closest("details");
-                    if (parent) parent.open = false;
-                  }}
-                >
-                  {item.title}
-                </a>
-              ))}
-            </div>
-          </details>
-          {[
-            ["/angel-ai", "ANGEL AI"],
-            ["/love-score", "LOVE SCORE"],
-            ["#ecosystem", "FUN ECOSYSTEM"],
-            ["#create", "YOUR TURN"],
-          ].map(([id, label]) => (
-            <a
-              key={id}
-              href={id!.startsWith("#") ? id! : id!}
-              onClick={() => setMenu(false)}
-              aria-current={active === id!.replace("#", "") ? "location" : undefined}
-            >
-              {label}
-            </a>
-          ))}
-        </div>
-        <a className="lc-gold compact-register" href={GAME_URL} target="_blank" rel="noreferrer">
-          CHƠI NGAY
-        </a>
-
-        <button
-          className="compact-menu"
-          onClick={() => setMenu(!menu)}
-          aria-expanded={menu}
-          aria-controls="lc-topics"
-          aria-label="Mở danh mục"
-        >
-          {menu ? <X /> : <Menu />}
-        </button>
-      </nav>
+      <SiteHeader home active={active} />
       <section
         id="home"
         data-chapter
@@ -397,6 +315,9 @@ function Index() {
         <Heading label="FUN Ecosystem" title="Một vũ trụ kết nối.">
           NỀN KINH TẾ ÁNH SÁNG 5D
         </Heading>
+        <a className="lc-outline" href="/ecosystem">
+          Khám phá FUN Ecosystem ↗
+        </a>
         <p className="lc-equation">
           A.I. + BLOCKCHAIN + <em>PURELOVE</em> = INFINITE ASSETS
         </p>
@@ -534,6 +455,9 @@ function Index() {
             Tạo thẻ ý tưởng <ArrowRight size={18} />
           </button>
           <p>Bảy bước nhỏ để phác thảo thế giới bạn muốn tạo.</p>
+          <a className="lc-outline" href="/your-turn">
+            Khám phá Your Turn ↗
+          </a>
         </div>
       </section>
       <TopicGallery
@@ -547,24 +471,8 @@ function Index() {
           "Mini game — 99.999 Happy Camly Coin",
         ]}
       />
-      <footer className="lc-footer">
-        <button className="compact-motion" onClick={() => setPaused(!paused)} aria-pressed={paused}>
-          {paused ? <Play size={16} /> : <Pause size={16} />}{" "}
-          {paused ? "Bật chuyển động" : "Tạm dừng chuyển động"}
-        </button>
-        <a className="lc-brand" href="#home">
-          <img src="/cosmos/cosmos.png" alt="" />
-          <span>
-            FUN COSMOS<small>PLAY THE COSMOS · LIVE IN HEAVEN</small>
-          </span>
-        </a>
-        <a href="#ecosystem">Hệ sinh thái</a>
-        <a href="#create">Cùng sáng tạo</a>
-        <a href="#home">Về đầu trang ↑</a>
-        <span>VI · Tiếng Việt</span>
-      </footer>
+      <SiteFooter paused={paused} onPause={() => setPaused(!paused)} />
       <Dialog open={ideaOpen} onOpenChange={setIdeaOpen}>
-
         <DialogContent className="lc-idea-dialog">
           <DialogTitle>FUN COSMOS của bạn</DialogTitle>
           <DialogDescription>

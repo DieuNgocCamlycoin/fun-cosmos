@@ -21,3 +21,9 @@
 - Use supplied cosmic-clouds.png for the shared supporting canvas and cosmic-orbits.png for Urantia. Avoid duplicated prose and heavy dark badges over artwork.
 - Latest refinement: use FUN Money-style bold sans cast-gold headings and translucent navigation. Urantia has only a linked logo at the bottom; remove footer prose and hint. Reveal world information in a small anchored popover with an X, no modal backdrop or large close CTA.
 - Ecosystem: FUN COSMOS stays centered; outer platform logos orbit clockwise; inner alternating FUN Money/Camly Coin logos orbit counterclockwise. Keep logos upright, pause for hover/focus, honor motion controls and reduced-motion preference.
+
+## Navigation correction (2026-09-09)
+- Shared header must remain visible while scrolling on Home and every Topic World; use sticky top navigation, never hide on downward scroll.
+- Preserve the approved translucent sapphire glass, gold text and fine gold border for header, footer and local navigation. Do not replace with an opaque pearl/white bar.
+- Add TRANG CHỦ before URANTIA, linking to /#home (or #home on Home). This explicitly updates the earlier six-item navigation agreement to seven items.
+- Footer shares the visual treatment but remains at the end of the document, not fixed over content.

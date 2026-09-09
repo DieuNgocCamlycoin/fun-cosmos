@@ -1,88 +1,33 @@
 import { useState, useRef, useEffect, type ReactNode } from "react";
-import { ArrowLeft, ArrowUpRight, Menu, Pause, Play, X } from "lucide-react";
-import { useRouterState } from "@tanstack/react-router";
-import { GAME_URL } from "@/lib/links";
+import { ArrowUpRight } from "lucide-react";
+import { SiteHeader, SiteFooter } from "../site-chrome";
+import "./scene-refinement.css";
 import "./topic-world.css";
 
-const destinations = [
-  ["/#origin", "URANTIA"],
-  ["/#about", "FUN COSMOS"],
-  ["/angel-ai", "ANGEL AI"],
-  ["/love-score", "LOVE SCORE"],
-  ["/#ecosystem", "FUN ECOSYSTEM"],
-  ["/#create", "YOUR TURN"],
-];
-
-
 export function TopicWorldShell({ children }: { children: ReactNode }) {
+  const [paused, setPaused] = useState(false);
   const root = useRef<HTMLDivElement>(null);
-  const menuButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
-    const hero = root.current?.querySelector(".tw-hero");
-    if (!hero) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      root.current?.setAttribute("data-hero-visible", String(entry?.isIntersecting ?? false));
-    });
-    observer.observe(hero);
+    const el = root.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((entry) =>
+          entry.target.setAttribute("data-visible", String(entry.isIntersecting)),
+        ),
+      { rootMargin: "80px" },
+    );
+    el.querySelectorAll("section").forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, []);
-  const [menu, setMenu] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
-
   return (
     <div className="tw" ref={root} data-paused={paused}>
       <a className="tw-skip" href="#world-content">
         Đến nội dung chính
       </a>
-      <header className="tw-header">
-        <a className="tw-brand" href="/" aria-label="Về FUN COSMOS">
-          <img src="/cosmos/cosmos.png" alt="" width="54" height="54" />
-        </a>
-        <nav
-          id="world-nav"
-          className={menu ? "tw-nav is-open" : "tw-nav"}
-          aria-label="Điều hướng FUN COSMOS"
-          onKeyDown={(e) => {
-            if (e.key === "Escape") {
-              setMenu(false);
-              menuButton.current?.focus();
-            }
-          }}
-        >
-          {destinations.map(([href, title]) => (
-            <a key={href} href={href} aria-current={href === pathname ? "page" : undefined}>
-              {title}
-            </a>
-          ))}
-        </nav>
-        <a className="tw-enter" href={GAME_URL} target="_blank" rel="noreferrer">
-          CHƠI NGAY <ArrowUpRight size={16} />
-        </a>
-
-        <button
-          className="tw-menu"
-          ref={menuButton}
-          aria-label={menu ? "Đóng danh mục" : "Mở danh mục"}
-          aria-expanded={menu}
-          aria-controls="world-nav"
-          onClick={() => setMenu(!menu)}
-        >
-          {menu ? <X /> : <Menu />}
-        </button>
-      </header>
+      <SiteHeader />
       <main id="world-content">{children}</main>
-      <footer className="tw-footer">
-        <a href="/">
-          <ArrowLeft size={16} /> Về FUN COSMOS
-        </a>
-        <span>PLAY THE COSMOS · LIVE IN HEAVEN</span>
-        <button aria-pressed={paused} onClick={() => setPaused(!paused)}>
-          {paused ? <Play size={16} /> : <Pause size={16} />}{" "}
-          {paused ? "Bật chuyển động" : "Tạm dừng chuyển động"}
-        </button>
-        <small>VI · Tiếng Việt</small>
-      </footer>
+      <SiteFooter paused={paused} onPause={() => setPaused(!paused)} />
     </div>
   );
 }
@@ -131,14 +76,13 @@ export function NextWorldCTA() {
         <a className="tw-button" href="/">
           Trở về FUN COSMOS <ArrowUpRight size={18} />
         </a>
-        <a className="tw-outline" href="/#create">
+        <a className="tw-outline" href="/your-turn">
           Bắt đầu với một ý tưởng <ArrowUpRight size={18} />
         </a>
       </div>
       <a className="tw-text-link" href="/love-score">
         Khám phá tiếp: Thế giới Love Score →
       </a>
-
     </WorldSection>
   );
 }

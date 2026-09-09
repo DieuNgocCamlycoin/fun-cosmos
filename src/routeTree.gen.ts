@@ -11,7 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AngelAiRouteImport } from './routes/angel-ai'
+import { Route as CosmosRouteImport } from './routes/cosmos'
+import { Route as EcosystemRouteImport } from './routes/ecosystem'
 import { Route as LoveScoreRouteImport } from './routes/love-score'
+import { Route as YourTurnRouteImport } from './routes/your-turn'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +26,76 @@ const AngelAiRoute = AngelAiRouteImport.update({
   path: '/angel-ai',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CosmosRoute = CosmosRouteImport.update({
+  id: '/cosmos',
+  path: '/cosmos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EcosystemRoute = EcosystemRouteImport.update({
+  id: '/ecosystem',
+  path: '/ecosystem',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoveScoreRoute = LoveScoreRouteImport.update({
   id: '/love-score',
   path: '/love-score',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YourTurnRoute = YourTurnRouteImport.update({
+  id: '/your-turn',
+  path: '/your-turn',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/angel-ai': typeof AngelAiRoute
+  '/cosmos': typeof CosmosRoute
+  '/ecosystem': typeof EcosystemRoute
   '/love-score': typeof LoveScoreRoute
+  '/your-turn': typeof YourTurnRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/angel-ai': typeof AngelAiRoute
+  '/cosmos': typeof CosmosRoute
+  '/ecosystem': typeof EcosystemRoute
   '/love-score': typeof LoveScoreRoute
+  '/your-turn': typeof YourTurnRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/angel-ai': typeof AngelAiRoute
+  '/cosmos': typeof CosmosRoute
+  '/ecosystem': typeof EcosystemRoute
   '/love-score': typeof LoveScoreRoute
+  '/your-turn': typeof YourTurnRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/angel-ai' | '/love-score'
+  fullPaths:
+    '/' | '/angel-ai' | '/cosmos' | '/ecosystem' | '/love-score' | '/your-turn'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/angel-ai' | '/love-score'
-  id: '__root__' | '/' | '/angel-ai' | '/love-score'
+  to:
+    '/' | '/angel-ai' | '/cosmos' | '/ecosystem' | '/love-score' | '/your-turn'
+  id:
+    | '__root__'
+    | '/'
+    | '/angel-ai'
+    | '/cosmos'
+    | '/ecosystem'
+    | '/love-score'
+    | '/your-turn'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AngelAiRoute: typeof AngelAiRoute
+  CosmosRoute: typeof CosmosRoute
+  EcosystemRoute: typeof EcosystemRoute
   LoveScoreRoute: typeof LoveScoreRoute
+  YourTurnRoute: typeof YourTurnRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,11 +114,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AngelAiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cosmos': {
+      id: '/cosmos'
+      path: '/cosmos'
+      fullPath: '/cosmos'
+      preLoaderRoute: typeof CosmosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ecosystem': {
+      id: '/ecosystem'
+      path: '/ecosystem'
+      fullPath: '/ecosystem'
+      preLoaderRoute: typeof EcosystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/love-score': {
       id: '/love-score'
       path: '/love-score'
       fullPath: '/love-score'
       preLoaderRoute: typeof LoveScoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/your-turn': {
+      id: '/your-turn'
+      path: '/your-turn'
+      fullPath: '/your-turn'
+      preLoaderRoute: typeof YourTurnRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -88,7 +148,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AngelAiRoute: AngelAiRoute,
+  CosmosRoute: CosmosRoute,
+  EcosystemRoute: EcosystemRoute,
   LoveScoreRoute: LoveScoreRoute,
+  YourTurnRoute: YourTurnRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

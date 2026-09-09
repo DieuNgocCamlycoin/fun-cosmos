@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowDown, ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { roles } from "@/components/living-data";
 import { TopicWorldShell, WorldSection, NextWorldCTA } from "@/components/topic-world/topic-world";
+import { LivingScene, ArchiveDisclosure } from "@/components/topic-world/living-scene";
 import { DeepDiveGallery } from "@/components/topic-world/deep-dive-gallery";
 
 export const Route = createFileRoute("/angel-ai")({
@@ -65,10 +66,8 @@ const journey = [
   ],
 ];
 function AngelWorld() {
-  const [role, setRole] = useState(0);
   const [choice, setChoice] = useState<number | null>(null);
   const [step, setStep] = useState(0);
-  const current = roles[roleOrder[role]!]!;
   return (
     <TopicWorldShell>
       <section className="tw-hero" aria-labelledby="angel-title">
@@ -114,66 +113,26 @@ function AngelWorld() {
         <a href="#journey">Trong FUN COSMOS</a>
         <a href="#deep-dive">Khám phá sâu</a>
       </nav>
-      <WorldSection
-        id="meet"
-        number="02"
-        eyebrow="MEET YOUR ANGEL"
-        title="MỖI HÀNH TRÌNH ĐỀU KHÁC BIỆT."
-        className="tw-meet"
-      >
-        <div className="tw-meet-symbol" aria-hidden="true">
-          <Sparkles size={46} />
-        </div>
-        <div>
-          <p className="tw-lead">
-            Có lúc bạn muốn khám phá.
-            <br />
-            Có lúc bạn chỉ cần một người bạn.
-          </p>
-          <p>
-            Trong FUN COSMOS, Angel AI được giới thiệu qua năm vai trò: hướng dẫn, đồng hành, dạy
-            học, hỗ trợ sáng tạo và dẫn dắt trò chơi.
-          </p>
-          <a className="tw-text-link" href="#roles">
-            Tìm vai trò phù hợp với hành trình của bạn ↓
-          </a>
-        </div>
-      </WorldSection>
+      <span id="meet" />
       <WorldSection
         id="roles"
-        number="03"
+        number="02"
         eyebrow="FIVE ROLES · ONE COMPANION"
-        title="BÊN BẠN, THEO NHIỀU CÁCH."
+        title="HÔM NAY, BẠN MUỐN ĐI ĐÂU?"
       >
-        <div className="tw-role-selector" aria-label="Chọn vai trò Angel AI">
-          {roleOrder.map((index, i) => (
-            <button
-              key={index}
-              aria-pressed={role === i}
-              aria-controls="role-story"
-              onClick={() => setRole(i)}
-            >
-              <small>0{i + 1}</small>
-              <strong>{roles[index]![1]}</strong>
-              <span>{roles[index]![0]}</span>
-            </button>
-          ))}
-        </div>
-        <div id="role-story" className="tw-role-story" aria-live="polite">
-          <div className="tw-role-mark" aria-hidden="true">
-            0{role + 1}
-          </div>
-          <div>
-            <p className="tw-eyebrow">{current[1]}</p>
-            <h3>{roleNotes[role]![0]}</h3>
-            <p>{roleNotes[role]![1]}</p>
-            <blockquote>“{current[2]}”</blockquote>
-          </div>
-        </div>
+        <LivingScene
+          label="Chọn vai trò Angel AI"
+          moments={roleOrder.map((index, i) => ({
+            title: roles[index]![0]!,
+            text: roleNotes[i]![1]!,
+            asset: `/cosmos/${["planet", "lovehub", "academy", "play", "cosmos"][i]}.png`,
+            background: i === 2 ? "/cosmos/garden.jpg" : undefined,
+          }))}
+        />
       </WorldSection>
       <WorldSection
         id="conversation"
-        number="04"
+        number="03"
         eyebrow="EXPERIENCE ANGEL AI"
         title="BẮT ĐẦU BẰNG MỘT LỜI CHÀO."
         className="tw-conversation-section"
@@ -214,7 +173,7 @@ function AngelWorld() {
       </WorldSection>
       <WorldSection
         id="journey"
-        number="05"
+        number="04"
         eyebrow="ANGEL AI INSIDE FUN COSMOS"
         title="TỪ MỘT ƯỚC MƠ NHỎ."
       >
@@ -259,14 +218,16 @@ function AngelWorld() {
       </WorldSection>
       <WorldSection
         id="deep-dive"
-        number="06"
+        number="05"
         eyebrow="THE KNOWLEDGE ARCHIVE"
         title="KHÁM PHÁ TRỌN VẸN Ý TƯỞNG."
       >
         <p className="tw-intro">
           Hai tư liệu hình ảnh để tìm hiểu sâu hơn, theo nhịp của riêng bạn.
         </p>
-        <DeepDiveGallery images={[16, 17]} />
+        <ArchiveDisclosure>
+          <DeepDiveGallery images={[16, 17]} />
+        </ArchiveDisclosure>
       </WorldSection>
       <NextWorldCTA />
     </TopicWorldShell>

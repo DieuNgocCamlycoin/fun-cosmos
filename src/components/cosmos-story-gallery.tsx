@@ -97,6 +97,7 @@ export function CosmosStoryGallery() {
     >
       <div className="csg-layout">
         <div
+          id="csg-art"
           className="csg-stage"
           onPointerMove={() => { idleUntil.current = performance.now() + 8000; }}
           onTouchStart={(event) => {

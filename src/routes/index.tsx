@@ -311,8 +311,8 @@ function Index() {
                 className="eco-position"
                 key={p[0]}
                 style={{
-                  left: `${50 + 43 * Math.cos((i / all.length) * 2 * Math.PI - Math.PI / 2)}%`,
-                  top: `${50 + 43 * Math.sin((i / all.length) * 2 * Math.PI - Math.PI / 2)}%`,
+                  left: `${(50 + 43 * Math.cos((i / all.length) * 2 * Math.PI - Math.PI / 2)).toFixed(4)}%`,
+                  top: `${(50 + 43 * Math.sin((i / all.length) * 2 * Math.PI - Math.PI / 2)).toFixed(4)}%`,
                 }}
               >
                 <a
@@ -343,8 +343,8 @@ function Index() {
                   className="eco-position"
                   key={i}
                   style={{
-                    left: `${50 + 25 * Math.cos((i * Math.PI) / 6)}%`,
-                    top: `${50 + 25 * Math.sin((i * Math.PI) / 6)}%`,
+                    left: `${(50 + 25 * Math.cos((i * Math.PI) / 6)).toFixed(4)}%`,
+                    top: `${(50 + 25 * Math.sin((i * Math.PI) / 6)).toFixed(4)}%`,
                   }}
                 >
                   <a

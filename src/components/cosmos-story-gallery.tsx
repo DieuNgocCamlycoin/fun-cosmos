@@ -15,6 +15,7 @@ export function CosmosStoryGallery() {
   const [paused, setPaused] = useState(false);
   const [progress, setProgress] = useState(0);
   const [cycle, setCycle] = useState(0);
+  const currentImage = story[selected] ?? 7;
 
   const goTo = (index: number, manual = true) => {
     const next = (index + story.length) % story.length;
@@ -67,7 +68,7 @@ export function CosmosStoryGallery() {
       <header className="csg-heading">
         <span>04 · DISCOVER FUN COSMOS</span>
         <h2 id="csg-title">MỘT HÀNH TRÌNH.<br />VÔ SỐ KHẢ NĂNG.</h2>
-        <p>{descriptions[story[selected]]}</p>
+        <p>{descriptions[currentImage]}</p>
       </header>
       <div
         className="csg-stage"

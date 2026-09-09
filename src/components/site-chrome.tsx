@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { ArrowUpRight, Menu, X, Pause, Play } from "lucide-react";
 import { GAME_URL } from "@/lib/links";
-import { cosmosContents } from "./cosmos-contents";
 import "./site-chrome.css";
 
 const links = [
@@ -90,9 +89,9 @@ export function SiteHeader({ home = false, active = "" }: { home?: boolean; acti
               <div>
                 <a href="/cosmos">Khám phá thế giới ↗</a>
                 {[
-                  { id: "about", title: "Hành trình trở về" },
-                  ...cosmosContents,
-                  { id: "games", title: "Chơi game" },
+                  { id: "cosmos-cinema", title: "Cinematic World" },
+                  { id: "discover", title: "Discover FUN COSMOS" },
+                  { id: "games", title: "Chọn thế giới" },
                 ].map((item) => (
                   <a
                     key={item.id}

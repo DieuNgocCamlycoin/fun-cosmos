@@ -28,10 +28,6 @@ export function CosmosCinema() {
 
   return (
     <section id="cosmos-cinema" className="cc-cinema" aria-labelledby="cosmos-cinema-title">
-      <div className="cc-heading">
-        <h2 id="cosmos-cinema-title">FUN COSMOS LÀ GÌ?</h2>
-        <p>Một thế giới nơi bạn khám phá, học hỏi, sáng tạo và cùng nhau kiến tạo tương lai.</p>
-      </div>
       <div className="cc-frame">
         <div className="cc-media" aria-hidden={reducedMotion}>
           {reducedMotion ? (
@@ -50,6 +46,20 @@ export function CosmosCinema() {
           )}
         </div>
         <div className="cc-shade" />
+        <div className="cc-overlay">
+          <div className="cc-copy">
+            <h2 id="cosmos-cinema-title">FUN COSMOS LÀ GÌ?</h2>
+            <p>Một thế giới nơi bạn khám phá, học hỏi, sáng tạo và cùng nhau kiến tạo tương lai.</p>
+          </div>
+          <div className="cc-actions">
+            <Button asChild variant="cosmos" size="lg">
+              <a href="/cosmos">KHÁM PHÁ FUN COSMOS <ArrowRight /></a>
+            </Button>
+            <Button asChild variant="starlight" size="lg">
+              <a href="#games">CHỌN THẾ GIỚI</a>
+            </Button>
+          </div>
+        </div>
         {!reducedMotion && (
           <Button
             type="button"
@@ -63,14 +73,6 @@ export function CosmosCinema() {
             {muted ? <VolumeX /> : <Volume2 />}
           </Button>
         )}
-      </div>
-      <div className="cc-actions">
-        <Button asChild variant="cosmos" size="lg">
-          <a href="/cosmos">KHÁM PHÁ FUN COSMOS <ArrowRight /></a>
-        </Button>
-        <Button asChild variant="starlight" size="lg">
-          <a href="#games">CHỌN THẾ GIỚI</a>
-        </Button>
       </div>
     </section>
   );

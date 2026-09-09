@@ -1,19 +1,20 @@
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { UrantiaCosmosScene } from "@/components/urantia-cosmos-scene";
-import { ArtworkViewer } from "@/components/story-artwork";
 import { TopicGallery } from "@/components/topic-gallery";
-import { cosmosContents } from "@/components/cosmos-contents";
+import { CosmosCinema } from "@/components/cosmos-cinema";
+import { CosmosStoryGallery } from "@/components/cosmos-story-gallery";
+import { GameWorlds } from "@/components/game-worlds";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
-import { ArrowDown, ArrowRight, ExternalLink, Download, Check, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, Download, Check, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { platforms, roles } from "@/components/living-data";
-import { GAME_URL } from "@/lib/links";
 
 import fatherPortrait from "@/assets/father-welcome.jpg";
 const heroFallback = "/cosmos/portal.jpg";
 import angelFallback from "@/assets/angel-web.jpg";
 import "@/living.css";
+import "@/components/cosmos-consolidation.css";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -195,44 +196,9 @@ function Index() {
           "Hành trình hoàn thiện",
         ]}
       />
-      <section id="about" data-chapter="about" className="lc-section tg-cosmos-intro">
-        <div className="tg-cosmos-copy">
-          <img src="/cosmos/cosmos.png" alt="FUN COSMOS" />
-          <Heading label="FUN COSMOS" title="Hành trình trở về.">
-            Một thế giới để khám phá, học hỏi, sáng tạo và cùng nhau kiến tạo tương lai.
-          </Heading>
-          <a href="#cosmos-definition" className="lc-gold">
-            Khám phá thế giới <ArrowRight size={18} />
-          </a>
-        </div>
-        <div className="tg-cosmos-art">
-          <ArtworkViewer id={6} />
-        </div>
-      </section>
-      {cosmosContents.map((content) => (
-        <TopicGallery key={content.id} {...content} chapter="about" />
-      ))}
-      <section id="games" data-chapter className="lc-section lc-games">
-        <Heading label="Chơi FUN COSMOS" title="Chọn cánh cửa bước vào thế giới của bạn.">
-          Bấm CHƠI NGAY để mở FUN COSMOS. Việc đăng ký, xác minh email và đăng nhập được thực hiện
-          ngay trong game.
-        </Heading>
-        <div className="lc-game-options">
-          {[
-            ["Chơi trên trình duyệt", "Mở FUN COSMOS và bắt đầu ngay trong tab mới."],
-            ["Đăng ký & đăng nhập trong game", "Tạo tài khoản, xác minh email rồi vào thế giới."],
-          ].map(([title, note]) => (
-            <article key={title} className="lc-game-option">
-              <span aria-hidden="true">✧</span>
-              <h3>{title}</h3>
-              <p>{note}</p>
-              <a className="lc-gold" href={GAME_URL} target="_blank" rel="noreferrer">
-                CHƠI NGAY <ExternalLink size={16} />
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>
+      <CosmosCinema />
+      <CosmosStoryGallery />
+      <GameWorlds />
 
       <section id="angel" data-chapter className="lc-section lc-angel">
         <div className="lc-split">

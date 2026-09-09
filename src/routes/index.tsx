@@ -6,7 +6,7 @@ import { CosmosStoryGallery } from "@/components/cosmos-story-gallery";
 import { GameWorlds } from "@/components/game-worlds";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
-import { ArrowDown, ArrowRight, Download, Check, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, ExternalLink, Download, Check, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { platforms, roles } from "@/components/living-data";
 

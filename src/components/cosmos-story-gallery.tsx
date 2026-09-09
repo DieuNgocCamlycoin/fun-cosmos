@@ -75,12 +75,12 @@ export function CosmosStoryGallery() {
   const getSlideStyle = (index: number) => {
     const isActive = index === selected;
     const isPrevious = index === previous && !isActive;
-    const x = isActive ? 0 : isPrevious ? 100 : -100;
 
     return {
-      transform: `translate(-50%, -50%) translateX(${x}%) scale(${isActive ? 1 : 0.97})`,
-      opacity: isActive || isPrevious ? 1 : 0,
-      zIndex: isActive ? 2 : 1,
+      transform: `translate(-50%, -50%) scale(${isActive ? 1 : 0.992})`,
+      opacity: isActive ? 1 : 0,
+      filter: isActive ? "brightness(1)" : "brightness(.92)",
+      zIndex: isActive ? 2 : isPrevious ? 1 : 0,
     };
   };
 

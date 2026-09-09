@@ -7,3 +7,8 @@
 - [x] Add two-row topic navigation and active progress
 - [x] Add living cosmos layers and ecosystem orbits
 - [x] Verify desktop/mobile motion, navigation, and all assets
+- [ ] Consolidate the FUN COSMOS home journey after Urantia
+- [ ] Choose and add the supplied cinematic video with sound controls
+- [ ] Build one cinematic Story Gallery from the existing artwork
+- [ ] Add three game worlds, including the supplied FUN TREASURE CITY cover
+- [ ] Verify unchanged Hero and Urantia plus desktop/mobile behavior

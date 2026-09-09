@@ -28,49 +28,50 @@ export function CosmosCinema() {
 
   return (
     <section id="cosmos-cinema" className="cc-cinema" aria-labelledby="cosmos-cinema-title">
-      <div className="cc-media" aria-hidden={reducedMotion}>
-        {reducedMotion ? (
-          <img src={posterAsset.url} alt="" width="1920" height="1080" />
-        ) : (
-          <video
-            ref={video}
-            src={videoAsset.url}
-            poster={posterAsset.url}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-          />
+      <div className="cc-heading">
+        <h2 id="cosmos-cinema-title">FUN COSMOS LÀ GÌ?</h2>
+        <p>Một thế giới nơi bạn khám phá, học hỏi, sáng tạo và cùng nhau kiến tạo tương lai.</p>
+      </div>
+      <div className="cc-frame">
+        <div className="cc-media" aria-hidden={reducedMotion}>
+          {reducedMotion ? (
+            <img src={posterAsset.url} alt="" width="1920" height="1080" />
+          ) : (
+            <video
+              ref={video}
+              src={videoAsset.url}
+              poster={posterAsset.url}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            />
+          )}
+        </div>
+        <div className="cc-shade" />
+        {!reducedMotion && (
+          <Button
+            type="button"
+            variant="starlight"
+            size="icon"
+            className="cc-sound"
+            aria-label={muted ? "Bật âm thanh video" : "Tắt âm thanh video"}
+            aria-pressed={!muted}
+            onClick={toggleSound}
+          >
+            {muted ? <VolumeX /> : <Volume2 />}
+          </Button>
         )}
       </div>
-      <div className="cc-shade" />
-      <div className="cc-copy">
-        <p className="cc-kicker">5D NEW EARTH ROLE-PLAYING GAME</p>
-        <h2 id="cosmos-cinema-title">CHƠI VŨ TRỤ.<br />SỐNG THIÊN ĐÀNG.</h2>
-        <p>Một thế giới nơi bạn khám phá, học hỏi, sáng tạo và cùng nhau kiến tạo tương lai.</p>
-        <div className="cc-actions">
-          <Button asChild variant="cosmos" size="lg">
-            <a href="/cosmos">KHÁM PHÁ FUN COSMOS <ArrowRight /></a>
-          </Button>
-          <Button asChild variant="starlight" size="lg">
-            <a href="#games">CHỌN THẾ GIỚI</a>
-          </Button>
-        </div>
-      </div>
-      {!reducedMotion && (
-        <Button
-          type="button"
-          variant="starlight"
-          size="icon"
-          className="cc-sound"
-          aria-label={muted ? "Bật âm thanh video" : "Tắt âm thanh video"}
-          aria-pressed={!muted}
-          onClick={toggleSound}
-        >
-          {muted ? <VolumeX /> : <Volume2 />}
+      <div className="cc-actions">
+        <Button asChild variant="cosmos" size="lg">
+          <a href="/cosmos">KHÁM PHÁ FUN COSMOS <ArrowRight /></a>
         </Button>
-      )}
+        <Button asChild variant="starlight" size="lg">
+          <a href="#games">CHỌN THẾ GIỚI</a>
+        </Button>
+      </div>
     </section>
   );
 }

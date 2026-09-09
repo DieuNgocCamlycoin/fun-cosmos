@@ -12,4 +12,4 @@
 - [x] Build one cinematic Story Gallery from the existing artwork
 - [x] Add three game worlds, including the supplied FUN TREASURE CITY cover
 - [x] Verify unchanged Hero and Urantia plus desktop/mobile behavior
-- [ ] Refine the FUN COSMOS cinema framing, title placement, and compact metallic CTAs
+- [x] Refine the FUN COSMOS cinema framing, title placement, and compact metallic CTAs

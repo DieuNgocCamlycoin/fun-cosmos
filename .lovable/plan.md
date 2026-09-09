@@ -1,47 +1,52 @@
-# FUN COSMOS — Kết nối Game + Angel AI + Love Score World
+# FUN COSMOS Home — Cinematic Consolidation
 
-## 1. Nút "CHƠI NGAY" dẫn thẳng vào game
+## Quick inspection report
 
-- Thêm một nơi duy nhất lưu địa chỉ game (`https://funkingdom.itch.io/funcosmos10d`) để sau này đổi sang tên miền chính thức chỉ cần sửa một chỗ.
-- Trang chủ: nút "Đăng ký tài khoản" trên thanh trên cùng đổi thành **CHƠI NGAY**, giữ nguyên kiểu vàng sang trọng, mở tab mới.
-- Mục "Chơi game": hai thẻ phiên bản hiện đang bị khoá ("chờ liên kết") sẽ được bật, dẫn vào game, mở tab mới.
-- Cửa sổ "Bắt đầu hành trình" và nút "Chơi FUN COSMOS" ở các trang thế giới cũng dẫn vào game.
+1. **Sections consolidated into one Story Gallery** — the nine FUN COSMOS blocks currently listed in `src/components/cosmos-contents.ts` (FUN COSMOS là gì, Không chỉ là một trò chơi, Người chơi có thể làm gì, Game–Real Life/Anna, Core Idea, Core Loop, Năm trụ cột, O2O, FUN COSMOS thu hút vì điều gì) plus the "Hành trình trở về" intro artwork. Today each renders as its own full section; all artwork is kept, none is rewritten into cards.
+2. **Reusable components** — the existing `TopicGallery` (autoplay, progress line, thumbnails, swipe, pause) and `ArtworkViewer` (full-image zoom) already do everything needed. The new gallery is built on the same pieces, extended to carry chapter titles per item, not a new viewer.
+3. **Video** — `Fun_Cosmos_HERO_202609091213.mp4` is used for the FUN COSMOS cinematic section. A second file `VD.mp4` was also supplied; it is not used unless you say where it belongs.
+4. **Game covers** — Kingdom Hotel and FUN CITY & BEACH covers supplied. No Camly Coin Adventure cover arrived in this batch, so the existing approved Camly artwork already in the project (the 99.999 Happy Camly Coin scene) is used as its cover. Send the real cover and it is swapped in.
+5. **Game links** — Kingdom Hotel: funkingdom.itch.io/funcosmos10d · City & Beach: funkingdom.itch.io/funcosmos5d · Camly/Treasure City: fun-cosmos.pages.dev. No invented links.
+6. **Untouched** — opening hero, Urantia scene and gallery, header hide-on-scroll behaviour, Angel AI, Love Score, FUN Ecosystem, Your Turn, all other routes.
 
-## 2. Thanh điều hướng
+## New Home rhythm
 
-- **ANGEL AI** trên thanh trên cùng → mở thẳng trang Angel AI World.
-- **LOVE SCORE** → mở thẳng trang Love Score World mới.
-- Giữ nguyên phần Angel AI và Love Score trên trang chủ cùng các nút "Khám phá Angel AI".
+```text
+01 Opening hero        (unchanged)
+02 Urantia             (unchanged)
+03 FUN COSMOS cinematic video stage   (new)
+04 Discover FUN COSMOS — one story gallery   (replaces 9 stacked sections)
+05 Choose your world — 3 game covers  (new, replaces current text-only "games" block)
+06 Angel AI · 07 Love Score · 08 Ecosystem · 09 Your Turn  (unchanged)
+10 Final portal CTA    (existing direction)
+```
 
-## 3. Love Score World — trang mới
+## 03 — Cinematic video stage
 
-Dùng chung khung thế giới của Angel AI (thanh trên, chân trang, nút tạm dừng chuyển động, trình xem ảnh lớn) nhưng có diện mạo riêng: bầu trời sapphire sáng, ánh vàng kim loại, pha lê tím-xanh, thành phố ánh sáng.
+Centered stage, ~90vw wide and ~66vh tall on desktop, cosmic breathing space around it, gold hairline frame and soft outer glow. Video autoplays muted, loops, plays inline, no native controls, `object-fit: cover` with tuned focus point per breakpoint. Small elegant sound toggle in a corner (HTML, keyboard reachable). Reduced motion or no-autoplay: a still frame from the video is shown instead.
 
-Mạch chuyện:
+Overlay text in HTML over the video, using the existing gold title treatment:
+eyebrow `5D NEW EARTH ROLE-PLAYING GAME`, title `CHƠI VŨ TRỤ. / SỐNG THIÊN ĐÀNG.`, one supporting line, primary `KHÁM PHÁ FUN COSMOS` → `/cosmos`, secondary `CHƠI NGAY` → existing game entry behaviour.
 
-1. **Mở màn** — Cha Vũ Trụ bên trái, Angel bên phải, ở giữa là dòng chữ LOVE SCORE, phụ đề "Verified Positive Contribution" và thông điệp "Mỗi đóng góp, một vì sao". Nền là thành phố ánh sáng, cổng vũ trụ, pha lê trôi nhẹ.
-2. **Love Score là gì** — trái tim pha lê và khiên ánh sáng kể ý chính: lịch sử những đóng góp tích cực đã được ghi nhận.
-3. **Những đóng góp được ghi nhận** — 8 nội dung đúng theo hình gốc, hiện thành các điểm sáng nằm rải trong không gian; chạm hoặc rê chuột thì điểm sáng bừng lên và hiện tên cùng một dòng mô tả. Trên điện thoại chuyển thành danh sách chạm dễ dùng.
-4. **Hành trình Love Score** — cảnh tương tác chính: Hành động → Bằng chứng → Xác minh → Ghi nhận, ánh sáng chạy nối từng bước khi cuộn trang hoặc bấm; bước cuối bừng sáng.
-5. **Lịch sử đóng góp** — dựng lại bảng LOVE SCORE 12,450 cùng biểu đồ cột phát sáng, ghi rõ đây là con số minh họa.
-6. **Love Score không phải là gì** — bốn điều loại trừ, trình bày bình an, kết bằng câu song ngữ "Love Score ghi nhận đóng góp, không đánh giá giá trị con người".
-7. **PureLove Protocol (PLP)** — huy hiệu PLP xoay nhẹ, chỉ dùng đúng thông tin đã có, không thêm khẳng định mới.
-8. **Khám phá sâu** — hai hình gốc Love Score ở dạng ảnh nhỏ, bấm để mở xem toàn màn hình, đóng bằng nút X hoặc phím Esc.
-9. **Tiếp tục hành trình** — "Trở về FUN COSMOS" và "Khám phá Angel AI".
+## 04 — Discover FUN COSMOS story gallery
 
-Chuyển động nhẹ nhàng, tôn trọng cài đặt giảm chuyển động; không tràn ngang trên màn hình nhỏ.
+One dominant canvas: large active infographic, thumbnail strip, position indicator, prev/next, gold progress line, slow luminous cross-fade with a slight recede/blur on the outgoing image. Autoplay continues as today and suspends after direct interaction; pause control kept. Beside the artwork: the chapter headline plus one short sentence only — no re-typed infographic content. Click the artwork to open the existing full-image zoom viewer. Keyboard arrows, mobile swipe.
 
-## 4. Hình ảnh
+## 05 — Choose your world
 
-- Cha Vũ Trụ và Angel dùng đúng hai ảnh đã tách nền cha gửi (đưa lên kho ảnh của dự án).
-- Hai hình Love Score đầy đủ dùng cho phần khám phá sâu.
-- Tờ asset (ảnh thứ ba) đang có **nền trắng, chưa tách nền**. Con sẽ cắt các thành phần cần dùng (PLP, 4 biểu tượng bước, thành phố, pha lê) và tự khử nền trắng. Nếu kết quả viền chưa sạch, con sẽ dùng cách trình bày trong khung tròn/khung kính để vẫn đẹp, và báo lại để cha gửi PNG tách nền riêng nếu có.
+Heading `CHỌN THẾ GIỚI BẠN MUỐN BƯỚC VÀO`, one supporting line. Desktop: three covers in one equal row, artwork dominant, no white cards. Hover/focus lifts the chosen portal slightly, adds a luminous rim and glow, softly recedes the other two, and strengthens its description and CTA.
 
-## Ghi chú kỹ thuật
+- Kingdom Hotel — Bé Trí — tour and explore the dream hotel world — `BƯỚC VÀO KINGDOM HOTEL`
+- FUN City & Beach — Bé Trí — change outfits, unlimited fashion, explore city and beach — `KHÁM PHÁ CITY & BEACH`
+- Camly Coin Adventure — Bé Hoàng — explore the city and collect Camly Coin — `BẮT ĐẦU CAMLY COIN ADVENTURE`
 
-- Route mới `src/routes/love-score.tsx` + `love-score-world.css`, tái sử dụng `TopicWorldShell`, `WorldSection`, dialog viewer sẵn có.
-- `DeepDiveGallery` hiện hard-code đường dẫn `angel-concept-*`; sẽ mở rộng nhận danh sách ảnh + nhãn để dùng lại cho Love Score (không đổi hành vi trang Angel AI).
-- `destinations` trong `topic-world.tsx`: `/#love` → `/love-score`, đánh dấu trang hiện tại theo route thực tế thay vì so sánh cứng với `/angel-ai`.
-- Địa chỉ game đặt trong `src/lib/links.ts` (`GAME_URL`), dùng ở trang chủ và topic world; mọi liên kết `target="_blank" rel="noreferrer"`.
-- Ảnh mới đưa lên qua `lovable-assets` (pointer `.asset.json`), không thêm file nhị phân vào repo.
-- Kiểm tra bằng Playwright ở 1280 và 390: không tràn ngang, không lỗi console, các liên kết điều hướng đúng.
+Each CTA opens the real game URL in a new tab. No login, no account handling on the website — the games keep their own.
+
+Mobile: one cover at a time with horizontal snap-swipe, the next cover peeking, dots, and a large CTA.
+
+## Technical notes
+
+- New files: `src/components/cosmos-cinema.tsx` + css (video stage), `src/components/cosmos-story-gallery.tsx` + css (built on `TopicGallery`/`ArtworkViewer`), `src/components/game-worlds.tsx` + css.
+- `src/routes/index.tsx`: remove the nine `cosmosContents` sections and the current `#games` text block; insert sections 03–05. Chapter/nav anchors `about` and `games` are preserved so the header menu keeps working.
+- Video, logo and the two supplied covers go through `lovable-assets` CDN pointers, not into the repo.
+- CSS-only motion (transforms/opacity), no Three.js/GSAP, reduced-motion honoured, lazy loading for offscreen artwork.

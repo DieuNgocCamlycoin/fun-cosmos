@@ -27,3 +27,18 @@
 - Preserve the approved translucent sapphire glass, gold text and fine gold border for header, footer and local navigation. Do not replace with an opaque pearl/white bar.
 - Add TRANG CHỦ before URANTIA, linking to /#home (or #home on Home). This explicitly updates the earlier six-item navigation agreement to seven items.
 - Footer shares the visual treatment but remains at the end of the document, not fixed over content.
+
+## Latest navigation agreement (2026-09-09 evening)
+- Supersedes the always-visible header rule: hide the shared header when scrolling down into content, reveal when scrolling up, with a small direction threshold to avoid flicker.
+- Keep it visible near the top, while its menu is open, and during keyboard focus. Preserve layout space and respect reduced motion.
+- Header has no background, blur, or horizontal border; the active navigation item retains its gold outline.
+
+## Gallery presentation update (2026-09-09 evening)
+- User now requests automatic TopicGallery presentation, superseding manual-only autoplay restriction for this component.
+- Advance horizontally in one direction with gentle zoom, a 5-second interval and a visible progress indicator; manual selection resets the cycle. Keep a visible pause control, pause offscreen/hidden/document dialogs/global pause, and disable autoplay for reduced motion.
+- Use lighter translucent caption panels and synchronize the selected title and description with the artwork.
+
+## Compact gallery controls (2026-09-09)
+- Remove the gallery count/eyebrow and text pause button; use compact icon controls for next image and pause/resume.
+- Keep caption height stable across slides. The gold activity line travels continuously forward without rewinding.
+- Pointer activity over artwork suspends autoplay until eight seconds without further activity; then the regular five-second cycle continues.

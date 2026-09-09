@@ -68,11 +68,11 @@ export function ArtworkViewer({ id }: { id: number }) {
           </button>
           <span aria-live="polite">{zoom * 100}%</span>
         </div>
-        <div className="lc-art-scroll" tabIndex={0}>
+        <div className="lc-art-scroll" data-fit={zoom === 1} tabIndex={0}>
           <img
             src={`/slides/${id}.jpg`}
             alt={descriptions[id]}
-            style={{ width: `${zoom * 100}%`, maxWidth: "none" }}
+            style={zoom === 1 ? undefined : { width: `${zoom * 100}%`, maxWidth: "none" }}
           />
         </div>
       </DialogContent>

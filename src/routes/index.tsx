@@ -67,11 +67,15 @@ function Index() {
     const update = () => {
       const header = document.querySelector(".fc-header")?.getBoundingClientRect().height ?? 76;
       const sections = [...document.querySelectorAll<HTMLElement>("[data-chapter]")];
+      const readingLine = Math.max(header + 80, window.innerHeight * 0.45);
       const current = sections.find((section) => {
         const rect = section.getBoundingClientRect();
-        return rect.top <= header + 80 && rect.bottom > header + 80;
+        return rect.top <= readingLine && rect.bottom > readingLine;
       });
-      if (current) setActive(current.dataset["chapter"] || current.id);
+      if (current) {
+        const chapter = current.dataset["chapter"];
+        setActive(chapter && chapter !== "true" ? chapter : current.id);
+      }
     };
     const schedule = () => {
       cancelAnimationFrame(frame);

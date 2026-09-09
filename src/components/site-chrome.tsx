@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { ArrowUpRight, Menu, X, Pause, Play } from "lucide-react";
 import { GAME_URL } from "@/lib/links";
@@ -16,10 +16,55 @@ const links = [
 ];
 export function SiteHeader({ home = false, active = "" }: { home?: boolean; active?: string }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const activeHref = home
+    ? ({
+        home: "/#home",
+        origin: "/#origin",
+        angel: "/angel-ai",
+        love: "/love-score",
+        ecosystem: "/ecosystem",
+        create: "/your-turn",
+      }[active] ?? "/cosmos")
+    : pathname;
   const [open, setOpen] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
+
+  const header = useRef<HTMLElement>(null);
+  const [hidden, setHidden] = useState(false);
+  useEffect(() => {
+    let previous = window.scrollY;
+    let travel = 0;
+    const onScroll = () => {
+      const y = Math.max(0, window.scrollY);
+      const delta = y - previous;
+      previous = y;
+      if (
+        y < 64 ||
+        open ||
+        header.current?.matches(":focus-within") ||
+        header.current?.querySelector("details[open]")
+      ) {
+        travel = 0;
+        setHidden(false);
+        return;
+      }
+      travel = Math.sign(delta) === Math.sign(travel) ? travel + delta : delta;
+      if (Math.abs(travel) >= 18) {
+        setHidden(travel > 0);
+        travel = 0;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [open]);
+
   return (
-    <header className="fc-header">
+    <header
+      ref={header}
+      className="fc-header"
+      data-hidden={hidden && !open}
+      onFocusCapture={() => setHidden(false)}
+    >
       <a className="fc-brand" href={home ? "#home" : "/"} aria-label="FUN COSMOS — Về đầu trang">
         <img src="/cosmos/cosmos.png" width="52" height="52" alt="" />
       </a>
@@ -39,7 +84,9 @@ export function SiteHeader({ home = false, active = "" }: { home?: boolean; acti
         {links.map(([href, title]) =>
           home && href === "/cosmos" ? (
             <details key={href} className="fc-topics" onClick={(e) => e.stopPropagation()}>
-              <summary>FUN COSMOS ⌄</summary>
+              <summary aria-current={activeHref === "/cosmos" ? "location" : undefined}>
+                FUN COSMOS ⌄
+              </summary>
               <div>
                 <a href="/cosmos">Khám phá thế giới ↗</a>
                 {[
@@ -65,9 +112,7 @@ export function SiteHeader({ home = false, active = "" }: { home?: boolean; acti
             <a
               key={href}
               href={home && href?.startsWith("/#") ? href.slice(1) : href}
-              aria-current={
-                pathname === href ? "page" : home && href === `/#${active}` ? "location" : undefined
-              }
+              aria-current={activeHref === href ? (home ? "location" : "page") : undefined}
             >
               {title}
             </a>

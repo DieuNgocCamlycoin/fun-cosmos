@@ -2406,15 +2406,24 @@
 .compact-motion {display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #b8cce34d;border-radius:12px;}
 .lc-father {width:43%;right:-4%;bottom:8%;}
 .tg-section {display:grid;grid-template-columns:minmax(250px,.65fr) minmax(0,1.35fr);gap:clamp(24px,4vw,68px);align-items:center;padding:clamp(36px,5vw,80px) clamp(24px,4vw,72px);min-height:calc(100svh - var(--lc-nav-height));border-top:1px solid #a7c3e21a;background:radial-gradient(ellipse at 90% 40%,#263e7c40,transparent 65%),#081b31;scroll-margin-top:var(--lc-nav-height);}
+.tg-copy {display:flex;flex-direction:column;justify-content:space-between;height:clamp(420px, 38vw, 540px);padding:18px 18px 20px;border:1px solid rgba(219,185,109,.26);border-radius:22px;background:linear-gradient(180deg, rgba(10,25,42,.84), rgba(14,28,47,.72));box-shadow:inset 0 1px rgba(255,255,255,.06), 0 18px 40px rgba(2,8,21,.24);}
 .tg-copy h2 {font-size:clamp(28px,3vw,48px);line-height:1.18;margin:18px 0 24px;}
-.tg-copy>p {font-size:19px;line-height:1.75;color:#c4d7ea;margin:22px 0;}
+.tg-copy>p {font-size:19px;line-height:1.75;color:#c4d7ea;margin:22px 0 0;}
 .tg-copy>small {font-size:14px;color:#b5cbe1;}
-.tg-choices {display:grid;gap:4px;}
-.tg-choices button {display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:left;padding:13px 12px;font-size:17px;line-height:1.4;border:0;border-bottom:1px solid #b2cceb26;background:transparent;color:#c6d8e8;}
-.tg-choices button[aria-pressed="true"] {color:#ffe3a1;background:linear-gradient(90deg,#dab65620,transparent);border-left:2px solid #e4c775;}
-.tg-art {min-width:0;}
-.tg-art .lc-art-open,.tg-cosmos-art .lc-art-open {overflow:hidden;border-radius:22px;border:1px solid #d6c59c55;box-shadow:0 18px 60px #0004;}
-.tg-art img,.tg-cosmos-art img {display:block;width:100%;height:auto;object-fit:contain;}
+.tg-choices {display:grid;gap:8px;padding:10px;border-radius:16px;background:rgba(9,18,31,.45);border:1px solid rgba(214,169,93,.18);}
+.tg-choices button {display:grid;grid-template-columns:1fr 24px;align-items:center;gap:12px;text-align:left;padding:12px 12px 12px 10px;font-size:16px;line-height:1.4;border:1px solid transparent;border-radius:12px;background:rgba(255,255,255,.02);color:#c6d8e8;transition:all .24s ease;}
+.tg-choices button:hover,.tg-choices button:focus-visible {border-color:rgba(217,188,112,.4);background:rgba(255,255,255,.04);transform:translateX(2px);}
+.tg-choices button[aria-pressed="true"] {color:#3f2a07;background:linear-gradient(135deg,#f3d788,#f7e7bc);border-color:rgba(190,146,50,.85);box-shadow:inset 0 1px rgba(255,255,255,.7), 0 8px 22px rgba(179,132,35,.24);}
+.tg-choice-label {display:block;min-width:0;}
+.tg-choice-arrow {font-size:18px;justify-self:end;opacity:.8;}
+.tg-art {min-width:0;position:relative;overflow:hidden;cursor:grab;touch-action:pan-y;user-select:none;padding:8px 0;}
+.tg-art:active {cursor:grabbing;}
+.tg-art-stage {position:relative;overflow:hidden;aspect-ratio:16 / 9;width:100%;border-radius:28px;border:1px solid rgba(217,188,112,.38);box-shadow:0 22px 60px rgba(0,0,0,.2);background:#091a2d;display:flex;align-items:center;justify-content:center;}
+.tg-art-slide {position:absolute;left:50%;top:50%;width:100%;height:100%;display:flex;align-items:center;justify-content:center;transform-origin:center center;transition:transform 1000ms cubic-bezier(.22,1,.36,1), opacity 700ms ease;}
+.tg-art-slide.is-active {box-shadow:0 28px 72px rgba(0,0,0,.24);}
+.tg-art .lc-art-open,.tg-cosmos-art .lc-art-open {display:flex;align-items:center;justify-content:center;width:100%;height:100%;overflow:hidden;border-radius:22px;border:1px solid rgba(214,169,93,.3);box-shadow:0 18px 60px rgba(0,0,0,.14);}
+.tg-art .lc-art-open img,.tg-cosmos-art .lc-art-open img {display:block;width:100%;height:100%;object-fit:contain;object-position:center;transition:transform .5s ease, opacity .5s ease;background:#091a2d;}
+.tg-art .lc-art-open:hover img {transform:scale(1.02);}
 .tg-art>p {font-size:16px;color:#a9c5df;margin:12px 4px;}
 .tg-cosmos-intro {display:grid;grid-template-columns:minmax(250px,.65fr) minmax(0,1.35fr);align-items:center;gap:40px;background:radial-gradient(at 20% 30%,#34558b60,transparent 65%),#081b31;}
 .tg-cosmos-copy>img {width:140px;height:140px;object-fit:contain;animation:lc-float 8s ease-in-out infinite;}
@@ -2751,3 +2760,116 @@
 }
 @media(prefers-reduced-motion:reduce){.lc-angel-art img{animation:none;}}
 @media(min-width:851px){.lc-ecosystem{row-gap:8px;}}
+
+/* Separate the two opening scenes on the shared cosmic canvas. */
+.lc-page > :is(#home, #origin) {
+  margin: clamp(16px, 2vw, 28px) clamp(12px, 2vw, 28px);
+  border: 1px solid rgba(217, 188, 112, 0.38);
+  border-radius: 28px;
+  box-shadow: 0 12px 32px #09285120;
+}
+@media (max-width: 600px) {
+  .lc-page > :is(#home, #origin) {
+    border-radius: 20px;
+  }
+}
+
+/* Keep the opening frame fully inside the desktop viewport. */
+.lc-page > #home { margin-top: 6px; }
+@media (min-width: 851px) {
+  .lc-page > #home {
+    min-height: calc(100svh - 84px);
+  }
+}
+
+/* Gentle horizontal gallery presentation; content follows the selected artwork. */
+.tg-section .tg-copy {
+  background: linear-gradient(145deg, #123958ad, #12395870);
+  border: 1px solid #f5dfa04d;
+  box-shadow: 0 8px 24px #071b3020;
+  backdrop-filter: blur(8px);
+  height: auto;
+}
+.tg-section .tg-choices { background: transparent; border: 0; padding: 0; }
+.tg-section .tg-choices button {
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: none;
+  padding: 8px 10px;
+}
+.tg-section .tg-choices button[aria-pressed="true"] {
+  background: #f7db9024; color: #fff0bd;
+  box-shadow: inset 2px 0 #edcc79;
+}
+.tg-section .tg-art-slide { transition: transform 1100ms cubic-bezier(.22,.65,.25,1), opacity 600ms ease; }
+.tg-story-caption { animation: gallery-caption-in 1100ms ease both; }
+.tg-story-caption h3 { color: #ffe6a0; font-size: 18px; margin: 12px 0 6px; }
+.tg-story-caption p { margin: 0; }
+.tg-playback { align-self: flex-start; background: #092d5055; border: 1px solid #e6cf8a66; border-radius: 24px; color: #fff0bd; padding: 10px 14px; margin-top: 14px; font: inherit; font-size: 13px; min-height: 44px; }
+@keyframes gallery-caption-in { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@media(prefers-reduced-motion: reduce) {
+  .tg-section .tg-art-slide { transition: none; }
+  .tg-story-caption { animation: none; }
+}
+
+.tg-section .tg-copy {
+  background: radial-gradient(ellipse at 0 0, #8bcbe326, transparent 65%), linear-gradient(135deg, #123958cf, #102e487d);
+  box-shadow: inset 0 1px #fff4, 0 12px 32px #071b3026;
+}
+.tg-sequence { display: flex; justify-content: space-between; gap: 12px; color: #f8dc94; font-size: 11px; letter-spacing: .12em; margin-bottom: 14px; }
+.tg-sequence span:last-child { color: #c8dcea; font-size: 9px; align-self: center; }
+.tg-choice-label { display: flex; align-items: center; gap: 12px; }
+.tg-choice-number { color: #c4d8e6; font-size: 11px; font-variant-numeric: tabular-nums; }
+.tg-section .tg-choices button { transition: background 250ms ease, box-shadow 250ms ease; }
+.tg-section .tg-choices button:hover { background: #d7edff14; }
+.tg-section .tg-choices button[aria-pressed="true"] { background: linear-gradient(90deg,#f7db9030,#f7db9006); box-shadow: inset 2px 0 #ffdf8c, 0 3px 14px #061e351a; }
+.tg-choices button[aria-pressed="true"] .tg-choice-number { color: #ffe7a5; }
+.tg-progress { height: 2px; background: #c6dff026; margin-top: 16px; overflow: hidden; border-radius: 2px; }
+.tg-progress > span { display: block; height: 100%; background: linear-gradient(90deg,#c59440,#fff0b1); transform-origin: left; transition: transform 250ms linear; }
+.tg-story-caption { padding: 0 4px; }
+.tg-playback:hover { background: #dcefff1c; }
+@media(prefers-reduced-motion: reduce) { .tg-progress > span { transition: none; } }
+
+/* Compact, stable caption panel and unobtrusive gallery controls. */
+.tg-section .tg-copy { justify-content: flex-start; gap: 12px; padding: 18px 20px; }
+.tg-section .tg-copy h2 { margin: 0 0 10px; }
+.tg-section .tg-choices { gap: 4px; }
+.tg-section .tg-choices button { min-height: 44px; padding-block: 6px; }
+.tg-caption-stack { display: grid; }
+.tg-caption-stack .tg-story-caption { grid-area: 1 / 1; animation: none; padding: 4px 0; }
+.tg-section .tg-progress { margin-top: 4px; }
+.tg-progress > span { transform: none; background: repeating-linear-gradient(90deg,#bb893a 0px,#fff1bb 50px,#bb893a 100px); transition: background-position 250ms linear; }
+.tg-controls { position: absolute; top: 12px; right: 12px; z-index: 5; display: flex; gap: 8px; }
+.tg-controls button { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid #efcf8399; background: #092d50c9; color: #fff0bd; box-shadow: 0 2px 8px #08234444; }
+.tg-controls button:hover { background: #214c70; }
+.tg-controls button:focus-visible { outline: 2px solid #ffe49b; outline-offset: 3px; }
+@media(prefers-reduced-motion: reduce) { .tg-progress > span { transition: none; } }
+
+/* Each separated gold segment identifies one artwork. */
+.tg-section .tg-progress { display: flex; gap: 6px; height: 3px; background: transparent; overflow: visible; }
+.tg-progress > span { flex: 1; border-radius: 3px; background: #d5e4ee40; }
+.tg-progress > span.is-current { background-image: repeating-linear-gradient(90deg,#c49342 0px,#fff0b2 50px,#c49342 100px); box-shadow: 0 0 6px #ffdb7866; }
+/* Fit the complete image before users deliberately zoom in. */
+.lc-art-dialog {
+  width: min(92vw, 1200px)!important;
+  height: 88dvh;
+  max-height: 88dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  overflow: hidden;
+  border-radius: 22px;
+}
+.lc-art-dialog h2 { margin: 0; font-size: 17px; }
+.lc-art-dialog > p { margin: 0; font-size: 13px; color: #496782; }
+.lc-art-tools { flex-shrink: 0; gap: 10px; flex-wrap: wrap; }
+.lc-art-tools button { min-height: 40px; padding: 6px 12px; }
+.lc-art-scroll { flex: 1; min-height: 0; max-height: none; background: #102b4110; border-radius: 12px; }
+.lc-art-scroll[data-fit="true"] { overflow: hidden; }
+.lc-art-scroll[data-fit="true"] img { width: 100%; height: 100%; object-fit: contain; }
+@media(max-width:600px) {
+  .lc-art-dialog { width: 94vw!important; height: 86dvh; max-height: 86dvh; padding: 14px; gap: 8px; }
+  .lc-art-dialog h2 { font-size: 14px; }
+}

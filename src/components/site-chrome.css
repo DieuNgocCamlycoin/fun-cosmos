@@ -6,11 +6,11 @@
   align-items: center;
   gap: 24px;
   padding: 4px 4%;
-  background: #082b5140;
+  background: rgba(8, 43, 81, 0.25);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   color: #ffe294;
-  border-block: 1px solid #ffe5a655;
+  border-block: 1px solid rgba(255, 229, 166, 0.5);
   position: relative;
   z-index: 30;
 }
@@ -20,7 +20,6 @@
   z-index: 40;
   height: 64px;
   min-height: 64px;
-  backdrop-filter: blur(12px);
 }
 .fc-header a,
 .fc-footer a {
@@ -35,6 +34,9 @@
   height: 52px;
   object-fit: contain;
   display: block;
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
 }
 .fc-navigation {
   display: flex;
@@ -49,12 +51,28 @@
   white-space: nowrap;
   font-weight: 800;
   cursor: pointer;
-  padding: 14px 0;
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
   list-style: none;
+}
+.fc-navigation > a:hover,
+.fc-topics > summary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 228, 152, 0.28);
 }
 .fc-navigation [aria-current] {
   color: #fff2c6;
-  box-shadow: inset 0 -2px #ba8f3a;
+  border-color: rgba(255, 214, 108, 0.7);
+  background: rgba(255, 224, 133, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 226, 162, 0.18);
+  transform: translateY(-1px);
 }
 .fc-header .fc-play {
   display: flex;
@@ -73,6 +91,10 @@
   font-weight: 800;
   font-size: 12px;
   white-space: nowrap;
+  transition: transform 180ms ease;
+}
+.fc-header .fc-play:hover {
+  transform: translateY(-1px);
 }
 .fc-menu {
   display: none;
@@ -143,7 +165,7 @@
   outline: 3px solid #1584b8;
   outline-offset: 4px;
 }
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
   .fc-header {
     gap: 12px;
   }
@@ -215,7 +237,7 @@
 .lc-page {
   --lc-nav-height: 64px;
 }
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
   .lc-page .fc-navigation {
     background: #103b60f2;
     border-bottom: 1px solid #d7bd80;
@@ -260,4 +282,43 @@
   .lc-page [id] {
     scroll-margin-top: 76px;
   }
+}
+
+/* Direction-aware navigation preserves its layout space. */
+.fc-header {
+  background: transparent;
+  border: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: transform 220ms ease;
+}
+.fc-header[data-hidden="true"] {
+  transform: translateY(-110%);
+}
+.fc-header:focus-within {
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fc-header {
+    transition: none;
+  }
+}
+
+/* Individual contrast surfaces keep labels readable over bright artwork. */
+.fc-header .fc-navigation > a,
+.fc-header .fc-topics > summary {
+  background: rgba(7, 30, 58, 0.86);
+  color: #ffe9a6;
+  text-shadow: 0 1px 2px #031226;
+  border: 2px solid transparent;
+  box-shadow: 0 2px 8px #03122630;
+}
+.fc-header .fc-navigation > a[aria-current],
+.fc-header .fc-topics > summary[aria-current] {
+  border-color: #ffd66c;
+  background: #143b60;
+  color: #fff2c6;
+  box-shadow:
+    0 0 10px #ffd66c55,
+    inset 0 0 0 1px #fff2c633;
 }

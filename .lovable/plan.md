@@ -11,7 +11,7 @@ Chỉ nâng cấp hai section mới của FUN COSMOS: cảnh video “FUN COSMOS
 - Giữ viền champagne-gold mảnh; bổ sung ánh sáng chạy rất nhẹ trên viền để cảnh sinh động hơn, không dùng hiệu ứng neon hoặc nền navy riêng.
 - Thêm lại dòng `5D NEW EARTH ROLE-PLAYING GAME` phía trên tiêu đề, nhỏ và tinh tế.
 - Giữ `FUN COSMOS LÀ GÌ?` trên một hàng ở desktop. Làm màu vàng kim ổn định ở mọi mức zoom, thêm màu dự phòng và khoảng thở cho nét chữ để phần `Ì?` không bị rỗng hoặc cắt.
-- Tăng cỡ câu “Một thế giới…” và đặt trong một nền kính tối mỏng chỉ vừa quanh chữ để dễ đọc. Chủ động ngắt thành hai dòng cân đối thay vì một dòng dài và một dòng chỉ còn vài chữ.
+- Tăng cỡ câu “Một thế giới…” và đặt trong một nền sáng trắng mờ chỉ vừa quanh chữ để màu xanh hiện tại nổi rõ, dễ đọc. Chủ động ngắt thành hai dòng cân đối thay vì một dòng dài và một dòng chỉ còn vài chữ.
 - Giữ hai nút kim loại gọn; có thể hạ thấp nhẹ để nhường không gian cho câu mô tả và tránh Angel.
 - Giữ nút âm thanh tại góc dưới bên phải và ảnh tĩnh khi người dùng bật chế độ giảm chuyển động.
 

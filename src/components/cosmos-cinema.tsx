@@ -48,10 +48,14 @@ export function CosmosCinema() {
         <div className="cc-shade" />
         <div className="cc-overlay">
           <div className="cc-copy">
+            <p className="cc-kicker">5D NEW EARTH ROLE-PLAYING GAME</p>
             <h2 id="cosmos-cinema-title">FUN COSMOS LÀ GÌ?</h2>
           </div>
           <div className="cc-lower">
-            <p>Một thế giới nơi bạn khám phá, học hỏi, sáng tạo và cùng nhau kiến tạo tương lai.</p>
+            <p>
+              Một thế giới nơi bạn khám phá, học hỏi, sáng tạo<br className="cc-copy-break" />
+              và cùng nhau kiến tạo tương lai.
+            </p>
             <div className="cc-actions">
               <Button asChild variant="cosmos" size="lg">
                 <a href="/cosmos">KHÁM PHÁ FUN COSMOS <ArrowRight /></a>

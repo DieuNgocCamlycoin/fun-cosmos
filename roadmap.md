@@ -13,3 +13,4 @@
 - [x] Add three game worlds, including the supplied FUN TREASURE CITY cover
 - [x] Verify unchanged Hero and Urantia plus desktop/mobile behavior
 - [x] Refine the FUN COSMOS cinema framing, title placement, and compact metallic CTAs
+- [x] Expand the cinema scene and rebuild the infographic section as a compact story gallery

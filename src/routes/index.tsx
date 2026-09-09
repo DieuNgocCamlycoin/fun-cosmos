@@ -21,9 +21,12 @@ export const Route = createFileRoute("/")({
       { title: "FUN COSMOS — Play the Cosmos, Live in Heaven" },
       {
         name: "description",
-        content:
-          "Khám phá, học hỏi, sáng tạo và kết nối. Một vũ trụ trải nghiệm cùng Angel AI, Love Score và FUN Ecosystem.",
+        content: "Khám phá, học hỏi, sáng tạo và kết nối trong vũ trụ nhập vai 5D FUN COSMOS.",
       },
+      { property: "og:title", content: "FUN COSMOS — Play the Cosmos, Live in Heaven" },
+      { property: "og:description", content: "Khám phá, học hỏi, sáng tạo và cùng nhau kiến tạo tương lai trong FUN COSMOS." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),

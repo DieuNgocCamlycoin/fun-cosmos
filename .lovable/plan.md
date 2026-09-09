@@ -6,8 +6,8 @@ Chỉ nâng cấp hai section mới của FUN COSMOS: cảnh video “FUN COSMOS
 
 ## 1. Hoàn thiện cảnh video “FUN COSMOS LÀ GÌ?”
 
-- Mở rộng khung video thêm theo chiều ngang và chiều cao để hình ảnh đã mắt hơn, nhưng luôn giữ đúng 16:9, không kéo méo và không cắt đầu Cha.
-- Tận dụng tối đa vùng nhìn dưới navigation, giảm khoảng trống ngoài khung và vẫn giữ cảnh gọn trong màn hình desktop thông thường.
+- Thu khung cảnh về đúng bề ngang trang và giới hạn chiều cao theo vùng nhìn còn lại dưới navigation; khung ngoài không ép theo 16:9 nên không còn tràn khỏi màn hình hoặc che mất phần dưới.
+- Video bên trong vẫn giữ nguyên tỷ lệ, dùng `cover` với vị trí trọng tâm được căn riêng theo desktop/mobile; chỉ crop nhẹ phần môi trường ở cạnh hoặc phía dưới, không kéo méo, không cắt đầu Cha, Angel hay cổng trung tâm.
 - Giữ viền champagne-gold mảnh; bổ sung ánh sáng chạy rất nhẹ trên viền để cảnh sinh động hơn, không dùng hiệu ứng neon hoặc nền navy riêng.
 - Thêm lại dòng `5D NEW EARTH ROLE-PLAYING GAME` phía trên tiêu đề, nhỏ và tinh tế.
 - Giữ `FUN COSMOS LÀ GÌ?` trên một hàng ở desktop. Làm màu vàng kim ổn định ở mọi mức zoom, thêm màu dự phòng và khoảng thở cho nét chữ để phần `Ì?` không bị rỗng hoặc cắt.
@@ -26,8 +26,9 @@ Chỉ nâng cấp hai section mới của FUN COSMOS: cảnh video “FUN COSMOS
 ### Infographic và nội dung đồng bộ
 
 - Giữ đủ 12 infographic hiện có, hiển thị bằng `object-fit: contain`, không crop và không đặt chữ website lên nội dung ảnh.
-- Phần phải dùng tiêu đề chính `KHÁM PHÁ FUN COSMOS` trên một hàng ở desktop.
-- Bên dưới hiển thị số dạng `03 / 12`, tiêu đề riêng của infographic đang chọn và tối đa 1–3 dòng giải thích ngắn từ nội dung hiện có.
+- Phần phải dùng tiêu đề chính `KHÁM PHÁ FUN COSMOS` trên một hàng ở desktop, căn theo trục của infographic để trông liền mạch thay vì đứng lạc riêng giữa nền.
+- Nâng độ tương phản bằng tiêu đề vàng kim rõ nét; số thứ tự dùng vàng sáng, còn tiêu đề và mô tả dùng xanh sapphire đậm trên một lớp sáng trắng mờ cục bộ chỉ ôm vùng chữ. Không dùng chữ trắng mờ hoặc panel/card xanh lớn.
+- Bên dưới hiển thị số dạng `03 / 12`, tiêu đề riêng của infographic đang chọn và tối đa 1–3 dòng giải thích ngắn từ nội dung hiện có, với khoảng cách gọn và phân cấp rõ.
 - Khi đổi ảnh, số thứ tự, tiêu đề và mô tả đổi đồng bộ bằng crossfade nhẹ.
 - Giữ khả năng mở ảnh lớn hiện có để người dùng đọc chi tiết.
 
@@ -45,8 +46,8 @@ Chỉ nâng cấp hai section mới của FUN COSMOS: cảnh video “FUN COSMOS
 
 ## Kiểm tra hoàn tất
 
-- Kiểm tra video ở kích thước màn hình hiện tại và các mức zoom phổ biến: đúng 16:9, thấy trọn đầu Cha, chữ `GÌ?` luôn có màu và không bị cắt.
+- Kiểm tra video ở kích thước màn hình hiện tại và các mức zoom phổ biến: khung vừa vùng nhìn, không quá lớn hoặc quá nhỏ; video không méo, thấy trọn đầu Cha/Angel/cổng và chữ `GÌ?` luôn có màu, không bị cắt.
 - Kiểm tra câu mô tả dễ đọc, xuống dòng cân đối; hai nút và sound control không che Angel hoặc nội dung chính.
-- Kiểm tra gallery desktop gần như nằm gọn trong một viewport, ảnh là phần lớn nhất và không còn hàng thumbnail/progress riêng.
+- Kiểm tra gallery desktop gần như nằm gọn trong một viewport, ảnh là phần lớn nhất, tiêu đề không lạc bố cục, toàn bộ chữ dễ đọc trên nền cosmic và không còn hàng thumbnail/progress riêng.
 - Kiểm tra đủ 12 ảnh, ảnh không crop, số/tiêu đề/mô tả chuyển đồng bộ, autoplay/pause/next/previous/zoom/swipe/keyboard hoạt động.
 - Kiểm tra desktop và mobile không tràn ngang, không lỗi hiển thị và không thay đổi các section ngoài phạm vi.

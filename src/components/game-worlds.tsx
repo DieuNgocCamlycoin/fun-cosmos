@@ -1,8 +1,8 @@
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/button";
-const kingdomAsset = { url: "/cosmos/imported/kingdom-hotel.png" };
-const cityAsset = { url: "/cosmos/imported/fun-city-beach.png" };
-const treasureAsset = { url: "/cosmos/imported/fun-treasure-city.png" };
+import kingdomAsset from "@/assets/cosmos/kingdom-hotel-cover.png.asset.json";
+import cityAsset from "@/assets/cosmos/fun-city-beach-cover.png.asset.json";
+import treasureAsset from "@/assets/cosmos/fun-treasure-city-cover.png.asset.json";
 
 const games = [
   {
@@ -48,8 +48,8 @@ export function GameWorlds() {
             <img
               src={game.image}
               alt={`Bìa game ${game.title}`}
-              width="768"
-              height="1365"
+              width="1129"
+              height="1456"
               loading="lazy"
             />
             <div className="gw-overlay">

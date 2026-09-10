@@ -52,12 +52,22 @@ export function CosmosStoryGallery() {
     let visible = false;
     let elapsed = 0;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = Boolean(entry?.isIntersecting);
-    }, { threshold: 0.35 });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = Boolean(entry?.isIntersecting);
+      },
+      { threshold: 0.35 },
+    );
     observer.observe(element);
     const timer = window.setInterval(() => {
-      if (paused || !visible || reduced.matches || document.hidden || document.querySelector('[role="dialog"]')) return;
+      if (
+        paused ||
+        !visible ||
+        reduced.matches ||
+        document.hidden ||
+        document.querySelector('[role="dialog"]')
+      )
+        return;
       if (performance.now() < idleUntil.current) return;
       elapsed += 250;
       setProgress(Math.min(100, (elapsed / 5000) * 100));
@@ -99,18 +109,25 @@ export function CosmosStoryGallery() {
         <div
           id="csg-art"
           className="csg-stage"
-          onPointerMove={() => { idleUntil.current = performance.now() + 8000; }}
+          onPointerMove={() => {
+            idleUntil.current = performance.now() + 8000;
+          }}
           onTouchStart={(event) => {
             touchStart.current = event.touches[0]?.clientX ?? null;
             touchOffset.current = 0;
           }}
           onTouchMove={(event) => {
             const current = event.touches[0]?.clientX;
-            if (touchStart.current !== null && current !== undefined) touchOffset.current = current - touchStart.current;
+            if (touchStart.current !== null && current !== undefined)
+              touchOffset.current = current - touchStart.current;
           }}
           onTouchEnd={(event) => {
             const end = event.changedTouches[0]?.clientX;
-            if (touchStart.current !== null && end !== undefined && Math.abs(end - touchStart.current) > 60) {
+            if (
+              touchStart.current !== null &&
+              end !== undefined &&
+              Math.abs(end - touchStart.current) > 60
+            ) {
               goTo(selectedRef.current + (end < touchStart.current ? 1 : -1));
             }
             touchStart.current = null;
@@ -129,13 +146,30 @@ export function CosmosStoryGallery() {
             </div>
           ))}
           <div className="csg-controls">
-            <Button variant="starlight" size="icon" aria-label={paused ? "Tiếp tục trình chiếu" : "Tạm dừng trình chiếu"} aria-pressed={paused} onClick={() => setPaused(!paused)}>{paused ? <Play /> : <Pause />}</Button>
-            <Button variant="starlight" size="icon" aria-label="Ảnh tiếp theo" onClick={() => goTo(selected + 1)}><ArrowRight /></Button>
+            <Button
+              variant="starlight"
+              size="icon"
+              aria-label={paused ? "Tiếp tục trình chiếu" : "Tạm dừng trình chiếu"}
+              aria-pressed={paused}
+              onClick={() => setPaused(!paused)}
+            >
+              {paused ? <Play /> : <Pause />}
+            </Button>
+            <Button
+              variant="starlight"
+              size="icon"
+              aria-label="Ảnh tiếp theo"
+              onClick={() => goTo(selected + 1)}
+            >
+              <ArrowRight />
+            </Button>
           </div>
           <div className="csg-progress" aria-hidden="true">
             <span style={{ width: `${progress}%` }} />
             <div className="csg-markers">
-              {story.map((image, index) => <i key={image} className={index === selected ? "is-active" : ""} />)}
+              {story.map((image, index) => (
+                <i key={image} className={index === selected ? "is-active" : ""} />
+              ))}
             </div>
           </div>
         </div>
@@ -163,7 +197,10 @@ export function CosmosStoryGallery() {
                 aria-controls="csg-art"
                 onClick={() => goTo(index)}
               >
-                <span><small>{String(index + 1).padStart(2, "0")}</small>{storyTitles[image]}</span>
+                <span>
+                  <small>{String(index + 1).padStart(2, "0")}</small>
+                  {storyTitles[image]}
+                </span>
                 <span aria-hidden="true">↗</span>
               </Button>
             ))}

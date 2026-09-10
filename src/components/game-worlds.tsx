@@ -1,8 +1,8 @@
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "./ui/button";
-import kingdomAsset from "@/assets/cosmos/kingdom-hotel.png.asset.json";
-import cityAsset from "@/assets/cosmos/fun-city-beach.png.asset.json";
-import treasureAsset from "@/assets/cosmos/fun-treasure-city.png.asset.json";
+const kingdomAsset = { url: "/cosmos/imported/kingdom-hotel.png" };
+const cityAsset = { url: "/cosmos/imported/fun-city-beach.png" };
+const treasureAsset = { url: "/cosmos/imported/fun-treasure-city.png" };
 
 const games = [
   {
@@ -36,18 +36,30 @@ export function GameWorlds() {
     <section id="games" className="gw-section" aria-labelledby="gw-title">
       <header className="gw-heading">
         <span>05 · CHOOSE YOUR WORLD</span>
-        <h2 id="gw-title">CHỌN THẾ GIỚI<br />BẠN MUỐN BƯỚC VÀO</h2>
+        <h2 id="gw-title">
+          CHỌN THẾ GIỚI
+          <br />
+          BẠN MUỐN BƯỚC VÀO
+        </h2>
       </header>
       <div className="gw-track">
         {games.map((game) => (
           <article key={game.title} className="gw-world">
-            <img src={game.image} alt={`Bìa game ${game.title}`} width="768" height="1365" loading="lazy" />
+            <img
+              src={game.image}
+              alt={`Bìa game ${game.title}`}
+              width="768"
+              height="1365"
+              loading="lazy"
+            />
             <div className="gw-overlay">
               <p>Sáng tạo bởi {game.creator}</p>
               <h3>{game.title}</h3>
               <span>{game.description}</span>
               <Button asChild variant="cosmos" size="lg">
-                <a href={game.href} target="_blank" rel="noreferrer">{game.cta} <ArrowUpRight /></a>
+                <a href={game.href} target="_blank" rel="noreferrer">
+                  {game.cta} <ArrowUpRight />
+                </a>
               </Button>
             </div>
           </article>

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Volume2, VolumeX } from "lucide-react";
 import { Button } from "./ui/button";
-import videoAsset from "@/assets/cosmos/fun-cosmos-cinematic.mp4.asset.json";
-import posterAsset from "@/assets/cosmos/fun-cosmos-cinematic-poster.jpg.asset.json";
+const videoAsset = { url: "/cosmos/imported/fun-cosmos-cinematic.mp4" };
+const posterAsset = { url: "/cosmos/imported/fun-cosmos-cinematic-poster.jpg" };
 
 export function CosmosCinema() {
   const video = useRef<HTMLVideoElement>(null);
@@ -45,7 +45,6 @@ export function CosmosCinema() {
             />
           )}
         </div>
-        <div className="cc-shade" />
         <div className="cc-overlay">
           <div className="cc-copy">
             <p className="cc-kicker">5D NEW EARTH ROLE-PLAYING GAME</p>
@@ -53,12 +52,15 @@ export function CosmosCinema() {
           </div>
           <div className="cc-lower">
             <p>
-              Một thế giới nơi bạn khám phá, học hỏi, sáng tạo<br className="cc-copy-break" />
+              Một thế giới nơi bạn khám phá, học hỏi, sáng tạo
+              <br className="cc-copy-break" />
               và cùng nhau kiến tạo tương lai.
             </p>
             <div className="cc-actions">
               <Button asChild variant="cosmos" size="lg">
-                <a href="/cosmos">KHÁM PHÁ FUN COSMOS <ArrowRight /></a>
+                <a href="/cosmos">
+                  KHÁM PHÁ FUN COSMOS <ArrowRight />
+                </a>
               </Button>
               <Button asChild variant="starlight" size="lg">
                 <a href="#games">CHỌN THẾ GIỚI</a>

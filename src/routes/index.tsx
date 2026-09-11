@@ -188,6 +188,7 @@ function Index() {
           HÀNH TRÌNH BẮT ĐẦU <ArrowDown size={15} />
         </a>
       </section>
+      <GameWorlds />
       <UrantiaCosmosScene background="/cosmos/cosmic-orbits.png" />
       <TopicGallery
         id="urantia-gallery"
@@ -204,7 +205,6 @@ function Index() {
       />
       <CosmosCinema />
       <CosmosStoryGallery />
-      <GameWorlds />
 
       <section id="angel" data-chapter className="lc-section lc-angel">
         <div className="lc-split">

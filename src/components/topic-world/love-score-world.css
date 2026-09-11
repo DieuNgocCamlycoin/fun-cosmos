@@ -64,6 +64,32 @@
   animation: ls-float 9s ease-in-out infinite;
 }
 
+/* Cha: lớn hơn ~30%, giữ nguyên asset, đáy tan mềm vào mây/ánh sáng */
+.ls-figure.ls-father {
+  max-width: 470px;
+  z-index: 2;
+}
+.ls-figure.ls-father img {
+  height: min(74svh, 700px);
+  object-position: center top;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
+  filter: drop-shadow(0 0 26px rgba(255, 240, 189, 0.45)) saturate(1.02);
+}
+
+/* Angel: lớn hơn ~40%, ưu tiên mặt và đôi cánh, có thể tràn nhẹ ngoài khung */
+.ls-figure.ls-angel {
+  max-width: 500px;
+  z-index: 2;
+}
+.ls-figure.ls-angel img {
+  height: min(78svh, 740px);
+  object-position: center top;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 80%, rgba(0, 0, 0, 0.5) 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 80%, rgba(0, 0, 0, 0.5) 92%, transparent 100%);
+  filter: drop-shadow(0 0 34px rgba(255, 246, 214, 0.5));
+}
+
 .ls-figure.ls-angel img {
   animation-delay: -3.5s;
 }

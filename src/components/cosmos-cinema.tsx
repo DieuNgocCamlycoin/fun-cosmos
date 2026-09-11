@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Volume2, VolumeX } from "lucide-react";
+import { ArrowRight, Volume2, VolumeX, Maximize2 } from "lucide-react";
 import { Button } from "./ui/button";
+import { openFullscreen } from "@/lib/fullscreen";
 const videoAsset = { url: "/cosmos/imported/fun-cosmos-cinematic.mp4" };
 const posterAsset = { url: "/cosmos/imported/fun-cosmos-cinematic-poster.jpg" };
 
 export function CosmosCinema() {
   const video = useRef<HTMLVideoElement>(null);
+  const frame = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
 

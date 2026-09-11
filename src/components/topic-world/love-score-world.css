@@ -45,7 +45,7 @@
 .ls-hero-inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.5fr) minmax(0, 1.2fr);
   align-items: center;
   justify-items: center;
   gap: clamp(0.5rem, 3vw, 2rem);
@@ -520,6 +520,16 @@
   }
   .ls-figure img {
     height: clamp(180px, 32vw, 280px);
+  }
+  .ls-figure.ls-father,
+  .ls-figure.ls-angel {
+    max-width: 100%;
+  }
+  .ls-figure.ls-father img {
+    height: clamp(240px, 44vw, 360px);
+  }
+  .ls-figure.ls-angel img {
+    height: clamp(250px, 46vw, 380px);
   }
   .ls-hero-copy {
     padding: 20px 0;

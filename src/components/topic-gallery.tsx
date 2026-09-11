@@ -1,7 +1,8 @@
-import { useState, useRef, useEffect } from "react";
-import { ArrowRight, Pause, Play } from "lucide-react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
+import { ArrowRight, Pause, Play, Maximize2 } from "lucide-react";
 import { ArtworkViewer } from "./story-artwork";
 import { descriptions } from "./artwork-descriptions";
+import { openFullscreen } from "@/lib/fullscreen";
 
 export function TopicGallery({
   id,
@@ -9,13 +10,16 @@ export function TopicGallery({
   images,
   labels,
   chapter,
+  footer,
 }: {
   id: string;
   title: string;
   images: number[];
   labels: string[];
   chapter: string;
+  footer?: ReactNode;
 }) {
+  const stage = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLElement>(null);
   const idleUntil = useRef(0);
   const noteActivity = () => {

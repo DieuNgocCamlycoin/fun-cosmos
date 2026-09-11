@@ -1,5 +1,5 @@
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
-import { UrantiaCosmosScene } from "@/components/urantia-cosmos-scene";
+
 import { TopicGallery } from "@/components/topic-gallery";
 import { CosmosCinema } from "@/components/cosmos-cinema";
 import { CosmosStoryGallery } from "@/components/cosmos-story-gallery";

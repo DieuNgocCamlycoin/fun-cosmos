@@ -45,7 +45,7 @@
 .ls-hero-inner {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.5fr) minmax(0, 1.2fr);
   align-items: center;
   justify-items: center;
   gap: clamp(0.5rem, 3vw, 2rem);
@@ -62,6 +62,32 @@
   object-fit: contain;
   filter: drop-shadow(0 0 16px #fff0bd66);
   animation: ls-float 9s ease-in-out infinite;
+}
+
+/* Cha: lớn hơn ~30%, giữ nguyên asset, đáy tan mềm vào mây/ánh sáng */
+.ls-figure.ls-father {
+  max-width: 470px;
+  z-index: 2;
+}
+.ls-figure.ls-father img {
+  height: min(74svh, 700px);
+  object-position: center top;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
+  filter: drop-shadow(0 0 26px rgba(255, 240, 189, 0.45)) saturate(1.02);
+}
+
+/* Angel: lớn hơn ~40%, ưu tiên mặt và đôi cánh, có thể tràn nhẹ ngoài khung */
+.ls-figure.ls-angel {
+  max-width: 500px;
+  z-index: 2;
+}
+.ls-figure.ls-angel img {
+  height: min(78svh, 740px);
+  object-position: center top;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 80%, rgba(0, 0, 0, 0.5) 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 80%, rgba(0, 0, 0, 0.5) 92%, transparent 100%);
+  filter: drop-shadow(0 0 34px rgba(255, 246, 214, 0.5));
 }
 
 .ls-figure.ls-angel img {
@@ -494,6 +520,16 @@
   }
   .ls-figure img {
     height: clamp(180px, 32vw, 280px);
+  }
+  .ls-figure.ls-father,
+  .ls-figure.ls-angel {
+    max-width: 100%;
+  }
+  .ls-figure.ls-father img {
+    height: clamp(240px, 44vw, 360px);
+  }
+  .ls-figure.ls-angel img {
+    height: clamp(250px, 46vw, 380px);
   }
   .ls-hero-copy {
     padding: 20px 0;

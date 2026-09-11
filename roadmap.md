@@ -15,3 +15,5 @@
 - [x] Refine the FUN COSMOS cinema framing, title placement, and compact metallic CTAs
 - [x] Expand the cinema scene and rebuild the infographic section as a compact story gallery
 - [x] Rebalance the cinema viewport framing and improve cinema/gallery text contrast
+- [x] Center the game-worlds headline with full gold coverage and airier card spacing
+- [x] Move KINGDOM HOTEL to the middle game portal

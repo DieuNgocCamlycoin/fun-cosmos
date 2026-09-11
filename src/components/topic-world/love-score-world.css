@@ -64,9 +64,14 @@
   animation: ls-float 9s ease-in-out infinite;
 }
 
-/* Cha: lớn hơn ~30%, giữ nguyên asset, đáy tan mềm vào mây/ánh sáng */
+/* Cha: lớn, chạm viền trái và đáy khung, giữ nguyên asset, đáy tan mềm vào mây/ánh sáng */
 .ls-figure.ls-father {
-  max-width: 470px;
+  max-width: none;
+  width: clamp(440px, 38vw, 660px);
+  justify-self: start;
+  align-self: end;
+  margin-left: calc(-1 * max(4vw, 40px));
+  margin-bottom: -40px;
   z-index: 2;
 }
 .ls-figure.ls-father img {
@@ -541,8 +546,24 @@
   .ls-figure.ls-angel {
     max-width: 100%;
   }
+  .ls-figure.ls-father {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 0;
+    align-self: center;
+  }
   .ls-figure.ls-father img {
     height: auto;
+  }
+  /* Nút vàng lớn, dễ chạm trên điện thoại */
+  .ls-hero-actions .tw-button {
+    font-size: 1.1rem;
+    padding: 0.95rem 1.8rem;
+    border-radius: 999px;
+  }
+  .ls-hero-actions .tw-outline {
+    font-size: 0.98rem;
+    padding: 0.85rem 1.5rem;
   }
   .ls-figure.ls-angel img {
     height: clamp(250px, 46vw, 380px);

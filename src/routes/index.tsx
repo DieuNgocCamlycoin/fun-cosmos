@@ -201,11 +201,10 @@ function Index() {
         </a>
       </section>
       <GameWorlds />
-      <UrantiaCosmosScene background="/cosmos/cosmic-orbits.png" />
       <TopicGallery
-        id="urantia-gallery"
+        id="origin"
         chapter="origin"
-        title="Urantia — Lời mời khám phá"
+        title="URANTIA"
         images={[1, 2, 3, 4, 5]}
         labels={[
           "Bức tranh vũ trụ",
@@ -214,7 +213,19 @@ function Index() {
           "Bảy thế giới dinh thự",
           "Hành trình hoàn thiện",
         ]}
+        footer={
+          <a
+            className="tg-urantia-logo"
+            href="https://urantia.fun.rich/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Khám phá Sách Urantia"
+          >
+            <img src="/cosmos/urantia.png" alt="Sách Urantia Tiếng Việt" loading="lazy" />
+          </a>
+        }
       />
+
       <CosmosCinema />
       <CosmosStoryGallery />
 

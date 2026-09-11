@@ -198,21 +198,29 @@ export function TopicGallery({
         onMouseUp={onDragEnd}
         onMouseLeave={onDragEnd}
       >
-        <div className="tg-art-stage">
-          {images.length > 1 && (
-            <div className="tg-controls">
-              <button
-                aria-label={paused ? "Tiếp tục trình chiếu" : "Tạm dừng trình chiếu"}
-                aria-pressed={paused}
-                onClick={() => setPaused(!paused)}
-              >
-                {paused ? <Play size={18} /> : <Pause size={18} />}
-              </button>
-              <button aria-label="Xem ảnh tiếp theo" onClick={moveForward}>
-                <ArrowRight size={20} />
-              </button>
-            </div>
-          )}
+        <div className="tg-art-stage" ref={stage}>
+          <div className="tg-controls">
+            {images.length > 1 && (
+              <>
+                <button
+                  aria-label={paused ? "Tiếp tục trình chiếu" : "Tạm dừng trình chiếu"}
+                  aria-pressed={paused}
+                  onClick={() => setPaused(!paused)}
+                >
+                  {paused ? <Play size={18} /> : <Pause size={18} />}
+                </button>
+                <button aria-label="Xem ảnh tiếp theo" onClick={moveForward}>
+                  <ArrowRight size={20} />
+                </button>
+              </>
+            )}
+            <button
+              aria-label="Mở rộng toàn màn hình"
+              onClick={() => void openFullscreen(stage.current)}
+            >
+              <Maximize2 size={18} />
+            </button>
+          </div>
           {images.map((image, index) => (
             <div
               key={image}

@@ -68,6 +68,16 @@ export function CosmosCinema() {
             </div>
           </div>
         </div>
+        <Button
+          type="button"
+          variant="starlight"
+          size="icon"
+          className="cc-expand"
+          aria-label="Mở rộng toàn màn hình"
+          onClick={() => void openFullscreen(video.current ?? frame.current)}
+        >
+          <Maximize2 />
+        </Button>
         {!reducedMotion && (
           <Button
             type="button"

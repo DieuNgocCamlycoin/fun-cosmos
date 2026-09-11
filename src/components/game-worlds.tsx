@@ -6,16 +6,16 @@ import treasureAsset from "@/assets/cosmos/fun-treasure-city-cover.png.asset.jso
 
 const games = [
   {
-    title: "KINGDOM HOTEL",
-    cta: "BƯỚC VÀO KINGDOM HOTEL",
-    href: "https://funkingdom.itch.io/funcosmos10d",
-    image: kingdomAsset.url,
-  },
-  {
     title: "FUN CITY & BEACH",
     cta: "KHÁM PHÁ CITY & BEACH",
     href: "https://funkingdom.itch.io/funcosmos5d",
     image: cityAsset.url,
+  },
+  {
+    title: "KINGDOM HOTEL",
+    cta: "BƯỚC VÀO KINGDOM HOTEL",
+    href: "https://funkingdom.itch.io/funcosmos10d",
+    image: kingdomAsset.url,
   },
   {
     title: "FUN TREASURE CITY",

@@ -217,3 +217,11 @@
   .cc-expand { right: 8px; bottom: 62px; width: 44px; height: 44px; }
   .cc-frame { height: auto; aspect-ratio: 16/10; }
 }
+
+@media (max-width: 850px) {
+  .cc-expand { top: 8px; right: 8px; bottom: auto; }
+  .cc-lower { padding-inline: 10px; }
+  .cc-lower p { font-size: 12px; line-height: 1.45; }
+  .cc-actions { flex-wrap: wrap; gap: 8px; padding-right: 56px; }
+  .cc-actions a, .cc-actions button { font-size: 11px; white-space: normal; }
+}

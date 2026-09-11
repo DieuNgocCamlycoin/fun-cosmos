@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect, type ReactNode } from "react";
-import { ArrowRight, Pause, Play, Maximize2 } from "lucide-react";
+import { ArrowRight, Pause, Play } from "lucide-react";
 import { ArtworkViewer } from "./story-artwork";
 import { descriptions } from "./artwork-descriptions";
-import { openFullscreen } from "@/lib/fullscreen";
 
 export function TopicGallery({
   id,
@@ -19,7 +18,6 @@ export function TopicGallery({
   chapter: string;
   footer?: ReactNode;
 }) {
-  const stage = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLElement>(null);
   const idleUntil = useRef(0);
   const noteActivity = () => {
@@ -198,7 +196,7 @@ export function TopicGallery({
         onMouseUp={onDragEnd}
         onMouseLeave={onDragEnd}
       >
-        <div className="tg-art-stage" ref={stage}>
+        <div className="tg-art-stage">
           <div className="tg-controls">
             {images.length > 1 && (
               <>
@@ -214,12 +212,6 @@ export function TopicGallery({
                 </button>
               </>
             )}
-            <button
-              aria-label="Mở rộng toàn màn hình"
-              onClick={() => void openFullscreen(stage.current)}
-            >
-              <Maximize2 size={18} />
-            </button>
           </div>
           {images.map((image, index) => (
             <div

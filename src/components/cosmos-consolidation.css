@@ -239,3 +239,9 @@
     white-space: nowrap;
   }
 }
+
+@media (max-width: 850px) {
+  .lc-page .cc-cinema .cc-lower { max-width: 100%; padding-right: 46px; }
+  .lc-page .cc-cinema .cc-lower > p { width: auto; max-width: 100%; font-size: 12px; }
+  .lc-page .cc-cinema .cc-actions > a { height: 38px; min-height: 38px; padding-inline: 12px; font-size: 10px; }
+}

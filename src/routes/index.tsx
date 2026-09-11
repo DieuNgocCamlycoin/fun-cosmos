@@ -4,7 +4,7 @@ import { TopicGallery } from "@/components/topic-gallery";
 import { CosmosCinema } from "@/components/cosmos-cinema";
 import { CosmosStoryGallery } from "@/components/cosmos-story-gallery";
 import { GameWorlds } from "@/components/game-worlds";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { ArrowDown, ArrowRight, ExternalLink, Download, Check, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -16,6 +16,16 @@ import angelFallback from "@/assets/angel-web.jpg";
 import "@/living.css";
 import "@/components/cosmos-consolidation.css";
 export const Route = createFileRoute("/")({
+  beforeLoad: ({ search }) => {
+    const token = typeof search?.token === "string" ? search.token : "";
+
+    if (token) {
+      throw redirect({
+        to: "/reset-password",
+        search: { token },
+      });
+    }
+  },
   head: () => ({
     meta: [
       { title: "FUN COSMOS — Play the Cosmos, Live in Heaven" },

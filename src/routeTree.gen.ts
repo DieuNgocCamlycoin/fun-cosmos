@@ -13,8 +13,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AngelAiRouteImport } from './routes/angel-ai'
 import { Route as CosmosRouteImport } from './routes/cosmos'
 import { Route as EcosystemRouteImport } from './routes/ecosystem'
+import { Route as EmailVerifiedRouteImport } from './routes/email-verified'
 import { Route as LoveScoreRouteImport } from './routes/love-score'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as YourTurnRouteImport } from './routes/your-turn'
+import { Route as ApiPublicResetPasswordRouteImport } from './routes/api/public/reset-password'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -36,14 +39,29 @@ const EcosystemRoute = EcosystemRouteImport.update({
   path: '/ecosystem',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmailVerifiedRoute = EmailVerifiedRouteImport.update({
+  id: '/email-verified',
+  path: '/email-verified',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoveScoreRoute = LoveScoreRouteImport.update({
   id: '/love-score',
   path: '/love-score',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const YourTurnRoute = YourTurnRouteImport.update({
   id: '/your-turn',
   path: '/your-turn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicResetPasswordRoute = ApiPublicResetPasswordRouteImport.update({
+  id: '/api/public/reset-password',
+  path: '/api/public/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -52,16 +70,22 @@ export interface FileRoutesByFullPath {
   '/angel-ai': typeof AngelAiRoute
   '/cosmos': typeof CosmosRoute
   '/ecosystem': typeof EcosystemRoute
+  '/email-verified': typeof EmailVerifiedRoute
   '/love-score': typeof LoveScoreRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/your-turn': typeof YourTurnRoute
+  '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/angel-ai': typeof AngelAiRoute
   '/cosmos': typeof CosmosRoute
   '/ecosystem': typeof EcosystemRoute
+  '/email-verified': typeof EmailVerifiedRoute
   '/love-score': typeof LoveScoreRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/your-turn': typeof YourTurnRoute
+  '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,24 +93,46 @@ export interface FileRoutesById {
   '/angel-ai': typeof AngelAiRoute
   '/cosmos': typeof CosmosRoute
   '/ecosystem': typeof EcosystemRoute
+  '/email-verified': typeof EmailVerifiedRoute
   '/love-score': typeof LoveScoreRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/your-turn': typeof YourTurnRoute
+  '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/angel-ai' | '/cosmos' | '/ecosystem' | '/love-score' | '/your-turn'
+    | '/'
+    | '/angel-ai'
+    | '/cosmos'
+    | '/ecosystem'
+    | '/email-verified'
+    | '/love-score'
+    | '/reset-password'
+    | '/your-turn'
+    | '/api/public/reset-password'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/angel-ai' | '/cosmos' | '/ecosystem' | '/love-score' | '/your-turn'
+    | '/'
+    | '/angel-ai'
+    | '/cosmos'
+    | '/ecosystem'
+    | '/email-verified'
+    | '/love-score'
+    | '/reset-password'
+    | '/your-turn'
+    | '/api/public/reset-password'
   id:
     | '__root__'
     | '/'
     | '/angel-ai'
     | '/cosmos'
     | '/ecosystem'
+    | '/email-verified'
     | '/love-score'
+    | '/reset-password'
     | '/your-turn'
+    | '/api/public/reset-password'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,8 +140,11 @@ export interface RootRouteChildren {
   AngelAiRoute: typeof AngelAiRoute
   CosmosRoute: typeof CosmosRoute
   EcosystemRoute: typeof EcosystemRoute
+  EmailVerifiedRoute: typeof EmailVerifiedRoute
   LoveScoreRoute: typeof LoveScoreRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   YourTurnRoute: typeof YourTurnRoute
+  ApiPublicResetPasswordRoute: typeof ApiPublicResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -128,6 +177,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EcosystemRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/email-verified': {
+      id: '/email-verified'
+      path: '/email-verified'
+      fullPath: '/email-verified'
+      preLoaderRoute: typeof EmailVerifiedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/love-score': {
       id: '/love-score'
       path: '/love-score'
@@ -135,11 +191,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoveScoreRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/your-turn': {
       id: '/your-turn'
       path: '/your-turn'
       fullPath: '/your-turn'
       preLoaderRoute: typeof YourTurnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/reset-password': {
+      id: '/api/public/reset-password'
+      path: '/api/public/reset-password'
+      fullPath: '/api/public/reset-password'
+      preLoaderRoute: typeof ApiPublicResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -150,8 +220,11 @@ const rootRouteChildren: RootRouteChildren = {
   AngelAiRoute: AngelAiRoute,
   CosmosRoute: CosmosRoute,
   EcosystemRoute: EcosystemRoute,
+  EmailVerifiedRoute: EmailVerifiedRoute,
   LoveScoreRoute: LoveScoreRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   YourTurnRoute: YourTurnRoute,
+  ApiPublicResetPasswordRoute: ApiPublicResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

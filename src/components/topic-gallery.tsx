@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 import { ArrowRight, Pause, Play } from "lucide-react";
 import { ArtworkViewer } from "./story-artwork";
 import { descriptions } from "./artwork-descriptions";
@@ -9,12 +9,14 @@ export function TopicGallery({
   images,
   labels,
   chapter,
+  footer,
 }: {
   id: string;
   title: string;
   images: number[];
   labels: string[];
   chapter: string;
+  footer?: ReactNode;
 }) {
   const root = useRef<HTMLElement>(null);
   const idleUntil = useRef(0);
@@ -195,20 +197,22 @@ export function TopicGallery({
         onMouseLeave={onDragEnd}
       >
         <div className="tg-art-stage">
-          {images.length > 1 && (
-            <div className="tg-controls">
-              <button
-                aria-label={paused ? "Tiếp tục trình chiếu" : "Tạm dừng trình chiếu"}
-                aria-pressed={paused}
-                onClick={() => setPaused(!paused)}
-              >
-                {paused ? <Play size={18} /> : <Pause size={18} />}
-              </button>
-              <button aria-label="Xem ảnh tiếp theo" onClick={moveForward}>
-                <ArrowRight size={20} />
-              </button>
-            </div>
-          )}
+          <div className="tg-controls">
+            {images.length > 1 && (
+              <>
+                <button
+                  aria-label={paused ? "Tiếp tục trình chiếu" : "Tạm dừng trình chiếu"}
+                  aria-pressed={paused}
+                  onClick={() => setPaused(!paused)}
+                >
+                  {paused ? <Play size={18} /> : <Pause size={18} />}
+                </button>
+                <button aria-label="Xem ảnh tiếp theo" onClick={moveForward}>
+                  <ArrowRight size={20} />
+                </button>
+              </>
+            )}
+          </div>
           {images.map((image, index) => (
             <div
               key={image}
@@ -243,6 +247,7 @@ export function TopicGallery({
             ))}
           </div>
         )}
+        {footer}
       </div>
     </section>
   );

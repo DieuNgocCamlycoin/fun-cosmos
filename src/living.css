@@ -2873,3 +2873,40 @@
   .lc-art-dialog { width: 94vw!important; height: 86dvh; max-height: 86dvh; padding: 14px; gap: 8px; }
   .lc-art-dialog h2 { font-size: 14px; }
 }
+
+/* --- Mobile sync 2026-09-11: compact hero, image-first galleries --- */
+@media (max-width: 700px) {
+  .lc-hero { min-height: calc(100svh - var(--lc-nav-height)); padding-block: 18px 12px; }
+  .lc-hero-copy h1 { font-size: clamp(26px, 8.4vw, 34px) !important; line-height: 1.14; margin: 6px 0 10px; }
+  .lc-hero-copy > p { font-size: 14px; line-height: 1.5; max-width: 26ch; }
+  .lc-hero .lc-eyebrow { font-size: 9px; letter-spacing: .14em; }
+  .lc-hero-copy { max-width: 66%; }
+  .lc-hero .lc-father {
+    width: min(56vw, 260px);
+    height: auto;
+    max-height: 62svh;
+    object-fit: contain;
+    object-position: right top;
+    top: 8%;
+    bottom: auto;
+  }
+  .lc-hero-note { font-size: 11px; margin-top: 10px; }
+  .lc-hero .lc-scroll { display: none; }
+
+  .tg-section { padding: 22px 10px 28px; gap: 14px; }
+  .tg-copy {
+    height: auto;
+    padding: 12px 12px 14px;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+  .tg-copy h2 { margin: 0; font-size: 30px; }
+  .tg-copy .tg-choices,
+  .tg-copy .tg-caption-stack { display: none; }
+  .tg-art-stage { aspect-ratio: 16/10; border-radius: 16px; }
+  .tg-urantia-logo { display: block; width: 92px; margin: 14px auto 0; }
+  .tg-urantia-logo img { width: 100%; height: auto; }
+}
+.tg-urantia-logo { display: block; width: 120px; margin: 18px auto 0; }
+.tg-urantia-logo img { width: 100%; height: auto; }

@@ -6,7 +6,7 @@ export const Route = createFileRoute("/api/public/reset-password")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const secretKey = process.env.PLAYFAB_SECRET_KEY;
+        const secretKey = process.env["PLAYFAB_SECRET_KEY"];
 
         if (!secretKey) {
           return Response.json(

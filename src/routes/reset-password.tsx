@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/reset-password")({
   validateSearch: (search: Record<string, unknown>) => {
     return {
-      token: typeof search.token === "string" ? search.token : undefined,
+      token: typeof search["token"] === "string" ? (search["token"] as string) : undefined,
     };
   },
   head: () => ({

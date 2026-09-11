@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Volume2, VolumeX } from "lucide-react";
+import { ArrowRight, Volume2, VolumeX, Maximize2 } from "lucide-react";
 import { Button } from "./ui/button";
+import { openFullscreen } from "@/lib/fullscreen";
 const videoAsset = { url: "/cosmos/imported/fun-cosmos-cinematic.mp4" };
 const posterAsset = { url: "/cosmos/imported/fun-cosmos-cinematic-poster.jpg" };
 
 export function CosmosCinema() {
   const video = useRef<HTMLVideoElement>(null);
+  const frame = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -28,7 +30,7 @@ export function CosmosCinema() {
 
   return (
     <section id="cosmos-cinema" className="cc-cinema" aria-labelledby="cosmos-cinema-title">
-      <div className="cc-frame">
+      <div className="cc-frame" ref={frame}>
         <div className="cc-media" aria-hidden={reducedMotion}>
           {reducedMotion ? (
             <img src={posterAsset.url} alt="" width="1920" height="1080" />
@@ -52,7 +54,7 @@ export function CosmosCinema() {
           </div>
           <div className="cc-lower">
             <p>
-              Một thế giới nơi bạn khám phá, học hỏi, sáng tạo
+              Một thế giới nơi bạn khám phá, học hỏi, sáng tạo{" "}
               <br className="cc-copy-break" />
               và cùng nhau kiến tạo tương lai.
             </p>
@@ -68,6 +70,16 @@ export function CosmosCinema() {
             </div>
           </div>
         </div>
+        <Button
+          type="button"
+          variant="starlight"
+          size="icon"
+          className="cc-expand"
+          aria-label="Mở rộng toàn màn hình"
+          onClick={() => void openFullscreen(video.current ?? frame.current)}
+        >
+          <Maximize2 />
+        </Button>
         {!reducedMotion && (
           <Button
             type="button"

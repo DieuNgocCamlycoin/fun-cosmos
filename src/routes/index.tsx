@@ -1,5 +1,5 @@
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
-import { UrantiaCosmosScene } from "@/components/urantia-cosmos-scene";
+
 import { TopicGallery } from "@/components/topic-gallery";
 import { CosmosCinema } from "@/components/cosmos-cinema";
 import { CosmosStoryGallery } from "@/components/cosmos-story-gallery";
@@ -17,7 +17,9 @@ import "@/living.css";
 import "@/components/cosmos-consolidation.css";
 export const Route = createFileRoute("/")({
   beforeLoad: ({ search }) => {
-    const token = typeof search?.token === "string" ? search.token : "";
+    const raw = search as Record<string, unknown> | undefined;
+    const token = typeof raw?.["token"] === "string" ? (raw["token"] as string) : "";
+
 
     if (token) {
       throw redirect({
@@ -199,11 +201,10 @@ function Index() {
         </a>
       </section>
       <GameWorlds />
-      <UrantiaCosmosScene background="/cosmos/cosmic-orbits.png" />
       <TopicGallery
-        id="urantia-gallery"
+        id="origin"
         chapter="origin"
-        title="Urantia — Lời mời khám phá"
+        title="URANTIA"
         images={[1, 2, 3, 4, 5]}
         labels={[
           "Bức tranh vũ trụ",
@@ -212,7 +213,19 @@ function Index() {
           "Bảy thế giới dinh thự",
           "Hành trình hoàn thiện",
         ]}
+        footer={
+          <a
+            className="tg-urantia-logo"
+            href="https://urantia.fun.rich/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Khám phá Sách Urantia"
+          >
+            <img src="/cosmos/urantia.png" alt="Sách Urantia Tiếng Việt" loading="lazy" />
+          </a>
+        }
       />
+
       <CosmosCinema />
       <CosmosStoryGallery />
 

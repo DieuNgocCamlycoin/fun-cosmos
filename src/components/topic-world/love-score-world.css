@@ -546,8 +546,24 @@
   .ls-figure.ls-angel {
     max-width: 100%;
   }
+  .ls-figure.ls-father {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 0;
+    align-self: center;
+  }
   .ls-figure.ls-father img {
     height: auto;
+  }
+  /* Nút vàng lớn, dễ chạm trên điện thoại */
+  .ls-hero-actions .tw-button {
+    font-size: 1.1rem;
+    padding: 0.95rem 1.8rem;
+    border-radius: 999px;
+  }
+  .ls-hero-actions .tw-outline {
+    font-size: 0.98rem;
+    padding: 0.85rem 1.5rem;
   }
   .ls-figure.ls-angel img {
     height: clamp(250px, 46vw, 380px);

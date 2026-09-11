@@ -255,6 +255,7 @@ export function TopicGallery({
             ))}
           </div>
         )}
+        {footer}
       </div>
     </section>
   );

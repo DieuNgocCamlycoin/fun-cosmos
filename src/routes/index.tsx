@@ -17,7 +17,9 @@ import "@/living.css";
 import "@/components/cosmos-consolidation.css";
 export const Route = createFileRoute("/")({
   beforeLoad: ({ search }) => {
-    const token = typeof search?.token === "string" ? search.token : "";
+    const raw = search as Record<string, unknown> | undefined;
+    const token = typeof raw?.["token"] === "string" ? (raw["token"] as string) : "";
+
 
     if (token) {
       throw redirect({

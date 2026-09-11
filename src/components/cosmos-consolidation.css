@@ -173,3 +173,47 @@
   .gw-heading { text-align: left; margin-bottom: clamp(20px, 5vw, 30px); }
   .gw-track { gap: var(--gw-gap); }
 }
+
+/* --- Mobile sync 2026-09-11: shorter hero, card dots, image-first sections --- */
+.gw-dots { display: none; }
+@media (max-width: 850px) {
+  .gw-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .gw-dots button {
+    padding: 8px;
+    background: none;
+    border: 0;
+    line-height: 0;
+  }
+  .gw-dots button > span {
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: #ffe4a855;
+    box-shadow: inset 0 0 0 1px #ffe4a888;
+    transition: width 0.25s ease, background 0.25s ease;
+  }
+  .gw-dots button[aria-current="true"] > span {
+    width: 26px;
+    background: linear-gradient(120deg, #fff0b5, #efc55d);
+    box-shadow: 0 0 10px #ffd66e88;
+  }
+}
+
+/* Video and slideshow keep a landscape frame with an expand control on phones. */
+.cc-expand {
+  position: absolute;
+  z-index: 3;
+  right: clamp(14px, 2vw, 26px);
+  bottom: calc(clamp(14px, 2vw, 26px) + 52px);
+  border-radius: 50%;
+}
+@media (max-width: 850px) {
+  .cc-expand { right: 8px; bottom: 62px; width: 44px; height: 44px; }
+  .cc-frame { height: auto; aspect-ratio: 16/10; }
+}

@@ -30,7 +30,7 @@ export function CosmosCinema() {
 
   return (
     <section id="cosmos-cinema" className="cc-cinema" aria-labelledby="cosmos-cinema-title">
-      <div className="cc-frame">
+      <div className="cc-frame" ref={frame}>
         <div className="cc-media" aria-hidden={reducedMotion}>
           {reducedMotion ? (
             <img src={posterAsset.url} alt="" width="1920" height="1080" />

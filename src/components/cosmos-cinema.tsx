@@ -54,7 +54,7 @@ export function CosmosCinema() {
           </div>
           <div className="cc-lower">
             <p>
-              Một thế giới nơi bạn khám phá, học hỏi, sáng tạo
+              Một thế giới nơi bạn khám phá, học hỏi, sáng tạo{" "}
               <br className="cc-copy-break" />
               và cùng nhau kiến tạo tương lai.
             </p>

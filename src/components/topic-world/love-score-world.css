@@ -70,10 +70,26 @@
   z-index: 2;
 }
 .ls-figure.ls-father img {
-  height: min(74svh, 700px);
+  display: block;
+  height: auto;
+  aspect-ratio: 1;
   object-position: center top;
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 74%, rgba(0, 0, 0, 0.55) 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 67%,
+    rgba(0, 0, 0, 0.78) 71%,
+    rgba(0, 0, 0, 0.25) 75%,
+    transparent 79%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 67%,
+    rgba(0, 0, 0, 0.78) 71%,
+    rgba(0, 0, 0, 0.25) 75%,
+    transparent 79%
+  );
   filter: drop-shadow(0 0 26px rgba(255, 240, 189, 0.45)) saturate(1.02);
 }
 
@@ -526,7 +542,7 @@
     max-width: 100%;
   }
   .ls-figure.ls-father img {
-    height: clamp(240px, 44vw, 360px);
+    height: auto;
   }
   .ls-figure.ls-angel img {
     height: clamp(250px, 46vw, 380px);

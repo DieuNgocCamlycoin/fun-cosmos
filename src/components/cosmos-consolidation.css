@@ -225,3 +225,17 @@
   .cc-actions { flex-wrap: wrap; gap: 8px; padding-right: 56px; }
   .cc-actions a, .cc-actions button { font-size: 11px; white-space: normal; }
 }
+
+@media (max-width: 850px) {
+  .cc-cinema .cc-lower { padding: 0 10px 10px; width: 100%; }
+  .cc-cinema .cc-lower p { font-size: 12px; line-height: 1.45; max-width: 100%; white-space: normal; }
+  .cc-cinema .cc-copy-break { display: none; }
+  .cc-cinema .cc-actions { display: flex; flex-wrap: wrap; gap: 8px; padding-right: 52px; }
+  .cc-cinema .cc-actions a {
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    padding-inline: 12px;
+    height: 40px;
+    white-space: nowrap;
+  }
+}

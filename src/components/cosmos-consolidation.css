@@ -250,7 +250,7 @@
 @media (min-width: 851px) {
   .gw-track {
     grid-template-columns: minmax(0, 1.18fr) minmax(0, 1.3fr) minmax(0, 1.18fr);
-    max-width: min(1320px, calc((100svh - var(--lc-nav-height) - 190px) * 0.775 * 2.68 + 2 * var(--gw-gap)));
+    max-width: min(1320px, calc((100svh - var(--lc-nav-height) - 190px) * 2.18 + 2 * var(--gw-gap)));
   }
 }
 .gw-world--featured {

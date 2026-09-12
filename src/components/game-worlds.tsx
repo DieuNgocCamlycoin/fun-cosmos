@@ -63,10 +63,16 @@ export function GameWorlds() {
         <h2 id="gw-title">CHỌN THẾ GIỚI BẠN MUỐN BƯỚC VÀO</h2>
       </header>
       <div className="gw-track" ref={track}>
-        {games.map((game) => (
+        {games.map((game, index) => (
           <article
             key={game.title}
-            className={game.featured ? "gw-world gw-world--featured" : "gw-world"}
+            className={
+              "gw-world" +
+              (game.featured ? " gw-world--featured" : "") +
+              (pressed === index ? " gw-world--pressed" : "")
+            }
+            onClick={() => setPressed(index)}
+            onPointerDown={() => setPressed(index)}
           >
             <img
               src={game.image}

@@ -22,3 +22,4 @@
 - [x] Rebuild URANTIA as a banner: inline logo, new title, artwork first, no text panel
 - [x] Feature KINGDOM HOTEL and point it plus CHƠI NGAY at https://game.fun.rich/
 - [x] Verify the Urantia banner and game picker at 1440 / 1177 / 390 / 320
+- [x] Restore the original interactive URANTIA scene on desktop while retaining the banner gallery on phones

@@ -4,6 +4,8 @@ import { TopicGallery } from "@/components/topic-gallery";
 import { CosmosCinema } from "@/components/cosmos-cinema";
 import { CosmosStoryGallery } from "@/components/cosmos-story-gallery";
 import { GameWorlds } from "@/components/game-worlds";
+import { UrantiaCosmosScene } from "@/components/urantia-cosmos-scene";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { ArrowDown, ArrowRight, ExternalLink, Download, Check, Sparkles } from "lucide-react";
@@ -74,6 +76,7 @@ function Heading({
   );
 }
 function Index() {
+  const isMobile = useIsMobile();
   const [active, setActive] = useState("home"),
     [paused, setPaused] = useState(false),
     [role, setRole] = useState(1),
@@ -201,26 +204,30 @@ function Index() {
         </a>
       </section>
       <GameWorlds />
-      <TopicGallery
-        id="origin"
-        chapter="origin"
-        title="URANTIA — MỞ RA VŨ TRỤ"
-        images={[1, 2, 3, 4, 5]}
-        labels={[
-          "Bức tranh vũ trụ",
-          "Khám phá Sách Urantia",
-          "Trường học vĩ đại",
-          "Bảy thế giới dinh thự",
-          "Hành trình hoàn thiện",
-        ]}
-        banner
-        logo={{
-          src: "/cosmos/urantia.png",
-          alt: "Sách Urantia Tiếng Việt",
-          href: "https://urantia.fun.rich/",
-          label: "Khám phá Sách Urantia",
-        }}
-      />
+      {isMobile ? (
+        <TopicGallery
+          id="origin"
+          chapter="origin"
+          title="URANTIA — MỞ RA VŨ TRỤ"
+          images={[1, 2, 3, 4, 5]}
+          labels={[
+            "Bức tranh vũ trụ",
+            "Khám phá Sách Urantia",
+            "Trường học vĩ đại",
+            "Bảy thế giới dinh thự",
+            "Hành trình hoàn thiện",
+          ]}
+          banner
+          logo={{
+            src: "/cosmos/urantia.png",
+            alt: "Sách Urantia Tiếng Việt",
+            href: "https://urantia.fun.rich/",
+            label: "Khám phá Sách Urantia",
+          }}
+        />
+      ) : (
+        <UrantiaCosmosScene background="/cosmos/cosmic-orbits.png" />
+      )}
 
       <CosmosCinema />
       <CosmosStoryGallery />

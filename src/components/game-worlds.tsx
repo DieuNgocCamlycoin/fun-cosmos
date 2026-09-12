@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import kingdomAsset from "@/assets/cosmos/kingdom-hotel-cover.png.asset.json";
 import cityAsset from "@/assets/cosmos/fun-city-beach-cover.png.asset.json";
 import treasureAsset from "@/assets/cosmos/fun-treasure-city-cover.png.asset.json";
+import { GAME_URL } from "@/lib/links";
 
 const games = [
   {
@@ -11,18 +12,21 @@ const games = [
     cta: "KHÁM PHÁ CITY & BEACH",
     href: "https://funkingdom.itch.io/funcosmos5d",
     image: cityAsset.url,
+    featured: false,
   },
   {
     title: "KINGDOM HOTEL",
     cta: "BƯỚC VÀO KINGDOM HOTEL",
-    href: "https://funkingdom.itch.io/funcosmos10d",
+    href: GAME_URL,
     image: kingdomAsset.url,
+    featured: true,
   },
   {
     title: "FUN TREASURE CITY",
     cta: "BẮT ĐẦU FUN TREASURE CITY",
     href: "https://fun-cosmos.pages.dev/",
     image: treasureAsset.url,
+    featured: false,
   },
 ] as const;
 
@@ -60,7 +64,10 @@ export function GameWorlds() {
       </header>
       <div className="gw-track" ref={track}>
         {games.map((game) => (
-          <article key={game.title} className="gw-world">
+          <article
+            key={game.title}
+            className={game.featured ? "gw-world gw-world--featured" : "gw-world"}
+          >
             <img
               src={game.image}
               alt={`Bìa game ${game.title}`}

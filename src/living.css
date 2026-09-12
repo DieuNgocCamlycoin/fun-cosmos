@@ -2905,11 +2905,7 @@
   .tg-copy .tg-choices,
   .tg-copy .tg-caption-stack { display: none; }
   .tg-art-stage { aspect-ratio: 16/10; border-radius: 16px; }
-  .tg-urantia-logo { display: block; width: 92px; margin: 14px auto 0; }
-  .tg-urantia-logo img { width: 100%; height: auto; }
 }
-.tg-urantia-logo { display: block; width: 120px; margin: 18px auto 0; }
-.tg-urantia-logo img { width: 100%; height: auto; }
 
 /* --- Mobile banner hero 2026-09-12: tiêu đề trên / banner ngang giữa / hai nút dưới --- */
 @media (max-width: 700px) {
@@ -2993,3 +2989,23 @@
     white-space: nowrap;
   }
 }
+/* --- Urantia banner 2026-09-12: logo + title on one row, artwork directly below --- */
+.tg-banner{grid-template-columns:minmax(0,1fr);gap:clamp(12px,1.8vw,22px);align-items:start;}
+.tg-banner-head{display:flex;align-items:center;justify-content:center;gap:clamp(10px,1.4vw,18px);width:100%;}
+.tg-logo{flex:none;width:clamp(44px,4.6vw,62px);aspect-ratio:1;display:grid;place-items:center;border:1px solid #d6a7448c;border-radius:50%;background:#f6fbff;box-shadow:0 0 18px #ffdb7855,inset 0 1px #ffffff;transition:transform .25s ease,box-shadow .25s ease;}
+.tg-logo:hover,.tg-logo:focus-visible{transform:translateY(-2px);box-shadow:0 0 26px #ffdb7899;}
+.tg-logo img{width:88%;height:88%;object-fit:contain;}
+.tg-banner-head h2{margin:0;font-size:clamp(26px,3.2vw,46px);line-height:1.1;text-align:center;}
+.tg-banner .tg-art{padding:0;}
+.tg-banner .tg-progress{margin:10px 2px 8px;}
+.tg-banner .tg-art-stage{width:min(100%,calc((100svh - var(--lc-nav-height) - 190px) * 16 / 9));margin-inline:auto;}
+@media(min-width:851px){.tg-banner-head h2{white-space:nowrap;}}
+@media(max-width:850px){
+ .tg-banner{gap:14px;padding:24px 12px 30px;}
+ .tg-banner-head{gap:10px;}
+ .tg-logo{width:40px;}
+ .tg-banner-head h2{font-size:clamp(21px,6.4vw,30px);line-height:1.18;}
+ .tg-banner .tg-thumbnails button{flex:1 1 0;min-width:0;}
+ .tg-banner .tg-art .tg-thumbnails img{height:42px;}
+}
+@media(prefers-reduced-motion: reduce){.tg-logo{transition:none;}.tg-logo:hover,.tg-logo:focus-visible{transform:none;}}

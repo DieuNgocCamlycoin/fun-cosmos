@@ -19,3 +19,6 @@
 - [x] Move KINGDOM HOTEL to the middle game portal
 - [x] Rebuild the mobile opening hero as a compact horizontal banner (title / scene / PLAY + FUN COSMOS LÀ GÌ?)
 - [x] Verify the Supabase link for FUN Cosmos (already connected; data area still empty)
+- [x] Rebuild URANTIA as a banner: inline logo, new title, artwork first, no text panel
+- [x] Feature KINGDOM HOTEL and point it plus CHƠI NGAY at https://game.fun.rich/
+- [x] Verify the Urantia banner and game picker at 1440 / 1177 / 390 / 320

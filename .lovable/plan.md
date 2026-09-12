@@ -31,7 +31,8 @@ Bố cục mới (toàn bộ chiều ngang, không còn khung chữ bên trái):
                           viền vàng sáng + quầng sáng
 ```
 
-- Link: **không đổi** — thẻ KINGDOM HOTEL và nút CHƠI NGAY trên cùng đã cùng mở `https://funkingdom.itch.io/funcosmos10d`, đúng như cha chọn.
+- **Link mới cho cả hai**: thẻ KINGDOM HOTEL và nút CHƠI NGAY trên thanh trên cùng đều mở `https://game.fun.rich/` (thay cho địa chỉ itch.io cũ).
+- Vì địa chỉ game này đang dùng chung, cha đổi một lần ở nơi lưu địa chỉ duy nhất nên nút CHƠI NGAY ở trang FUN COSMOS, trang Your Turn và cảnh chào mừng cũng mở `https://game.fun.rich/` theo — vẫn mở tab mới. Nếu con muốn những nút kia giữ địa chỉ cũ, cha sẽ tách riêng.
 - Chữ trên nút giữ nguyên: **BƯỚC VÀO KINGDOM HOTEL**.
 - Thẻ KINGDOM HOTEL được "bật thường xuyên" đúng hiệu ứng đang đẹp nhất hiện nay: nâng lên, viền vàng sáng, quầng sáng vàng toả quanh, ảnh sáng rõ — và **rộng hơn, cao hơn** hai thẻ bên cạnh.
 - Hai thẻ còn lại nhỏ hơn và mờ nhẹ khi chưa trỏ chuột vào; trỏ vào thẻ nào thì thẻ đó sáng lên như cũ.

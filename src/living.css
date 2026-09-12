@@ -2910,3 +2910,81 @@
 }
 .tg-urantia-logo { display: block; width: 120px; margin: 18px auto 0; }
 .tg-urantia-logo img { width: 100%; height: auto; }
+
+/* --- Mobile banner hero 2026-09-12: tiêu đề trên / banner ngang giữa / hai nút dưới --- */
+@media (max-width: 700px) {
+  .lc-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto auto;
+    grid-template-areas: "kicker" "title" "lede" "banner" "actions";
+    gap: 12px;
+    min-height: auto;
+    padding: 14px 10px 20px;
+  }
+  .lc-hero:after,
+  .lc-hero-copy::before,
+  .lc-hero-note,
+  .lc-hero .lc-scroll,
+  .lc-hero .lc-stars,
+  .lc-hero .lc-portal-aura,
+  .lc-hero .lc-crystals { display: none !important; }
+  .lc-hero-copy { display: contents; }
+  .lc-hero .lc-eyebrow { grid-area: kicker; margin: 0; }
+  .lc-hero-copy h1 { grid-area: title; margin: 0; }
+  .lc-hero-copy > p { grid-area: lede; margin: 0; max-width: none; }
+  .lc-hero-scene {
+    grid-area: banner;
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background-image: none;
+    animation: none;
+    overflow: hidden;
+    border-radius: 18px;
+    border: 1px solid #e6cd90;
+    box-shadow: 0 16px 38px -20px #0b2f57a6, inset 0 0 0 1px #ffffff45;
+  }
+  .lc-hero-scene::before {
+    content: "";
+    position: absolute;
+    inset: -3%;
+    background-image: var(--scene);
+    background-size: cover;
+    background-position: center;
+    animation: lc-breathe 24s ease-in-out infinite alternate;
+  }
+  .lc-hero .lc-father {
+    grid-area: banner;
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 48%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 43% top;
+    justify-self: end;
+    align-self: stretch;
+    z-index: 1;
+    opacity: 1;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 42%);
+    mask-image: linear-gradient(90deg, transparent, #000 42%);
+  }
+  .lc-hero .lc-actions {
+    grid-area: actions;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+  }
+  .lc-hero .lc-actions a { padding: 12px 8px; font-size: 12.5px; }
+}

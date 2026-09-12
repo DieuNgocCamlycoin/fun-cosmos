@@ -44,5 +44,5 @@ Bố cục mới (toàn bộ chiều ngang, không còn khung chữ bên trái):
 
 - Soát lỗi kiểu dữ liệu và chạy thử trang thật bằng trình duyệt giả lập ở 1440×900, 1177×657, 390×844 và 320×568.
 - Xác nhận: hàng tiêu đề URANTIA có logo + chữ vàng kim đúng một hàng; ảnh lớn ngay bên dưới; không còn khung chữ; 5 ảnh nhỏ và các nút vẫn dùng được; không còn khoảng trống thừa hay ảnh bị cắt.
-- Xác nhận: KINGDOM HOTEL to và sáng hơn rõ rệt, bấm nút mở đúng game, hai thẻ kia vẫn mở đúng game của chúng.
+- Xác nhận: KINGDOM HOTEL to và sáng hơn rõ rệt; nút CHƠI NGAY và nút trên thẻ KINGDOM HOTEL cùng mở `https://game.fun.rich/`; hai thẻ kia vẫn mở đúng game của chúng.
 - Không có lỗi hiển thị, không có thanh kéo ngang, không có lỗi console.

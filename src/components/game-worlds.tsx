@@ -33,6 +33,7 @@ const games = [
 export function GameWorlds() {
   const track = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState(1);
+  const [pressed, setPressed] = useState<number | null>(null);
 
   useEffect(() => {
     const element = track.current;

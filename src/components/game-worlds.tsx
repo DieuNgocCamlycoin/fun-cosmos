@@ -12,6 +12,7 @@ const games = [
     cta: "KHÁM PHÁ CITY & BEACH",
     href: "https://funkingdom.itch.io/funcosmos5d",
     image: cityAsset.url,
+    featured: false,
   },
   {
     title: "KINGDOM HOTEL",
@@ -25,6 +26,7 @@ const games = [
     cta: "BẮT ĐẦU FUN TREASURE CITY",
     href: "https://fun-cosmos.pages.dev/",
     image: treasureAsset.url,
+    featured: false,
   },
 ] as const;
 
@@ -62,7 +64,10 @@ export function GameWorlds() {
       </header>
       <div className="gw-track" ref={track}>
         {games.map((game) => (
-          <article key={game.title} className="gw-world">
+          <article
+            key={game.title}
+            className={game.featured ? "gw-world gw-world--featured" : "gw-world"}
+          >
             <img
               src={game.image}
               alt={`Bìa game ${game.title}`}

@@ -17,3 +17,5 @@
 - [x] Rebalance the cinema viewport framing and improve cinema/gallery text contrast
 - [x] Center the game-worlds headline with full gold coverage and airier card spacing
 - [x] Move KINGDOM HOTEL to the middle game portal
+- [x] Rebuild the mobile opening hero as a compact horizontal banner (title / scene / PLAY + FUN COSMOS LÀ GÌ?)
+- [x] Verify the Supabase link for FUN Cosmos (already connected; data area still empty)

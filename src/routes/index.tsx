@@ -147,7 +147,7 @@ function Index() {
   const selected = platforms[planet] ?? platforms[0];
   return (
     <main className={`lc-page ${paused ? "lc-paused" : ""}`}>
-      <a className="lc-skip" href="#about">
+      <a className="lc-skip" href="#games">
         Đến nội dung chính
       </a>
       <SiteHeader home active={active} />
@@ -178,10 +178,10 @@ function Index() {
           </p>
           <div className="lc-actions">
             <a href="#games" className="lc-gold">
-              Chơi game <ArrowRight size={18} />
+              PLAY <ArrowRight size={18} />
             </a>
-            <a className="lc-outline" href="#about">
-              Khám phá FUN COSMOS
+            <a className="lc-outline" href="#cosmos-cinema">
+              FUN COSMOS LÀ GÌ?
             </a>
           </div>
           <div className="lc-hero-note">

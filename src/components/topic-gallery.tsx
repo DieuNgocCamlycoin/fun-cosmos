@@ -3,6 +3,13 @@ import { ArrowRight, Pause, Play } from "lucide-react";
 import { ArtworkViewer } from "./story-artwork";
 import { descriptions } from "./artwork-descriptions";
 
+export type TopicGalleryLogo = {
+  src: string;
+  alt: string;
+  href: string;
+  label: string;
+};
+
 export function TopicGallery({
   id,
   title,
@@ -10,6 +17,8 @@ export function TopicGallery({
   labels,
   chapter,
   footer,
+  banner = false,
+  logo,
 }: {
   id: string;
   title: string;
@@ -17,6 +26,10 @@ export function TopicGallery({
   labels: string[];
   chapter: string;
   footer?: ReactNode;
+  /** Banner layout: logo + title on one row above the artwork, no text panel. */
+  banner?: boolean;
+  /** Supplied mark rendered before the title in banner layout. */
+  logo?: TopicGalleryLogo;
 }) {
   const root = useRef<HTMLElement>(null);
   const idleUntil = useRef(0);
@@ -129,58 +142,83 @@ export function TopicGallery({
     };
   };
 
-  return (
-    <section ref={root} id={id} data-chapter={chapter} className="tg-section">
-      <div className="tg-copy">
-        <h2>{title}</h2>
-
-        {images.length > 1 && (
-          <div className="tg-choices" aria-label={`Nội dung ${title}`}>
-            {images.map((image, index) => (
-              <button
-                key={image}
-                aria-pressed={selected === index}
-                aria-controls={`${id}-art`}
-                onClick={() => goTo(index)}
-              >
-                <span className="tg-choice-label">
-                  <small className="tg-choice-number" aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </small>
-                  {labels[index]}
-                </span>
-                <span aria-hidden="true" className="tg-choice-arrow">
-                  ↗
-                </span>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {images.length > 1 && (
-          <div className="tg-progress" aria-hidden="true">
-            {images.map((image, index) => (
-              <span
-                key={image}
-                className={index === selected ? "is-current" : ""}
-                style={index === selected ? { backgroundPosition: `${progress}px 0` } : undefined}
-              />
-            ))}
-          </div>
-        )}
-        <div className="tg-caption-stack">
-          {images.map((image, index) => (
-            <div
-              key={image}
-              className="tg-story-caption"
-              aria-hidden={selected !== index}
-              style={{ visibility: selected === index ? "visible" : "hidden" }}
-            >
-              <p>{descriptions[image]}</p>
-            </div>
-          ))}
-        </div>
+  const progressBar =
+    images.length > 1 ? (
+      <div className="tg-progress" aria-hidden="true">
+        {images.map((image, index) => (
+          <span
+            key={image}
+            className={index === selected ? "is-current" : ""}
+            style={index === selected ? { backgroundPosition: `${progress}px 0` } : undefined}
+          />
+        ))}
       </div>
+    ) : null;
+
+  return (
+    <section
+      ref={root}
+      id={id}
+      data-chapter={chapter}
+      className={`tg-section${banner ? " tg-banner" : ""}`}
+    >
+      {banner ? (
+        <header className="tg-banner-head">
+          {logo && (
+            <a
+              className="tg-logo"
+              href={logo.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={logo.label}
+            >
+              <img src={logo.src} alt={logo.alt} width="64" height="64" loading="lazy" />
+            </a>
+          )}
+          <h2>{title}</h2>
+        </header>
+      ) : (
+        <div className="tg-copy">
+          <h2>{title}</h2>
+
+          {images.length > 1 && (
+            <div className="tg-choices" aria-label={`Nội dung ${title}`}>
+              {images.map((image, index) => (
+                <button
+                  key={image}
+                  aria-pressed={selected === index}
+                  aria-controls={`${id}-art`}
+                  onClick={() => goTo(index)}
+                >
+                  <span className="tg-choice-label">
+                    <small className="tg-choice-number" aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </small>
+                    {labels[index]}
+                  </span>
+                  <span aria-hidden="true" className="tg-choice-arrow">
+                    ↗
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {progressBar}
+          <div className="tg-caption-stack">
+            {images.map((image, index) => (
+              <div
+                key={image}
+                className="tg-story-caption"
+                aria-hidden={selected !== index}
+                style={{ visibility: selected === index ? "visible" : "hidden" }}
+              >
+                <p>{descriptions[image]}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div
         id={`${id}-art`}
@@ -225,6 +263,8 @@ export function TopicGallery({
             </div>
           ))}
         </div>
+
+        {banner && progressBar}
 
         {images.length > 1 && (
           <div className="tg-thumbnails" aria-label={`Chọn ảnh: ${title}`}>

@@ -269,7 +269,8 @@
 .gw-world { cursor: pointer; }
 @media (max-width: 850px) {
   .gw-world--featured { transform: none; width: min(84vw, 360px); min-width: min(84vw, 360px); }
-  .gw-track .gw-world:not(.gw-world--featured) {
+  .gw-world--pressed { transform: none; }
+  .gw-track .gw-world:not(.gw-world--featured):not(.gw-world--pressed) {
     width: min(76vw, 340px);
     min-width: min(76vw, 340px);
     filter: brightness(0.92) saturate(0.97);
@@ -277,6 +278,6 @@
   .gw-track .gw-world:not(.gw-world--featured):active { filter: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .gw-world--featured { transform: none; }
-  .gw-world--featured > img { transform: none; }
+  .gw-world--featured, .gw-world--pressed { transform: none; }
+  .gw-world--featured > img, .gw-world--pressed > img { transform: none; }
 }

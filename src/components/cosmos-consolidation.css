@@ -245,3 +245,35 @@
   .lc-page .cc-cinema .cc-lower > p { width: auto; max-width: 100%; font-size: 12px; }
   .lc-page .cc-cinema .cc-actions > a { height: 38px; min-height: 38px; padding-inline: 12px; font-size: 10px; }
 }
+
+/* --- Game Worlds 2026-09-12: KINGDOM HOTEL featured (wider, always glowing), side cards recede --- */
+@media (min-width: 851px) {
+  .gw-track {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.42fr) minmax(0, 1fr);
+    max-width: min(1240px, calc((100svh - var(--lc-nav-height) - 190px) * 0.775 * 2.4 + 2 * var(--gw-gap)));
+  }
+}
+.gw-world--featured {
+  transform: translateY(-10px) scale(1.02);
+  border-color: #ffe9b0;
+  box-shadow: 0 22px 48px #071f444d, 0 0 40px #ffd66e66, 0 0 90px #ffe9a833;
+  z-index: 2;
+}
+.gw-world--featured > img { transform: scale(1.025); }
+.gw-track .gw-world:not(.gw-world--featured) { filter: brightness(0.84) saturate(0.94); }
+.gw-track .gw-world:not(.gw-world--featured):hover,
+.gw-track .gw-world:not(.gw-world--featured):focus-within { filter: none; }
+.gw-track:hover .gw-world--featured:not(:hover):not(:focus-within) { filter: none; }
+@media (max-width: 850px) {
+  .gw-world--featured { transform: none; width: min(86vw, 360px); min-width: min(86vw, 360px); }
+  .gw-track .gw-world:not(.gw-world--featured) {
+    width: min(72vw, 320px);
+    min-width: min(72vw, 320px);
+    filter: brightness(0.9) saturate(0.96);
+  }
+  .gw-track .gw-world:not(.gw-world--featured):active { filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gw-world--featured { transform: none; }
+  .gw-world--featured > img { transform: none; }
+}

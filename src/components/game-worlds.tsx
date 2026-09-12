@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import kingdomAsset from "@/assets/cosmos/kingdom-hotel-cover.png.asset.json";
 import cityAsset from "@/assets/cosmos/fun-city-beach-cover.png.asset.json";
 import treasureAsset from "@/assets/cosmos/fun-treasure-city-cover.png.asset.json";
+import { GAME_URL } from "@/lib/links";
 
 const games = [
   {
@@ -15,8 +16,9 @@ const games = [
   {
     title: "KINGDOM HOTEL",
     cta: "BƯỚC VÀO KINGDOM HOTEL",
-    href: "https://funkingdom.itch.io/funcosmos10d",
+    href: GAME_URL,
     image: kingdomAsset.url,
+    featured: true,
   },
   {
     title: "FUN TREASURE CITY",

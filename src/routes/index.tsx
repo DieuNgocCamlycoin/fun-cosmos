@@ -204,7 +204,7 @@ function Index() {
       <TopicGallery
         id="origin"
         chapter="origin"
-        title="URANTIA"
+        title="URANTIA — MỞ RA VŨ TRỤ"
         images={[1, 2, 3, 4, 5]}
         labels={[
           "Bức tranh vũ trụ",
@@ -213,17 +213,13 @@ function Index() {
           "Bảy thế giới dinh thự",
           "Hành trình hoàn thiện",
         ]}
-        footer={
-          <a
-            className="tg-urantia-logo"
-            href="https://urantia.fun.rich/"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Khám phá Sách Urantia"
-          >
-            <img src="/cosmos/urantia.png" alt="Sách Urantia Tiếng Việt" loading="lazy" />
-          </a>
-        }
+        banner
+        logo={{
+          src: "/cosmos/urantia.png",
+          alt: "Sách Urantia Tiếng Việt",
+          href: "https://urantia.fun.rich/",
+          label: "Khám phá Sách Urantia",
+        }}
       />
 
       <CosmosCinema />

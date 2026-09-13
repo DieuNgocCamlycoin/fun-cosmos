@@ -414,6 +414,17 @@ function Index() {
         images={[24]}
         labels={["Một thế giới — nhiều điểm đến"]}
       />
+      <TopicGallery
+        id="create-gallery"
+        chapter="create"
+        title="Ý tưởng của bạn bắt đầu từ đây"
+        images={[21, 26, 27]}
+        labels={[
+          "Your Turn — Bạn muốn tạo điều gì?",
+          "Năm câu hỏi tìm ý tưởng",
+          "Mini game — 99.999 Happy Camly Coin",
+        ]}
+      />
       <section id="create" data-chapter className="lc-section lc-create">
         <Heading label="Your turn" title="Vũ trụ bắt đầu từ ý tưởng của bạn.">
           Bạn không cần biết tất cả. Hãy bắt đầu từ điều mình yêu thích nhất.
@@ -445,17 +456,6 @@ function Index() {
           </a>
         </div>
       </section>
-      <TopicGallery
-        id="create-gallery"
-        chapter="create"
-        title="Ý tưởng của bạn bắt đầu từ đây"
-        images={[21, 26, 27]}
-        labels={[
-          "Your Turn — Bạn muốn tạo điều gì?",
-          "Năm câu hỏi tìm ý tưởng",
-          "Mini game — 99.999 Happy Camly Coin",
-        ]}
-      />
       <SiteFooter paused={paused} onPause={() => setPaused(!paused)} />
       <Dialog open={ideaOpen} onOpenChange={setIdeaOpen}>
         <DialogContent className="lc-idea-dialog">

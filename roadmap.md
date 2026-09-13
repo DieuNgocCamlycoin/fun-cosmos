@@ -25,3 +25,4 @@
 - [x] Restore the original interactive URANTIA scene on desktop while retaining the banner gallery on phones
 - [x] Remove the repeated Love Score summary section and keep its image gallery
 - [x] Enlarge FUN Ecosystem platform logos, synchronize platform details, and remove the consensus link
+- [x] Move the Your Turn idea section to the end of the homepage

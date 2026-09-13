@@ -5,6 +5,7 @@ import { CosmosCinema } from "@/components/cosmos-cinema";
 import { CosmosStoryGallery } from "@/components/cosmos-story-gallery";
 import { GameWorlds } from "@/components/game-worlds";
 import { UrantiaCosmosScene } from "@/components/urantia-cosmos-scene";
+import { YourTurnPrograms } from "@/components/your-turn-programs";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
@@ -414,17 +415,7 @@ function Index() {
         images={[24]}
         labels={["Một thế giới — nhiều điểm đến"]}
       />
-      <TopicGallery
-        id="create-gallery"
-        chapter="create"
-        title="Ý tưởng của bạn bắt đầu từ đây"
-        images={[21, 26, 27]}
-        labels={[
-          "Your Turn — Bạn muốn tạo điều gì?",
-          "Năm câu hỏi tìm ý tưởng",
-          "Mini game — 99.999 Happy Camly Coin",
-        ]}
-      />
+      <YourTurnPrograms />
       <section id="create" data-chapter className="lc-section lc-create">
         <Heading label="Your turn" title="Vũ trụ bắt đầu từ ý tưởng của bạn.">
           Bạn không cần biết tất cả. Hãy bắt đầu từ điều mình yêu thích nhất.

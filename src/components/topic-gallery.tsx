@@ -18,6 +18,7 @@ export function TopicGallery({
   chapter,
   footer,
   banner = false,
+  centered = false,
   logo,
 }: {
   id: string;
@@ -28,6 +29,8 @@ export function TopicGallery({
   footer?: ReactNode;
   /** Banner layout: logo + title on one row above the artwork, no text panel. */
   banner?: boolean;
+  /** Artwork-only layout centered in the viewport, without the side copy panel. */
+  centered?: boolean;
   /** Supplied mark rendered before the title in banner layout. */
   logo?: TopicGalleryLogo;
 }) {
@@ -160,7 +163,7 @@ export function TopicGallery({
       ref={root}
       id={id}
       data-chapter={chapter}
-      className={`tg-section${banner ? " tg-banner" : ""}`}
+      className={`tg-section${banner ? " tg-banner" : ""}${centered ? " tg-centered" : ""}`}
     >
       {banner ? (
         <header className="tg-banner-head">
@@ -177,7 +180,7 @@ export function TopicGallery({
           )}
           <h2>{title}</h2>
         </header>
-      ) : (
+      ) : centered ? null : (
         <div className="tg-copy">
           <h2>{title}</h2>
 

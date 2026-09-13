@@ -280,34 +280,8 @@ function Index() {
         images={[16, 17]}
         labels={["Năm vai trò đồng hành", "Angel AI hỗ trợ bạn như thế nào?"]}
       />
-      <section id="love" data-chapter className="lc-section lc-love">
-        <Heading label="Love Score" title="Mỗi đóng góp, một vì sao.">
-          Love Score ghi nhận những đóng góp tích cực đã được xác minh.
-        </Heading>
-        <div className="lc-proof">
-          {["Hành động", "Bằng chứng", "Xác minh", "Ghi nhận"].map((t, i) => (
-            <div key={t}>
-              <span>{["♡", "◇", "✓", "✧"][i]}</span>
-              <h3>{t}</h3>
-              <p>
-                {
-                  [
-                    "Học hỏi, sáng tạo, giúp đỡ và đóng góp.",
-                    "Ghi lại kết quả phù hợp với hoạt động.",
-                    "Kiểm tra đóng góp trước khi ghi nhận.",
-                    "Lưu dấu những giá trị bạn đã tạo ra.",
-                  ][i]
-                }
-              </p>
-            </div>
-          ))}
-        </div>
-        <p className="lc-love-note">
-          Love Score là lịch sử đóng góp — không đo linh hồn, mức độ giác ngộ hay giá trị con người.
-        </p>
-      </section>
       <TopicGallery
-        id="love-gallery"
+        id="love"
         chapter="love"
         title="Ghi nhận những điều tốt đẹp"
         images={[18, 19]}

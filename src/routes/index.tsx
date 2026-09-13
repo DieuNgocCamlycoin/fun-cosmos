@@ -414,6 +414,7 @@ function Index() {
         title="Kết nối FUN Ecosystem"
         images={[24]}
         labels={["Một thế giới — nhiều điểm đến"]}
+        centered
       />
       <YourTurnPrograms />
       <section id="create" data-chapter className="lc-section lc-create">

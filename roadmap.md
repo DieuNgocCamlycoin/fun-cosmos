@@ -27,4 +27,5 @@
 - [x] Enlarge FUN Ecosystem platform logos, synchronize platform details, and remove the consensus link
 - [x] Move the Your Turn idea section to the end of the homepage
 - [x] Stack the two Your Turn program artworks vertically and center them without a side content panel
+- [x] Remove the FUN Ecosystem gallery copy panel and center its artwork within the viewport
 - [x] Show the discussion questions and 99.999 programs together in a viewport-fit Your Turn panel

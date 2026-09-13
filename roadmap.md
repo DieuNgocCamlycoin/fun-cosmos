@@ -24,3 +24,4 @@
 - [x] Verify the Urantia banner and game picker at 1440 / 1177 / 390 / 320
 - [x] Restore the original interactive URANTIA scene on desktop while retaining the banner gallery on phones
 - [x] Remove the repeated Love Score summary section and keep its image gallery
+- [x] Enlarge FUN Ecosystem platform logos, synchronize platform details, and remove the consensus link

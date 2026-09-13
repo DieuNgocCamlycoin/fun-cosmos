@@ -310,7 +310,16 @@ function Index() {
         <div className="lc-solar-system">
           <div className="lc-solar-ring" />
           <div className="lc-solar-ring outer" />
-          <a className="lc-sun" href="https://cosmos.fun.rich/" target="_blank" rel="noreferrer">
+          <a
+            className="lc-sun"
+            href="https://cosmos.fun.rich/"
+            target="_blank"
+            rel="noreferrer"
+            data-selected={selectedPlatformId === "cosmos" ? "true" : undefined}
+            onMouseEnter={() => selectPlatform("cosmos")}
+            onFocus={() => selectPlatform("cosmos")}
+            onPointerDown={() => selectPlatform("cosmos")}
+          >
             <img src="/cosmos/cosmos.png" alt="Mở FUN COSMOS" />
             <span>FUN COSMOS</span>
           </a>

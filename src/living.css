@@ -2741,6 +2741,8 @@
 .eco-logo:is(:hover,:focus-visible,[data-selected="true"]),.eco-coin:is(:hover,:focus-visible,[data-selected="true"]){filter:brightness(1.15) drop-shadow(0 0 12px #ffe69c);scale:1.12;z-index:4;}
 .lc-ecosystem .lc-sun{width:22%;z-index:2;}
 .lc-ecosystem .lc-sun span{display:none;}
+.lc-ecosystem .lc-sun{transition:filter .25s ease,scale .25s ease;}
+.lc-ecosystem .lc-sun:is(:hover,:focus-visible,[data-selected="true"]){filter:brightness(1.12) drop-shadow(0 0 16px #ffe69c);scale:1.08;}
 .lc-solar-system:hover *,.lc-solar-system:focus-within *{animation-play-state:paused!important;}
 @keyframes eco-clockwise{to{transform:rotate(360deg)}}
 @keyframes eco-counterclockwise{to{transform:rotate(-360deg)}}

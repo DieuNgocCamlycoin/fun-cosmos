@@ -6,6 +6,7 @@ import { LivingScene, ArchiveDisclosure } from "@/components/topic-world/living-
 import { CuratedArchive } from "@/components/topic-world/curated-archive";
 import { IDEA_STORAGE_KEY, ideaFields, ideaHints } from "@/components/topic-world/idea-draft";
 import { externalLink } from "@/lib/links";
+import { SubmissionForm } from "@/components/submission-form";
 import "@/components/topic-world/next-worlds.css";
 
 export const Route = createFileRoute("/your-turn")({
@@ -273,6 +274,7 @@ function YourTurnWorld() {
               <Download size={18} /> Tải thẻ ý tưởng
             </button>
           </article>
+          <SubmissionForm initialAnswers={draft} onSave={(answers) => { setDraft(answers); try { localStorage.setItem(IDEA_STORAGE_KEY, JSON.stringify(answers)); setNotice("Đã lưu bản nháp trên trình duyệt này."); } catch { setNotice("Chưa thể lưu bản nháp."); } }} />
         </WorldSection>
         <WorldSection
           id="archive"

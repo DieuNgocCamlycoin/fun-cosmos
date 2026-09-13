@@ -58,6 +58,14 @@ const fields = [
   "Thế giới thay đổi thế nào?",
   "Kết nối với đời thật",
 ];
+const urantiaPlatform = [
+  "urantia",
+  "Sách Urantia",
+  "Khám phá Vũ trụ",
+  "Khám phá nguồn gốc, cấu trúc và hành trình tiến hóa của Vũ trụ qua Sách Urantia.",
+  "https://urantia.fun.rich/",
+] as const;
+const ecosystemPlatforms = [...platforms, urantiaPlatform] as const;
 function Heading({
   label,
   title,
@@ -80,7 +88,7 @@ function Index() {
   const [active, setActive] = useState("home"),
     [paused, setPaused] = useState(false),
     [role, setRole] = useState(1),
-    [planet, setPlanet] = useState(0),
+    [selectedPlatformId, setSelectedPlatformId] = useState("profile"),
     [ideaOpen, setIdeaOpen] = useState(false),
     [draft, setDraft] = useState<string[]>(Array(7).fill("")),
     [notice, setNotice] = useState("");
@@ -147,7 +155,8 @@ function Index() {
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
-  const selected = platforms[planet] ?? platforms[0];
+  const selected = ecosystemPlatforms.find((platform) => platform[0] === selectedPlatformId) ?? platforms[0];
+  const selectPlatform = (id: string) => setSelectedPlatformId(id);
   return (
     <main className={`lc-page ${paused ? "lc-paused" : ""}`}>
       <a className="lc-skip" href="#games">
@@ -301,15 +310,23 @@ function Index() {
         <div className="lc-solar-system">
           <div className="lc-solar-ring" />
           <div className="lc-solar-ring outer" />
-          <a className="lc-sun" href="https://cosmos.fun.rich/" target="_blank" rel="noreferrer">
+          <a
+            className="lc-sun"
+            href="https://cosmos.fun.rich/"
+            target="_blank"
+            rel="noreferrer"
+            data-selected={selectedPlatformId === "cosmos" ? "true" : undefined}
+            onMouseEnter={() => selectPlatform("cosmos")}
+            onFocus={() => selectPlatform("cosmos")}
+            onPointerDown={() => selectPlatform("cosmos")}
+          >
             <img src="/cosmos/cosmos.png" alt="Mở FUN COSMOS" />
             <span>FUN COSMOS</span>
           </a>
           <div className="eco-outer-orbit">
-            {[
-              ...platforms.filter((p) => !["cosmos", "money", "camly"].includes(p[0])),
-              ["urantia", "Sách Urantia", "", "", "https://urantia.fun.rich/"],
-            ].map((p, i, all) => (
+            {ecosystemPlatforms
+              .filter((platform) => !["cosmos", "money", "camly"].includes(platform[0]))
+              .map((p, i, all) => (
               <div
                 className="eco-position"
                 key={p[0]}
@@ -324,14 +341,10 @@ function Index() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={p[1]}
-                  onMouseEnter={() => {
-                    const index = platforms.findIndex((v) => v[0] === p[0]);
-                    if (index >= 0) setPlanet(index);
-                  }}
-                  onFocus={() => {
-                    const index = platforms.findIndex((v) => v[0] === p[0]);
-                    if (index >= 0) setPlanet(index);
-                  }}
+                   data-selected={selectedPlatformId === p[0] ? "true" : undefined}
+                   onMouseEnter={() => selectPlatform(p[0])}
+                   onFocus={() => selectPlatform(p[0])}
+                   onPointerDown={() => selectPlatform(p[0])}
                 >
                   <img src={`/cosmos/${p[0]}.png`} alt={p[1]} loading="lazy" />
                 </a>
@@ -356,6 +369,10 @@ function Index() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={type === "money" ? "FUN Money" : "Camly Coin"}
+                   data-selected={selectedPlatformId === type ? "true" : undefined}
+                   onMouseEnter={() => selectPlatform(type)}
+                   onFocus={() => selectPlatform(type)}
+                   onPointerDown={() => selectPlatform(type)}
                   >
                     <img src={`/cosmos/${type}.png`} alt="" />
                   </a>
@@ -389,14 +406,6 @@ function Index() {
             ))}
           </div>
         </details>
-        <a
-          className="lc-consensus"
-          href="https://urantia.fun.rich/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Tài liệu đồng thuận toàn cầu · Sách Urantia ↗
-        </a>
       </section>
       <TopicGallery
         id="ecosystem-gallery"

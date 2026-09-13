@@ -17,6 +17,10 @@ import { Route as EmailVerifiedRouteImport } from './routes/email-verified'
 import { Route as LoveScoreRouteImport } from './routes/love-score'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as YourTurnRouteImport } from './routes/your-turn'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as FunCosmosTraCuuRouteImport } from './routes/fun-cosmos.tra-cuu'
+import { Route as AdminFunCosmosRewardsRouteImport } from './routes/admin.fun-cosmos.rewards'
+import { Route as AdminFunCosmosSubmissionsRouteImport } from './routes/admin.fun-cosmos.submissions'
 import { Route as ApiPublicResetPasswordRouteImport } from './routes/api/public/reset-password'
 
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +63,27 @@ const YourTurnRoute = YourTurnRouteImport.update({
   path: '/your-turn',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FunCosmosTraCuuRoute = FunCosmosTraCuuRouteImport.update({
+  id: '/fun-cosmos/tra-cuu',
+  path: '/fun-cosmos/tra-cuu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminFunCosmosRewardsRoute = AdminFunCosmosRewardsRouteImport.update({
+  id: '/admin/fun-cosmos/rewards',
+  path: '/admin/fun-cosmos/rewards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminFunCosmosSubmissionsRoute =
+  AdminFunCosmosSubmissionsRouteImport.update({
+    id: '/admin/fun-cosmos/submissions',
+    path: '/admin/fun-cosmos/submissions',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicResetPasswordRoute = ApiPublicResetPasswordRouteImport.update({
   id: '/api/public/reset-password',
   path: '/api/public/reset-password',
@@ -74,6 +99,10 @@ export interface FileRoutesByFullPath {
   '/love-score': typeof LoveScoreRoute
   '/reset-password': typeof ResetPasswordRoute
   '/your-turn': typeof YourTurnRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
+  '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
+  '/admin/fun-cosmos/submissions': typeof AdminFunCosmosSubmissionsRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
 }
 export interface FileRoutesByTo {
@@ -85,6 +114,10 @@ export interface FileRoutesByTo {
   '/love-score': typeof LoveScoreRoute
   '/reset-password': typeof ResetPasswordRoute
   '/your-turn': typeof YourTurnRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
+  '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
+  '/admin/fun-cosmos/submissions': typeof AdminFunCosmosSubmissionsRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
 }
 export interface FileRoutesById {
@@ -97,6 +130,10 @@ export interface FileRoutesById {
   '/love-score': typeof LoveScoreRoute
   '/reset-password': typeof ResetPasswordRoute
   '/your-turn': typeof YourTurnRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
+  '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
+  '/admin/fun-cosmos/submissions': typeof AdminFunCosmosSubmissionsRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
 }
 export interface FileRouteTypes {
@@ -110,6 +147,10 @@ export interface FileRouteTypes {
     | '/love-score'
     | '/reset-password'
     | '/your-turn'
+    | '/admin/login'
+    | '/fun-cosmos/tra-cuu'
+    | '/admin/fun-cosmos/rewards'
+    | '/admin/fun-cosmos/submissions'
     | '/api/public/reset-password'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -121,6 +162,10 @@ export interface FileRouteTypes {
     | '/love-score'
     | '/reset-password'
     | '/your-turn'
+    | '/admin/login'
+    | '/fun-cosmos/tra-cuu'
+    | '/admin/fun-cosmos/rewards'
+    | '/admin/fun-cosmos/submissions'
     | '/api/public/reset-password'
   id:
     | '__root__'
@@ -132,6 +177,10 @@ export interface FileRouteTypes {
     | '/love-score'
     | '/reset-password'
     | '/your-turn'
+    | '/admin/login'
+    | '/fun-cosmos/tra-cuu'
+    | '/admin/fun-cosmos/rewards'
+    | '/admin/fun-cosmos/submissions'
     | '/api/public/reset-password'
   fileRoutesById: FileRoutesById
 }
@@ -144,6 +193,10 @@ export interface RootRouteChildren {
   LoveScoreRoute: typeof LoveScoreRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   YourTurnRoute: typeof YourTurnRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  FunCosmosTraCuuRoute: typeof FunCosmosTraCuuRoute
+  AdminFunCosmosRewardsRoute: typeof AdminFunCosmosRewardsRoute
+  AdminFunCosmosSubmissionsRoute: typeof AdminFunCosmosSubmissionsRoute
   ApiPublicResetPasswordRoute: typeof ApiPublicResetPasswordRoute
 }
 
@@ -205,6 +258,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof YourTurnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fun-cosmos/tra-cuu': {
+      id: '/fun-cosmos/tra-cuu'
+      path: '/fun-cosmos/tra-cuu'
+      fullPath: '/fun-cosmos/tra-cuu'
+      preLoaderRoute: typeof FunCosmosTraCuuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/fun-cosmos/rewards': {
+      id: '/admin/fun-cosmos/rewards'
+      path: '/admin/fun-cosmos/rewards'
+      fullPath: '/admin/fun-cosmos/rewards'
+      preLoaderRoute: typeof AdminFunCosmosRewardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/fun-cosmos/submissions': {
+      id: '/admin/fun-cosmos/submissions'
+      path: '/admin/fun-cosmos/submissions'
+      fullPath: '/admin/fun-cosmos/submissions'
+      preLoaderRoute: typeof AdminFunCosmosSubmissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/reset-password': {
       id: '/api/public/reset-password'
       path: '/api/public/reset-password'
@@ -224,6 +305,10 @@ const rootRouteChildren: RootRouteChildren = {
   LoveScoreRoute: LoveScoreRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   YourTurnRoute: YourTurnRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  FunCosmosTraCuuRoute: FunCosmosTraCuuRoute,
+  AdminFunCosmosRewardsRoute: AdminFunCosmosRewardsRoute,
+  AdminFunCosmosSubmissionsRoute: AdminFunCosmosSubmissionsRoute,
   ApiPublicResetPasswordRoute: ApiPublicResetPasswordRoute,
 }
 export const routeTree = rootRouteImport

@@ -29,3 +29,6 @@
 - [x] Stack the two Your Turn program artworks vertically and center them without a side content panel
 - [x] Remove the FUN Ecosystem gallery copy panel and center its artwork within the viewport
 - [x] Show the discussion questions and 99.999 programs together in a viewport-fit Your Turn panel
+- [x] Add guest submission, secure status lookup, duplicate controls, reward records, and audit history for 99.999 Happy Camly Coin
+- [x] Add separate Supabase Admin sign-in and protected submission/reward management pages
+- [ ] Provision the first Admin account and assign its admin role (waiting for an authorized account)

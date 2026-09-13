@@ -26,3 +26,4 @@
 - [x] Remove the repeated Love Score summary section and keep its image gallery
 - [x] Enlarge FUN Ecosystem platform logos, synchronize platform details, and remove the consensus link
 - [x] Move the Your Turn idea section to the end of the homepage
+- [x] Show the discussion questions and 99.999 programs together in a viewport-fit Your Turn panel

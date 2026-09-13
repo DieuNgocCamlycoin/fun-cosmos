@@ -17,6 +17,7 @@ import { Route as EmailVerifiedRouteImport } from './routes/email-verified'
 import { Route as LoveScoreRouteImport } from './routes/love-score'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as YourTurnRouteImport } from './routes/your-turn'
+import { Route as FunCosmosTraCuuRouteImport } from './routes/fun-cosmos.tra-cuu'
 import { Route as ApiPublicResetPasswordRouteImport } from './routes/api/public/reset-password'
 
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +60,11 @@ const YourTurnRoute = YourTurnRouteImport.update({
   path: '/your-turn',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FunCosmosTraCuuRoute = FunCosmosTraCuuRouteImport.update({
+  id: '/fun-cosmos/tra-cuu',
+  path: '/fun-cosmos/tra-cuu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicResetPasswordRoute = ApiPublicResetPasswordRouteImport.update({
   id: '/api/public/reset-password',
   path: '/api/public/reset-password',
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/love-score': typeof LoveScoreRoute
   '/reset-password': typeof ResetPasswordRoute
   '/your-turn': typeof YourTurnRoute
+  '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
 }
 export interface FileRoutesByTo {
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/love-score': typeof LoveScoreRoute
   '/reset-password': typeof ResetPasswordRoute
   '/your-turn': typeof YourTurnRoute
+  '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
 }
 export interface FileRoutesById {
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/love-score': typeof LoveScoreRoute
   '/reset-password': typeof ResetPasswordRoute
   '/your-turn': typeof YourTurnRoute
+  '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
 }
 export interface FileRouteTypes {
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/love-score'
     | '/reset-password'
     | '/your-turn'
+    | '/fun-cosmos/tra-cuu'
     | '/api/public/reset-password'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/love-score'
     | '/reset-password'
     | '/your-turn'
+    | '/fun-cosmos/tra-cuu'
     | '/api/public/reset-password'
   id:
     | '__root__'
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/love-score'
     | '/reset-password'
     | '/your-turn'
+    | '/fun-cosmos/tra-cuu'
     | '/api/public/reset-password'
   fileRoutesById: FileRoutesById
 }
@@ -144,6 +156,7 @@ export interface RootRouteChildren {
   LoveScoreRoute: typeof LoveScoreRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   YourTurnRoute: typeof YourTurnRoute
+  FunCosmosTraCuuRoute: typeof FunCosmosTraCuuRoute
   ApiPublicResetPasswordRoute: typeof ApiPublicResetPasswordRoute
 }
 
@@ -205,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof YourTurnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fun-cosmos/tra-cuu': {
+      id: '/fun-cosmos/tra-cuu'
+      path: '/fun-cosmos/tra-cuu'
+      fullPath: '/fun-cosmos/tra-cuu'
+      preLoaderRoute: typeof FunCosmosTraCuuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/reset-password': {
       id: '/api/public/reset-password'
       path: '/api/public/reset-password'
@@ -224,6 +244,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoveScoreRoute: LoveScoreRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   YourTurnRoute: YourTurnRoute,
+  FunCosmosTraCuuRoute: FunCosmosTraCuuRoute,
   ApiPublicResetPasswordRoute: ApiPublicResetPasswordRoute,
 }
 export const routeTree = rootRouteImport

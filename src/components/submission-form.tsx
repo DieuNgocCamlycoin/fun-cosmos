@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { useNavigate, useServerFn } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { Check, Copy, Send } from "lucide-react";
 import { submitFunCosmosEntry } from "@/lib/fun-cosmos-submissions.functions";
 import { Button } from "./ui/button";

@@ -1,4 +1,4 @@
-import { Clock3, Maximize2 } from "lucide-react";
+import { Maximize2, Send } from "lucide-react";
 import { ArtworkViewer } from "./story-artwork";
 import { Button } from "./ui/button";
 
@@ -13,11 +13,11 @@ const programs = [
     image: 27,
     title: "99.999 Happy Camly Coin",
     action: "Tham gia 99.999",
-    pending: true,
+    pending: false,
   },
 ] as const;
 
-export function YourTurnPrograms() {
+export function YourTurnPrograms({ onJoin }: { onJoin: () => void }) {
   return (
     <section id="create-gallery" data-chapter="create" className="yt-programs">
       <header className="yt-programs-head">
@@ -32,9 +32,9 @@ export function YourTurnPrograms() {
             </div>
             <footer className="yt-program-footer">
               <h3>{program.title}</h3>
-              {program.pending ? (
-                <Button className="yt-program-action" disabled aria-label="Tham gia 99.999 — sắp mở">
-                  <Clock3 aria-hidden="true" /> Sắp mở
+              {program.image === 27 ? (
+                <Button className="yt-program-action" onClick={onJoin} aria-label="Tham gia 99.999 Happy Camly Coin">
+                  <Send aria-hidden="true" /> {program.action}
                 </Button>
               ) : (
                 <span className="yt-program-action" aria-hidden="true">

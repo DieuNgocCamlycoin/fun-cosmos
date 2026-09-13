@@ -6,10 +6,11 @@ import { CosmosStoryGallery } from "@/components/cosmos-story-gallery";
 import { GameWorlds } from "@/components/game-worlds";
 import { UrantiaCosmosScene } from "@/components/urantia-cosmos-scene";
 import { YourTurnPrograms } from "@/components/your-turn-programs";
+import { SubmissionForm } from "@/components/submission-form";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
-import { ArrowDown, ArrowRight, ExternalLink, Download, Check, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { platforms, roles } from "@/components/living-data";
 
@@ -143,18 +144,6 @@ function Index() {
     } catch {
       setNotice("Chưa thể lưu trên trình duyệt. Bạn có thể tải thẻ ý tưởng.");
     }
-  }
-  function download() {
-    const blob = new Blob(
-      ["FUN COSMOS — Ý tưởng của tôi\n\n" + fields.map((f, i) => f + ": " + draft[i]).join("\n\n")],
-      { type: "text/plain;charset=utf-8" },
-    );
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "fun-cosmos-y-tuong.txt";
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   const selected = ecosystemPlatforms.find((platform) => platform[0] === selectedPlatformId) ?? platforms[0];
   const selectPlatform = (id: string) => setSelectedPlatformId(id);
@@ -416,7 +405,7 @@ function Index() {
         labels={["Một thế giới — nhiều điểm đến"]}
         centered
       />
-      <YourTurnPrograms />
+      <YourTurnPrograms onJoin={openIdea} />
       <section id="create" data-chapter className="lc-section lc-create">
         <Heading label="Your turn" title="Vũ trụ bắt đầu từ ý tưởng của bạn.">
           Bạn không cần biết tất cả. Hãy bắt đầu từ điều mình yêu thích nhất.
@@ -451,49 +440,11 @@ function Index() {
       <SiteFooter paused={paused} onPause={() => setPaused(!paused)} />
       <Dialog open={ideaOpen} onOpenChange={setIdeaOpen}>
         <DialogContent className="lc-idea-dialog">
-          <DialogTitle>FUN COSMOS của bạn</DialogTitle>
+          <DialogTitle>FUN COSMOS CỦA BẠN — 99.999 HAPPY CAMLY COIN</DialogTitle>
           <DialogDescription>
-            Phác thảo ý tưởng qua bảy thành phần. Bản nháp lưu trên trình duyệt của bạn; chưa gửi
-            đến hệ thống.
+            Hoàn thành bảy bước và thông tin nhận thưởng. Bạn không cần đăng nhập hay FUN ID.
           </DialogDescription>
-          <div className="lc-idea-fields">
-            {fields.map((f, i) => (
-              <label key={f}>
-                {i + 1}. {f}
-                <textarea
-                  maxLength={1000}
-                  value={draft[i]}
-                  onChange={(e) => {
-                    setDraft((d) => d.map((v, j) => (j === i ? e.target.value : v)));
-                    setNotice("");
-                  }}
-                  placeholder={
-                    [
-                      "Một người làm vườn…",
-                      "Tạo một nơi mọi người gặp nhau…",
-                      "Trồng cây và thiết kế khu vườn…",
-                      "Hướng dẫn chăm sóc cây…",
-                      "Kỹ năng mới, dấu mốc đóng góp…",
-                      "Một khu đất trở nên xanh hơn…",
-                      "Tham gia trồng cây cùng cộng đồng…",
-                    ][i]
-                  }
-                />
-              </label>
-            ))}
-          </div>
-          <div className="lc-actions">
-            <button className="lc-gold" disabled={!draft.some((v) => v.trim())} onClick={save}>
-              <Check size={16} /> Lưu bản nháp
-            </button>
-            <button
-              className="lc-outline"
-              disabled={!draft.some((v) => v.trim())}
-              onClick={download}
-            >
-              <Download size={16} /> Tải thẻ ý tưởng
-            </button>
-          </div>
+          <SubmissionForm initialAnswers={draft} onSave={(answers) => { setDraft(answers); try { localStorage.setItem("fun-cosmos-idea-v2", JSON.stringify(answers)); setNotice("Đã lưu bản nháp trên trình duyệt này."); } catch { setNotice("Chưa thể lưu bản nháp trên trình duyệt."); } }} />
           <p role="status">{notice}</p>
         </DialogContent>
       </Dialog>

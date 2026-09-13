@@ -51,15 +51,6 @@ export const Route = createFileRoute("/")({
   }),
   component: Index,
 });
-const fields = [
-  "Nhân vật",
-  "Ước mơ",
-  "Trải nghiệm / nhiệm vụ",
-  "Angel AI hỗ trợ gì?",
-  "Ghi nhận mong muốn",
-  "Thế giới thay đổi thế nào?",
-  "Kết nối với đời thật",
-];
 const urantiaPlatform = [
   "urantia",
   "Sách Urantia",
@@ -136,14 +127,6 @@ function Index() {
     }
     setNotice("");
     setIdeaOpen(true);
-  }
-  function save() {
-    try {
-      localStorage.setItem("fun-cosmos-idea-v2", JSON.stringify(draft));
-      setNotice("Đã lưu ý tưởng trên trình duyệt này.");
-    } catch {
-      setNotice("Chưa thể lưu trên trình duyệt. Bạn có thể tải thẻ ý tưởng.");
-    }
   }
   const selected = ecosystemPlatforms.find((platform) => platform[0] === selectedPlatformId) ?? platforms[0];
   const selectPlatform = (id: string) => setSelectedPlatformId(id);

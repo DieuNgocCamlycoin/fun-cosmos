@@ -53,6 +53,7 @@ export const submitFunCosmosEntry = createServerFn({ method: "POST" })
     const facebookNormalized = normalize(data.facebookUrl);
     const telegramNormalized = normalize(data.telegram).replace(/^https:\/\/t\.me\//, "@");
     const walletNormalized = normalize(data.walletAddress);
+    const [character = "", dream = "", gameplay = "", angelAiSupport = "", desiredReward = "", worldChange = "", realWorldConnection = ""] = data.answers;
     const { data: duplicates } = await admin.from("fun_cosmos_submissions")
       .select("email_normalized,facebook_normalized,telegram_normalized,wallet_normalized")
       .eq("campaign_code", CAMPAIGN_CODE)
@@ -74,8 +75,8 @@ export const submitFunCosmosEntry = createServerFn({ method: "POST" })
       facebook_url: data.facebookUrl.trim(), facebook_normalized: facebookNormalized,
       telegram: data.telegram.trim(), telegram_normalized: telegramNormalized,
       fun_rich_url: data.funRichUrl?.trim() || null, wallet_address: data.walletAddress.trim(), wallet_normalized: walletNormalized,
-      character: data.answers[0], dream: data.answers[1], gameplay: data.answers[2], angel_ai_support: data.answers[3],
-      desired_reward_or_progress: data.answers[4], world_change: data.answers[5], real_world_connection: data.answers[6],
+      character, dream, gameplay, angel_ai_support: angelAiSupport,
+      desired_reward_or_progress: desiredReward, world_change: worldChange, real_world_connection: realWorldConnection,
       consent_accuracy: true, consent_public: data.consentPublic, duplicate_flag: reasons.size > 0, duplicate_reasons: [...reasons],
     };
     let result = await admin.from("fun_cosmos_submissions").insert(payload).select("id,public_submission_code,submitted_at").single();
@@ -137,7 +138,7 @@ export const updateAdminReward = createServerFn({ method: "POST" }).middleware([
   .handler(async ({ data, context }) => {
     await requireAdmin(context); if (data.status === "sent" && data.txHash.length < 6) throw new Error("Cần TX Hash thật trước khi đánh dấu đã gửi.");
     const admin = await adminClient(); const { data: current } = await admin.from("fun_cosmos_rewards").select("status,submission_id").eq("id", data.id).single(); if (!current) throw new Error("Không tìm thấy phần thưởng.");
-    const patch = { status: data.status, tx_hash: data.txHash || null, notes: data.note || null, approved_by: context.userId, approved_at: data.status === "approved" ? new Date().toISOString() : undefined, sent_at: data.status === "sent" ? new Date().toISOString() : null };
+    const patch = { status: data.status, tx_hash: data.txHash || null, notes: data.note || null, approved_by: context.userId, approved_at: data.status === "approved" ? new Date().toISOString() : null, sent_at: data.status === "sent" ? new Date().toISOString() : null };
     const { error } = await admin.from("fun_cosmos_rewards").update(patch).eq("id", data.id); if (error?.code === "23505") throw new Error("Ví này đã có phần thưởng được duyệt trong chiến dịch."); if (error) throw error;
     await admin.from("fun_cosmos_audit_events").insert({ submission_id: current.submission_id, reward_id: data.id, actor_user_id: context.userId, actor_type: "admin", action: `reward_${data.status}`, old_status: current.status, new_status: data.status, note: data.note || null }); return { ok: true };
   });

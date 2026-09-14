@@ -1,10 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { LogIn, LogOut, UserPlus } from "lucide-react";
+import { LogIn, LogOut, MailCheck, UserPlus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCreatorAuth } from "@/hooks/use-creator-auth";
 import { Button } from "@/components/ui/button";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
+import { useResendVerification, VERIFY_REDIRECT } from "@/hooks/use-resend-verification";
 import "@/living.css";
 
 export const Route = createFileRoute("/tai-khoan")({
@@ -30,16 +31,18 @@ export const Route = createFileRoute("/tai-khoan")({
 });
 
 function AccountPage() {
-  const { session, ready, email: accountEmail } = useCreatorAuth();
+  const { session, ready, email: accountEmail, emailVerified } = useCreatorAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [notice, setNotice] = useState("");
+  const [pendingEmail, setPendingEmail] = useState("");
   const [redirectTo, setRedirectTo] = useState("/tao-y-tuong");
+  const resend = useResendVerification();
 
   useEffect(() => {
     const target = new URLSearchParams(window.location.search).get("redirect");
@@ -50,34 +53,40 @@ function AccountPage() {
     event.preventDefault();
     setBusy(true);
     setError("");
-    setNotice("");
     try {
       if (mode === "signup") {
+        if (password !== confirmPassword) {
+          setError("Hai lần nhập mật khẩu chưa giống nhau.");
+          return;
+        }
         const { data, error: signUpError } = await supabase.auth.signUp({
           email,
           password,
           options: {
-            emailRedirectTo: window.location.origin + "/tai-khoan",
-            data: { display_name: displayName.trim() || email.split("@")[0] },
+            emailRedirectTo: window.location.origin + VERIFY_REDIRECT,
+            data: { display_name: displayName.trim() },
           },
         });
         if (signUpError) throw signUpError;
-        if (!data.session) {
-          setNotice("Hãy mở email và bấm liên kết xác nhận để hoàn tất việc tạo tài khoản.");
-          return;
+        // Không tiết lộ email đã tồn tại hay chưa: luôn hiển thị màn hình kiểm tra email.
+        setPendingEmail(email);
+        if (data.session && data.session.user.email_confirmed_at) {
+          await navigate({ to: redirectTo });
         }
-      } else {
-        const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-        if (signInError) throw signInError;
+        return;
       }
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInError) throw signInError;
       await navigate({ to: redirectTo });
     } catch (cause) {
       setError(
         cause instanceof Error && /Invalid login/i.test(cause.message)
           ? "Email hoặc mật khẩu chưa đúng."
-          : cause instanceof Error
-            ? cause.message
-            : "Chưa thể hoàn tất. Vui lòng thử lại.",
+          : cause instanceof Error && /Email not confirmed/i.test(cause.message)
+            ? "Tài khoản chưa xác minh email. Hãy mở email và bấm liên kết xác minh."
+            : cause instanceof Error
+              ? cause.message
+              : "Chưa thể hoàn tất. Vui lòng thử lại.",
       );
     } finally {
       setBusy(false);
@@ -93,11 +102,62 @@ function AccountPage() {
           <h1>TÀI KHOẢN NGƯỜI SÁNG TẠO</h1>
           {!ready ? (
             <p>Đang kiểm tra tài khoản…</p>
+          ) : pendingEmail && !session ? (
+            <div className="fc-account-signed">
+              <h2>KIỂM TRA EMAIL CỦA BẠN ✨</h2>
+              <p>
+                FUN COSMOS vừa gửi một liên kết xác minh đến: <strong>{pendingEmail}</strong>
+              </p>
+              <p>
+                Hãy mở email và nhấn vào liên kết xác minh để kích hoạt tài khoản người sáng tạo.
+              </p>
+              <div className="lc-actions">
+                <Button asChild>
+                  <a href="https://mail.google.com" target="_blank" rel="noreferrer">
+                    <MailCheck aria-hidden="true" /> Mở email
+                  </a>
+                </Button>
+                <Button
+                  variant="outline"
+                  disabled={resend.cooldown > 0 || resend.busy}
+                  onClick={() => resend.send(pendingEmail)}
+                >
+                  {resend.cooldown > 0
+                    ? `Gửi lại sau ${resend.cooldown}s`
+                    : "Gửi lại email xác minh"}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setPendingEmail("");
+                    setMode("signin");
+                  }}
+                >
+                  Quay lại đăng nhập
+                </Button>
+              </div>
+              {resend.message && <p role="status">{resend.message}</p>}
+            </div>
           ) : session ? (
             <div className="fc-account-signed">
               <p>
                 Bạn đang đăng nhập với <strong>{accountEmail}</strong>.
               </p>
+              {!emailVerified && (
+                <div role="status">
+                  <p>Vui lòng xác minh email để gửi ý tưởng.</p>
+                  <Button
+                    variant="outline"
+                    disabled={resend.cooldown > 0 || resend.busy}
+                    onClick={() => resend.send(accountEmail)}
+                  >
+                    {resend.cooldown > 0
+                      ? `Gửi lại sau ${resend.cooldown}s`
+                      : "Gửi lại email xác minh"}
+                  </Button>
+                  {resend.message && <p>{resend.message}</p>}
+                </div>
+              )}
               <div className="lc-actions">
                 <Button onClick={() => navigate({ to: "/tao-y-tuong" })}>Tạo ý tưởng</Button>
                 <Button variant="outline" onClick={() => navigate({ to: "/y-tuong-cua-toi" })}>
@@ -166,15 +226,27 @@ function AccountPage() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </label>
+              {mode === "signup" && (
+                <label>
+                  Xác nhận mật khẩu
+                  <input
+                    type="password"
+                    required
+                    minLength={8}
+                    autoComplete="new-password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </label>
+              )}
               {error && (
                 <p className="fc-form-error" role="alert">
                   {error}
                 </p>
               )}
-              {notice && <p role="status">{notice}</p>}
               <Button disabled={busy}>
                 {mode === "signup" ? <UserPlus aria-hidden="true" /> : <LogIn aria-hidden="true" />}
-                {busy ? "Đang xử lý…" : mode === "signup" ? "Tạo tài khoản" : "Đăng nhập"}
+                {busy ? "Đang xử lý…" : mode === "signup" ? "TẠO TÀI KHOẢN" : "Đăng nhập"}
               </Button>
               <small>
                 Email của bạn chỉ dùng để xác minh bài tham gia và không bao giờ hiển thị công khai.

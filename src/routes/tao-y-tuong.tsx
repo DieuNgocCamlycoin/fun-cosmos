@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Check, Copy, Save, Send, Sparkles } from "lucide
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
 import { useCreatorAuth } from "@/hooks/use-creator-auth";
+import { useResendVerification } from "@/hooks/use-resend-verification";
 import { saveIdeaDraft, submitIdea, getMyIdea } from "@/lib/ideas.functions";
 import {
   DRAFT_CACHE_KEY,
@@ -84,7 +85,8 @@ const emptyDraft = (): Draft => ({
 const stepKeys = ["characterDescription", "dream", "gameplay", "angelAi", "reward", "worldChange", "realWorldConnection"] as const;
 
 function CreateIdeaPage() {
-  const { ready, session, email } = useCreatorAuth();
+  const { ready, session, email, emailVerified } = useCreatorAuth();
+  const resend = useResendVerification();
   const navigate = useNavigate();
   const save = useServerFn(saveIdeaDraft);
   const send = useServerFn(submitIdea);
@@ -215,6 +217,36 @@ function CreateIdeaPage() {
         <SiteHeader />
         <main className="ih-page">
           <p>Đang tải…</p>
+        </main>
+        <SiteFooter />
+      </div>
+    );
+
+  if (session && !emailVerified)
+    return (
+      <div className="tw yt-hub">
+        <SiteHeader />
+        <main className="ih-page">
+          <section className="ih-card" aria-live="polite">
+            <p className="lc-eyebrow">✧ YOUR TURN • CO-CREATE FUN COSMOS</p>
+            <h1>XÁC MINH EMAIL ĐỂ GỬI Ý TƯỞNG</h1>
+            <p>Vui lòng xác minh email để gửi ý tưởng.</p>
+            <p>
+              Liên kết xác minh đã được gửi tới <strong>{email}</strong>.
+            </p>
+            <div className="lc-actions">
+              <Button
+                disabled={resend.busy || resend.cooldown > 0}
+                onClick={() => resend.send(email)}
+              >
+                {resend.cooldown > 0 ? `Gửi lại sau ${resend.cooldown}s` : "Gửi lại email xác minh"}
+              </Button>
+              <Button variant="outline" onClick={() => navigate({ to: "/idea-hub" })}>
+                Khám phá Idea Hub
+              </Button>
+            </div>
+            {resend.message && <p role="status">{resend.message}</p>}
+          </section>
         </main>
         <SiteFooter />
       </div>

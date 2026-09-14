@@ -24,6 +24,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as FunCosmosTraCuuRouteImport } from './routes/fun-cosmos.tra-cuu'
 import { Route as IdeaHubIndexRouteImport } from './routes/idea-hub.index'
 import { Route as IdeaHubCodeRouteImport } from './routes/idea-hub.$code'
+import { Route as TaiKhoanXacMinhRouteImport } from './routes/tai-khoan_.xac-minh'
 import { Route as AdminFunCosmosIdeasRouteImport } from './routes/admin.fun-cosmos.ideas'
 import { Route as AdminFunCosmosRewardsRouteImport } from './routes/admin.fun-cosmos.rewards'
 import { Route as AdminFunCosmosSubmissionsRouteImport } from './routes/admin.fun-cosmos.submissions'
@@ -104,6 +105,11 @@ const IdeaHubCodeRoute = IdeaHubCodeRouteImport.update({
   path: '/idea-hub/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TaiKhoanXacMinhRoute = TaiKhoanXacMinhRouteImport.update({
+  id: '/tai-khoan_/xac-minh',
+  path: '/tai-khoan/xac-minh',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminFunCosmosIdeasRoute = AdminFunCosmosIdeasRouteImport.update({
   id: '/admin/fun-cosmos/ideas',
   path: '/admin/fun-cosmos/ideas',
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/admin/login': typeof AdminLoginRoute
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
   '/idea-hub/$code': typeof IdeaHubCodeRoute
+  '/tai-khoan/xac-minh': typeof TaiKhoanXacMinhRoute
   '/idea-hub/': typeof IdeaHubIndexRoute
   '/admin/fun-cosmos/ideas': typeof AdminFunCosmosIdeasRoute
   '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/admin/login': typeof AdminLoginRoute
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
   '/idea-hub/$code': typeof IdeaHubCodeRoute
+  '/tai-khoan/xac-minh': typeof TaiKhoanXacMinhRoute
   '/idea-hub': typeof IdeaHubIndexRoute
   '/admin/fun-cosmos/ideas': typeof AdminFunCosmosIdeasRoute
   '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
@@ -184,6 +192,7 @@ export interface FileRoutesById {
   '/admin/login': typeof AdminLoginRoute
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
   '/idea-hub/$code': typeof IdeaHubCodeRoute
+  '/tai-khoan_/xac-minh': typeof TaiKhoanXacMinhRoute
   '/idea-hub/': typeof IdeaHubIndexRoute
   '/admin/fun-cosmos/ideas': typeof AdminFunCosmosIdeasRoute
   '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
@@ -207,6 +216,7 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/fun-cosmos/tra-cuu'
     | '/idea-hub/$code'
+    | '/tai-khoan/xac-minh'
     | '/idea-hub/'
     | '/admin/fun-cosmos/ideas'
     | '/admin/fun-cosmos/rewards'
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/fun-cosmos/tra-cuu'
     | '/idea-hub/$code'
+    | '/tai-khoan/xac-minh'
     | '/idea-hub'
     | '/admin/fun-cosmos/ideas'
     | '/admin/fun-cosmos/rewards'
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/admin/login'
     | '/fun-cosmos/tra-cuu'
     | '/idea-hub/$code'
+    | '/tai-khoan_/xac-minh'
     | '/idea-hub/'
     | '/admin/fun-cosmos/ideas'
     | '/admin/fun-cosmos/rewards'
@@ -271,6 +283,7 @@ export interface RootRouteChildren {
   AdminLoginRoute: typeof AdminLoginRoute
   FunCosmosTraCuuRoute: typeof FunCosmosTraCuuRoute
   IdeaHubCodeRoute: typeof IdeaHubCodeRoute
+  TaiKhoanXacMinhRoute: typeof TaiKhoanXacMinhRoute
   IdeaHubIndexRoute: typeof IdeaHubIndexRoute
   AdminFunCosmosIdeasRoute: typeof AdminFunCosmosIdeasRoute
   AdminFunCosmosRewardsRoute: typeof AdminFunCosmosRewardsRoute
@@ -385,6 +398,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdeaHubCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tai-khoan_/xac-minh': {
+      id: '/tai-khoan_/xac-minh'
+      path: '/tai-khoan/xac-minh'
+      fullPath: '/tai-khoan/xac-minh'
+      preLoaderRoute: typeof TaiKhoanXacMinhRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/fun-cosmos/ideas': {
       id: '/admin/fun-cosmos/ideas'
       path: '/admin/fun-cosmos/ideas'
@@ -431,6 +451,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminLoginRoute: AdminLoginRoute,
   FunCosmosTraCuuRoute: FunCosmosTraCuuRoute,
   IdeaHubCodeRoute: IdeaHubCodeRoute,
+  TaiKhoanXacMinhRoute: TaiKhoanXacMinhRoute,
   IdeaHubIndexRoute: IdeaHubIndexRoute,
   AdminFunCosmosIdeasRoute: AdminFunCosmosIdeasRoute,
   AdminFunCosmosRewardsRoute: AdminFunCosmosRewardsRoute,

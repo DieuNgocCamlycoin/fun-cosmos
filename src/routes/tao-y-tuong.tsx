@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Check, Copy, Save, Send, Sparkles } from "lucide
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
 import { useCreatorAuth } from "@/hooks/use-creator-auth";
+import { useResendVerification } from "@/hooks/use-resend-verification";
 import { saveIdeaDraft, submitIdea, getMyIdea } from "@/lib/ideas.functions";
 import {
   DRAFT_CACHE_KEY,
@@ -84,7 +85,8 @@ const emptyDraft = (): Draft => ({
 const stepKeys = ["characterDescription", "dream", "gameplay", "angelAi", "reward", "worldChange", "realWorldConnection"] as const;
 
 function CreateIdeaPage() {
-  const { ready, session, email } = useCreatorAuth();
+  const { ready, session, email, emailVerified } = useCreatorAuth();
+  const resend = useResendVerification();
   const navigate = useNavigate();
   const save = useServerFn(saveIdeaDraft);
   const send = useServerFn(submitIdea);

@@ -21,10 +21,16 @@ export function useCreatorAuth() {
       subscription.subscription.unsubscribe();
     };
   }, []);
+  const user = session?.user ?? null;
+  const emailVerified = Boolean(
+    (user as { email_confirmed_at?: string | null } | null)?.email_confirmed_at ??
+      user?.confirmed_at,
+  );
   return {
     session,
     ready,
-    user: session?.user ?? null,
+    user,
+    emailVerified,
     email: session?.user?.email ?? "",
     displayName:
       (session?.user?.user_metadata?.["display_name"] as string | undefined) ??

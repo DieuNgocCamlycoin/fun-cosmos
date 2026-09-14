@@ -18,9 +18,12 @@ import { Route as LoveScoreRouteImport } from './routes/love-score'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TaiKhoanRouteImport } from './routes/tai-khoan'
 import { Route as TaoYTuongRouteImport } from './routes/tao-y-tuong'
+import { Route as YTuongCuaToiRouteImport } from './routes/y-tuong-cua-toi'
 import { Route as YourTurnRouteImport } from './routes/your-turn'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as FunCosmosTraCuuRouteImport } from './routes/fun-cosmos.tra-cuu'
+import { Route as IdeaHubIndexRouteImport } from './routes/idea-hub.index'
+import { Route as IdeaHubCodeRouteImport } from './routes/idea-hub.$code'
 import { Route as AdminFunCosmosRewardsRouteImport } from './routes/admin.fun-cosmos.rewards'
 import { Route as AdminFunCosmosSubmissionsRouteImport } from './routes/admin.fun-cosmos.submissions'
 import { Route as ApiPublicResetPasswordRouteImport } from './routes/api/public/reset-password'
@@ -70,6 +73,11 @@ const TaoYTuongRoute = TaoYTuongRouteImport.update({
   path: '/tao-y-tuong',
   getParentRoute: () => rootRouteImport,
 } as any)
+const YTuongCuaToiRoute = YTuongCuaToiRouteImport.update({
+  id: '/y-tuong-cua-toi',
+  path: '/y-tuong-cua-toi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const YourTurnRoute = YourTurnRouteImport.update({
   id: '/your-turn',
   path: '/your-turn',
@@ -83,6 +91,16 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
 const FunCosmosTraCuuRoute = FunCosmosTraCuuRouteImport.update({
   id: '/fun-cosmos/tra-cuu',
   path: '/fun-cosmos/tra-cuu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdeaHubIndexRoute = IdeaHubIndexRouteImport.update({
+  id: '/idea-hub/',
+  path: '/idea-hub/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdeaHubCodeRoute = IdeaHubCodeRouteImport.update({
+  id: '/idea-hub/$code',
+  path: '/idea-hub/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminFunCosmosRewardsRoute = AdminFunCosmosRewardsRouteImport.update({
@@ -112,9 +130,12 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/tai-khoan': typeof TaiKhoanRoute
   '/tao-y-tuong': typeof TaoYTuongRoute
+  '/y-tuong-cua-toi': typeof YTuongCuaToiRoute
   '/your-turn': typeof YourTurnRoute
   '/admin/login': typeof AdminLoginRoute
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
+  '/idea-hub/$code': typeof IdeaHubCodeRoute
+  '/idea-hub/': typeof IdeaHubIndexRoute
   '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
   '/admin/fun-cosmos/submissions': typeof AdminFunCosmosSubmissionsRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
@@ -129,9 +150,12 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/tai-khoan': typeof TaiKhoanRoute
   '/tao-y-tuong': typeof TaoYTuongRoute
+  '/y-tuong-cua-toi': typeof YTuongCuaToiRoute
   '/your-turn': typeof YourTurnRoute
   '/admin/login': typeof AdminLoginRoute
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
+  '/idea-hub/$code': typeof IdeaHubCodeRoute
+  '/idea-hub': typeof IdeaHubIndexRoute
   '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
   '/admin/fun-cosmos/submissions': typeof AdminFunCosmosSubmissionsRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
@@ -147,9 +171,12 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/tai-khoan': typeof TaiKhoanRoute
   '/tao-y-tuong': typeof TaoYTuongRoute
+  '/y-tuong-cua-toi': typeof YTuongCuaToiRoute
   '/your-turn': typeof YourTurnRoute
   '/admin/login': typeof AdminLoginRoute
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
+  '/idea-hub/$code': typeof IdeaHubCodeRoute
+  '/idea-hub/': typeof IdeaHubIndexRoute
   '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
   '/admin/fun-cosmos/submissions': typeof AdminFunCosmosSubmissionsRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
@@ -166,9 +193,12 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/tai-khoan'
     | '/tao-y-tuong'
+    | '/y-tuong-cua-toi'
     | '/your-turn'
     | '/admin/login'
     | '/fun-cosmos/tra-cuu'
+    | '/idea-hub/$code'
+    | '/idea-hub/'
     | '/admin/fun-cosmos/rewards'
     | '/admin/fun-cosmos/submissions'
     | '/api/public/reset-password'
@@ -183,9 +213,12 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/tai-khoan'
     | '/tao-y-tuong'
+    | '/y-tuong-cua-toi'
     | '/your-turn'
     | '/admin/login'
     | '/fun-cosmos/tra-cuu'
+    | '/idea-hub/$code'
+    | '/idea-hub'
     | '/admin/fun-cosmos/rewards'
     | '/admin/fun-cosmos/submissions'
     | '/api/public/reset-password'
@@ -200,9 +233,12 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/tai-khoan'
     | '/tao-y-tuong'
+    | '/y-tuong-cua-toi'
     | '/your-turn'
     | '/admin/login'
     | '/fun-cosmos/tra-cuu'
+    | '/idea-hub/$code'
+    | '/idea-hub/'
     | '/admin/fun-cosmos/rewards'
     | '/admin/fun-cosmos/submissions'
     | '/api/public/reset-password'
@@ -218,9 +254,12 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   TaiKhoanRoute: typeof TaiKhoanRoute
   TaoYTuongRoute: typeof TaoYTuongRoute
+  YTuongCuaToiRoute: typeof YTuongCuaToiRoute
   YourTurnRoute: typeof YourTurnRoute
   AdminLoginRoute: typeof AdminLoginRoute
   FunCosmosTraCuuRoute: typeof FunCosmosTraCuuRoute
+  IdeaHubCodeRoute: typeof IdeaHubCodeRoute
+  IdeaHubIndexRoute: typeof IdeaHubIndexRoute
   AdminFunCosmosRewardsRoute: typeof AdminFunCosmosRewardsRoute
   AdminFunCosmosSubmissionsRoute: typeof AdminFunCosmosSubmissionsRoute
   ApiPublicResetPasswordRoute: typeof ApiPublicResetPasswordRoute
@@ -291,6 +330,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TaoYTuongRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/y-tuong-cua-toi': {
+      id: '/y-tuong-cua-toi'
+      path: '/y-tuong-cua-toi'
+      fullPath: '/y-tuong-cua-toi'
+      preLoaderRoute: typeof YTuongCuaToiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/your-turn': {
       id: '/your-turn'
       path: '/your-turn'
@@ -310,6 +356,20 @@ declare module '@tanstack/react-router' {
       path: '/fun-cosmos/tra-cuu'
       fullPath: '/fun-cosmos/tra-cuu'
       preLoaderRoute: typeof FunCosmosTraCuuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/idea-hub/': {
+      id: '/idea-hub/'
+      path: '/idea-hub'
+      fullPath: '/idea-hub/'
+      preLoaderRoute: typeof IdeaHubIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/idea-hub/$code': {
+      id: '/idea-hub/$code'
+      path: '/idea-hub/$code'
+      fullPath: '/idea-hub/$code'
+      preLoaderRoute: typeof IdeaHubCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/fun-cosmos/rewards': {
@@ -346,9 +406,12 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   TaiKhoanRoute: TaiKhoanRoute,
   TaoYTuongRoute: TaoYTuongRoute,
+  YTuongCuaToiRoute: YTuongCuaToiRoute,
   YourTurnRoute: YourTurnRoute,
   AdminLoginRoute: AdminLoginRoute,
   FunCosmosTraCuuRoute: FunCosmosTraCuuRoute,
+  IdeaHubCodeRoute: IdeaHubCodeRoute,
+  IdeaHubIndexRoute: IdeaHubIndexRoute,
   AdminFunCosmosRewardsRoute: AdminFunCosmosRewardsRoute,
   AdminFunCosmosSubmissionsRoute: AdminFunCosmosSubmissionsRoute,
   ApiPublicResetPasswordRoute: ApiPublicResetPasswordRoute,

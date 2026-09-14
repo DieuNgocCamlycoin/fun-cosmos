@@ -24,6 +24,9 @@ export function YourTurnPrograms({ onJoin }: { onJoin: () => void }) {
         <span className="lc-eyebrow">✧ YOUR TURN</span>
         <h2>Cùng xem. Cùng thảo luận. Cùng tham gia.</h2>
       </header>
+      <div className="yt-feature">
+        <ArtworkViewer id={21} />
+      </div>
       <div className="yt-programs-grid">
         {programs.map((program) => (
           <article className="yt-program" key={program.image}>

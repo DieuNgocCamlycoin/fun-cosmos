@@ -296,6 +296,38 @@
 .ih-steps b {
   color: var(--lc-gold-light);
 }
+.ih-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 6px;
+  margin: 0 0 14px;
+}
+.ih-flow-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--lc-border);
+  border-radius: 999px;
+  padding: 7px 14px;
+  background: color-mix(in srgb, var(--lc-blue-deep) 38%, transparent);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--lc-gold-light);
+  text-transform: uppercase;
+}
+.ih-flow-arrow {
+  color: var(--lc-gold);
+  font-weight: 400;
+}
+@media (max-width: 700px) {
+  .ih-flow-step {
+    font-size: 0.74rem;
+    padding: 6px 11px;
+  }
+}
 .ih-list {
   display: grid;
   gap: 14px;

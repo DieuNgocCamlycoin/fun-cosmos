@@ -1,53 +1,62 @@
-# YOUR TURN — Trung tâm đồng sáng tạo FUN COSMOS (Giai đoạn 1)
+# YOUR TURN — Phase 1.1: Câu chuyện FUN COSMOS là trung tâm
 
-Trang chủ, URANTIA, Angel AI, Love Score, FUN Ecosystem, thanh điều hướng và ba thẻ game giữ nguyên hoàn toàn. Chỉ trang YOUR TURN được xây mới, thêm Idea Hub và tài khoản người sáng tạo.
+Nâng cấp luồng tạo ý tưởng hiện có để CÂU CHUYỆN trở thành nội dung chính. Không xây lại hệ thống, không xóa dữ liệu, không đổi các trang khác.
 
-## Giai đoạn 1 sẽ có
+## Hiện trạng đã kiểm tra
 
-1. **Trang YOUR TURN mới** (`/your-turn`)
-   - Mở đầu: "VŨ TRỤ BẮT ĐẦU TỪ MỘT Ý TƯỞNG" với hai nút: TẠO Ý TƯỞNG và KHÁM PHÁ Ý TƯỞNG CỘNG ĐỒNG.
-   - HOW IT WORKS: bảy chặng Tạo → Chia sẻ → Thảo luận → Cải tiến → Đồng sáng tạo → Prototype → FUN COSMOS.
-   - Thẻ MINI GAME "FUN COSMOS CỦA CON" với dòng thưởng 99.999 Happy Camly Coin kèm ghi chú "dành cho bài tham gia hợp lệ theo thể lệ chương trình" (không hứa hẹn lợi nhuận).
-   - Khối giới thiệu Idea Hub và dẫn sang trang cộng đồng.
-   - Hai ảnh chương trình hiện có được giữ nguyên trong trang.
+- Bảng `ideas` đang có 7 hạt giống (nhân vật, ước mơ, trải nghiệm, Angel AI, thành quả, thế giới thay đổi, kết nối đời thật), tiêu đề, tóm tắt, danh mục, trạng thái, phần thưởng.
+- Bảng `ideas` **chưa có** trường câu chuyện và trường link bài viết Facebook.
+- Thông tin riêng tư (email, Telegram, Facebook cá nhân, ví CAMLY) nằm ở bảng riêng, không công khai — giữ nguyên.
+- Khi gửi bài, hệ thống hiện **bắt buộc** mỗi mục trong 7 hạt giống phải đủ độ dài tối thiểu — sẽ nới lỏng theo yêu cầu mới.
 
-2. **Tạo ý tưởng 7 bước** (`/your-turn/tao-y-tuong`, cần đăng nhập)
-   - Bảy bước: Nhân vật · Ước mơ · Trải nghiệm · Angel AI · Phần thưởng · Thế giới thay đổi · Kết nối đời thật (bước 7 tùy chọn).
-   - Thanh tiến trình 1/7, nút Trước / Tiếp theo / Lưu bản nháp; nháp lưu cả trên máy và trong tài khoản.
-   - Bước thông tin bài: tiêu đề, tóm tắt, danh mục, thẻ nhiều lựa chọn.
-   - Bước 99.999: họ tên hiển thị, email, Facebook, Telegram, FUN.Rich (tùy chọn), ví CAMLY, hai ô cam kết — giữ đúng luồng chương trình hiện tại trong cùng một lần gửi.
-   - Màn XEM LẠI Ý TƯỞNG trước khi gửi, có nút Chỉnh sửa và Gửi ý tưởng; nút khóa khi đang gửi.
-   - Màn chúc mừng: mã ý tưởng dạng FC-2026-000128, nút sao chép, trạng thái "ĐÃ GỬI • CHỜ DUYỆT", ba nút đi tiếp.
+## Những gì sẽ làm
 
-3. **Tài khoản người sáng tạo** (`/tai-khoan`)
-   - Đăng ký / đăng nhập bằng email và mật khẩu, kèm đăng nhập Google.
-   - Tên hiển thị công khai lưu ở hồ sơ; email, Telegram, Facebook, ví không bao giờ hiện công khai.
-   - Nút tài khoản trên thanh điều hướng phản ánh đúng trạng thái đăng nhập, có đăng xuất.
-   - Khách vẫn xem Idea Hub thoải mái; muốn tạo hoặc gửi bài thì đăng nhập.
+### 1. Thêm hai trường mới vào cơ sở dữ liệu
+Thêm câu chuyện và link bài viết Facebook, đều để trống được. Bài cũ không có câu chuyện vẫn đọc và quản trị bình thường.
 
-4. **Ý TƯỞNG CỦA TÔI** (`/your-turn/y-tuong-cua-toi`)
-   - Danh sách nháp, đã gửi, đang duyệt, đã đăng, cần bổ sung; mỗi mục có mã, trạng thái, ngày, phản hồi của ban quản trị.
-   - Sửa được bản nháp và bài cần bổ sung; bài đã đăng không sửa trực tiếp.
+### 2. 7 hạt giống ý tưởng — viết lại lời hướng dẫn
+- Tiêu đề, gợi ý, ví dụ mới cho từng mục (01–07) đúng như Cha đưa.
+- Bỏ yêu cầu độ dài tối thiểu: trả lời ngắn vẫn đi tiếp và vẫn gửi được.
+- Mục 07 gắn nhãn "TÙY CHỌN", để trống vẫn gửi được.
 
-5. **IDEA HUB công khai** (`/idea-hub` và `/idea-hub/FC-2026-000128`)
-   - Chỉ hiện bài đã được duyệt đăng.
-   - Ô tìm kiếm theo tiêu đề, mã bài, tên người sáng tạo, từ khóa; bộ lọc mới nhất / nổi bật / được lựa chọn / đang phát triển và lọc theo danh mục.
-   - Thẻ ý tưởng: tiêu đề, mã, tên người sáng tạo, tóm tắt, danh mục, thẻ, ngày đăng. Không hiển thị số liệu giả.
-   - Trang chi tiết: bảy phần nội dung ý tưởng và dải hành trình Idea → Discuss → Improve → Select → Prototype → Playtest → FUN COSMOS, làm nổi chặng hiện tại.
-   - Trạng thái rỗng đẹp: "VŨ TRỤ ĐANG CHỜ Ý TƯỞNG ĐẦU TIÊN."
+### 3. Bước 08 — CÂU CHUYỆN FUN COSMOS CỦA BẠN
+- Bước nổi bật nhất: tiêu đề, phụ đề "BIẾN Ý TƯỞNG THÀNH MỘT CUỘC PHIÊU LƯU.", dải hành trình ƯỚC MƠ → … → KẾT NỐI ĐỜI THẬT.
+- Ô viết truyện lớn, dễ dùng trên điện thoại, đếm ký tự thời gian thực (ví dụ "842 / 1.000 ký tự tối thiểu", đạt rồi thì "1.248 ký tự ✓").
+- Tối thiểu 1.000 ký tự để gửi chính thức, tối đa 30.000. Lưu nháp thì không giới hạn.
+- Nút "✨ NHỜ ANGEL AI VIẾT CÙNG TÔI" mở một bảng nhỏ, tự ghép sẵn lời nhắc từ 7 câu trả lời, có nút "SAO CHÉP PROMPT". Không tạo AI giả; sau này thay bằng Angel AI thật mà không phải làm lại giao diện.
 
-6. **Quản trị** — mở rộng trang quản trị hiện có: hàng chờ duyệt, xem toàn bộ bài, Đăng công khai / Yêu cầu bổ sung / Từ chối / Lưu trữ, cập nhật chặng phát triển, và vẫn quản lý phần thưởng 99.999 như hiện nay.
+### 4. Bước chia sẻ Facebook
+- Hướng dẫn 4 bước: hoàn thành câu chuyện → sao chép → đăng lên Facebook → dán link.
+- "SAO CHÉP CÂU CHUYỆN" tự kèm sẵn ba hashtag `#FUNCOSMOS #FUNCOSMOSCuaCon #99999HappyCamlyCoin`, báo "✓ Đã sao chép câu chuyện".
+- Nút "ĐĂNG LÊN FACEBOOK ↗" chỉ mở Facebook, không tự đăng thay người dùng.
+- Ô "LINK BÀI VIẾT FACEBOOK" kiểm tra là đường dẫn Facebook hợp lệ; **bắt buộc khi gửi chính thức** (điều kiện chương trình 99.999), không bắt buộc khi lưu nháp.
 
-## Để dành Giai đoạn 2
+### 5. Chương trình 99.999 — chỉ đổi cách diễn đạt
+Giữ nguyên toàn bộ dữ liệu, quy trình duyệt quà, chống trùng, chống spam, nhật ký. Thêm phần giải thích "🎁 THỰC HÀNH NGAY — NHẬN LIỀN TAY · 99.999 HAPPY CAMLY COIN" kèm ba hashtag bắt buộc và câu "Dành cho bài tham gia hợp lệ theo thể lệ chương trình". Không dùng ngôn ngữ đầu tư/lợi nhuận.
 
-Bình luận, phản hồi, thả tim, đề xuất đồng phát triển, theo dõi, thông báo, đính kèm tệp. Cấu trúc dữ liệu lần này đã chừa sẵn chỗ nên không phải làm lại.
+### 6. Màn hình xem lại
+Hiện đủ 8 phần + link Facebook + thông tin chương trình 99.999, mỗi phần có nút "Chỉnh sửa". Câu chuyện hiển thị như một bài viết đẹp. Nút cuối "🚀 GỬI Ý TƯỞNG VÀO FUN COSMOS", khóa nút khi đang gửi để không gửi hai lần.
 
-## Phần kỹ thuật
+### 7. Sau khi gửi
+Giữ màn chúc mừng, đổi lời: "✨ Ý TƯỞNG ĐÃ BAY VÀO FUN COSMOS!", mã FC, trạng thái ĐÃ GỬI • CHỜ DUYỆT, bốn nút: sao chép mã, xem ý tưởng của tôi, khám phá Idea Hub, tạo ý tưởng mới.
 
-- **Dữ liệu mới:** `profiles` (hồ sơ công khai, tên hiển thị, liên kết `auth.users`, trigger tạo tự động), `ideas` (mã công khai, chủ sở hữu, 7 trường nội dung, tiêu đề, tóm tắt, danh mục, trạng thái, chặng, mốc thời gian), `idea_tags`. Bảng cho Giai đoạn 2 (`idea_comments`, `idea_reactions`, `idea_contributions`) chưa tạo, nhưng `ideas` đã có khóa và chỉ mục để gắn vào.
-- **Kế thừa, không thay thế:** giữ nguyên `fun_cosmos_participants/submissions/rewards/audit_events`, `user_roles`, `app_private.has_role`, `src/lib/fun-cosmos-submissions.functions.ts`, trang quản trị và trang tra cứu. Bài gửi mới tạo một `idea` và một `fun_cosmos_submission` liên kết với nhau trong cùng một giao dịch server, giữ nguyên kiểm tra trùng, chống spam, honeypot và bản ghi phần thưởng hiện có.
-- **Mã công khai:** sequence trong Postgres, sinh ở phía máy chủ theo dạng `FC-{năm}-{6 chữ số}`, khóa duy nhất, không dùng đếm bản ghi.
-- **RLS:** khách chỉ đọc bài `published`; người dùng đọc/sửa bài của chính mình khi còn nháp hoặc cần bổ sung; không ai tự đổi trạng thái duyệt hay chặng phát triển; chỉ vai trò admin mới duyệt. Mọi thao tác ghi đi qua server function có kiểm tra quyền; khóa dịch vụ không bao giờ ra trình duyệt.
-- **Giao diện:** dùng đúng hệ màu hiện có (sapphire sáng, ngọc trai, vàng champagne, kính mờ), không nền đen nặng; component mới đặt trong `src/components/idea-hub/` và `src/components/idea-creator/`, style nối tiếp `living.css` và các token sẵn có.
-- **Chuỗi chữ:** tách vào một tệp nội dung để sau này thêm tiếng Anh mà không đụng logic.
-- **Kiểm thử:** máy tính 1440/1177, máy tính bảng, điện thoại 390/320; khách và người đã đăng nhập; trạng thái rỗng, đang tải, lỗi, chặn gửi trùng; xác nhận các trang và liên kết cũ không hỏng.
+### 8. Idea Hub
+- Thẻ ý tưởng thêm đoạn trích ngắn lấy từ câu chuyện.
+- Trang chi tiết: phần "📖 CÂU CHUYỆN FUN COSMOS" nổi bật nhất, chữ dễ đọc dài (bề rộng vừa mắt, giãn dòng thoáng, xuống đoạn rõ), sau đó mới tới 7 hạt giống.
+- Hiển thị công khai nút mở bài viết Facebook của câu chuyện (theo quyết định của Cha).
+- Vẫn tuyệt đối không lộ email, Telegram, Facebook cá nhân, ví CAMLY, ghi chú nội bộ.
+- Chỉ ý tưởng đã duyệt đăng mới xuất hiện; không tự động công khai.
+
+### 9. Trang quản trị
+Thêm phần "CÂU CHUYỆN FUN COSMOS" đọc trọn vẹn và "BÀI ĐĂNG FACEBOOK" với nút "MỞ BÀI VIẾT ↗". Giữ nguyên mọi thao tác duyệt và quản lý quà tặng hiện có.
+
+## Chi tiết kỹ thuật
+
+- Migration: `ALTER TABLE public.ideas ADD COLUMN IF NOT EXISTS story text NOT NULL DEFAULT ''`, `ADD COLUMN IF NOT EXISTS facebook_post_url text NOT NULL DEFAULT ''`. Không đổi/xóa cột nào, không đụng RLS hay grants hiện có.
+- `src/lib/ideas.functions.ts`: thêm `story`, `facebookPostUrl` vào draft schema (không tối thiểu); trong `submitIdea` bỏ các kiểm tra độ dài của 7 hạt giống (chỉ còn tiêu đề/tóm tắt + xác minh tham gia), thêm kiểm tra story ≥ 1.000 ký tự và `facebook_post_url` khớp `^https?://(www\.|m\.|web\.)?facebook\.com/`; trả về `story` (excerpt) trong `listPublicIdeas` và đầy đủ trong `getPublicIdea`; admin đã `select *` nên tự có.
+- Toàn bộ ghi dữ liệu vẫn qua server function dùng service role phía máy chủ; một lần gửi vẫn cập nhật idea + audit event như hiện tại.
+- `src/lib/idea-content.ts`: copy mới cho 7 bước (helper, placeholder, cờ optional), dải hành trình story, mẫu prompt Angel AI, hashtag chương trình.
+- `src/routes/tao-y-tuong.tsx`: chèn bước story và bước chia sẻ Facebook vào luồng bước hiện có, thêm bộ đếm ký tự, modal prompt, nút copy; review mở rộng.
+- `src/routes/idea-hub.index.tsx`, `src/routes/idea-hub.$code.tsx`, `src/routes/admin.fun-cosmos.ideas.tsx`: hiển thị story/Facebook.
+- `src/components/idea-hub.css`: kiểu cho story editor, bộ đếm, modal, dải hành trình, typography đọc dài — giữ hệ màu sapphire/ngọc trai/vàng champagne hiện tại.
+- Kiểm thử: chạy 18 bài kiểm tra Cha liệt kê ở 1440 / 1177 / 768 / 390 / 320, gồm kiểm tra bài cũ không có story vẫn hoạt động và không lộ dữ liệu riêng tư. Dữ liệu thử sẽ được dọn sạch sau khi kiểm tra.

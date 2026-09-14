@@ -42,3 +42,4 @@
 - [ ] Optional: enable Google sign-in in the Supabase dashboard (needs project owner)
 - [ ] Phase 2: comments, reactions, co-create contributions, notifications
 - [x] Backfill public profiles for existing accounts and review profiles RLS with Cha
+- [x] Restore the luminous cosmic background and visible gold heading on YOUR TURN

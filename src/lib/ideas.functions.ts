@@ -132,6 +132,7 @@ export const saveIdeaDraft = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => draftSchema.parse(input))
   .handler(async ({ data, context }) => {
+    await requireVerifiedEmail(context.userId);
     const admin = await adminClient();
     const displayName =
       (
@@ -212,6 +213,7 @@ export const submitIdea = createServerFn({ method: "POST" })
   .inputValidator((input) => submitSchema.parse(input))
   .handler(async ({ data, context }) => {
     if (data.website) throw new Error("Không thể gửi bài.");
+    await requireVerifiedEmail(context.userId);
     const admin = await adminClient();
     const { data: idea } = await admin
       .from("ideas")

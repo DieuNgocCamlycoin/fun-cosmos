@@ -37,10 +37,25 @@
 .ih-page h1 {
   font-size: clamp(28px, 5vw, 58px);
   line-height: 1.05;
-  background: linear-gradient(180deg, #fff6da 0%, var(--lc-gold-light) 45%, var(--lc-gold) 100%);
+  background: linear-gradient(
+    110deg,
+    color-mix(in oklab, var(--lc-gold) 78%, var(--lc-blue-deep)) 0%,
+    var(--lc-gold) 18%,
+    var(--lc-gold-light) 39%,
+    var(--lc-gold) 56%,
+    color-mix(in oklab, var(--lc-gold) 84%, var(--lc-blue-deep)) 74%,
+    var(--lc-gold-light) 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.55px var(--lc-gold-light);
+  filter:
+    drop-shadow(0 1px 0 color-mix(in oklab, var(--lc-gold) 72%, var(--lc-blue-deep)))
+    drop-shadow(0 2px 0 color-mix(in oklab, var(--lc-gold) 42%, var(--lc-blue-deep)))
+    drop-shadow(0 4px 4px color-mix(in srgb, var(--lc-blue-deep) 48%, transparent));
+  text-shadow: none;
   font-weight: 900;
   letter-spacing: 0.01em;
 }

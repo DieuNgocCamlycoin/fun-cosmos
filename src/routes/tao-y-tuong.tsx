@@ -222,6 +222,36 @@ function CreateIdeaPage() {
       </div>
     );
 
+  if (session && !emailVerified)
+    return (
+      <div className="tw yt-hub">
+        <SiteHeader />
+        <main className="ih-page">
+          <section className="ih-card" aria-live="polite">
+            <p className="lc-eyebrow">✧ YOUR TURN • CO-CREATE FUN COSMOS</p>
+            <h1>XÁC MINH EMAIL ĐỂ GỬI Ý TƯỞNG</h1>
+            <p>Vui lòng xác minh email để gửi ý tưởng.</p>
+            <p>
+              Liên kết xác minh đã được gửi tới <strong>{email}</strong>.
+            </p>
+            <div className="lc-actions">
+              <Button
+                disabled={resend.busy || resend.cooldown > 0}
+                onClick={() => resend.send(email)}
+              >
+                {resend.cooldown > 0 ? `Gửi lại sau ${resend.cooldown}s` : "Gửi lại email xác minh"}
+              </Button>
+              <Button variant="outline" onClick={() => navigate({ to: "/idea-hub" })}>
+                Khám phá Idea Hub
+              </Button>
+            </div>
+            {resend.message && <p role="status">{resend.message}</p>}
+          </section>
+        </main>
+        <SiteFooter />
+      </div>
+    );
+
   if (result)
     return (
       <div className="tw yt-hub">

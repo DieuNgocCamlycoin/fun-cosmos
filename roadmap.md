@@ -44,3 +44,4 @@
 - [x] Backfill public profiles for existing accounts and review profiles RLS with Cha
 - [x] Restore the luminous cosmic background and visible gold heading on YOUR TURN
 - [x] Match the YOUR TURN main heading to the cast-gold metallic page-title style
+- [x] Simplify the YOUR TURN journey (Thảo luận · Cải tiến · Prototype & Playtest) and rename step 07 to "FUN COSMOS · IN GAME — Trở thành trải nghiệm thật"

@@ -43,3 +43,4 @@
 - [ ] Phase 2: comments, reactions, co-create contributions, notifications
 - [x] Backfill public profiles for existing accounts and review profiles RLS with Cha
 - [x] Restore the luminous cosmic background and visible gold heading on YOUR TURN
+- [x] Match the YOUR TURN main heading to the cast-gold metallic page-title style

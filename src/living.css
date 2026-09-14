@@ -1636,6 +1636,7 @@
 @media(max-width:700px){
  .yt-programs{min-height:calc(100svh - var(--lc-nav-height));padding:18px 12px 28px;gap:16px;}
  .yt-programs-head h2{width:auto;font-size:clamp(23px,7vw,30px);}
+ .yt-feature .lc-art-open{border-radius:16px;border-width:2px;}
  .yt-programs-grid{grid-template-columns:minmax(0,1fr);gap:22px;}
  .yt-program{max-height:none;border-radius:14px;}
  .yt-program-art{aspect-ratio:16/9;}

@@ -1652,7 +1652,7 @@
  .yt-program-footer h3{font-size:12px;}
  .yt-program-action{min-height:30px;padding:4px 7px;font-size:9px;}
 }
-@media(prefers-reduced-motion:reduce){.yt-program-art .lc-art-open img{transition:none;}}
+@media(prefers-reduced-motion:reduce){.yt-program-art .lc-art-open img{transition:none;}.yt-feature .lc-art-open img{transition:none;}}
 @media (prefers-reduced-motion: reduce) {
   .lc-page *,
   .lc-page *:before,

@@ -81,6 +81,17 @@ function publicClient() {
   });
 }
 
+export const EMAIL_NOT_VERIFIED = "Vui lòng xác minh email để gửi ý tưởng.";
+
+/** Authoritative email-verification check straight from Supabase Auth. */
+async function requireVerifiedEmail(userId: string) {
+  const admin = await adminClient();
+  const { data, error } = await admin.auth.admin.getUserById(userId);
+  if (error || !data?.user) throw new Error(EMAIL_NOT_VERIFIED);
+  const user = data.user as { email_confirmed_at?: string | null; confirmed_at?: string | null };
+  if (!user.email_confirmed_at && !user.confirmed_at) throw new Error(EMAIL_NOT_VERIFIED);
+}
+
 async function requireAdmin(context: { supabase: { rpc?: unknown }; userId: string }) {
   const client = context.supabase as unknown as {
     from: (table: string) => {

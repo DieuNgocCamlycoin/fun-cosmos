@@ -31,7 +31,9 @@
 - [x] Show the discussion questions and 99.999 programs together in a viewport-fit Your Turn panel
 - [x] Add guest submission, secure status lookup, duplicate controls, reward records, and audit history for 99.999 Happy Camly Coin
 - [x] Add separate Supabase Admin sign-in and protected submission/reward management pages
-- [ ] Provision the first Admin account and assign its admin role (waiting for an authorized account)
+- [x] Provision the first Admin account and assign its admin role
+- [x] End-to-end test: creator submit → admin publish → public hub/detail; PII leak check; mobile overflow check; test data cleaned up
+- [ ] Delete the leftover unconfirmed test account in Supabase Auth (anna.kiemthu.idea1@gmail.com, needs project owner dashboard access)
 - [x] Rebuild YOUR TURN as the co-creation hub with a 7-step idea creator, review and submit
 - [x] Add creator accounts (email/password), My Ideas, public Idea Hub with search/filters and idea detail
 - [x] Add ideas/profiles/tags/private-details tables with RLS, server-side public code sequence and idea audit trail

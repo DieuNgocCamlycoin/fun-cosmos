@@ -316,3 +316,22 @@
     transition: none;
   }
 }
+.ih-hero {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  padding-block: clamp(10px, 3vh, 30px);
+}
+.ih-hero .lc-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ih-idea-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+}
+.ih-idea-card .lc-button {
+  justify-self: start;
+}

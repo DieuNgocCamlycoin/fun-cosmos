@@ -16,6 +16,7 @@ import { Route as EcosystemRouteImport } from './routes/ecosystem'
 import { Route as EmailVerifiedRouteImport } from './routes/email-verified'
 import { Route as LoveScoreRouteImport } from './routes/love-score'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as TaiKhoanRouteImport } from './routes/tai-khoan'
 import { Route as YourTurnRouteImport } from './routes/your-turn'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as FunCosmosTraCuuRouteImport } from './routes/fun-cosmos.tra-cuu'
@@ -58,6 +59,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TaiKhoanRoute = TaiKhoanRouteImport.update({
+  id: '/tai-khoan',
+  path: '/tai-khoan',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const YourTurnRoute = YourTurnRouteImport.update({
   id: '/your-turn',
   path: '/your-turn',
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/email-verified': typeof EmailVerifiedRoute
   '/love-score': typeof LoveScoreRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/tai-khoan': typeof TaiKhoanRoute
   '/your-turn': typeof YourTurnRoute
   '/admin/login': typeof AdminLoginRoute
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/email-verified': typeof EmailVerifiedRoute
   '/love-score': typeof LoveScoreRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/tai-khoan': typeof TaiKhoanRoute
   '/your-turn': typeof YourTurnRoute
   '/admin/login': typeof AdminLoginRoute
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/email-verified': typeof EmailVerifiedRoute
   '/love-score': typeof LoveScoreRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/tai-khoan': typeof TaiKhoanRoute
   '/your-turn': typeof YourTurnRoute
   '/admin/login': typeof AdminLoginRoute
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/email-verified'
     | '/love-score'
     | '/reset-password'
+    | '/tai-khoan'
     | '/your-turn'
     | '/admin/login'
     | '/fun-cosmos/tra-cuu'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/email-verified'
     | '/love-score'
     | '/reset-password'
+    | '/tai-khoan'
     | '/your-turn'
     | '/admin/login'
     | '/fun-cosmos/tra-cuu'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/email-verified'
     | '/love-score'
     | '/reset-password'
+    | '/tai-khoan'
     | '/your-turn'
     | '/admin/login'
     | '/fun-cosmos/tra-cuu'
@@ -192,6 +204,7 @@ export interface RootRouteChildren {
   EmailVerifiedRoute: typeof EmailVerifiedRoute
   LoveScoreRoute: typeof LoveScoreRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  TaiKhoanRoute: typeof TaiKhoanRoute
   YourTurnRoute: typeof YourTurnRoute
   AdminLoginRoute: typeof AdminLoginRoute
   FunCosmosTraCuuRoute: typeof FunCosmosTraCuuRoute
@@ -251,6 +264,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tai-khoan': {
+      id: '/tai-khoan'
+      path: '/tai-khoan'
+      fullPath: '/tai-khoan'
+      preLoaderRoute: typeof TaiKhoanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/your-turn': {
       id: '/your-turn'
       path: '/your-turn'
@@ -304,6 +324,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmailVerifiedRoute: EmailVerifiedRoute,
   LoveScoreRoute: LoveScoreRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  TaiKhoanRoute: TaiKhoanRoute,
   YourTurnRoute: YourTurnRoute,
   AdminLoginRoute: AdminLoginRoute,
   FunCosmosTraCuuRoute: FunCosmosTraCuuRoute,

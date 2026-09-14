@@ -114,20 +114,10 @@ function Index() {
     };
   }, []);
   function openIdea() {
-    try {
-      const stored = JSON.parse(localStorage.getItem("fun-cosmos-idea-v2") || "null");
-      if (
-        Array.isArray(stored) &&
-        stored.length === 7 &&
-        stored.every((v) => typeof v === "string")
-      )
-        setDraft(stored);
-    } catch {
-      /* Optional local draft. */
-    }
-    setNotice("");
-    setIdeaOpen(true);
+    // The 99.999 programme now shares the single co-creation flow on YOUR TURN.
+    window.location.assign("/your-turn");
   }
+
   const selected = ecosystemPlatforms.find((platform) => platform[0] === selectedPlatformId) ?? platforms[0];
   const selectPlatform = (id: string) => setSelectedPlatformId(id);
   return (

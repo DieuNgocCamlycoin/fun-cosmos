@@ -1,0 +1,355 @@
+.ih-page {
+  min-height: 100svh;
+  padding: clamp(90px, 12vh, 140px) clamp(16px, 5vw, 64px) clamp(40px, 8vh, 90px);
+  display: grid;
+  gap: clamp(18px, 3vh, 32px);
+  align-content: start;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.ih-page h1 {
+  font-size: clamp(28px, 5vw, 58px);
+  line-height: 1.05;
+  background: linear-gradient(180deg, #fff6da 0%, var(--lc-gold-light) 45%, var(--lc-gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+}
+.ih-page h2 {
+  color: var(--lc-gold-light);
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 800;
+}
+.ih-card {
+  display: grid;
+  gap: 14px;
+  border: 1px solid var(--lc-gold);
+  border-radius: 22px;
+  padding: clamp(16px, 3vw, 30px);
+  background: color-mix(in srgb, var(--lc-blue-deep) 55%, transparent);
+  backdrop-filter: blur(8px);
+}
+.ih-card label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+}
+.ih-card input,
+.ih-card select,
+.ih-card textarea {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--lc-border);
+  border-radius: 10px;
+  background: var(--lc-blue-deep);
+  color: var(--lc-white);
+  padding: 10px 12px;
+  font: inherit;
+}
+.ih-card textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+.ih-question {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--lc-white);
+}
+.ih-note {
+  font-size: 14px;
+  opacity: 0.85;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.ih-progress {
+  height: 6px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--lc-white) 18%, transparent);
+  overflow: hidden;
+}
+.ih-progress span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--lc-gold), var(--lc-gold-light));
+  transition: width 0.35s ease;
+}
+.ih-progress-label {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.ih-creator-head {
+  display: grid;
+  gap: 10px;
+}
+.ih-step-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.ih-review dl {
+  display: grid;
+  gap: 12px;
+}
+.ih-review dt {
+  color: var(--lc-gold-light);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+.ih-success {
+  display: grid;
+  gap: 16px;
+  text-align: center;
+  justify-items: center;
+  border: 1px solid var(--lc-gold);
+  border-radius: 24px;
+  padding: clamp(20px, 5vw, 48px);
+}
+.ih-success dl {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  width: 100%;
+}
+.ih-success dt {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--lc-gold-light);
+}
+.ih-success dd {
+  font-size: clamp(18px, 2.4vw, 26px);
+  font-weight: 800;
+}
+.ih-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.ih-filters button {
+  border: 1px solid var(--lc-border);
+  border-radius: 99px;
+  padding: 8px 16px;
+  min-height: 40px;
+  color: var(--lc-white);
+  background: transparent;
+  cursor: pointer;
+}
+.ih-filters button[aria-pressed="true"] {
+  border-color: var(--lc-gold);
+  color: var(--lc-gold-light);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--lc-gold) 35%, transparent);
+}
+.ih-search {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ih-search input,
+.ih-search select {
+  flex: 1 1 240px;
+  min-height: 46px;
+  border: 1px solid var(--lc-border);
+  border-radius: 12px;
+  background: var(--lc-blue-deep);
+  color: var(--lc-white);
+  padding: 10px 14px;
+  font: inherit;
+}
+.ih-grid {
+  display: grid;
+  gap: clamp(14px, 2vw, 24px);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.ih-idea-card {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  border: 1px solid var(--lc-gold);
+  border-radius: 20px;
+  padding: 18px;
+  background: color-mix(in srgb, var(--lc-blue-deep) 55%, transparent);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.ih-idea-card:hover,
+.ih-idea-card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--lc-gold) 22%, transparent);
+}
+.ih-idea-card h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--lc-gold-light);
+}
+.ih-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  opacity: 0.86;
+}
+.ih-badge {
+  border: 1px solid var(--lc-gold);
+  border-radius: 99px;
+  padding: 3px 10px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--lc-gold-light);
+}
+.ih-empty {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  text-align: center;
+  padding: clamp(30px, 8vh, 80px) 20px;
+}
+.ih-journey {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+}
+.ih-journey li {
+  border: 1px solid var(--lc-border);
+  border-radius: 99px;
+  padding: 6px 14px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+.ih-journey li[aria-current="step"] {
+  border-color: var(--lc-gold);
+  color: var(--lc-gold-light);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--lc-gold) 35%, transparent);
+}
+.ih-steps {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  list-style: none;
+  padding: 0;
+}
+.ih-steps li {
+  border: 1px solid var(--lc-border);
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  gap: 4px;
+}
+.ih-steps b {
+  color: var(--lc-gold-light);
+}
+.ih-list {
+  display: grid;
+  gap: 14px;
+}
+.fc-account-page {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: clamp(90px, 14vh, 160px) 20px 60px;
+}
+.fc-account-page section {
+  width: min(520px, 100%);
+  display: grid;
+  gap: 16px;
+  border: 1px solid var(--lc-gold);
+  border-radius: 22px;
+  padding: clamp(20px, 4vw, 36px);
+  background: color-mix(in srgb, var(--lc-blue-deep) 55%, transparent);
+}
+.fc-account-form {
+  display: grid;
+  gap: 14px;
+}
+.fc-account-form label {
+  display: grid;
+  gap: 6px;
+}
+.fc-account-form input {
+  min-height: 46px;
+  border: 1px solid var(--lc-border);
+  border-radius: 10px;
+  background: var(--lc-blue-deep);
+  color: var(--lc-white);
+  padding: 10px 12px;
+  font: inherit;
+}
+.fc-account-tabs {
+  display: flex;
+  gap: 8px;
+}
+.fc-account-tabs button {
+  flex: 1;
+  min-height: 42px;
+  border: 1px solid var(--lc-border);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--lc-white);
+  cursor: pointer;
+}
+.fc-account-tabs button[aria-selected="true"] {
+  border-color: var(--lc-gold);
+  color: var(--lc-gold-light);
+}
+@media (max-width: 700px) {
+  .ih-step-actions {
+    justify-content: stretch;
+  }
+  .ih-step-actions button {
+    flex: 1 1 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ih-idea-card,
+  .ih-progress span {
+    transition: none;
+  }
+}
+.ih-hero {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  padding-block: clamp(10px, 3vh, 30px);
+}
+.ih-hero .lc-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ih-idea-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+}
+.ih-idea-card .lc-button {
+  justify-self: start;
+}
+.lc-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: 99px;
+  border: 1px solid var(--lc-gold);
+  color: var(--lc-gold-light);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--lc-gold) 12%, transparent);
+}
+.lc-button:hover,
+.lc-button:focus-visible {
+  background: color-mix(in srgb, var(--lc-gold) 24%, transparent);
+}

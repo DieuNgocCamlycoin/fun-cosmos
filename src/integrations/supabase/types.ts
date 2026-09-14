@@ -304,6 +304,255 @@ export type Database = {
           },
         ]
       }
+      idea_audit_events: {
+        Row: {
+          action: string
+          actor_type: string
+          actor_user_id: string | null
+          created_at: string
+          id: string
+          idea_id: string | null
+          new_status: string | null
+          note: string | null
+          old_status: string | null
+        }
+        Insert: {
+          action: string
+          actor_type: string
+          actor_user_id?: string | null
+          created_at?: string
+          id?: string
+          idea_id?: string | null
+          new_status?: string | null
+          note?: string | null
+          old_status?: string | null
+        }
+        Update: {
+          action?: string
+          actor_type?: string
+          actor_user_id?: string | null
+          created_at?: string
+          id?: string
+          idea_id?: string | null
+          new_status?: string | null
+          note?: string | null
+          old_status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "idea_audit_events_idea_id_fkey"
+            columns: ["idea_id"]
+            isOneToOne: false
+            referencedRelation: "ideas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      idea_private_details: {
+        Row: {
+          consent_accuracy: boolean
+          consent_public: boolean
+          created_at: string
+          email: string
+          facebook_url: string
+          fun_rich_url: string
+          idea_id: string
+          recipient_wallet: string
+          telegram: string
+          updated_at: string
+        }
+        Insert: {
+          consent_accuracy?: boolean
+          consent_public?: boolean
+          created_at?: string
+          email?: string
+          facebook_url?: string
+          fun_rich_url?: string
+          idea_id: string
+          recipient_wallet?: string
+          telegram?: string
+          updated_at?: string
+        }
+        Update: {
+          consent_accuracy?: boolean
+          consent_public?: boolean
+          created_at?: string
+          email?: string
+          facebook_url?: string
+          fun_rich_url?: string
+          idea_id?: string
+          recipient_wallet?: string
+          telegram?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "idea_private_details_idea_id_fkey"
+            columns: ["idea_id"]
+            isOneToOne: true
+            referencedRelation: "ideas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      idea_tags: {
+        Row: {
+          created_at: string
+          id: string
+          idea_id: string
+          tag: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          idea_id: string
+          tag: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          idea_id?: string
+          tag?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "idea_tags_idea_id_fkey"
+            columns: ["idea_id"]
+            isOneToOne: false
+            referencedRelation: "ideas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ideas: {
+        Row: {
+          admin_note: string | null
+          angel_ai: string
+          category: Database["public"]["Enums"]["idea_category"]
+          character_description: string
+          character_name: string
+          cover_image_url: string | null
+          created_at: string
+          creator_display_name_snapshot: string
+          creator_message: string | null
+          creator_user_id: string
+          dream: string
+          duplicate_flag: boolean
+          duplicate_reasons: string[]
+          gameplay: string
+          id: string
+          public_code: string | null
+          published_at: string | null
+          real_world_connection: string
+          reward: string
+          reward_amount: number
+          reward_chain: string
+          reward_contract: string
+          reward_status: Database["public"]["Enums"]["idea_reward_status"]
+          reward_token: string
+          reward_tx_hash: string | null
+          rewarded_at: string | null
+          rewarded_by: string | null
+          status: Database["public"]["Enums"]["idea_status"]
+          submitted_at: string | null
+          summary: string
+          title: string
+          updated_at: string
+          world_change: string
+        }
+        Insert: {
+          admin_note?: string | null
+          angel_ai?: string
+          category?: Database["public"]["Enums"]["idea_category"]
+          character_description?: string
+          character_name?: string
+          cover_image_url?: string | null
+          created_at?: string
+          creator_display_name_snapshot?: string
+          creator_message?: string | null
+          creator_user_id: string
+          dream?: string
+          duplicate_flag?: boolean
+          duplicate_reasons?: string[]
+          gameplay?: string
+          id?: string
+          public_code?: string | null
+          published_at?: string | null
+          real_world_connection?: string
+          reward?: string
+          reward_amount?: number
+          reward_chain?: string
+          reward_contract?: string
+          reward_status?: Database["public"]["Enums"]["idea_reward_status"]
+          reward_token?: string
+          reward_tx_hash?: string | null
+          rewarded_at?: string | null
+          rewarded_by?: string | null
+          status?: Database["public"]["Enums"]["idea_status"]
+          submitted_at?: string | null
+          summary?: string
+          title?: string
+          updated_at?: string
+          world_change?: string
+        }
+        Update: {
+          admin_note?: string | null
+          angel_ai?: string
+          category?: Database["public"]["Enums"]["idea_category"]
+          character_description?: string
+          character_name?: string
+          cover_image_url?: string | null
+          created_at?: string
+          creator_display_name_snapshot?: string
+          creator_message?: string | null
+          creator_user_id?: string
+          dream?: string
+          duplicate_flag?: boolean
+          duplicate_reasons?: string[]
+          gameplay?: string
+          id?: string
+          public_code?: string | null
+          published_at?: string | null
+          real_world_connection?: string
+          reward?: string
+          reward_amount?: number
+          reward_chain?: string
+          reward_contract?: string
+          reward_status?: Database["public"]["Enums"]["idea_reward_status"]
+          reward_token?: string
+          reward_tx_hash?: string | null
+          rewarded_at?: string | null
+          rewarded_by?: string | null
+          status?: Database["public"]["Enums"]["idea_status"]
+          submitted_at?: string | null
+          summary?: string
+          title?: string
+          updated_at?: string
+          world_change?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -330,7 +579,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      next_idea_public_code: { Args: never; Returns: string }
     }
     Enums: {
       app_role: "admin"
@@ -348,6 +597,38 @@ export type Database = {
         | "needs_revision"
         | "approved"
         | "rejected"
+      idea_category:
+        | "world"
+        | "gameplay"
+        | "story"
+        | "character"
+        | "art"
+        | "music"
+        | "ai"
+        | "code"
+        | "green_earth"
+        | "lovehub"
+        | "learning"
+        | "other"
+      idea_reward_status:
+        | "not_selected"
+        | "eligible"
+        | "approved"
+        | "reward_pending"
+        | "rewarded"
+        | "reward_failed"
+      idea_status:
+        | "draft"
+        | "submitted"
+        | "under_review"
+        | "needs_revision"
+        | "published"
+        | "selected"
+        | "in_development"
+        | "prototype"
+        | "playtest"
+        | "implemented"
+        | "archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -491,6 +772,41 @@ export const Constants = {
         "needs_revision",
         "approved",
         "rejected",
+      ],
+      idea_category: [
+        "world",
+        "gameplay",
+        "story",
+        "character",
+        "art",
+        "music",
+        "ai",
+        "code",
+        "green_earth",
+        "lovehub",
+        "learning",
+        "other",
+      ],
+      idea_reward_status: [
+        "not_selected",
+        "eligible",
+        "approved",
+        "reward_pending",
+        "rewarded",
+        "reward_failed",
+      ],
+      idea_status: [
+        "draft",
+        "submitted",
+        "under_review",
+        "needs_revision",
+        "published",
+        "selected",
+        "in_development",
+        "prototype",
+        "playtest",
+        "implemented",
+        "archived",
       ],
     },
   },

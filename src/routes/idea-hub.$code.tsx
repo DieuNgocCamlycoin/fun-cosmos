@@ -64,7 +64,7 @@ function IdeaDetailPage() {
   const idea = found?.idea;
 
   return (
-    <div className="tw">
+    <div className="tw yt-hub">
       <SiteHeader />
       <main className="ih-page">
         <Link to="/idea-hub">← Về Idea Hub</Link>

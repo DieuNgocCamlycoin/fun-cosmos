@@ -62,7 +62,7 @@ function MyIdeasPage() {
   }, [ready, session, load, navigate]);
 
   return (
-    <div className="tw">
+    <div className="tw yt-hub">
       <SiteHeader />
       <main className="ih-page">
         <header>

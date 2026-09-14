@@ -74,7 +74,7 @@ function IdeaHubPage() {
   }, []);
 
   return (
-    <div className="tw">
+    <div className="tw yt-hub">
       <SiteHeader />
       <main className="ih-page">
         <header>

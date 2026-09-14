@@ -54,11 +54,11 @@ export const journeyStages = [
 export const howItWorks = [
   ["01", "TẠO Ý TƯỞNG", "Create"],
   ["02", "CHIA SẺ", "Share"],
-  ["03", "CỘNG ĐỒNG THẢO LUẬN", "Discuss"],
-  ["04", "CÙNG CẢI TIẾN", "Improve"],
+  ["03", "THẢO LUẬN", "Discuss"],
+  ["04", "CẢI TIẾN", "Improve"],
   ["05", "ĐỒNG SÁNG TẠO", "Co-Create"],
-  ["06", "PROTOTYPE", "Prototype"],
-  ["07", "FUN COSMOS", "Live"],
+  ["06", "PROTOTYPE & PLAYTEST", "TẠO BẢN THỬ · CHƠI THỬ"],
+  ["07", "FUN COSMOS", "IN GAME · TRỞ THÀNH TRẢI NGHIỆM THẬT"],
 ] as const;
 
 export const rewardNotice =

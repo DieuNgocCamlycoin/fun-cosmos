@@ -71,6 +71,18 @@ function YourTurnPage() {
 
         <section className="ih-card" aria-labelledby="how-it-works">
           <h2 id="how-it-works">HÀNH TRÌNH ĐỒNG SÁNG TẠO</h2>
+          <div className="ih-flow" aria-hidden="true">
+            {howItWorks.map(([number, title], index) => (
+              <span className="ih-flow-step" key={number}>
+                {index > 0 ? <span className="ih-flow-arrow">→</span> : null}
+                <span className="ih-flow-label">{title}</span>
+              </span>
+            ))}
+          </div>
+          <p className="ih-note">
+            Ý tưởng của con thực sự có cơ hội được cộng đồng cùng phát triển và trở thành một phần
+            của FUN COSMOS.
+          </p>
           <ol className="ih-steps">
             {howItWorks.map(([number, title, english]) => (
               <li key={number}>

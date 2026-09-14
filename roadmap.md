@@ -39,3 +39,4 @@
 - [ ] Enable leaked-password protection in the Supabase dashboard (needs project owner)
 - [ ] Optional: enable Google sign-in in the Supabase dashboard (needs project owner)
 - [ ] Phase 2: comments, reactions, co-create contributions, notifications
+- [x] Backfill public profiles for existing accounts and review profiles RLS with Cha

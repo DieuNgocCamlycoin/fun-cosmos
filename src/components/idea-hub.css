@@ -335,3 +335,21 @@
 .ih-idea-card .lc-button {
   justify-self: start;
 }
+.lc-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 20px;
+  border-radius: 99px;
+  border: 1px solid var(--lc-gold);
+  color: var(--lc-gold-light);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--lc-gold) 12%, transparent);
+}
+.lc-button:hover,
+.lc-button:focus-visible {
+  background: color-mix(in srgb, var(--lc-gold) 24%, transparent);
+}

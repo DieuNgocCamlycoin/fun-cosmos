@@ -36,7 +36,7 @@ function YourTurnPage() {
   const createHref = ready && !session ? "/tai-khoan" : "/tao-y-tuong";
 
   return (
-    <div className="tw">
+    <div className="tw yt-hub">
       <SiteHeader />
       <main className="ih-page">
         <section className="ih-hero">

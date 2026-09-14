@@ -1,3 +1,30 @@
+.tw.yt-hub {
+  --lc-blue-deep: oklch(0.27 0.1 253);
+  --lc-gold: oklch(0.84 0.09 84);
+  --lc-gold-light: oklch(0.94 0.07 91);
+  --lc-white: oklch(0.98 0.02 235);
+  --lc-border: oklch(0.88 0.08 88 / 0.55);
+  min-height: 100svh;
+  background-color: oklch(0.5 0.14 251);
+  background-image: url("/cosmos/cosmic-clouds.png");
+  background-position: center top;
+  background-size: cover;
+  background-attachment: fixed;
+}
+.yt-hub .ih-page {
+  color: var(--lc-white);
+  text-shadow: 0 2px 10px color-mix(in srgb, var(--lc-blue-deep) 72%, transparent);
+}
+.yt-hub .ih-card {
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--lc-blue-deep) 22%, transparent);
+}
+@media (max-width: 700px) {
+  .tw.yt-hub {
+    background-attachment: scroll;
+    background-position: 48% top;
+  }
+}
+
 .ih-page {
   min-height: 100svh;
   padding: clamp(90px, 12vh, 140px) clamp(16px, 5vw, 64px) clamp(40px, 8vh, 90px);

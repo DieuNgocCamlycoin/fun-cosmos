@@ -85,7 +85,7 @@ function AccountPage() {
   }
 
   return (
-    <div className="tw">
+    <div className="tw yt-hub">
       <SiteHeader />
       <main className="fc-account-page">
         <section>

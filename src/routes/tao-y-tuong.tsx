@@ -211,7 +211,7 @@ function CreateIdeaPage() {
 
   if (!ready)
     return (
-      <div className="tw">
+      <div className="tw yt-hub">
         <SiteHeader />
         <main className="ih-page">
           <p>Đang tải…</p>
@@ -222,7 +222,7 @@ function CreateIdeaPage() {
 
   if (result)
     return (
-      <div className="tw">
+      <div className="tw yt-hub">
         <SiteHeader />
         <main className="ih-page">
           <section className="ih-success">
@@ -275,7 +275,7 @@ function CreateIdeaPage() {
   const contentStep = step < 7 ? creatorSteps[step]! : null;
 
   return (
-    <div className="tw">
+    <div className="tw yt-hub">
       <SiteHeader />
       <main className="ih-page ih-creator">
         <header className="ih-creator-head">

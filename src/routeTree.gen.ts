@@ -24,6 +24,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as FunCosmosTraCuuRouteImport } from './routes/fun-cosmos.tra-cuu'
 import { Route as IdeaHubIndexRouteImport } from './routes/idea-hub.index'
 import { Route as IdeaHubCodeRouteImport } from './routes/idea-hub.$code'
+import { Route as AdminFunCosmosIdeasRouteImport } from './routes/admin.fun-cosmos.ideas'
 import { Route as AdminFunCosmosRewardsRouteImport } from './routes/admin.fun-cosmos.rewards'
 import { Route as AdminFunCosmosSubmissionsRouteImport } from './routes/admin.fun-cosmos.submissions'
 import { Route as ApiPublicResetPasswordRouteImport } from './routes/api/public/reset-password'
@@ -103,6 +104,11 @@ const IdeaHubCodeRoute = IdeaHubCodeRouteImport.update({
   path: '/idea-hub/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminFunCosmosIdeasRoute = AdminFunCosmosIdeasRouteImport.update({
+  id: '/admin/fun-cosmos/ideas',
+  path: '/admin/fun-cosmos/ideas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminFunCosmosRewardsRoute = AdminFunCosmosRewardsRouteImport.update({
   id: '/admin/fun-cosmos/rewards',
   path: '/admin/fun-cosmos/rewards',
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
   '/idea-hub/$code': typeof IdeaHubCodeRoute
   '/idea-hub/': typeof IdeaHubIndexRoute
+  '/admin/fun-cosmos/ideas': typeof AdminFunCosmosIdeasRoute
   '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
   '/admin/fun-cosmos/submissions': typeof AdminFunCosmosSubmissionsRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
   '/idea-hub/$code': typeof IdeaHubCodeRoute
   '/idea-hub': typeof IdeaHubIndexRoute
+  '/admin/fun-cosmos/ideas': typeof AdminFunCosmosIdeasRoute
   '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
   '/admin/fun-cosmos/submissions': typeof AdminFunCosmosSubmissionsRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/fun-cosmos/tra-cuu': typeof FunCosmosTraCuuRoute
   '/idea-hub/$code': typeof IdeaHubCodeRoute
   '/idea-hub/': typeof IdeaHubIndexRoute
+  '/admin/fun-cosmos/ideas': typeof AdminFunCosmosIdeasRoute
   '/admin/fun-cosmos/rewards': typeof AdminFunCosmosRewardsRoute
   '/admin/fun-cosmos/submissions': typeof AdminFunCosmosSubmissionsRoute
   '/api/public/reset-password': typeof ApiPublicResetPasswordRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/fun-cosmos/tra-cuu'
     | '/idea-hub/$code'
     | '/idea-hub/'
+    | '/admin/fun-cosmos/ideas'
     | '/admin/fun-cosmos/rewards'
     | '/admin/fun-cosmos/submissions'
     | '/api/public/reset-password'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/fun-cosmos/tra-cuu'
     | '/idea-hub/$code'
     | '/idea-hub'
+    | '/admin/fun-cosmos/ideas'
     | '/admin/fun-cosmos/rewards'
     | '/admin/fun-cosmos/submissions'
     | '/api/public/reset-password'
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/fun-cosmos/tra-cuu'
     | '/idea-hub/$code'
     | '/idea-hub/'
+    | '/admin/fun-cosmos/ideas'
     | '/admin/fun-cosmos/rewards'
     | '/admin/fun-cosmos/submissions'
     | '/api/public/reset-password'
@@ -260,6 +272,7 @@ export interface RootRouteChildren {
   FunCosmosTraCuuRoute: typeof FunCosmosTraCuuRoute
   IdeaHubCodeRoute: typeof IdeaHubCodeRoute
   IdeaHubIndexRoute: typeof IdeaHubIndexRoute
+  AdminFunCosmosIdeasRoute: typeof AdminFunCosmosIdeasRoute
   AdminFunCosmosRewardsRoute: typeof AdminFunCosmosRewardsRoute
   AdminFunCosmosSubmissionsRoute: typeof AdminFunCosmosSubmissionsRoute
   ApiPublicResetPasswordRoute: typeof ApiPublicResetPasswordRoute
@@ -372,6 +385,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdeaHubCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/fun-cosmos/ideas': {
+      id: '/admin/fun-cosmos/ideas'
+      path: '/admin/fun-cosmos/ideas'
+      fullPath: '/admin/fun-cosmos/ideas'
+      preLoaderRoute: typeof AdminFunCosmosIdeasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/fun-cosmos/rewards': {
       id: '/admin/fun-cosmos/rewards'
       path: '/admin/fun-cosmos/rewards'
@@ -412,6 +432,7 @@ const rootRouteChildren: RootRouteChildren = {
   FunCosmosTraCuuRoute: FunCosmosTraCuuRoute,
   IdeaHubCodeRoute: IdeaHubCodeRoute,
   IdeaHubIndexRoute: IdeaHubIndexRoute,
+  AdminFunCosmosIdeasRoute: AdminFunCosmosIdeasRoute,
   AdminFunCosmosRewardsRoute: AdminFunCosmosRewardsRoute,
   AdminFunCosmosSubmissionsRoute: AdminFunCosmosSubmissionsRoute,
   ApiPublicResetPasswordRoute: ApiPublicResetPasswordRoute,

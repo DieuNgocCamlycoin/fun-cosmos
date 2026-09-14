@@ -134,7 +134,7 @@ export function SiteHeader({ home = false, active = "" }: { home?: boolean; acti
     </header>
   );
 }
-export function SiteFooter({ paused, onPause }: { paused: boolean; onPause: () => void }) {
+export function SiteFooter({ paused = false, onPause = () => {} }: { paused?: boolean; onPause?: () => void } = {}) {
   return (
     <footer className="fc-footer">
       <a href="/" className="fc-footer-brand">

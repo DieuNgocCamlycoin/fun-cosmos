@@ -177,7 +177,7 @@ export const saveIdeaDraft = createServerFn({ method: "POST" })
         );
       const { error } = await admin
         .from("ideas")
-        .update({ ...contentRow(data), creator_display_name_snapshot: displayName })
+        .update({ ...contentRow(data), creator_display_name_snapshot: displayName } as never)
         .eq("id", ideaId);
       if (error) throw new Error("Chưa lưu được bản nháp. Vui lòng thử lại.");
     } else {
@@ -187,7 +187,7 @@ export const saveIdeaDraft = createServerFn({ method: "POST" })
           ...contentRow(data),
           creator_user_id: context.userId,
           creator_display_name_snapshot: displayName,
-        })
+        } as never)
         .select("id")
         .single();
       if (error || !created) throw new Error("Chưa tạo được bản nháp. Vui lòng thử lại.");

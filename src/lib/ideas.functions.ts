@@ -46,6 +46,8 @@ const draftSchema = z.object({
   reward: optionalText(2000),
   worldChange: optionalText(2000),
   realWorldConnection: optionalText(2000),
+  story: z.string().max(STORY_MAX).default(""),
+  facebookPostUrl: optionalText(500),
   facebookUrl: optionalText(500),
   telegram: optionalText(200),
   funRichUrl: optionalText(500),

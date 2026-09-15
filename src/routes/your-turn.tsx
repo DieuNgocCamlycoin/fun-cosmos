@@ -123,7 +123,7 @@ function YourTurnPage() {
                 <b>
                   {String(index + 1).padStart(2, "0")} · {step.title}
                 </b>
-                <small>{step.question}</small>
+                <small>{step.helper}</small>
               </li>
             ))}
           </ol>

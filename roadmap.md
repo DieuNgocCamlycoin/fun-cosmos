@@ -45,3 +45,5 @@
 - [x] Restore the luminous cosmic background and visible gold heading on YOUR TURN
 - [x] Match the YOUR TURN main heading to the cast-gold metallic page-title style
 - [x] Simplify the YOUR TURN journey (Thảo luận · Cải tiến · Prototype & Playtest) and rename step 07 to "FUN COSMOS · IN GAME — Trở thành trải nghiệm thật"
+- [x] Phase 1.1: story step 08, Angel AI prompt, Facebook share, review/admin/hub story display
+- [ ] Chạy migration thêm cột story + facebook_post_url (Supabase đang báo thiếu quyền, cần kết nối lại)

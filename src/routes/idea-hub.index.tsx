@@ -159,6 +159,9 @@ function IdeaHubPage() {
                 </div>
                 <h3>{row.title}</h3>
                 <p>{row.summary}</p>
+                {"story_excerpt" in row && row.story_excerpt && (
+                  <p className="ih-excerpt">📖 {row.story_excerpt}</p>
+                )}
                 <p className="ih-meta">
                   <span>{row.creator_display_name_snapshot}</span>
                   <span>{row.public_code}</span>

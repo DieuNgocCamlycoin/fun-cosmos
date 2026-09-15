@@ -2,7 +2,17 @@ import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import {
+  FACEBOOK_POST_PATTERN,
+  STORY_MAX,
+  STORY_MIN,
+  storyExcerpt,
+  storyTooShortMessage,
+} from "@/lib/idea-content";
 import type { Database } from "@/integrations/supabase/types";
+
+/** `story` and `facebook_post_url` are recent columns; generated types may lag behind. */
+type StoryFields = { story?: string | null; facebook_post_url?: string | null };
 
 export const IDEA_CATEGORIES = [
   "world",
@@ -46,6 +56,8 @@ const draftSchema = z.object({
   reward: optionalText(2000),
   worldChange: optionalText(2000),
   realWorldConnection: optionalText(2000),
+  story: z.string().max(STORY_MAX).default(""),
+  facebookPostUrl: optionalText(500),
   facebookUrl: optionalText(500),
   telegram: optionalText(200),
   funRichUrl: optionalText(500),
@@ -113,6 +125,8 @@ async function requireAdmin(context: { supabase: { rpc?: unknown }; userId: stri
 
 function contentRow(data: z.output<typeof draftSchema>) {
   return {
+    story: data.story,
+    facebook_post_url: data.facebookPostUrl,
     title: data.title,
     summary: data.summary,
     category: data.category,
@@ -163,7 +177,7 @@ export const saveIdeaDraft = createServerFn({ method: "POST" })
         );
       const { error } = await admin
         .from("ideas")
-        .update({ ...contentRow(data), creator_display_name_snapshot: displayName })
+        .update({ ...contentRow(data), creator_display_name_snapshot: displayName } as never)
         .eq("id", ideaId);
       if (error) throw new Error("Chưa lưu được bản nháp. Vui lòng thử lại.");
     } else {
@@ -173,7 +187,7 @@ export const saveIdeaDraft = createServerFn({ method: "POST" })
           ...contentRow(data),
           creator_user_id: context.userId,
           creator_display_name_snapshot: displayName,
-        })
+        } as never)
         .select("id")
         .single();
       if (error || !created) throw new Error("Chưa tạo được bản nháp. Vui lòng thử lại.");
@@ -231,16 +245,22 @@ export const submitIdea = createServerFn({ method: "POST" })
       .eq("idea_id", data.id)
       .maybeSingle();
 
+    // The 7 seeds accept short answers; the story is the required content.
+    const storyFields = idea as typeof idea & StoryFields;
+    const story = (storyFields.story ?? "").trim();
+    const facebookPostUrl = (storyFields.facebook_post_url ?? "").trim();
+    if (story.length < STORY_MIN) throw new Error(storyTooShortMessage);
+    if (story.length > STORY_MAX) throw new Error("Câu chuyện quá dài. Tối đa 30.000 ký tự.");
+    if (!FACEBOOK_POST_PATTERN.test(facebookPostUrl))
+      throw new Error(
+        "Cần link bài viết Facebook hợp lệ (bài đăng câu chuyện kèm 3 hashtag của chương trình).",
+      );
+
     const missing: string[] = [];
     if (idea.title.trim().length < 3) missing.push("tiêu đề ý tưởng");
     if (idea.summary.trim().length < 10) missing.push("tóm tắt ngắn");
-    if (idea.character_name.trim().length < 2) missing.push("tên nhân vật");
-    if (idea.character_description.trim().length < 10) missing.push("mô tả nhân vật");
-    if (idea.dream.trim().length < 10) missing.push("ước mơ");
-    if (idea.gameplay.trim().length < 10) missing.push("trải nghiệm");
-    if (idea.angel_ai.trim().length < 10) missing.push("Angel AI");
-    if (idea.reward.trim().length < 5) missing.push("phần thưởng / ghi nhận");
-    if (idea.world_change.trim().length < 10) missing.push("thế giới thay đổi");
+    if (idea.character_name.trim().length < 1 && idea.character_description.trim().length < 1)
+      missing.push("nhân vật");
     if (!details?.consent_accuracy) missing.push("xác nhận thông tin chính xác");
     if (!details || !/^https:\/\/(www\.)?facebook\.com\//i.test(details.facebook_url))
       missing.push("liên kết Facebook hợp lệ");
@@ -342,7 +362,7 @@ export const listPublicIdeas = createServerFn({ method: "POST" })
     let query = supabase
       .from("ideas")
       .select(
-        "public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,published_at",
+        "public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,published_at,story" as "public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,published_at",
       )
       .in("status", [...PUBLIC_STATUSES])
       .order("published_at", { ascending: false })
@@ -359,7 +379,11 @@ export const listPublicIdeas = createServerFn({ method: "POST" })
     }
     const { data: rows, error } = await query;
     if (error) return { ideas: [], error: "Chưa tải được danh sách ý tưởng." };
-    return { ideas: rows ?? [], error: null };
+    // Only a short excerpt of the story travels to the hub cards.
+    const ideas = ((rows ?? []) as (typeof rows extends null ? never : NonNullable<typeof rows>[number] & StoryFields)[]).map(
+      ({ story, ...rest }) => ({ ...rest, story_excerpt: storyExcerpt(story ?? "") }),
+    );
+    return { ideas, error: null };
   });
 
 export const getPublicIdea = createServerFn({ method: "POST" })
@@ -371,7 +395,7 @@ export const getPublicIdea = createServerFn({ method: "POST" })
     const { data: idea } = await supabase
       .from("ideas")
       .select(
-        "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at",
+        "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at,story,facebook_post_url" as "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at",
       )
       .eq("public_code", data.code.toUpperCase())
       .in("status", [...PUBLIC_STATUSES])

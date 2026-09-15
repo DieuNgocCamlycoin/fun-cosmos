@@ -64,57 +64,148 @@ export const howItWorks = [
 export const rewardNotice =
   "Những ý tưởng được lựa chọn và Admin phê duyệt sẽ nhận quà tặng 99.999 Happy Camly Coin (CAMLY trên BNB Smart Chain). Phần quà dành cho bài tham gia hợp lệ theo thể lệ chương trình, không phải khoản đầu tư hay lợi nhuận.";
 
+/** The 7 seeds. Short answers are welcome — no minimum length is enforced anywhere. */
 export const creatorSteps = [
   {
     key: "character",
-    title: "NHÂN VẬT",
+    title: "NHÂN VẬT CỦA BẠN LÀ AI?",
     english: "Character",
-    question: "Ai sẽ sống trong câu chuyện của con?",
-    hint: "Anna — một cô bé yêu thiên nhiên, thích khám phá và trồng cây.",
+    helper: "Tên, tuổi, nghề nghiệp hoặc vai trò. Viết ngắn gọn cũng được.",
+    placeholder: "Ví dụ: Anna, 22 tuổi, yêu thiên nhiên và thích sáng tạo.",
+    optional: false,
   },
   {
     key: "dream",
-    title: "ƯỚC MƠ / MỤC TIÊU",
+    title: "ƯỚC MƠ CỦA NHÂN VẬT LÀ GÌ?",
     english: "Dream",
-    question: "Nhân vật đang mong muốn điều gì?",
-    hint: "Anna muốn tạo một khu vườn đẹp cho Green City.",
+    helper: "Điều nhân vật thật sự muốn đạt được, trải nghiệm hoặc trở thành.",
+    placeholder: "Ví dụ: Anna ước mơ tạo nên một khu vườn chữa lành cho cộng đồng.",
+    optional: false,
   },
   {
     key: "gameplay",
-    title: "TRẢI NGHIỆM",
-    english: "Gameplay",
-    question: "Người chơi sẽ làm gì?",
-    hint: "Khám phá · Xây dựng · Trồng cây · Giải câu đố · Thiết kế · Học tập · Kết nối",
+    title: "BẠN MUỐN KIẾN TẠO ĐIỀU GÌ TRONG FUN COSMOS?",
+    english: "Create",
+    helper:
+      "Có thể là một ngôi nhà, khu vườn, thành phố, doanh nghiệp, thế giới, cộng đồng, hành trình hoặc bất kỳ điều gì bạn tưởng tượng.",
+    placeholder:
+      "Ví dụ: Một khu vườn xanh bên hồ dành cho mọi người gặp gỡ và học về thiên nhiên.",
+    optional: false,
   },
   {
     key: "angelAi",
-    title: "ANGEL AI — NGƯỜI ĐỒNG HÀNH",
+    title: "ANGEL AI SẼ ĐỒNG HÀNH NHƯ THẾ NÀO?",
     english: "Angel AI",
-    question: "Angel AI sẽ giúp người chơi như thế nào?",
-    hint: "Hướng dẫn · đặt câu hỏi · gợi ý nhiệm vụ · giúp học · hỗ trợ sáng tạo · phản hồi",
+    helper: "Angel AI có thể hướng dẫn, gợi ý, dạy học, giao nhiệm vụ hoặc cùng nhân vật sáng tạo.",
+    placeholder: "Ví dụ: Angel AI hướng dẫn Anna thiết kế khu vườn và học cách chăm sóc cây.",
+    optional: false,
   },
   {
     key: "reward",
-    title: "PHẦN THƯỞNG / GHI NHẬN",
-    english: "Reward",
-    question: "Sau khi hoàn thành, người chơi nhận được điều gì?",
-    hint: "Love Score · huy hiệu · vật phẩm · khu vực mới · kỹ năng · ghi nhận từ cộng đồng",
+    title: "THÀNH QUẢ BẠN MONG MUỐN LÀ GÌ?",
+    english: "Outcome",
+    helper: "Nhân vật học được gì, tạo ra gì hoặc thay đổi như thế nào?",
+    placeholder:
+      "Ví dụ: Anna hoàn thành khu vườn, học được kỹ năng mới và kết nối thêm nhiều người bạn.",
+    optional: false,
   },
   {
     key: "worldChange",
-    title: "THẾ GIỚI THAY ĐỔI",
+    title: "THẾ GIỚI FUN COSMOS THAY ĐỔI RA SAO?",
     english: "World Change",
-    question: "Sau hành động của người chơi, thế giới thay đổi như thế nào?",
-    hint: "Khu đất khô trở thành một khu vườn xanh.",
+    helper: "Ý tưởng của bạn làm thế giới trở nên đẹp hơn, thú vị hơn hoặc hữu ích hơn như thế nào?",
+    placeholder: "Ví dụ: Một vùng đất trống trở thành khu vườn xanh nơi cộng đồng cùng chăm sóc.",
+    optional: false,
   },
   {
     key: "realWorldConnection",
-    title: "KẾT NỐI ĐỜI THẬT (tùy chọn)",
+    title: "KẾT NỐI VỚI ĐỜI THẬT",
     english: "Real-world Connection",
-    question: "Ý tưởng này có thể kết nối với đời thật như thế nào?",
-    hint: "Green Earth · LoveHUB · FUN Academy · FUN Farm · hoạt động cộng đồng · “Chưa có / Không áp dụng.”",
+    helper: "Điều gì trong câu chuyện có thể được học, thực hành hoặc kiến tạo ngoài đời thật?",
+    placeholder: "Ví dụ: Người chơi có thể tham gia một hoạt động Green Earth và trồng cây thật.",
+    optional: true,
   },
 ] as const;
+
+export const seedLabels = [
+  "01 Nhân vật",
+  "02 Ước mơ",
+  "03 Điều muốn kiến tạo",
+  "04 Angel AI",
+  "05 Thành quả",
+  "06 Thế giới thay đổi",
+  "07 Kết nối đời thật",
+] as const;
+
+/** Story step */
+export const STORY_MIN = 1000;
+export const STORY_MAX = 30000;
+
+export const storyJourney = [
+  "ƯỚC MƠ",
+  "BƯỚC VÀO FUN COSMOS",
+  "GẶP ANGEL AI",
+  "KHÁM PHÁ",
+  "HỌC HỎI",
+  "SÁNG TẠO",
+  "THỬ THÁCH",
+  "THÀNH QUẢ",
+  "THẾ GIỚI THAY ĐỔI",
+  "KẾT NỐI ĐỜI THẬT",
+] as const;
+
+export const storyEncouragement =
+  "Bạn không cần phải là nhà văn. Hãy kể câu chuyện bằng trí tưởng tượng của mình. Bạn cũng có thể nhờ Angel AI giúp phát triển 7 hạt giống ý tưởng phía trên thành một câu chuyện FUN COSMOS hoàn chỉnh.";
+
+export const storyPlaceholder =
+  "Một ngày nọ, Anna bước qua cánh cổng FUN COSMOS...\nCô mang theo một ước mơ...\nAngel AI xuất hiện và hỏi cô rằng...";
+
+export const storyTooShortMessage =
+  "Câu chuyện cần ít nhất 1.000 ký tự để đủ không gian phát triển hành trình FUN COSMOS của bạn.";
+
+export type SeedAnswers = {
+  character: string;
+  dream: string;
+  gameplay: string;
+  angelAi: string;
+  reward: string;
+  worldChange: string;
+  realWorldConnection: string;
+};
+
+/** Angel AI co-writing prompt. Swap the copy button for a real Angel AI call later. */
+export const buildAngelPrompt = (seeds: SeedAnswers) =>
+  [
+    "Hãy giúp tôi phát triển ý tưởng sau thành một câu chuyện FUN COSMOS hấp dẫn.",
+    "",
+    `NHÂN VẬT:\n${seeds.character || "(chưa điền)"}`,
+    `ƯỚC MƠ:\n${seeds.dream || "(chưa điền)"}`,
+    `ĐIỀU MUỐN KIẾN TẠO:\n${seeds.gameplay || "(chưa điền)"}`,
+    `ANGEL AI:\n${seeds.angelAi || "(chưa điền)"}`,
+    `THÀNH QUẢ:\n${seeds.reward || "(chưa điền)"}`,
+    `THẾ GIỚI THAY ĐỔI:\n${seeds.worldChange || "(chưa điền)"}`,
+    `KẾT NỐI ĐỜI THẬT:\n${seeds.realWorldConnection || "(chưa điền)"}`,
+    "",
+    "Hãy viết thành một câu chuyện có mở đầu, hành trình, thử thách, khám phá, sáng tạo, cao trào và kết thúc.",
+    "Giữ tinh thần FUN COSMOS: khám phá → học hỏi → sáng tạo → kết nối → đóng góp → phát triển.",
+    "Không biến câu chuyện thành quảng cáo. Ưu tiên trải nghiệm nhân vật và thế giới game.",
+  ].join("\n");
+
+/** Facebook sharing */
+export const PROGRAM_HASHTAGS = "#FUNCOSMOS #FUNCOSMOSCuaCon #99999HappyCamlyCoin";
+
+export const buildShareText = (title: string, story: string) =>
+  `${title ? `${title}\n\n` : ""}${story}\n\n${PROGRAM_HASHTAGS}`;
+
+export const FACEBOOK_POST_PATTERN = /^https?:\/\/(www\.|m\.|web\.|business\.)?facebook\.com\/.+/i;
+
+export const storyExcerpt = (story: string, length = 220) => {
+  const text = story.replace(/\s+/g, " ").trim();
+  return text.length <= length ? text : `${text.slice(0, length).trimEnd()}…`;
+};
+
+export const programHeadline = "🎁 THỰC HÀNH NGAY — NHẬN LIỀN TAY · 99.999 HAPPY CAMLY COIN";
+export const programSubline = "Dành cho bài tham gia hợp lệ theo thể lệ chương trình.";
 
 export const loveScoreNote =
   "Love Score ghi nhận những đóng góp được hệ thống xác minh. Love Score không đánh giá giá trị con người.";

@@ -1,7 +1,17 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { ArrowLeft, ArrowRight, Check, Copy, Save, Send, Sparkles } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Copy,
+  ExternalLink,
+  Save,
+  Send,
+  Sparkles,
+  X,
+} from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
 import { useCreatorAuth } from "@/hooks/use-creator-auth";
@@ -9,10 +19,23 @@ import { useResendVerification } from "@/hooks/use-resend-verification";
 import { saveIdeaDraft, submitIdea, getMyIdea } from "@/lib/ideas.functions";
 import {
   DRAFT_CACHE_KEY,
+  FACEBOOK_POST_PATTERN,
+  PROGRAM_HASHTAGS,
+  STORY_MAX,
+  STORY_MIN,
+  buildAngelPrompt,
+  buildShareText,
   creatorSteps,
   ideaCategories,
   loveScoreNote,
+  programHeadline,
+  programSubline,
   rewardNotice,
+  seedLabels,
+  storyEncouragement,
+  storyJourney,
+  storyPlaceholder,
+  storyTooShortMessage,
 } from "@/lib/idea-content";
 import "@/living.css";
 import "@/components/idea-hub.css";
@@ -20,16 +43,16 @@ import "@/components/idea-hub.css";
 export const Route = createFileRoute("/tao-y-tuong")({
   head: () => ({
     meta: [
-      { title: "Tạo ý tưởng FUN COSMOS — 7 bước đồng sáng tạo" },
+      { title: "Tạo ý tưởng FUN COSMOS — Viết câu chuyện của bạn" },
       {
         name: "description",
         content:
-          "Phác thảo ý tưởng FUN COSMOS qua bảy bước: nhân vật, ước mơ, trải nghiệm, Angel AI, phần thưởng, thế giới thay đổi và kết nối đời thật.",
+          "Gieo 7 hạt giống ý tưởng rồi viết câu chuyện FUN COSMOS của riêng bạn, chia sẻ lên Facebook và gửi tới cộng đồng đồng sáng tạo.",
       },
-      { property: "og:title", content: "Tạo ý tưởng FUN COSMOS — 7 bước đồng sáng tạo" },
+      { property: "og:title", content: "Tạo ý tưởng FUN COSMOS — Viết câu chuyện của bạn" },
       {
         property: "og:description",
-        content: "Viết ý tưởng của bạn, lưu bản nháp và gửi tới cộng đồng FUN COSMOS.",
+        content: "Biến ý tưởng thành một cuộc phiêu lưu trong FUN COSMOS.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -53,6 +76,8 @@ type Draft = {
   reward: string;
   worldChange: string;
   realWorldConnection: string;
+  story: string;
+  facebookPostUrl: string;
   facebookUrl: string;
   telegram: string;
   funRichUrl: string;
@@ -74,6 +99,8 @@ const emptyDraft = (): Draft => ({
   reward: "",
   worldChange: "",
   realWorldConnection: "",
+  story: "",
+  facebookPostUrl: "",
   facebookUrl: "",
   telegram: "",
   funRichUrl: "",
@@ -82,7 +109,24 @@ const emptyDraft = (): Draft => ({
   consentPublic: false,
 });
 
-const stepKeys = ["characterDescription", "dream", "gameplay", "angelAi", "reward", "worldChange", "realWorldConnection"] as const;
+const stepKeys = [
+  "characterDescription",
+  "dream",
+  "gameplay",
+  "angelAi",
+  "reward",
+  "worldChange",
+  "realWorldConnection",
+] as const;
+
+const STORY_STEP = 7;
+const SHARE_STEP = 8;
+const META_STEP = 9;
+const VERIFY_STEP = 10;
+const REVIEW_STEP = 11;
+const TOTAL_STEPS = 12;
+
+const formatNumber = (value: number) => value.toLocaleString("vi-VN");
 
 function CreateIdeaPage() {
   const { ready, session, email, emailVerified } = useCreatorAuth();
@@ -94,15 +138,18 @@ function CreateIdeaPage() {
 
   const [draft, setDraft] = useState<Draft>(emptyDraft());
   const [serverUpdatedAt, setServerUpdatedAt] = useState<string | undefined>();
-  const [step, setStep] = useState(0); // 0..6 content, 7 metadata, 8 verification, 9 review
+  const [step, setStep] = useState(0);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
+  const [copied, setCopied] = useState("");
+  const [promptOpen, setPromptOpen] = useState(false);
   const [result, setResult] = useState<{ code: string; submittedAt: string } | null>(null);
   const firstField = useRef<HTMLTextAreaElement | HTMLInputElement>(null);
 
   useEffect(() => {
-    if (ready && !session) void navigate({ to: "/tai-khoan", search: { redirect: "/tao-y-tuong" } as never });
+    if (ready && !session)
+      void navigate({ to: "/tai-khoan", search: { redirect: "/tao-y-tuong" } as never });
   }, [ready, session, navigate]);
 
   // Database is the source of truth; the local cache is only a recovery fallback.
@@ -115,20 +162,26 @@ function CreateIdeaPage() {
         try {
           const remote = await load({ data: { id: editing } });
           if (cancelled) return;
+          const idea = remote.idea as typeof remote.idea & {
+            story?: string | null;
+            facebook_post_url?: string | null;
+          };
           setDraft({
-            id: remote.idea.id,
-            title: remote.idea.title,
-            summary: remote.idea.summary,
-            category: remote.idea.category,
+            id: idea.id,
+            title: idea.title,
+            summary: idea.summary,
+            category: idea.category,
             tags: remote.tags,
-            characterName: remote.idea.character_name,
-            characterDescription: remote.idea.character_description,
-            dream: remote.idea.dream,
-            gameplay: remote.idea.gameplay,
-            angelAi: remote.idea.angel_ai,
-            reward: remote.idea.reward,
-            worldChange: remote.idea.world_change,
-            realWorldConnection: remote.idea.real_world_connection,
+            characterName: idea.character_name,
+            characterDescription: idea.character_description,
+            dream: idea.dream,
+            gameplay: idea.gameplay,
+            angelAi: idea.angel_ai,
+            reward: idea.reward,
+            worldChange: idea.world_change,
+            realWorldConnection: idea.real_world_connection,
+            story: idea.story ?? "",
+            facebookPostUrl: idea.facebook_post_url ?? "",
             facebookUrl: remote.details?.facebook_url ?? "",
             telegram: remote.details?.telegram ?? "",
             funRichUrl: remote.details?.fun_rich_url ?? "",
@@ -136,7 +189,7 @@ function CreateIdeaPage() {
             consentAccuracy: remote.details?.consent_accuracy ?? false,
             consentPublic: remote.details?.consent_public ?? false,
           });
-          setServerUpdatedAt(remote.idea.updated_at);
+          setServerUpdatedAt(idea.updated_at);
           return;
         } catch {
           setError("Không mở được ý tưởng này.");
@@ -168,13 +221,39 @@ function CreateIdeaPage() {
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) =>
     setDraft((current) => ({ ...current, [key]: value }));
 
+  const storyLength = draft.story.trim().length;
+  const storyReady = storyLength >= STORY_MIN;
+  const facebookReady = FACEBOOK_POST_PATTERN.test(draft.facebookPostUrl.trim());
+
+  const angelPrompt = useMemo(
+    () =>
+      buildAngelPrompt({
+        character: [draft.characterName, draft.characterDescription].filter(Boolean).join(" — "),
+        dream: draft.dream,
+        gameplay: draft.gameplay,
+        angelAi: draft.angelAi,
+        reward: draft.reward,
+        worldChange: draft.worldChange,
+        realWorldConnection: draft.realWorldConnection,
+      }),
+    [draft],
+  );
+
+  async function copy(text: string, token: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(token);
+      window.setTimeout(() => setCopied(""), 4000);
+    } catch {
+      setError("Trình duyệt không cho phép sao chép. Hãy chọn và sao chép thủ công.");
+    }
+  }
+
   async function persist(silent = false) {
     setBusy(true);
     setError("");
     try {
-      const saved = await save({
-        data: { ...draft, clientUpdatedAt: serverUpdatedAt },
-      });
+      const saved = await save({ data: { ...draft, clientUpdatedAt: serverUpdatedAt } });
       setDraft((current) => ({ ...current, id: saved.id }));
       setServerUpdatedAt(saved.updatedAt);
       localStorage.removeItem(DRAFT_CACHE_KEY);
@@ -190,6 +269,17 @@ function CreateIdeaPage() {
   }
 
   async function finalSubmit() {
+    if (busy) return;
+    if (!storyReady) {
+      setStep(STORY_STEP);
+      setError(storyTooShortMessage);
+      return;
+    }
+    if (!facebookReady) {
+      setStep(SHARE_STEP);
+      setError("Hãy dán link bài viết Facebook của câu chuyện để hoàn tất bài tham gia.");
+      return;
+    }
     const id = await persist(true);
     if (!id) return;
     setBusy(true);
@@ -258,8 +348,7 @@ function CreateIdeaPage() {
         <SiteHeader />
         <main className="ih-page">
           <section className="ih-success">
-            <h1>🎉 Ý TƯỞNG ĐÃ ĐƯỢC GỬI!</h1>
-            <p>Cảm ơn bạn đã cùng kiến tạo FUN COSMOS.</p>
+            <h1>✨ Ý TƯỞNG ĐÃ BAY VÀO FUN COSMOS!</h1>
             <dl>
               <div>
                 <dt>MÃ Ý TƯỞNG</dt>
@@ -274,10 +363,14 @@ function CreateIdeaPage() {
                 <dd>{new Date(result.submittedAt).toLocaleString("vi-VN")}</dd>
               </div>
             </dl>
+            <p>
+              Câu chuyện của bạn đã được gửi đến FUN COSMOS. Sau khi được Ban quản trị duyệt đăng, ý
+              tưởng sẽ xuất hiện trong IDEA HUB để cộng đồng cùng khám phá.
+            </p>
             <p className="ih-note">{rewardNotice}</p>
             <div className="lc-actions">
-              <Button onClick={() => navigator.clipboard.writeText(result.code)}>
-                <Copy aria-hidden="true" /> Sao chép mã
+              <Button onClick={() => void copy(result.code, "code")}>
+                <Copy aria-hidden="true" /> {copied === "code" ? "✓ Đã sao chép" : "Sao chép mã ý tưởng"}
               </Button>
               <Button variant="outline" onClick={() => navigate({ to: "/y-tuong-cua-toi" })}>
                 Xem ý tưởng của tôi
@@ -294,7 +387,7 @@ function CreateIdeaPage() {
                   go(0);
                 }}
               >
-                Tạo ý tưởng khác
+                Tạo ý tưởng mới
               </Button>
             </div>
           </section>
@@ -303,8 +396,19 @@ function CreateIdeaPage() {
       </div>
     );
 
-  const totalSteps = 10;
   const contentStep = step < 7 ? creatorSteps[step]! : null;
+  const stepLabel =
+    step < 7
+      ? `${step + 1} / 7 hạt giống · ${contentStep?.english}`
+      : step === STORY_STEP
+        ? "08 · Câu chuyện FUN COSMOS"
+        : step === SHARE_STEP
+          ? "Chia sẻ Facebook"
+          : step === META_STEP
+            ? "Thông tin bài"
+            : step === VERIFY_STEP
+              ? "Xác minh tham gia"
+              : "Xem lại ý tưởng";
 
   return (
     <div className="tw yt-hub">
@@ -313,21 +417,22 @@ function CreateIdeaPage() {
         <header className="ih-creator-head">
           <p className="lc-eyebrow">✧ YOUR TURN • CO-CREATE FUN COSMOS</p>
           <h1>TẠO Ý TƯỞNG CỦA BẠN</h1>
-          <div className="ih-progress" aria-label={`Bước ${step + 1} trên ${totalSteps}`}>
-            <span style={{ width: `${((step + 1) / totalSteps) * 100}%` }} />
+          <div className="ih-progress" aria-label={`Bước ${step + 1} trên ${TOTAL_STEPS}`}>
+            <span style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }} />
           </div>
-          <p className="ih-progress-label">
-            {step < 7 ? `${step + 1} / 7 · ${contentStep?.english}` : step === 7 ? "Thông tin bài" : step === 8 ? "Xác minh tham gia" : "Xem lại ý tưởng"}
-          </p>
+          <p className="ih-progress-label">{stepLabel}</p>
         </header>
 
         {step < 7 && contentStep && (
           <section className="ih-card">
             <p className="lc-eyebrow">
-              BƯỚC {String(step + 1).padStart(2, "0")} · {contentStep.english}
+              HẠT GIỐNG {String(step + 1).padStart(2, "0")} · {contentStep.english}
             </p>
-            <h2>{contentStep.title}</h2>
-            <p className="ih-question">{contentStep.question}</p>
+            <h2>
+              {contentStep.title}{" "}
+              {contentStep.optional && <span className="ih-optional">TÙY CHỌN</span>}
+            </h2>
+            <p className="ih-question">{contentStep.helper}</p>
             {step === 0 && (
               <label>
                 Tên nhân vật
@@ -345,16 +450,145 @@ function CreateIdeaPage() {
                 ref={firstField as React.RefObject<HTMLTextAreaElement>}
                 maxLength={2000}
                 value={draft[stepKeys[step]!]}
-                placeholder={contentStep.hint}
+                placeholder={contentStep.placeholder}
                 onChange={(e) => set(stepKeys[step]!, e.target.value)}
               />
             </label>
+            <p className="ih-note">Viết ngắn gọn cũng được — đây chỉ là hạt giống ý tưởng.</p>
             {step === 4 && <p className="ih-note">{loveScoreNote}</p>}
-            {step === 6 && <p className="ih-note">Bước này là tùy chọn — bạn có thể ghi “Chưa có / Không áp dụng.”</p>}
           </section>
         )}
 
-        {step === 7 && (
+        {step === STORY_STEP && (
+          <section className="ih-card ih-story-card">
+            <p className="lc-eyebrow">08 · YOUR FUN COSMOS STORY</p>
+            <h2>CÂU CHUYỆN FUN COSMOS CỦA BẠN</h2>
+            <p className="ih-story-sub">BIẾN Ý TƯỞNG THÀNH MỘT CUỘC PHIÊU LƯU.</p>
+            <p>
+              Hãy kết nối những ý tưởng phía trên thành một câu chuyện hoàn chỉnh về nhân vật của bạn
+              trong FUN COSMOS.
+            </p>
+            <ol className="ih-story-journey">
+              {storyJourney.map((stage) => (
+                <li key={stage}>{stage}</li>
+              ))}
+            </ol>
+            <p className="ih-note">{storyEncouragement}</p>
+            <div className="lc-actions">
+              <Button type="button" onClick={() => setPromptOpen(true)}>
+                <Sparkles aria-hidden="true" /> NHỜ ANGEL AI VIẾT CÙNG TÔI
+              </Button>
+            </div>
+            <label className="ih-story-label">
+              Câu chuyện của bạn
+              <textarea
+                ref={firstField as React.RefObject<HTMLTextAreaElement>}
+                className="ih-story-editor"
+                maxLength={STORY_MAX}
+                value={draft.story}
+                placeholder={storyPlaceholder}
+                onChange={(e) => set("story", e.target.value)}
+              />
+            </label>
+            <p className={`ih-counter${storyReady ? " is-ready" : ""}`} aria-live="polite">
+              {storyReady
+                ? `${formatNumber(storyLength)} ký tự ✓`
+                : `${formatNumber(storyLength)} / ${formatNumber(STORY_MIN)} ký tự tối thiểu`}
+            </p>
+            {!storyReady && <p className="ih-note">{storyTooShortMessage}</p>}
+          </section>
+        )}
+
+        {promptOpen && (
+          <div className="ih-modal" role="dialog" aria-modal="true" aria-label="Nhờ Angel AI phát triển câu chuyện">
+            <div className="ih-modal-panel">
+              <header>
+                <h2>NHỜ ANGEL AI PHÁT TRIỂN CÂU CHUYỆN</h2>
+                <button type="button" onClick={() => setPromptOpen(false)} aria-label="Đóng">
+                  <X aria-hidden="true" />
+                </button>
+              </header>
+              <p className="ih-note">
+                Sao chép lời nhắc dưới đây, nhờ Angel AI phát triển, rồi dán câu chuyện trở lại ô
+                viết truyện.
+              </p>
+              <pre className="ih-prompt">{angelPrompt}</pre>
+              <div className="lc-actions">
+                <Button onClick={() => void copy(angelPrompt, "prompt")}>
+                  <Copy aria-hidden="true" /> {copied === "prompt" ? "✓ Đã sao chép prompt" : "SAO CHÉP PROMPT"}
+                </Button>
+                <Button variant="outline" onClick={() => setPromptOpen(false)}>
+                  Đóng
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {step === SHARE_STEP && (
+          <section className="ih-card">
+            <p className="lc-eyebrow">📣 CHIA SẺ CÂU CHUYỆN CỦA BẠN</p>
+            <h2>ĐƯA Ý TƯỞNG RA CỘNG ĐỒNG</h2>
+            <p>
+              Hãy chia sẻ câu chuyện FUN COSMOS của bạn lên Facebook để bạn bè cùng đọc, trao đổi và
+              khám phá ý tưởng.
+            </p>
+            <ol className="ih-share-steps">
+              <li>Hoàn thành câu chuyện</li>
+              <li>Sao chép câu chuyện</li>
+              <li>Đăng lên Facebook</li>
+              <li>Quay lại và dán link bài viết</li>
+            </ol>
+            <p className="ih-note">
+              Khi sao chép, ba hashtag của chương trình được thêm sẵn: <b>{PROGRAM_HASHTAGS}</b>
+            </p>
+            <div className="lc-actions">
+              <Button
+                type="button"
+                disabled={!draft.story.trim()}
+                onClick={() => void copy(buildShareText(draft.title, draft.story), "story")}
+              >
+                <Copy aria-hidden="true" /> {copied === "story" ? "✓ Đã sao chép câu chuyện" : "SAO CHÉP CÂU CHUYỆN"}
+              </Button>
+              <a
+                className="lc-button"
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                ĐĂNG LÊN FACEBOOK <ExternalLink aria-hidden="true" size={14} />
+              </a>
+            </div>
+            <label>
+              LINK BÀI VIẾT FACEBOOK
+              <input
+                ref={firstField as React.RefObject<HTMLInputElement>}
+                type="url"
+                inputMode="url"
+                maxLength={500}
+                value={draft.facebookPostUrl}
+                placeholder="Dán link bài viết Facebook của bạn tại đây..."
+                onChange={(e) => set("facebookPostUrl", e.target.value)}
+                aria-invalid={draft.facebookPostUrl.trim() !== "" && !facebookReady}
+              />
+              <small>
+                Đảm bảo đường dẫn có thể được Ban quản trị mở để kiểm tra bài tham gia.
+              </small>
+            </label>
+            {draft.facebookPostUrl.trim() !== "" && !facebookReady && (
+              <p className="fc-form-error">Đây chưa phải là đường dẫn bài viết Facebook hợp lệ.</p>
+            )}
+            <div className="ih-program">
+              <h3>{programHeadline}</h3>
+              <p>{programSubline}</p>
+              <p className="ih-note">
+                Bài đăng cần kèm 3 hashtag: <b>{PROGRAM_HASHTAGS}</b>
+              </p>
+            </div>
+          </section>
+        )}
+
+        {step === META_STEP && (
           <section className="ih-card">
             <h2>THÔNG TIN BÀI</h2>
             <label>
@@ -403,9 +637,11 @@ function CreateIdeaPage() {
           </section>
         )}
 
-        {step === 8 && (
+        {step === VERIFY_STEP && (
           <section className="ih-card">
             <h2>XÁC MINH THAM GIA</h2>
+            <h3 className="ih-program-title">{programHeadline}</h3>
+            <p>{programSubline}</p>
             <p className="ih-note">{rewardNotice}</p>
             <label>
               Email tài khoản
@@ -467,41 +703,72 @@ function CreateIdeaPage() {
           </section>
         )}
 
-        {step === 9 && (
+        {step === REVIEW_STEP && (
           <section className="ih-card ih-review">
-            <h2>XEM LẠI Ý TƯỞNG</h2>
+            <h2>XEM LẠI Ý TƯỞNG CỦA BẠN</h2>
             <h3>{draft.title || "Chưa có tiêu đề"}</h3>
             <p>{draft.summary}</p>
             <dl>
+              {[
+                draft.characterName
+                  ? `${draft.characterName} — ${draft.characterDescription}`
+                  : draft.characterDescription,
+                draft.dream,
+                draft.gameplay,
+                draft.angelAi,
+                draft.reward,
+                draft.worldChange,
+                draft.realWorldConnection || "Chưa có / Không áp dụng.",
+              ].map((value, index) => (
+                <div key={seedLabels[index]}>
+                  <dt>
+                    {seedLabels[index]}
+                    <button type="button" className="ih-edit" onClick={() => go(index)}>
+                      Chỉnh sửa
+                    </button>
+                  </dt>
+                  <dd>{value || "—"}</dd>
+                </div>
+              ))}
+            </dl>
+
+            <section className="ih-review-story">
+              <h3>
+                08 CÂU CHUYỆN FUN COSMOS
+                <button type="button" className="ih-edit" onClick={() => go(STORY_STEP)}>
+                  Chỉnh sửa
+                </button>
+              </h3>
+              {draft.story
+                .split(/\n{1,}/)
+                .filter((paragraph) => paragraph.trim())
+                .map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              {!draft.story.trim() && <p className="ih-note">{storyTooShortMessage}</p>}
+            </section>
+
+            <dl>
               <div>
-                <dt>Nhân vật</dt>
+                <dt>
+                  LINK BÀI VIẾT FACEBOOK
+                  <button type="button" className="ih-edit" onClick={() => go(SHARE_STEP)}>
+                    Chỉnh sửa
+                  </button>
+                </dt>
+                <dd>{draft.facebookPostUrl || "—"}</dd>
+              </div>
+              <div>
+                <dt>
+                  THÔNG TIN CHƯƠNG TRÌNH 99.999
+                  <button type="button" className="ih-edit" onClick={() => go(VERIFY_STEP)}>
+                    Chỉnh sửa
+                  </button>
+                </dt>
                 <dd>
-                  {draft.characterName} — {draft.characterDescription}
+                  Telegram: {draft.telegram || "—"} · FUN.Rich: {draft.funRichUrl || "—"} · Ví
+                  CAMLY: {draft.recipientWallet ? "đã nhập" : "—"}
                 </dd>
-              </div>
-              <div>
-                <dt>Ước mơ</dt>
-                <dd>{draft.dream}</dd>
-              </div>
-              <div>
-                <dt>Trải nghiệm</dt>
-                <dd>{draft.gameplay}</dd>
-              </div>
-              <div>
-                <dt>Angel AI</dt>
-                <dd>{draft.angelAi}</dd>
-              </div>
-              <div>
-                <dt>Phần thưởng / ghi nhận</dt>
-                <dd>{draft.reward}</dd>
-              </div>
-              <div>
-                <dt>Thế giới thay đổi</dt>
-                <dd>{draft.worldChange}</dd>
-              </div>
-              <div>
-                <dt>Kết nối đời thật</dt>
-                <dd>{draft.realWorldConnection || "Chưa có / Không áp dụng."}</dd>
               </div>
               <div>
                 <dt>Danh mục</dt>
@@ -533,24 +800,25 @@ function CreateIdeaPage() {
           <Button variant="outline" disabled={busy} onClick={() => void persist()}>
             <Save aria-hidden="true" /> {busy ? "Đang lưu…" : "Lưu bản nháp"}
           </Button>
-          {step < 9 ? (
+          {step < REVIEW_STEP ? (
             <Button
               disabled={busy}
               onClick={async () => {
-                if (step === 8) await persist(true);
+                if (step === VERIFY_STEP) await persist(true);
                 go(step + 1);
               }}
             >
               Tiếp theo <ArrowRight aria-hidden="true" />
             </Button>
           ) : (
-            <Button disabled={busy} onClick={() => void finalSubmit()}>
-              <Send aria-hidden="true" /> {busy ? "Đang gửi…" : "Gửi ý tưởng"}
+            <Button disabled={busy} aria-busy={busy} onClick={() => void finalSubmit()}>
+              <Send aria-hidden="true" /> {busy ? "Đang gửi…" : "🚀 GỬI Ý TƯỞNG VÀO FUN COSMOS"}
             </Button>
           )}
         </div>
         <p className="ih-note">
-          <Sparkles aria-hidden="true" size={14} /> Bản nháp được lưu trong tài khoản của bạn.
+          <Sparkles aria-hidden="true" size={14} /> Bản nháp được lưu trong tài khoản của bạn — câu
+          chuyện ngắn hơn 1.000 ký tự vẫn lưu nháp được.
           <Check aria-hidden="true" size={14} />
         </p>
       </main>

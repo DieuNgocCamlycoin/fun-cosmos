@@ -432,3 +432,135 @@
 .lc-button:focus-visible {
   background: color-mix(in srgb, var(--lc-gold) 24%, transparent);
 }
+
+/* Phase 1.1 — story-driven creator */
+.ih-optional {
+  font-size: 0.6em;
+  letter-spacing: 0.12em;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid hsl(var(--gold, 42 70% 60%) / 0.6);
+  border-radius: 999px;
+  vertical-align: middle;
+}
+.ih-story-sub {
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+.ih-story-journey {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+.ih-story-journey li {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid hsl(var(--gold, 42 70% 60%) / 0.45);
+  background: hsl(0 0% 100% / 0.35);
+}
+.ih-story-label {
+  display: block;
+  margin-top: 1rem;
+}
+.ih-story-editor {
+  min-height: 42vh;
+  line-height: 1.75;
+  font-size: 1rem;
+}
+.ih-counter {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  opacity: 0.8;
+}
+.ih-counter.is-ready {
+  opacity: 1;
+  color: hsl(150 55% 32%);
+}
+.ih-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: hsl(220 60% 12% / 0.45);
+  backdrop-filter: blur(6px);
+}
+.ih-modal-panel {
+  width: min(680px, 100%);
+  max-height: 86vh;
+  overflow: auto;
+  border-radius: 1.2rem;
+  padding: 1.4rem;
+  background: hsl(0 0% 100% / 0.92);
+  border: 1px solid hsl(var(--gold, 42 70% 60%) / 0.55);
+  box-shadow: 0 30px 80px hsl(220 60% 20% / 0.35);
+}
+.ih-modal-panel header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.ih-modal-panel header button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.ih-prompt {
+  white-space: pre-wrap;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  padding: 0.9rem;
+  border-radius: 0.8rem;
+  background: hsl(210 60% 97%);
+  border: 1px solid hsl(210 40% 85%);
+}
+.ih-share-steps {
+  margin: 0.8rem 0 0.4rem 1.1rem;
+  line-height: 1.8;
+}
+.ih-program {
+  margin-top: 1.2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid hsl(var(--gold, 42 70% 60%) / 0.5);
+  background: hsl(0 0% 100% / 0.4);
+}
+.ih-excerpt {
+  font-style: italic;
+  opacity: 0.9;
+}
+.ih-edit {
+  margin-left: 0.6rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid hsl(var(--gold, 42 70% 60%) / 0.6);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  background: transparent;
+  cursor: pointer;
+}
+.ih-review-story p,
+.ih-story-read p {
+  max-width: 68ch;
+  line-height: 1.85;
+  margin-bottom: 1rem;
+  font-size: 1.02rem;
+}
+@media (max-width: 480px) {
+  .ih-story-editor {
+    min-height: 52vh;
+    font-size: 0.98rem;
+  }
+  .ih-story-read p,
+  .ih-review-story p {
+    font-size: 1rem;
+  }
+}

@@ -362,7 +362,7 @@ export const listPublicIdeas = createServerFn({ method: "POST" })
     let query = supabase
       .from("ideas")
       .select(
-        "public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,published_at",
+        "public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,published_at,story" as "public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,published_at",
       )
       .in("status", [...PUBLIC_STATUSES])
       .order("published_at", { ascending: false })
@@ -379,7 +379,11 @@ export const listPublicIdeas = createServerFn({ method: "POST" })
     }
     const { data: rows, error } = await query;
     if (error) return { ideas: [], error: "Chưa tải được danh sách ý tưởng." };
-    return { ideas: rows ?? [], error: null };
+    // Only a short excerpt of the story travels to the hub cards.
+    const ideas = ((rows ?? []) as (typeof rows extends null ? never : NonNullable<typeof rows>[number] & StoryFields)[]).map(
+      ({ story, ...rest }) => ({ ...rest, story_excerpt: storyExcerpt(story ?? "") }),
+    );
+    return { ideas, error: null };
   });
 
 export const getPublicIdea = createServerFn({ method: "POST" })
@@ -391,7 +395,7 @@ export const getPublicIdea = createServerFn({ method: "POST" })
     const { data: idea } = await supabase
       .from("ideas")
       .select(
-        "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at",
+        "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at,story,facebook_post_url" as "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at",
       )
       .eq("public_code", data.code.toUpperCase())
       .in("status", [...PUBLIC_STATUSES])

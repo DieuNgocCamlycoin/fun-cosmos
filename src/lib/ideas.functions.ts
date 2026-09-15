@@ -245,16 +245,22 @@ export const submitIdea = createServerFn({ method: "POST" })
       .eq("idea_id", data.id)
       .maybeSingle();
 
+    // The 7 seeds accept short answers; the story is the required content.
+    const storyFields = idea as typeof idea & StoryFields;
+    const story = (storyFields.story ?? "").trim();
+    const facebookPostUrl = (storyFields.facebook_post_url ?? "").trim();
+    if (story.length < STORY_MIN) throw new Error(storyTooShortMessage);
+    if (story.length > STORY_MAX) throw new Error("Câu chuyện quá dài. Tối đa 30.000 ký tự.");
+    if (!FACEBOOK_POST_PATTERN.test(facebookPostUrl))
+      throw new Error(
+        "Cần link bài viết Facebook hợp lệ (bài đăng câu chuyện kèm 3 hashtag của chương trình).",
+      );
+
     const missing: string[] = [];
     if (idea.title.trim().length < 3) missing.push("tiêu đề ý tưởng");
     if (idea.summary.trim().length < 10) missing.push("tóm tắt ngắn");
-    if (idea.character_name.trim().length < 2) missing.push("tên nhân vật");
-    if (idea.character_description.trim().length < 10) missing.push("mô tả nhân vật");
-    if (idea.dream.trim().length < 10) missing.push("ước mơ");
-    if (idea.gameplay.trim().length < 10) missing.push("trải nghiệm");
-    if (idea.angel_ai.trim().length < 10) missing.push("Angel AI");
-    if (idea.reward.trim().length < 5) missing.push("phần thưởng / ghi nhận");
-    if (idea.world_change.trim().length < 10) missing.push("thế giới thay đổi");
+    if (idea.character_name.trim().length < 1 && idea.character_description.trim().length < 1)
+      missing.push("nhân vật");
     if (!details?.consent_accuracy) missing.push("xác nhận thông tin chính xác");
     if (!details || !/^https:\/\/(www\.)?facebook\.com\//i.test(details.facebook_url))
       missing.push("liên kết Facebook hợp lệ");

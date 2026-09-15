@@ -221,6 +221,38 @@ function AdminIdeasPage() {
                 <p>
                   <b>7. Kết nối đời thật:</b> {row.real_world_connection}
                 </p>
+                {(() => {
+                  const extra = row as typeof row & {
+                    story?: string | null;
+                    facebook_post_url?: string | null;
+                  };
+                  return (
+                    <>
+                      <h4>CÂU CHUYỆN FUN COSMOS</h4>
+                      {(extra.story ?? "")
+                        .split(/\n+/)
+                        .map((p) => p.trim())
+                        .filter(Boolean)
+                        .map((paragraph, index) => (
+                          <p key={index}>{paragraph}</p>
+                        ))}
+                      {!extra.story?.trim() && <p>(Bài cũ — chưa có câu chuyện)</p>}
+                      <h4>BÀI ĐĂNG FACEBOOK</h4>
+                      {extra.facebook_post_url ? (
+                        <a
+                          className="lc-button"
+                          href={extra.facebook_post_url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                        >
+                          MỞ BÀI VIẾT ↗
+                        </a>
+                      ) : (
+                        <p>Chưa có link bài viết.</p>
+                      )}
+                    </>
+                  );
+                })()}
               </details>
 
               <div className="fc-admin-actions">

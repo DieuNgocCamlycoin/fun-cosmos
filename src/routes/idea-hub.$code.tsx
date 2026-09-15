@@ -104,8 +104,38 @@ function IdeaDetailPage() {
               </p>
             </header>
 
+            {(() => {
+              const extra = idea as typeof idea & {
+                story?: string | null;
+                facebook_post_url?: string | null;
+              };
+              const paragraphs = (extra.story ?? "")
+                .split(/\n+/)
+                .map((p) => p.trim())
+                .filter(Boolean);
+              if (!paragraphs.length) return null;
+              return (
+                <section className="ih-card ih-story-read">
+                  <h2>📖 CÂU CHUYỆN FUN COSMOS</h2>
+                  {paragraphs.map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
+                  {extra.facebook_post_url && (
+                    <a
+                      className="lc-button"
+                      href={extra.facebook_post_url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      XEM BÀI ĐĂNG FACEBOOK ↗
+                    </a>
+                  )}
+                </section>
+              );
+            })()}
+
             <section className="ih-card">
-              <h2>THE IDEA</h2>
+              <h2>7 HẠT GIỐNG Ý TƯỞNG</h2>
               <dl className="ih-list">
                 <div>
                   <dt>1. Nhân vật</dt>

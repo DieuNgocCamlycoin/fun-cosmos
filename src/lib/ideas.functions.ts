@@ -2,7 +2,17 @@ import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import {
+  FACEBOOK_POST_PATTERN,
+  STORY_MAX,
+  STORY_MIN,
+  storyExcerpt,
+  storyTooShortMessage,
+} from "@/lib/idea-content";
 import type { Database } from "@/integrations/supabase/types";
+
+/** `story` and `facebook_post_url` are recent columns; generated types may lag behind. */
+type StoryFields = { story?: string | null; facebook_post_url?: string | null };
 
 export const IDEA_CATEGORIES = [
   "world",
@@ -115,6 +125,8 @@ async function requireAdmin(context: { supabase: { rpc?: unknown }; userId: stri
 
 function contentRow(data: z.output<typeof draftSchema>) {
   return {
+    story: data.story,
+    facebook_post_url: data.facebookPostUrl,
     title: data.title,
     summary: data.summary,
     category: data.category,

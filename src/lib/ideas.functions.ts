@@ -11,8 +11,12 @@ import {
 } from "@/lib/idea-content";
 import type { Database } from "@/integrations/supabase/types";
 
-/** `story` and `facebook_post_url` are recent columns; generated types may lag behind. */
-type StoryFields = { story?: string | null; facebook_post_url?: string | null };
+/** Story columns are recent; generated types may lag behind. */
+type StoryFields = {
+  story?: string | null;
+  facebook_post_url?: string | null;
+  facebook_post_public_consent?: boolean | null;
+};
 
 export const IDEA_CATEGORIES = [
   "world",
@@ -58,6 +62,8 @@ const draftSchema = z.object({
   realWorldConnection: optionalText(2000),
   story: z.string().max(STORY_MAX).default(""),
   facebookPostUrl: optionalText(500),
+  /** Opt-in only. Pasting a link never implies consent to publish it. */
+  facebookPostPublicConsent: z.boolean().default(false),
   facebookUrl: optionalText(500),
   telegram: optionalText(200),
   funRichUrl: optionalText(500),
@@ -127,6 +133,7 @@ function contentRow(data: z.output<typeof draftSchema>) {
   return {
     story: data.story,
     facebook_post_url: data.facebookPostUrl,
+    facebook_post_public_consent: data.facebookPostPublicConsent,
     title: data.title,
     summary: data.summary,
     category: data.category,
@@ -395,14 +402,27 @@ export const getPublicIdea = createServerFn({ method: "POST" })
     const { data: idea } = await supabase
       .from("ideas")
       .select(
-        "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at,story,facebook_post_url" as "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at",
+        "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at,story,facebook_post_url,facebook_post_public_consent" as "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at",
       )
       .eq("public_code", data.code.toUpperCase())
       .in("status", [...PUBLIC_STATUSES])
       .maybeSingle();
     if (!idea) return { found: false as const };
     const { data: tags } = await supabase.from("idea_tags").select("tag").eq("idea_id", idea.id);
-    return { found: true as const, idea, tags: (tags ?? []).map((row) => row.tag) };
+    // The Facebook post link leaves the server ONLY with explicit creator consent.
+    const row = idea as typeof idea & StoryFields;
+    const { facebook_post_public_consent: consent, ...rest } = row;
+    const safeIdea = consent
+      ? rest
+      : (() => {
+          const { facebook_post_url: _hidden, ...withoutLink } = rest;
+          return withoutLink;
+        })();
+    return {
+      found: true as const,
+      idea: safeIdea as typeof idea,
+      tags: (tags ?? []).map((row) => row.tag),
+    };
   });
 
 /* ---------------------------- Admin moderation ---------------------------- */

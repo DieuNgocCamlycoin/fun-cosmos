@@ -225,6 +225,7 @@ function AdminIdeasPage() {
                   const extra = row as typeof row & {
                     story?: string | null;
                     facebook_post_url?: string | null;
+                    facebook_post_public_consent?: boolean | null;
                   };
                   return (
                     <>
@@ -250,6 +251,12 @@ function AdminIdeasPage() {
                       ) : (
                         <p>Chưa có link bài viết.</p>
                       )}
+                      <p>
+                        <b>Đồng ý hiển thị công khai:</b>{" "}
+                        {extra.facebook_post_public_consent
+                          ? "CÓ — link hiển thị trên Idea Hub khi bài được duyệt đăng."
+                          : "KHÔNG — chỉ Ban quản trị xem được link này."}
+                      </p>
                     </>
                   );
                 })()}

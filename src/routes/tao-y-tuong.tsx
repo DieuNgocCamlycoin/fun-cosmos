@@ -582,6 +582,21 @@ function CreateIdeaPage() {
             {draft.facebookPostUrl.trim() !== "" && !facebookReady && (
               <p className="fc-form-error">Đây chưa phải là đường dẫn bài viết Facebook hợp lệ.</p>
             )}
+            <div className="fc-consents ih-consent">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={draft.facebookPostPublicConsent}
+                  onChange={(e) => set("facebookPostPublicConsent", e.target.checked)}
+                />{" "}
+                Tôi đồng ý cho FUN COSMOS hiển thị công khai link bài viết Facebook này trên Idea
+                Hub nếu ý tưởng của tôi được duyệt đăng.
+              </label>
+              <small className="ih-note">
+                Không bắt buộc. Nếu bạn không chọn, Ban quản trị vẫn kiểm tra được bài tham gia
+                nhưng link sẽ không xuất hiện công khai.
+              </small>
+            </div>
             <div className="ih-program">
               <h3>{programHeadline}</h3>
               <p>{programSubline}</p>
@@ -761,6 +776,19 @@ function CreateIdeaPage() {
                   </button>
                 </dt>
                 <dd>{draft.facebookPostUrl || "—"}</dd>
+              </div>
+              <div>
+                <dt>
+                  HIỂN THỊ LINK CÔNG KHAI
+                  <button type="button" className="ih-edit" onClick={() => go(SHARE_STEP)}>
+                    Chỉnh sửa
+                  </button>
+                </dt>
+                <dd>
+                  {draft.facebookPostPublicConsent
+                    ? "Có — đồng ý hiển thị link bài viết trên Idea Hub."
+                    : "Không — link bài viết chỉ dành cho Ban quản trị."}
+                </dd>
               </div>
               <div>
                 <dt>

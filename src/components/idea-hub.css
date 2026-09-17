@@ -564,3 +564,31 @@
     font-size: 1rem;
   }
 }
+
+.ih-consent {
+  margin-top: 0.9rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--fc-gold, #e9c877) 45%, transparent);
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, #ffffff 12%, transparent);
+}
+
+.ih-consent label {
+  display: flex;
+  gap: 0.55rem;
+  align-items: flex-start;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.ih-consent input[type="checkbox"] {
+  margin-top: 0.25rem;
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: 0 0 auto;
+}
+
+.ih-consent small {
+  display: block;
+  margin-top: 0.45rem;
+}

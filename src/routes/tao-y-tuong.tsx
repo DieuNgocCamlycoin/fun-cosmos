@@ -78,6 +78,7 @@ type Draft = {
   realWorldConnection: string;
   story: string;
   facebookPostUrl: string;
+  facebookPostPublicConsent: boolean;
   facebookUrl: string;
   telegram: string;
   funRichUrl: string;
@@ -101,6 +102,7 @@ const emptyDraft = (): Draft => ({
   realWorldConnection: "",
   story: "",
   facebookPostUrl: "",
+  facebookPostPublicConsent: false,
   facebookUrl: "",
   telegram: "",
   funRichUrl: "",
@@ -165,6 +167,7 @@ function CreateIdeaPage() {
           const idea = remote.idea as typeof remote.idea & {
             story?: string | null;
             facebook_post_url?: string | null;
+            facebook_post_public_consent?: boolean | null;
           };
           setDraft({
             id: idea.id,
@@ -182,6 +185,7 @@ function CreateIdeaPage() {
             realWorldConnection: idea.real_world_connection,
             story: idea.story ?? "",
             facebookPostUrl: idea.facebook_post_url ?? "",
+            facebookPostPublicConsent: idea.facebook_post_public_consent ?? false,
             facebookUrl: remote.details?.facebook_url ?? "",
             telegram: remote.details?.telegram ?? "",
             funRichUrl: remote.details?.fun_rich_url ?? "",

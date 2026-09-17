@@ -11,8 +11,12 @@ import {
 } from "@/lib/idea-content";
 import type { Database } from "@/integrations/supabase/types";
 
-/** `story` and `facebook_post_url` are recent columns; generated types may lag behind. */
-type StoryFields = { story?: string | null; facebook_post_url?: string | null };
+/** Story columns are recent; generated types may lag behind. */
+type StoryFields = {
+  story?: string | null;
+  facebook_post_url?: string | null;
+  facebook_post_public_consent?: boolean | null;
+};
 
 export const IDEA_CATEGORIES = [
   "world",
@@ -58,6 +62,8 @@ const draftSchema = z.object({
   realWorldConnection: optionalText(2000),
   story: z.string().max(STORY_MAX).default(""),
   facebookPostUrl: optionalText(500),
+  /** Opt-in only. Pasting a link never implies consent to publish it. */
+  facebookPostPublicConsent: z.boolean().default(false),
   facebookUrl: optionalText(500),
   telegram: optionalText(200),
   funRichUrl: optionalText(500),
@@ -127,6 +133,7 @@ function contentRow(data: z.output<typeof draftSchema>) {
   return {
     story: data.story,
     facebook_post_url: data.facebookPostUrl,
+    facebook_post_public_consent: data.facebookPostPublicConsent,
     title: data.title,
     summary: data.summary,
     category: data.category,

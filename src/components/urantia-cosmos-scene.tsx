@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from "react";
 import "./urantia-cosmos-scene.css";
 import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
+import { useI18n } from "@/lib/i18n";
 
 const worlds = [
   ["Bổ sung", "Cân bằng kinh nghiệm", "Học hỏi và cân bằng kinh nghiệm."],
@@ -23,6 +24,16 @@ const positions = [
 
 /** The supplied, text-free spiral background is passed explicitly by the page. */
 export function UrantiaCosmosScene({ background }: { background: string }) {
+  const { locale, t } = useI18n();
+  const worldsEn = [
+    ["Renewal", "Learn and balance experience."],
+    ["Learning", "Develop knowledge and understanding."],
+    ["Understanding", "Broaden your perspective and awareness."],
+    ["Growth", "Grow through experience."],
+    ["Service", "Live for others and contribute."],
+    ["Wider awareness", "Learn more about the cosmos and life."],
+    ["Continue", "Prepare for the next steps of growth."],
+  ];
   const [selected, setSelected] = useState<number | null>(null);
   return (
     <section
@@ -34,19 +45,25 @@ export function UrantiaCosmosScene({ background }: { background: string }) {
       <header className="uc-heading">
         <p>U-RAN-TI-A OPENS THE COSMOS</p>
         <h2>
-          Sách <em>U-RAN-TI-A</em> mở ra <em>bức tranh vũ trụ</em>
+          {t("The", "Sách")} <em>U-RAN-TI-A</em> {t("Book opens a", "mở ra")}{" "}
+          <em>{t("picture of the cosmos", "bức tranh vũ trụ")}</em>
         </h2>
-        <p>Một vũ trụ có trật tự, giáo dục và hành trình tiến hóa</p>
+        <p>
+          {t(
+            "An ordered cosmos of learning and growth",
+            "Một vũ trụ có trật tự, giáo dục và hành trình tiến hóa",
+          )}
+        </p>
       </header>
       <img
         className="uc-traveler"
         src="/cosmos/urantia-traveler.png"
-        alt="Nhân vật đứng ngắm bức tranh vũ trụ"
+        alt={t("A traveler looks out across the cosmos", "Nhân vật đứng ngắm bức tranh vũ trụ")}
       />
       <div
         className="uc-orbit lc-mansions"
         data-reading={selected !== null}
-        aria-label="Bảy thế giới dinh thự"
+        aria-label={t("Seven mansion worlds", "Bảy thế giới dinh thự")}
       >
         <div className="uc-orbit-rings" aria-hidden="true" />
         {worlds.map(([name, , detail], i) => (
@@ -58,7 +75,7 @@ export function UrantiaCosmosScene({ background }: { background: string }) {
             <PopoverTrigger asChild>
               <button
                 key={name}
-                aria-label={`Khám phá thế giới ${name}`}
+                aria-label={t(`Explore ${worldsEn[i]?.[0]}`, `Khám phá thế giới ${name}`)}
                 aria-pressed={selected === i}
                 onClick={() => setSelected(i)}
                 style={
@@ -71,7 +88,7 @@ export function UrantiaCosmosScene({ background }: { background: string }) {
                 }
               >
                 <span className="lc-mansion-world">
-                  <i role="img" aria-label={`Thế giới ${name}`} />
+                  <i role="img" aria-label={t(`World ${worldsEn[i]?.[0]}`, `Thế giới ${name}`)} />
                 </span>
               </button>
             </PopoverTrigger>
@@ -80,17 +97,17 @@ export function UrantiaCosmosScene({ background }: { background: string }) {
               side="right"
               sideOffset={10}
               collisionPadding={16}
-              aria-label={name}
+              aria-label={locale === "en" ? worldsEn[i]?.[0] : name}
             >
               <button
                 className="uc-note-close"
-                aria-label="Đóng thông tin hành tinh"
+                aria-label={t("Close world information", "Đóng thông tin hành tinh")}
                 onClick={() => setSelected(null)}
               >
                 ×
               </button>
-              <h3>{name}</h3>
-              <p>{detail}</p>
+              <h3>{locale === "en" ? worldsEn[i]?.[0] : name}</h3>
+              <p>{locale === "en" ? worldsEn[i]?.[1] : detail}</p>
             </PopoverContent>
           </Popover>
         ))}
@@ -100,9 +117,12 @@ export function UrantiaCosmosScene({ background }: { background: string }) {
         href="https://urantia.fun.rich/"
         target="_blank"
         rel="noreferrer"
-        aria-label="Khám phá Sách Urantia"
+        aria-label={t("Explore The Urantia Book", "Khám phá Sách Urantia")}
       >
-        <img src="/cosmos/urantia.png" alt="Sách Urantia Tiếng Việt" />
+        <img
+          src="/cosmos/urantia.png"
+          alt={t("The Urantia Book in Vietnamese", "Sách Urantia Tiếng Việt")}
+        />
       </a>
     </section>
   );

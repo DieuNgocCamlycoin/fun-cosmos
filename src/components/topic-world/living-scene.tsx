@@ -1,6 +1,7 @@
 import { ArtworkFragment } from "./artwork-fragment";
 import { useId, useState, type CSSProperties, type ReactNode } from "react";
 import { X, ArrowRight } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export type SceneMoment = {
   title: string;
@@ -14,12 +15,15 @@ export function LivingScene({
   background = "/cosmos/cosmic-clouds.png",
   character = "/cosmos/topic-world/angel-640.png",
   label,
+  onChoose,
 }: {
   moments: SceneMoment[];
   background?: string | undefined;
   character?: string;
   label: string;
+  onChoose?: (index: number) => void;
 }) {
+  const { t } = useI18n();
   const [selected, setSelected] = useState(0);
   const [details, setDetails] = useState(true);
   const id = useId();
@@ -73,7 +77,7 @@ export function LivingScene({
           <>
             <button
               className="story-close"
-              aria-label="Đóng chi tiết"
+              aria-label={t("Close details", "Đóng chi tiết")}
               onClick={() => setDetails(false)}
             >
               <X size={18} />
@@ -83,33 +87,34 @@ export function LivingScene({
             </small>
             <h3>{current.title}</h3>
             <p>{current.text}</p>
+            {onChoose && (
+              <button className="story-choose" onClick={() => onChoose(selected)}>
+                {t("Begin with this idea", "Bắt đầu từ cảm hứng này")} <ArrowRight size={16} />
+              </button>
+            )}
             <button
               className="story-next"
               onClick={() => setSelected((selected + 1) % moments.length)}
             >
-              Khám phá tiếp <ArrowRight size={16} />
+              {t("Explore next", "Khám phá tiếp")} <ArrowRight size={16} />
             </button>
           </>
         ) : (
           <button className="story-next" onClick={() => setDetails(true)}>
-            Mở câu chuyện: {current.title}
+            {t("Open story", "Mở câu chuyện")}: {current.title}
           </button>
         )}
       </div>
     </div>
   );
 }
-export function ArchiveDisclosure({
-  children,
-  title = "Mở thư viện hình ảnh gốc",
-}: {
-  children: ReactNode;
-  title?: string;
-}) {
+export function ArchiveDisclosure({ children, title }: { children: ReactNode; title?: string }) {
+  const { t } = useI18n();
   return (
     <details className="story-library">
       <summary>
-        {title} <span aria-hidden="true">＋</span>
+        {title ?? t("Open the original artwork gallery", "Mở thư viện hình ảnh gốc")}{" "}
+        <span aria-hidden="true">＋</span>
       </summary>
       <div>{children}</div>
     </details>

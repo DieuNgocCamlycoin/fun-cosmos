@@ -1,14 +1,8 @@
-import { useState, useRef, useEffect, type ReactNode } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ArrowRight, Pause, Play } from "lucide-react";
 import { ArtworkViewer } from "./story-artwork";
-import { descriptions } from "./artwork-descriptions";
-
-export type TopicGalleryLogo = {
-  src: string;
-  alt: string;
-  href: string;
-  label: string;
-};
+import { descriptions, descriptionsEn } from "./artwork-descriptions";
+import { useI18n } from "@/lib/i18n";
 
 export function TopicGallery({
   id,
@@ -16,24 +10,14 @@ export function TopicGallery({
   images,
   labels,
   chapter,
-  footer,
-  banner = false,
-  centered = false,
-  logo,
 }: {
   id: string;
   title: string;
   images: number[];
   labels: string[];
   chapter: string;
-  footer?: ReactNode;
-  /** Banner layout: logo + title on one row above the artwork, no text panel. */
-  banner?: boolean;
-  /** Artwork-only layout centered in the viewport, without the side copy panel. */
-  centered?: boolean;
-  /** Supplied mark rendered before the title in banner layout. */
-  logo?: TopicGalleryLogo;
 }) {
+  const { locale, t } = useI18n();
   const root = useRef<HTMLElement>(null);
   const idleUntil = useRef(0);
   const noteActivity = () => {
@@ -145,83 +129,58 @@ export function TopicGallery({
     };
   };
 
-  const progressBar =
-    images.length > 1 ? (
-      <div className="tg-progress" aria-hidden="true">
-        {images.map((image, index) => (
-          <span
-            key={image}
-            className={index === selected ? "is-current" : ""}
-            style={index === selected ? { backgroundPosition: `${progress}px 0` } : undefined}
-          />
-        ))}
-      </div>
-    ) : null;
-
   return (
-    <section
-      ref={root}
-      id={id}
-      data-chapter={chapter}
-      className={`tg-section${banner ? " tg-banner" : ""}${centered ? " tg-centered" : ""}`}
-    >
-      {banner ? (
-        <header className="tg-banner-head">
-          {logo && (
-            <a
-              className="tg-logo"
-              href={logo.href}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={logo.label}
-            >
-              <img src={logo.src} alt={logo.alt} width="64" height="64" loading="lazy" />
-            </a>
-          )}
-          <h2>{title}</h2>
-        </header>
-      ) : centered ? null : (
-        <div className="tg-copy">
-          <h2>{title}</h2>
+    <section ref={root} id={id} data-chapter={chapter} className="tg-section">
+      <div className="tg-copy">
+        <h2>{title}</h2>
 
-          {images.length > 1 && (
-            <div className="tg-choices" aria-label={`Nội dung ${title}`}>
-              {images.map((image, index) => (
-                <button
-                  key={image}
-                  aria-pressed={selected === index}
-                  aria-controls={`${id}-art`}
-                  onClick={() => goTo(index)}
-                >
-                  <span className="tg-choice-label">
-                    <small className="tg-choice-number" aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
-                    </small>
-                    {labels[index]}
-                  </span>
-                  <span aria-hidden="true" className="tg-choice-arrow">
-                    ↗
-                  </span>
-                </button>
-              ))}
-            </div>
-          )}
-
-          {progressBar}
-          <div className="tg-caption-stack">
+        {images.length > 1 && (
+          <div className="tg-choices" aria-label={t(`Contents of ${title}`, `Nội dung ${title}`)}>
             {images.map((image, index) => (
-              <div
+              <button
                 key={image}
-                className="tg-story-caption"
-                aria-hidden={selected !== index}
-                style={{ visibility: selected === index ? "visible" : "hidden" }}
+                aria-pressed={selected === index}
+                aria-controls={`${id}-art`}
+                onClick={() => goTo(index)}
               >
-                <p>{descriptions[image]}</p>
-              </div>
+                <span className="tg-choice-label">
+                  <small className="tg-choice-number" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </small>
+                  {labels[index]}
+                </span>
+                <span aria-hidden="true" className="tg-choice-arrow">
+                  ↗
+                </span>
+              </button>
             ))}
           </div>
+        )}
+
+        {images.length > 1 && (
+          <div className="tg-progress" aria-hidden="true">
+            {images.map((image, index) => (
+              <span
+                key={image}
+                className={index === selected ? "is-current" : ""}
+                style={index === selected ? { backgroundPosition: `${progress}px 0` } : undefined}
+              />
+            ))}
+          </div>
+        )}
+        <div className="tg-caption-stack">
+          {images.map((image, index) => (
+            <div
+              key={image}
+              className="tg-story-caption"
+              aria-hidden={selected !== index}
+              style={{ visibility: selected === index ? "visible" : "hidden" }}
+            >
+              <p>{(locale === "en" ? descriptionsEn : descriptions)[image]}</p>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
 
       <div
         id={`${id}-art`}
@@ -238,22 +197,24 @@ export function TopicGallery({
         onMouseLeave={onDragEnd}
       >
         <div className="tg-art-stage">
-          <div className="tg-controls">
-            {images.length > 1 && (
-              <>
-                <button
-                  aria-label={paused ? "Tiếp tục trình chiếu" : "Tạm dừng trình chiếu"}
-                  aria-pressed={paused}
-                  onClick={() => setPaused(!paused)}
-                >
-                  {paused ? <Play size={18} /> : <Pause size={18} />}
-                </button>
-                <button aria-label="Xem ảnh tiếp theo" onClick={moveForward}>
-                  <ArrowRight size={20} />
-                </button>
-              </>
-            )}
-          </div>
+          {images.length > 1 && (
+            <div className="tg-controls">
+              <button
+                aria-label={
+                  paused
+                    ? t("Resume slideshow", "Tiếp tục trình chiếu")
+                    : t("Pause slideshow", "Tạm dừng trình chiếu")
+                }
+                aria-pressed={paused}
+                onClick={() => setPaused(!paused)}
+              >
+                {paused ? <Play size={18} /> : <Pause size={18} />}
+              </button>
+              <button aria-label={t("Next image", "Xem ảnh tiếp theo")} onClick={moveForward}>
+                <ArrowRight size={20} />
+              </button>
+            </div>
+          )}
           {images.map((image, index) => (
             <div
               key={image}
@@ -267,10 +228,11 @@ export function TopicGallery({
           ))}
         </div>
 
-        {banner && progressBar}
-
         {images.length > 1 && (
-          <div className="tg-thumbnails" aria-label={`Chọn ảnh: ${title}`}>
+          <div
+            className="tg-thumbnails"
+            aria-label={t(`Choose image: ${title}`, `Chọn ảnh: ${title}`)}
+          >
             {images.map((image, index) => (
               <button
                 key={image}
@@ -290,7 +252,6 @@ export function TopicGallery({
             ))}
           </div>
         )}
-        {footer}
       </div>
     </section>
   );

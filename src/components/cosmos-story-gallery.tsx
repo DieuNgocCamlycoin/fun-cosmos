@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Pause, Play } from "lucide-react";
 import { ArtworkViewer } from "./story-artwork";
-import { descriptions } from "./artwork-descriptions";
+import { descriptions, descriptionsEn } from "./artwork-descriptions";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "./ui/button";
 
 const story = [7, 8, 9, 10, 11, 12, 14, 13, 15, 20, 23, 25];
@@ -19,8 +20,23 @@ const storyTitles: Record<number, string> = {
   23: "Online ↔ Offline",
   25: "Niềm vui trong FUN COSMOS",
 };
+const storyTitlesEn: Record<number, string> = {
+  7: "What is FUN COSMOS?",
+  8: "More than a game",
+  9: "From design to real life",
+  10: "Seven experience worlds",
+  11: "What can players do?",
+  12: "Anna's story",
+  13: "Core Loop",
+  14: "Core Idea",
+  15: "Five pillars",
+  20: "Game — Real Life",
+  23: "Online ↔ Offline",
+  25: "Joy in FUN COSMOS",
+};
 
 export function CosmosStoryGallery() {
+  const { locale, t } = useI18n();
   const root = useRef<HTMLElement>(null);
   const selectedRef = useRef(0);
   const touchStart = useRef<number | null>(null);
@@ -149,7 +165,11 @@ export function CosmosStoryGallery() {
             <Button
               variant="starlight"
               size="icon"
-              aria-label={paused ? "Tiếp tục trình chiếu" : "Tạm dừng trình chiếu"}
+              aria-label={
+                paused
+                  ? t("Resume slideshow", "Tiếp tục trình chiếu")
+                  : t("Pause slideshow", "Tạm dừng trình chiếu")
+              }
               aria-pressed={paused}
               onClick={() => setPaused(!paused)}
             >
@@ -158,7 +178,7 @@ export function CosmosStoryGallery() {
             <Button
               variant="starlight"
               size="icon"
-              aria-label="Ảnh tiếp theo"
+              aria-label={t("Next image", "Ảnh tiếp theo")}
               onClick={() => goTo(selected + 1)}
             >
               <ArrowRight />
@@ -173,12 +193,15 @@ export function CosmosStoryGallery() {
             </div>
           </div>
         </div>
-        <div className="csg-thumbnails" aria-label="Chọn ảnh FUN COSMOS">
+        <div
+          className="csg-thumbnails"
+          aria-label={t("Choose FUN COSMOS artwork", "Chọn ảnh FUN COSMOS")}
+        >
           {story.map((image, index) => (
             <Button
               key={image}
               variant="ghost"
-              aria-label={storyTitles[image]}
+              aria-label={(locale === "en" ? storyTitlesEn : storyTitles)[image]}
               aria-pressed={selected === index}
               onClick={() => goTo(index)}
             >
@@ -187,8 +210,11 @@ export function CosmosStoryGallery() {
           ))}
         </div>
         <header className="csg-heading">
-          <h2 id="csg-title">KHÁM PHÁ FUN COSMOS</h2>
-          <div className="csg-choices" aria-label="Nội dung Khám phá FUN COSMOS">
+          <h2 id="csg-title">{t("DISCOVER FUN COSMOS", "KHÁM PHÁ FUN COSMOS")}</h2>
+          <div
+            className="csg-choices"
+            aria-label={t("Discover FUN COSMOS contents", "Nội dung Khám phá FUN COSMOS")}
+          >
             {story.map((image, index) => (
               <Button
                 key={image}
@@ -199,14 +225,14 @@ export function CosmosStoryGallery() {
               >
                 <span>
                   <small>{String(index + 1).padStart(2, "0")}</small>
-                  {storyTitles[image]}
+                  {(locale === "en" ? storyTitlesEn : storyTitles)[image]}
                 </span>
                 <span aria-hidden="true">↗</span>
               </Button>
             ))}
           </div>
           <div className="csg-caption" key={currentImage} aria-live="polite">
-            <p>{descriptions[currentImage]}</p>
+            <p>{(locale === "en" ? descriptionsEn : descriptions)[currentImage]}</p>
           </div>
         </header>
       </div>

@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Volume2, VolumeX, Maximize2 } from "lucide-react";
+import { ArrowRight, Volume2, VolumeX } from "lucide-react";
 import { Button } from "./ui/button";
-import { openFullscreen } from "@/lib/fullscreen";
+import { useI18n } from "@/lib/i18n";
 const videoAsset = { url: "/cosmos/imported/fun-cosmos-cinematic.mp4" };
 const posterAsset = { url: "/cosmos/imported/fun-cosmos-cinematic-poster.jpg" };
 
 export function CosmosCinema() {
+  const { t } = useI18n();
   const video = useRef<HTMLVideoElement>(null);
-  const frame = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -30,7 +30,7 @@ export function CosmosCinema() {
 
   return (
     <section id="cosmos-cinema" className="cc-cinema" aria-labelledby="cosmos-cinema-title">
-      <div className="cc-frame" ref={frame}>
+      <div className="cc-frame">
         <div className="cc-media" aria-hidden={reducedMotion}>
           {reducedMotion ? (
             <img src={posterAsset.url} alt="" width="1920" height="1080" />
@@ -50,43 +50,40 @@ export function CosmosCinema() {
         <div className="cc-overlay">
           <div className="cc-copy">
             <p className="cc-kicker">5D NEW EARTH ROLE-PLAYING GAME</p>
-            <h2 id="cosmos-cinema-title">FUN COSMOS LÀ GÌ?</h2>
+            <h2 id="cosmos-cinema-title">{t("WHAT IS FUN COSMOS?", "FUN COSMOS LÀ GÌ?")}</h2>
           </div>
           <div className="cc-lower">
             <p>
-              Một thế giới nơi bạn khám phá, học hỏi, sáng tạo{" "}
+              {t(
+                "A world where you explore, learn and create",
+                "Một thế giới nơi bạn khám phá, học hỏi, sáng tạo",
+              )}
               <br className="cc-copy-break" />
-              và cùng nhau kiến tạo tương lai.
+              {t("and build the future together.", "và cùng nhau kiến tạo tương lai.")}
             </p>
             <div className="cc-actions">
               <Button asChild variant="cosmos" size="lg">
                 <a href="/cosmos">
-                  KHÁM PHÁ FUN COSMOS <ArrowRight />
+                  {t("EXPLORE FUN COSMOS", "KHÁM PHÁ FUN COSMOS")} <ArrowRight />
                 </a>
               </Button>
               <Button asChild variant="starlight" size="lg">
-                <a href="#games">CHỌN THẾ GIỚI</a>
+                <a href="#games">{t("CHOOSE A WORLD", "CHỌN THẾ GIỚI")}</a>
               </Button>
             </div>
           </div>
         </div>
-        <Button
-          type="button"
-          variant="starlight"
-          size="icon"
-          className="cc-expand"
-          aria-label="Mở rộng toàn màn hình"
-          onClick={() => void openFullscreen(video.current ?? frame.current)}
-        >
-          <Maximize2 />
-        </Button>
         {!reducedMotion && (
           <Button
             type="button"
             variant="starlight"
             size="icon"
             className="cc-sound"
-            aria-label={muted ? "Bật âm thanh video" : "Tắt âm thanh video"}
+            aria-label={
+              muted
+                ? t("Turn on video sound", "Bật âm thanh video")
+                : t("Mute video", "Tắt âm thanh video")
+            }
             aria-pressed={!muted}
             onClick={toggleSound}
           >

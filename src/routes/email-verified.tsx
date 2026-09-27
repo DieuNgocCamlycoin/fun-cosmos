@@ -1,14 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { CheckCircle2 } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/email-verified")({
   head: () => ({
     meta: [
-      { title: "Xác minh email thành công | FUN COSMOS" },
+      { title: "Email verified | FUN COSMOS" },
       {
         name: "description",
-        content: "Xác minh email thành công. Bạn có thể quay lại trang chủ FUN COSMOS.",
+        content: "Your email is verified. Return to the FUN COSMOS home page.",
       },
     ],
     links: [{ rel: "canonical", href: "/email-verified" }],
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/email-verified")({
 });
 
 function EmailVerifiedPage() {
+  const { t } = useI18n();
   return (
     <div className="auth-callback-page">
       <SiteHeader />
@@ -27,11 +29,13 @@ function EmailVerifiedPage() {
             <CheckCircle2 size={30} color="#fff7d6" />
           </div>
 
-          <h1 className="auth-callback-title">Xác minh email thành công</h1>
+          <h1 className="auth-callback-title">
+            {t("Email verified", "Xác minh email thành công")}
+          </h1>
 
           <div style={{ marginTop: 24, display: "grid", justifyItems: "center" }}>
             <Link to="/" className="auth-action">
-              Quay lại trang chủ
+              {t("Back to home", "Quay lại trang chủ")}
             </Link>
           </div>
         </section>

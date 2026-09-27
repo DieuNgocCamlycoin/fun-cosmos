@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUpRight, Pause, Play } from "lucide-react";
 import { externalLink } from "@/lib/links";
+import { useI18n } from "@/lib/i18n";
 import "./cosmos-arrival.css";
 
 /** A static DOM scene first; scroll depth is an optional desktop enhancement. */
 export function CosmosArrival() {
+  const { t } = useI18n();
   const scene = useRef<HTMLElement>(null);
   const [paused, setPaused] = useState(false);
   useEffect(() => {
@@ -83,34 +85,38 @@ export function CosmosArrival() {
       </div>
       <div className="cp-copy">
         <a href="/" className="tw-back">
-          ← Về trang chủ FUN COSMOS
+          ← {t("Back to FUN COSMOS home", "Về trang chủ FUN COSMOS")}
         </a>
         <p className="tw-eyebrow">5D NEW EARTH ROLE-PLAYING GAME</p>
         <h1 id="cosmos-title" className="tw-metal">
           FUN COSMOS
         </h1>
-        <p className="cp-tagline">PLAY THE COSMOS · LIVE IN HEAVEN</p>
+        <p className="cp-tagline">
+          {t("PLAY THE COSMOS · LIVE IN HEAVEN", "CHƠI TRONG VŨ TRỤ · SỐNG GIỮA THIÊN ĐÀNG")}
+        </p>
         <p>
-          Một thế giới để khám phá.
+          {t("A world to explore.", "Một thế giới để khám phá.")}
           <br />
-          Một nơi để cùng kiến tạo.
+          {t("A place to create together.", "Một nơi để cùng kiến tạo.")}
         </p>
         <div className="cw-actions">
           <a className="tw-button" {...externalLink}>
-            CHƠI NGAY <ArrowUpRight size={18} />
+            {t("PLAY NOW", "CHƠI NGAY")} <ArrowUpRight size={18} />
           </a>
           <a className="tw-outline" href="#definition">
-            Khám phá thế giới <ArrowDown size={18} />
+            {t("Explore the world", "Khám phá thế giới")} <ArrowDown size={18} />
           </a>
         </div>
       </div>
       <div className="cp-foot">
         <a href="#definition">
-          BƯỚC QUA CÁNH CỔNG <ArrowDown size={16} />
+          {t("STEP THROUGH THE GATE", "BƯỚC QUA CÁNH CỔNG")} <ArrowDown size={16} />
         </a>
         <button className="cp-motion" aria-pressed={paused} onClick={() => setPaused(!paused)}>
           {paused ? <Play size={14} /> : <Pause size={14} />}
-          {paused ? "Bật chiều sâu" : "Tạm dừng chiều sâu"}
+          {paused
+            ? t("Resume depth effect", "Bật chiều sâu")
+            : t("Pause depth effect", "Tạm dừng chiều sâu")}
         </button>
       </div>
     </section>

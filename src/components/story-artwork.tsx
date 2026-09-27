@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 import { chapters } from "./living-data";
 
-import { descriptions } from "./artwork-descriptions";
+import { descriptions, descriptionsEn } from "./artwork-descriptions";
+import { useI18n } from "@/lib/i18n";
 
 // Retain original narrative artwork until its corresponding scene is fully rebuilt.
 // Source 22 duplicates 14 and is intentionally absent from the chapter mapping.
@@ -14,12 +15,14 @@ export function StoryArtwork({
   images: readonly number[];
 }) {
   const chapter = chapters.find(([id]) => id === topic)!;
+  const { locale } = useI18n();
+  const copy = locale === "en" ? descriptionsEn : descriptions;
   return (
     <div className="lc-story-artwork" aria-label={chapter[1]}>
       {images.map((id) => (
         <figure key={id} data-chapter={topic} className="lc-story-picture">
           <ArtworkViewer id={id} />
-          <figcaption>{descriptions[id]}</figcaption>
+          <figcaption>{copy[id]}</figcaption>
         </figure>
       ))}
     </div>
@@ -28,13 +31,18 @@ export function StoryArtwork({
 
 export function ArtworkViewer({ id }: { id: number }) {
   const [zoom, setZoom] = useState(1);
+  const { locale, t } = useI18n();
+  const description = (locale === "en" ? descriptionsEn : descriptions)[id];
   return (
     <Dialog onOpenChange={() => setZoom(1)}>
       <DialogTrigger asChild>
-        <button className="lc-art-open" aria-label={`Phóng lớn: ${descriptions[id]}`}>
+        <button
+          className="lc-art-open"
+          aria-label={t(`Enlarge: ${description}`, `Phóng lớn: ${description}`)}
+        >
           <img
             src={`/slides/${id}.jpg`}
-            alt={descriptions[id]}
+            alt={description}
             width={1920}
             height={1080}
             loading="lazy"
@@ -46,23 +54,26 @@ export function ArtworkViewer({ id }: { id: number }) {
         </button>
       </DialogTrigger>
       <DialogContent className="lc-art-dialog">
-        <DialogTitle>{descriptions[id]}</DialogTitle>
+        <DialogTitle>{description}</DialogTitle>
         <DialogDescription>
-          Phóng to để đọc chi tiết. Dùng thanh cuộn để di chuyển trong ảnh.
+          {t(
+            "Zoom in to read the details. Scroll to move around the image.",
+            "Phóng to để đọc chi tiết. Dùng thanh cuộn để di chuyển trong ảnh.",
+          )}
         </DialogDescription>
         <div className="lc-art-tools">
           <button
             onClick={() => setZoom((v) => Math.max(1, v - 0.5))}
             disabled={zoom === 1}
-            aria-label="Thu nhỏ"
+            aria-label={t("Zoom out", "Thu nhỏ")}
           >
             −
           </button>
-          <button onClick={() => setZoom(1)}>Vừa khung</button>
+          <button onClick={() => setZoom(1)}>{t("Fit", "Vừa khung")}</button>
           <button
             onClick={() => setZoom((v) => Math.min(4, v + 0.5))}
             disabled={zoom === 4}
-            aria-label="Phóng to"
+            aria-label={t("Zoom in", "Phóng to")}
           >
             +
           </button>
@@ -71,7 +82,7 @@ export function ArtworkViewer({ id }: { id: number }) {
         <div className="lc-art-scroll" data-fit={zoom === 1} tabIndex={0}>
           <img
             src={`/slides/${id}.jpg`}
-            alt={descriptions[id]}
+            alt={description}
             style={zoom === 1 ? undefined : { width: `${zoom * 100}%`, maxWidth: "none" }}
           />
         </div>

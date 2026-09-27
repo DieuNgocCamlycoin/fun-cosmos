@@ -1,8 +1,11 @@
 import { useRef, useState } from "react";
 import { DeepDiveGallery } from "./deep-dive-gallery";
-import { descriptions } from "../artwork-descriptions";
+import { descriptions, descriptionsEn } from "../artwork-descriptions";
+import { useI18n } from "@/lib/i18n";
 
 export function CuratedArchive({ images }: { images: readonly number[] }) {
+  const { locale, t } = useI18n();
+  const copy = locale === "en" ? descriptionsEn : descriptions;
   const [selected, setSelected] = useState(0);
   const touch = useRef<{ x: number; y: number } | null>(null);
   const current = images[selected]!;
@@ -29,17 +32,17 @@ export function CuratedArchive({ images }: { images: readonly number[] }) {
             {
               thumb: `/slides/${current}.jpg`,
               full: `/slides/${current}.jpg`,
-              title: descriptions[current]!,
+              title: copy[current]!,
             },
           ]}
         />
       </div>
       {images.length > 1 && (
-        <div className="nw-thumbnails" aria-label="Chọn tư liệu">
+        <div className="nw-thumbnails" aria-label={t("Choose artwork", "Chọn tư liệu")}>
           {images.map((n, i) => (
             <button
               key={n}
-              aria-label={`Chọn ảnh: ${descriptions[n]}`}
+              aria-label={t(`Choose image: ${copy[n]}`, `Chọn ảnh: ${copy[n]}`)}
               aria-pressed={selected === i}
               onClick={() => setSelected(i)}
             >

@@ -47,17 +47,20 @@ export const Route = createFileRoute("/api/public/reset-password")({
         }
 
         try {
-          const playFabResponse = await fetch(`https://${PLAYFAB_TITLE_ID}.playfabapi.com/Admin/ResetPassword`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-SecretKey": secretKey,
+          const playFabResponse = await fetch(
+            `https://${PLAYFAB_TITLE_ID}.playfabapi.com/Admin/ResetPassword`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-SecretKey": secretKey,
+              },
+              body: JSON.stringify({
+                Password: password,
+                Token: token,
+              }),
             },
-            body: JSON.stringify({
-              Password: password,
-              Token: token,
-            }),
-          });
+          );
 
           const data = (await playFabResponse.json().catch(() => ({}))) as {
             error?: { message?: string };

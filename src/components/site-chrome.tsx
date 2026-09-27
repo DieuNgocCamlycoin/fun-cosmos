@@ -1,19 +1,98 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { ArrowUpRight, Menu, X, Pause, Play } from "lucide-react";
+import { ArrowUpRight, Check, Menu, X, Pause, Play } from "lucide-react";
 import { GAME_URL } from "@/lib/links";
+import { useI18n } from "@/lib/i18n";
+import goldGlobe from "@/assets/language-gold-globe.jpg";
 import "./site-chrome.css";
 
-const links = [
-  ["/#home", "TRANG CHỦ"],
-  ["/#origin", "URANTIA"],
-  ["/cosmos", "FUN COSMOS"],
-  ["/angel-ai", "ANGEL AI"],
-  ["/love-score", "LOVE SCORE"],
-  ["/ecosystem", "FUN ECOSYSTEM"],
-  ["/your-turn", "YOUR TURN"],
-];
+function LanguageMenu() {
+  const { locale, setLocale, t } = useI18n();
+  const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const optionsId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (!root.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOutside);
+    return () => document.removeEventListener("pointerdown", closeOutside);
+  }, [open]);
+
+  return (
+    <div
+      className="fc-language"
+      ref={root}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && open) {
+          event.preventDefault();
+          setOpen(false);
+          trigger.current?.focus();
+        }
+      }}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+      }}
+    >
+      <button
+        ref={trigger}
+        type="button"
+        className="fc-language-trigger"
+        aria-label={t(
+          `Language: ${locale === "en" ? "English" : "Vietnamese"}. Choose language`,
+          `Ngôn ngữ: ${locale === "en" ? "Tiếng Anh" : "Tiếng Việt"}. Chọn ngôn ngữ`,
+        )}
+        aria-expanded={open}
+        aria-controls={open ? optionsId : undefined}
+        aria-haspopup="true"
+        onClick={() => setOpen((value) => !value)}
+      >
+        <img className="fc-language-icon" src={goldGlobe} alt="" width="24" height="24" />
+        <span>{locale.toUpperCase()}</span>
+      </button>
+      {open && (
+        <div
+          id={optionsId}
+          className="fc-language-options"
+          role="group"
+          aria-label={t("Choose language", "Chọn ngôn ngữ")}
+        >
+          {(["en", "vi"] as const).map((option) => (
+            <button
+              key={option}
+              type="button"
+              lang={option}
+              aria-pressed={locale === option}
+              onClick={() => {
+                setLocale(option);
+                setOpen(false);
+                trigger.current?.focus();
+              }}
+            >
+              <span>{option === "en" ? "English" : "Tiếng Việt"}</span>
+              {locale === option && <Check size={15} aria-hidden="true" />}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function SiteHeader({ home = false, active = "" }: { home?: boolean; active?: string }) {
+  const { t } = useI18n();
+  const links = [
+    ["/#home", t("HOME", "TRANG CHỦ")],
+    ["/#origin", "URANTIA"],
+    ["/cosmos", "FUN COSMOS"],
+    ["/angel-ai", "ANGEL AI"],
+    ["/love-score", "LOVE SCORE"],
+    ["/ecosystem", "FUN ECOSYSTEM"],
+    ["/your-turn", "YOUR TURN"],
+  ];
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const activeHref = home
     ? ({
@@ -64,14 +143,18 @@ export function SiteHeader({ home = false, active = "" }: { home?: boolean; acti
       data-hidden={hidden && !open}
       onFocusCapture={() => setHidden(false)}
     >
-      <a className="fc-brand" href={home ? "#home" : "/"} aria-label="FUN COSMOS — Về đầu trang">
+      <a
+        className="fc-brand"
+        href={home ? "#home" : "/"}
+        aria-label={t("FUN COSMOS — Home", "FUN COSMOS — Về đầu trang")}
+      >
         <img src="/cosmos/cosmos.png" width="52" height="52" alt="" />
       </a>
       <nav
         id="fc-navigation"
         className="fc-navigation"
         data-open={open}
-        aria-label="Điều hướng FUN COSMOS"
+        aria-label={t("FUN COSMOS navigation", "Điều hướng FUN COSMOS")}
         onKeyDown={(e) => {
           if (e.key === "Escape") {
             setOpen(false);
@@ -87,11 +170,11 @@ export function SiteHeader({ home = false, active = "" }: { home?: boolean; acti
                 FUN COSMOS ⌄
               </summary>
               <div>
-                <a href="/cosmos">Khám phá thế giới ↗</a>
+                <a href="/cosmos">{t("Explore the world", "Khám phá thế giới")} ↗</a>
                 {[
                   { id: "cosmos-cinema", title: "Cinematic World" },
                   { id: "discover", title: "Discover FUN COSMOS" },
-                  { id: "games", title: "Chọn thế giới" },
+                  { id: "games", title: t("Choose a world", "Chọn thế giới") },
                 ].map((item) => (
                   <a
                     key={item.id}
@@ -118,15 +201,22 @@ export function SiteHeader({ home = false, active = "" }: { home?: boolean; acti
           ),
         )}
       </nav>
-      <a className="fc-play" href={GAME_URL} target="_blank" rel="noreferrer">
-        CHƠI NGAY <ArrowUpRight size={16} />
+      <LanguageMenu />
+      <a
+        className="fc-play"
+        href={GAME_URL}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={t("PLAY NOW", "CHƠI NGAY")}
+      >
+        <span>{t("PLAY NOW", "CHƠI NGAY")}</span> <ArrowUpRight size={16} />
       </a>
       <button
         ref={trigger}
         className="fc-menu"
         aria-controls="fc-navigation"
         aria-expanded={open}
-        aria-label={open ? "Đóng danh mục" : "Mở danh mục"}
+        aria-label={open ? t("Close menu", "Đóng danh mục") : t("Open menu", "Mở danh mục")}
         onClick={() => setOpen(!open)}
       >
         {open ? <X /> : <Menu />}
@@ -134,22 +224,26 @@ export function SiteHeader({ home = false, active = "" }: { home?: boolean; acti
     </header>
   );
 }
-export function SiteFooter({ paused = false, onPause = () => {} }: { paused?: boolean; onPause?: () => void } = {}) {
+export function SiteFooter({ paused, onPause }: { paused: boolean; onPause: () => void }) {
+  const { t } = useI18n();
   return (
     <footer className="fc-footer">
       <a href="/" className="fc-footer-brand">
         <img src="/cosmos/cosmos.png" width="42" height="42" alt="" />
         <span>
-          FUN COSMOS<small>PLAY THE COSMOS · LIVE IN HEAVEN</small>
+          FUN COSMOS
+          <small>
+            {t("PLAY THE COSMOS · LIVE IN HEAVEN", "CHƠI TRONG VŨ TRỤ · SỐNG GIỮA THIÊN ĐÀNG")}
+          </small>
         </span>
       </a>
-      <a href="/ecosystem">Hệ sinh thái</a>
-      <a href="/your-turn">Cùng sáng tạo</a>
+      <a href="/ecosystem">{t("Ecosystem", "Hệ sinh thái")}</a>
+      <a href="/your-turn">{t("Create together", "Cùng sáng tạo")}</a>
       <button aria-pressed={paused} onClick={onPause}>
         {paused ? <Play size={16} /> : <Pause size={16} />}{" "}
-        {paused ? "Bật chuyển động" : "Tạm dừng chuyển động"}
+        {paused ? t("Resume motion", "Bật chuyển động") : t("Pause motion", "Tạm dừng chuyển động")}
       </button>
-      <small>VI · Tiếng Việt</small>
+      <LanguageMenu />
     </footer>
   );
 }

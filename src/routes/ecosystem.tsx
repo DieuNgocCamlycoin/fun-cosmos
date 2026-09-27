@@ -4,18 +4,19 @@ import { ArrowDown, ArrowUpRight, X } from "lucide-react";
 import { TopicWorldShell, WorldSection } from "@/components/topic-world/topic-world";
 import { ArchiveDisclosure } from "@/components/topic-world/living-scene";
 import { CuratedArchive } from "@/components/topic-world/curated-archive";
-import { platforms } from "@/components/living-data";
+import { platforms, platformDescriptionsEn } from "@/components/living-data";
+import { useI18n } from "@/lib/i18n";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import "@/components/topic-world/next-worlds.css";
 
 export const Route = createFileRoute("/ecosystem")({
   head: () => ({
     meta: [
-      { title: "FUN Ecosystem — Một vũ trụ kết nối | FUN COSMOS" },
+      { title: "FUN Ecosystem — A connected universe | FUN COSMOS" },
       {
         name: "description",
         content:
-          "Khám phá bản đồ FUN Ecosystem: các nền tảng kết nối quanh FUN COSMOS, từ học hỏi và sáng tạo đến hành động ngoài đời thật.",
+          "Explore the FUN Ecosystem map: connected platforms for learning, creating and bringing ideas into real life.",
       },
     ],
     links: [{ rel: "canonical", href: "/ecosystem" }],
@@ -51,6 +52,12 @@ const paths = [
   },
 ];
 function EcosystemWorld() {
+  const { locale, t } = useI18n();
+  const pathsEn = [
+    ["Learn something new", "Find a companion and expand your knowledge through experience."],
+    ["Create and share", "Turn your idea into something to share with the community."],
+    ["Connect with real life", "Discover nature, community and places to give back."],
+  ];
   const [opened, setOpened] = useState<string | null>(null);
   const [path, setPath] = useState(0);
   const route = paths[path]!;
@@ -67,7 +74,7 @@ function EcosystemWorld() {
         onOpenChange={(open) => setOpened(open ? key : null)}
       >
         <PopoverTrigger asChild>
-          <button className={className} aria-label={`Khám phá ${item[1]}`}>
+          <button className={className} aria-label={t(`Explore ${item[1]}`, `Khám phá ${item[1]}`)}>
             <img src={`/cosmos/${id}.png`} alt="" width="100" height="100" />
           </button>
         </PopoverTrigger>
@@ -79,16 +86,16 @@ function EcosystemWorld() {
         >
           <button
             className="nw-close"
-            aria-label="Đóng thông tin nền tảng"
+            aria-label={t("Close platform information", "Đóng thông tin nền tảng")}
             onClick={() => setOpened(null)}
           >
             <X size={18} />
           </button>
           <img src={`/cosmos/${id}.png`} alt="" width="64" height="64" />
           <h3>{item[1]}</h3>
-          <p>{item[3]}</p>
+          <p>{locale === "en" ? platformDescriptionsEn[id] : item[3]}</p>
           <a href={item[4]} target="_blank" rel="noreferrer">
-            Mở nền tảng <ArrowUpRight size={16} />
+            {t("Open platform", "Mở nền tảng")} <ArrowUpRight size={16} />
           </a>
         </PopoverContent>
       </Popover>
@@ -100,7 +107,7 @@ function EcosystemWorld() {
         <section className="nw-arrival ew-arrival" aria-labelledby="ecosystem-title">
           <div className="nw-arrival-copy">
             <a className="tw-back" href="/">
-              ← Về FUN COSMOS
+              ← {t("Back to FUN COSMOS", "Về FUN COSMOS")}
             </a>
             <p className="tw-eyebrow">ONE CONNECTED ECOSYSTEM</p>
             <h1 id="ecosystem-title" className="tw-metal">
@@ -109,23 +116,27 @@ function EcosystemWorld() {
               ECOSYSTEM
             </h1>
             <p className="nw-lead">
-              Một vũ trụ.
+              {t("One cosmos.", "Một vũ trụ.")}
               <br />
-              Nhiều điểm đến kết nối.
+              {t("Many connected destinations.", "Nhiều điểm đến kết nối.")}
             </p>
             <a className="tw-button" href="#connections">
-              Tìm hành trình của bạn <ArrowDown size={18} />
+              {t("Find your path", "Tìm hành trình của bạn")} <ArrowDown size={18} />
             </a>
           </div>
           <div
             className="ew-map"
             data-path={path}
             data-open={opened !== null}
-            aria-label="Bản đồ FUN Ecosystem"
+            aria-label={t("FUN Ecosystem map", "Bản đồ FUN Ecosystem")}
           >
             <div className="ew-orbit-line" />
             <div className="ew-orbit-line ew-inner-line" />
-            <a className="ew-center" href="/cosmos" aria-label="Khám phá FUN COSMOS">
+            <a
+              className="ew-center"
+              href="/cosmos"
+              aria-label={t("Explore FUN COSMOS", "Khám phá FUN COSMOS")}
+            >
               <img src="/cosmos/cosmos.png" alt="FUN COSMOS" width="140" height="140" />
             </a>
             <div className="ew-orbit ew-outer">
@@ -149,19 +160,19 @@ function EcosystemWorld() {
             </div>
           </div>
         </section>
-        <nav className="tw-local" aria-label="Trong FUN Ecosystem">
-          <a href="#connections">Những kết nối</a>
-          <a href="#directory">Các nền tảng</a>
-          <a href="#archive">Tư liệu gốc</a>
-          <a href="#continue">Cùng sáng tạo</a>
+        <nav className="tw-local" aria-label={t("In FUN Ecosystem", "Trong FUN Ecosystem")}>
+          <a href="#connections">{t("Connections", "Những kết nối")}</a>
+          <a href="#directory">{t("Platforms", "Các nền tảng")}</a>
+          <a href="#archive">{t("Original artwork", "Tư liệu gốc")}</a>
+          <a href="#continue">{t("Create together", "Cùng sáng tạo")}</a>
         </nav>
         <WorldSection
           id="connections"
           number="02"
           eyebrow="CHOOSE YOUR PATH"
-          title="BẮT ĐẦU TỪ ĐIỀU BẠN MUỐN LÀM."
+          title={t("START WITH WHAT YOU WANT TO DO.", "BẮT ĐẦU TỪ ĐIỀU BẠN MUỐN LÀM.")}
         >
-          <div className="nw-selector" aria-label="Chọn hành trình">
+          <div className="nw-selector" aria-label={t("Choose a path", "Chọn hành trình")}>
             {paths.map((p, i) => (
               <button
                 key={p.title}
@@ -169,15 +180,20 @@ function EcosystemWorld() {
                 aria-controls="connection-story"
                 onClick={() => setPath(i)}
               >
-                {p.title}
+                {locale === "en" ? pathsEn[i]?.[0] : p.title}
               </button>
             ))}
           </div>
           <div id="connection-story" className="ew-connection" aria-live="polite">
             <div>
-              <h3>{route.title}</h3>
-              <p>{route.text}</p>
-              <p className="nw-note">Một cách khám phá các nền tảng trong hệ sinh thái.</p>
+              <h3>{locale === "en" ? pathsEn[path]?.[0] : route.title}</h3>
+              <p>{locale === "en" ? pathsEn[path]?.[1] : route.text}</p>
+              <p className="nw-note">
+                {t(
+                  "One way to explore the ecosystem's platforms.",
+                  "Một cách khám phá các nền tảng trong hệ sinh thái.",
+                )}
+              </p>
             </div>
             <div className="ew-path">
               {route.ids.map((id) => {
@@ -201,9 +217,9 @@ function EcosystemWorld() {
           id="directory"
           number="03"
           eyebrow="EXPLORE THE ECOSYSTEM"
-          title="MỖI NỀN TẢNG, MỘT CÁNH CỬA."
+          title={t("EVERY PLATFORM OPENS A DOOR.", "MỖI NỀN TẢNG, MỘT CÁNH CỬA.")}
         >
-          <ArchiveDisclosure title="Tra cứu tất cả nền tảng">
+          <ArchiveDisclosure title={t("Explore all platforms", "Tra cứu tất cả nền tảng")}>
             <div className="ew-directory">
               {destinations.map((p) => (
                 <details key={p[0]}>
@@ -213,9 +229,9 @@ function EcosystemWorld() {
                     <span aria-hidden="true">+</span>
                   </summary>
                   <div>
-                    <p>{p[3]}</p>
+                    <p>{locale === "en" ? platformDescriptionsEn[p[0]] : p[3]}</p>
                     <a className="tw-text-link" href={p[4]} target="_blank" rel="noreferrer">
-                      Mở nền tảng <ArrowUpRight size={16} />
+                      {t("Open platform", "Mở nền tảng")} <ArrowUpRight size={16} />
                     </a>
                   </div>
                 </details>
@@ -227,7 +243,7 @@ function EcosystemWorld() {
           id="archive"
           number="04"
           eyebrow="KNOWLEDGE ARCHIVE"
-          title="BỨC TRANH HỆ SINH THÁI."
+          title={t("THE ECOSYSTEM AT A GLANCE.", "BỨC TRANH HỆ SINH THÁI.")}
         >
           <ArchiveDisclosure>
             <CuratedArchive images={[24]} />
@@ -237,16 +253,21 @@ function EcosystemWorld() {
           id="continue"
           number="05"
           eyebrow="YOUR TURN"
-          title="BẠN SẼ THÊM ĐIỀU GÌ VÀO THẾ GIỚI?"
+          title={t("WHAT WILL YOU ADD TO THIS WORLD?", "BẠN SẼ THÊM ĐIỀU GÌ VÀO THẾ GIỚI?")}
           className="tw-finale"
         >
-          <p>Một câu chuyện, một khu vườn, một ý tưởng để cùng kiến tạo.</p>
+          <p>
+            {t(
+              "A story, a garden, an idea to create together.",
+              "Một câu chuyện, một khu vườn, một ý tưởng để cùng kiến tạo.",
+            )}
+          </p>
           <div className="tw-actions">
             <a className="tw-button" href="/your-turn">
-              Phác thảo ý tưởng <ArrowUpRight size={18} />
+              {t("Sketch an idea", "Phác thảo ý tưởng")} <ArrowUpRight size={18} />
             </a>
             <a className="tw-outline" href="/cosmos">
-              Khám phá FUN COSMOS
+              {t("Explore FUN COSMOS", "Khám phá FUN COSMOS")}
             </a>
           </div>
         </WorldSection>

@@ -576,3 +576,216 @@
     margin: auto;
   }
 }
+/* Idea submission follows the same light, compact card language as the preview. */
+.idea-submit-form,
+.idea-submit-success {
+  display: grid;
+  gap: 12px;
+  max-width: 760px;
+  margin: 24px auto 0;
+  padding: clamp(22px, 3vw, 36px);
+  border: 1px solid rgba(255, 222, 148, 0.65);
+  border-radius: 24px;
+  background: rgba(8, 37, 72, 0.78);
+  color: #fff4d5;
+}
+.idea-submit-form h3,
+.idea-submit-success strong {
+  margin: 0;
+  color: #ffe294;
+  font-size: clamp(22px, 2.6vw, 32px);
+}
+.idea-submit-form p,
+.idea-submit-success p {
+  margin: 0;
+}
+.idea-submit-form > input[type="email"] {
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border: 1px solid #ffe294a0;
+  border-radius: 12px;
+  background: #fffdf3;
+  color: #082b51;
+  font: inherit;
+}
+.idea-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  line-height: 1.5;
+}
+.idea-consent input {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  margin-top: 2px;
+  accent-color: #e8ba4a;
+}
+.idea-submit-form .tw-button {
+  justify-self: start;
+}
+.idea-submit-error {
+  color: #ffe0d9;
+}
+.idea-service-note {
+  padding: 12px 14px;
+  border: 1px solid #f3d99578;
+  border-radius: 12px;
+  background: #ffedb516;
+  color: #fff3d8;
+}
+.idea-submit-form .tw-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  box-shadow: none;
+}
+.idea-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.idea-submit-success svg {
+  color: #ffe294;
+}
+.idea-submit-success code {
+  user-select: all;
+  color: #fff;
+}
+
+/* Your Turn: the illustration leads the writing flow without adding more copy. */
+.yw .tw-local {
+  background: #082b51c9;
+  border-color: #e6ca8870;
+}
+.yw .story-choose {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  margin-right: 18px;
+  padding: 8px 13px;
+  border: 1px solid #c99c43;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fff3c9, #e8bd62);
+  color: #173d64;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.yw .story-choose:hover {
+  box-shadow: 0 0 18px #f7d675a8;
+}
+.yw .story-choose:focus-visible {
+  outline: 3px solid #155d97;
+  outline-offset: 3px;
+}
+.yw-building {
+  border: 1px solid #f0d595b8;
+  box-shadow:
+    inset 0 0 40px #09264c36,
+    0 16px 35px #061e3d36;
+}
+.yw-building::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, #0e3c670c 35%, #071b3e99);
+}
+.yw-building img[data-active="true"] {
+  filter: drop-shadow(0 0 16px #fff5b2) drop-shadow(0 0 16px #f7bd58);
+}
+.yw-building small {
+  z-index: 2;
+}
+.yw-steps button {
+  border-color: #d8c18b7d;
+  background: linear-gradient(110deg, #0d315ac9, #153c68a8);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.yw-steps button:hover {
+  border-color: #ffe3a0;
+  transform: translateX(3px);
+}
+.yw-steps [aria-current] {
+  border-color: #ffe4a2;
+  background: linear-gradient(110deg, #225588, #3c6b98);
+  box-shadow:
+    inset 3px 0 #ffe2a1,
+    0 4px 18px #071e3e44;
+}
+.yw-editor {
+  border: 1px solid #fff2ca;
+  background:
+    radial-gradient(circle at 100% 0, #fff4c9 0, transparent 42%),
+    linear-gradient(145deg, #fffdf4, #e8f5ff);
+  box-shadow:
+    inset 0 1px #fff,
+    0 16px 38px #061e3d38;
+}
+.yw-editor textarea {
+  border-color: #b5c9d6;
+  background: #ffffffd9;
+}
+.yw-preview {
+  box-shadow:
+    inset 0 1px #fff,
+    0 18px 42px #061e3d38;
+}
+.yw-preview dl {
+  gap: 12px;
+  margin: 18px 0;
+}
+.yw-preview dl > div {
+  padding: 14px 16px;
+  border: 1px solid #d8c59680;
+  border-radius: 14px;
+  background: #ffffff9e;
+}
+.yw-preview dt {
+  color: #9a6b1b;
+}
+.yw-preview dd {
+  line-height: 1.5;
+}
+.yw-preview-empty {
+  grid-column: 1 / -1;
+}
+.yw-preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+@media (max-width: 600px) {
+  .yw-building {
+    min-height: 235px;
+    margin-bottom: 14px;
+  }
+  .yw-steps button {
+    flex-basis: 155px;
+  }
+  .yw-steps button:hover {
+    transform: none;
+  }
+  .yw-editor textarea {
+    min-height: 175px;
+  }
+  .yw-preview-actions > :is(a, button) {
+    width: 100%;
+    justify-content: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yw-steps button {
+    transition: none;
+  }
+}

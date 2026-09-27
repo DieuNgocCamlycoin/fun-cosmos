@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { SiteHeader, SiteFooter } from "../site-chrome";
+import { useI18n } from "@/lib/i18n";
 import "./scene-refinement.css";
 import "./topic-world.css";
 
 export function TopicWorldShell({ children }: { children: ReactNode }) {
+  const { t } = useI18n();
   const [paused, setPaused] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -23,7 +25,7 @@ export function TopicWorldShell({ children }: { children: ReactNode }) {
   return (
     <div className="tw" ref={root} data-paused={paused}>
       <a className="tw-skip" href="#world-content">
-        Đến nội dung chính
+        {t("Skip to main content", "Đến nội dung chính")}
       </a>
       <SiteHeader />
       <main id="world-content">{children}</main>
@@ -63,25 +65,31 @@ export function WorldSection({
 }
 
 export function NextWorldCTA() {
+  const { t } = useI18n();
   return (
     <WorldSection
       id="continue"
       number="07"
-      eyebrow="HÀNH TRÌNH TIẾP TỤC"
-      title="BẠN MUỐN ĐI ĐÂU TIẾP?"
+      eyebrow={t("CONTINUE THE JOURNEY", "HÀNH TRÌNH TIẾP TỤC")}
+      title={t("WHERE WOULD YOU LIKE TO GO NEXT?", "BẠN MUỐN ĐI ĐÂU TIẾP?")}
       className="tw-finale"
     >
-      <p>Một thế giới để khám phá. Một ý tưởng để bắt đầu.</p>
+      <p>
+        {t(
+          "A world to explore. One idea to begin.",
+          "Một thế giới để khám phá. Một ý tưởng để bắt đầu.",
+        )}
+      </p>
       <div className="tw-actions">
         <a className="tw-button" href="/">
-          Trở về FUN COSMOS <ArrowUpRight size={18} />
+          {t("Back to FUN COSMOS", "Trở về FUN COSMOS")} <ArrowUpRight size={18} />
         </a>
         <a className="tw-outline" href="/your-turn">
-          Bắt đầu với một ý tưởng <ArrowUpRight size={18} />
+          {t("Start with one idea", "Bắt đầu với một ý tưởng")} <ArrowUpRight size={18} />
         </a>
       </div>
       <a className="tw-text-link" href="/love-score">
-        Khám phá tiếp: Thế giới Love Score →
+        {t("Explore next: Love Score", "Khám phá tiếp: Thế giới Love Score")} →
       </a>
     </WorldSection>
   );

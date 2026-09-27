@@ -2761,7 +2761,16 @@
  background-image:linear-gradient(165deg,#fffce8 5%,#ffedaf 24%,#d6a747 46%,#fff4cd 63%,#e8bd60 86%,#fff1bd);
  -webkit-text-stroke:.3px #f8d78a;filter:drop-shadow(0 1px 0 #987030) drop-shadow(0 2px 3px #08254c55);text-shadow:none;font-style:normal;
 }
-.lc-father{right:-12%;}
+.lc-father{
+  width:52%;
+  height:94%;
+  top:6%;
+  right:-7%;
+  object-position:43% top;
+  mask-image:linear-gradient(to right,transparent,#000 15%),linear-gradient(to bottom,transparent,#000 9%);
+  mask-composite:intersect;
+  -webkit-mask-composite:source-in;
+}
 .tg-copy,.tg-cosmos-copy,.lc-angel .lc-split>div:last-child,
 .lc-love>.lc-heading,.lc-create>.lc-heading,.lc-games>.lc-heading,.lc-ecosystem>.lc-heading{
  background:linear-gradient(120deg,#092950e8,#17416bd9);border:1px solid #e9d6a56b;border-radius:18px;box-shadow:0 8px 28px #09285116,inset 0 1px #fff6;
@@ -2789,7 +2798,10 @@
  .lc-create-cta>svg{width:22px;height:22px;}
  .lc-create-cta p{margin:8px 0;font-size:16px;}
 }
-@media(max-width:850px){.lc-father{right:-26%;}.tg-thumbnails button{flex-basis:84px;}}
+@media(max-width:850px){
+  .lc-father{width:82%;height:68%;top:auto;bottom:0;right:-10%;object-position:48% center;}
+  .tg-thumbnails button{flex-basis:84px;}
+}
 @media(forced-colors:active){.lc-hero-copy h1 .lc-metal-blue,.lc-hero-copy h1 em{background:none;-webkit-text-fill-color:CanvasText;filter:none;}}
 .lc-angel-art img{mask-image:none;filter:drop-shadow(0 0 7px #fff1b888);}
 @media(min-width:851px){

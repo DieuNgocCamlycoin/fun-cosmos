@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "../ui/dialog";
-import { descriptions } from "../artwork-descriptions";
+import { descriptions, descriptionsEn } from "../artwork-descriptions";
+import { useI18n } from "@/lib/i18n";
 
 export type DeepDiveItem = { thumb: string; full: string; title: string };
 
@@ -11,12 +12,15 @@ export function DeepDiveGallery({
   images?: readonly number[];
   items?: readonly DeepDiveItem[];
 }) {
+  const { locale, t } = useI18n();
   const list: DeepDiveItem[] =
     items?.slice() ??
     (images ?? []).map((image, index) => ({
       thumb: `/cosmos/topic-world/angel-concept-${image}.jpg`,
       full: `/slides/${image}.jpg`,
-      title: descriptions[image] ?? (index === 0 ? "Tư liệu 1" : "Tư liệu 2"),
+      title:
+        (locale === "en" ? descriptionsEn : descriptions)[image] ??
+        t(`Artwork ${index + 1}`, `Tư liệu ${index + 1}`),
     }));
   const opener = useRef<HTMLButtonElement | null>(null);
   const [selected, setSelected] = useState(0);
@@ -41,7 +45,7 @@ export function DeepDiveGallery({
               change(index);
               setOpen(true);
             }}
-            aria-label={`Mở infographic: ${item.title}`}
+            aria-label={t(`Open infographic: ${item.title}`, `Mở infographic: ${item.title}`)}
           >
             <img src={item.thumb} alt="" width="1920" height="1080" loading="lazy" />
             <span>
@@ -76,13 +80,22 @@ export function DeepDiveGallery({
         >
           <DialogTitle>{current.title}</DialogTitle>
           <DialogDescription>
-            Phóng lớn và cuộn để đọc. Khi ảnh vừa khung, vuốt hoặc dùng phím trái/phải để đổi ảnh.
+            {t(
+              "Zoom and scroll to read. At fit size, swipe or use left/right keys to change images.",
+              "Phóng lớn và cuộn để đọc. Khi ảnh vừa khung, vuốt hoặc dùng phím trái/phải để đổi ảnh.",
+            )}
+            {locale === "en" && (
+              <span className="tw-original-language-note">
+                {" "}
+                Original artwork contains Vietnamese text.
+              </span>
+            )}
           </DialogDescription>
           <div className="tw-viewer-tools">
             <button
               disabled={selected === 0}
               onClick={() => change(selected - 1)}
-              aria-label="Ảnh trước"
+              aria-label={t("Previous image", "Ảnh trước")}
             >
               ←
             </button>
@@ -92,14 +105,14 @@ export function DeepDiveGallery({
             <button
               disabled={selected === list.length - 1}
               onClick={() => change(selected + 1)}
-              aria-label="Ảnh sau"
+              aria-label={t("Next image", "Ảnh sau")}
             >
               →
             </button>
             <button
               disabled={zoom === 1}
               onClick={() => setZoom(Math.max(1, zoom - 0.5))}
-              aria-label="Thu nhỏ"
+              aria-label={t("Zoom out", "Thu nhỏ")}
             >
               −
             </button>
@@ -109,12 +122,12 @@ export function DeepDiveGallery({
                 viewport.current?.scrollTo(0, 0);
               }}
             >
-              Vừa khung
+              {t("Fit", "Vừa khung")}
             </button>
             <button
               disabled={zoom === 4}
               onClick={() => setZoom(Math.min(4, zoom + 0.5))}
-              aria-label="Phóng to"
+              aria-label={t("Zoom in", "Phóng to")}
             >
               +
             </button>
@@ -125,7 +138,10 @@ export function DeepDiveGallery({
             ref={viewport}
             tabIndex={0}
             role="region"
-            aria-label="Ảnh infographic, cuộn khi phóng lớn"
+            aria-label={t(
+              "Infographic image, scroll when zoomed",
+              "Ảnh infographic, cuộn khi phóng lớn",
+            )}
             onTouchStart={(e) => {
               const t = e.touches[0];
               start.current = t ? { x: t.clientX, y: t.clientY } : null;

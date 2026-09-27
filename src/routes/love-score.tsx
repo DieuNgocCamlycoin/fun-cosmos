@@ -6,15 +6,16 @@ import { TopicWorldShell, WorldSection } from "@/components/topic-world/topic-wo
 import { ArchiveDisclosure } from "@/components/topic-world/living-scene";
 import { DeepDiveGallery } from "@/components/topic-world/deep-dive-gallery";
 import "@/components/topic-world/love-score-world.css";
+import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/love-score")({
   head: () => ({
     meta: [
-      { title: "Love Score — Mỗi đóng góp, một vì sao | FUN COSMOS" },
+      { title: "Love Score — Every contribution, a star | FUN COSMOS" },
       {
         name: "description",
         content:
-          "Love Score là lịch sử những đóng góp tích cực đã được ghi nhận trong FUN COSMOS: hành động, bằng chứng, xác minh, ghi nhận.",
+          "Love Score records verified positive contributions in FUN COSMOS: action, evidence, verification and recognition.",
       },
       { property: "og:title", content: "Love Score — Mỗi đóng góp, một vì sao | FUN COSMOS" },
       {
@@ -68,6 +69,23 @@ const steps = [
 ] as const;
 
 function LoveScoreWorld() {
+  const { locale, t } = useI18n();
+  const contributionDescriptionsEn = [
+    "Complete a learning activity in FUN COSMOS.",
+    "Help improve a shared asset.",
+    "Contribute code to the world being built.",
+    "Take part in a community activity.",
+    "A real-world action that can be recognized.",
+    "Others experience the quest you created.",
+    "Welcome someone who has just joined.",
+    "Create content that helps others understand and participate.",
+  ];
+  const stepDescriptionsEn = [
+    "You do something positive.",
+    "Evidence relevant to the action is recorded.",
+    "The contribution is reviewed before recognition.",
+    "Your contribution becomes a milestone in your history.",
+  ];
   const [node, setNode] = useState(0);
   const [step, setStep] = useState(0);
   const selected = contributions[node]!;
@@ -82,7 +100,10 @@ function LoveScoreWorld() {
             <div className="ls-figure ls-father">
               <img
                 src={"/cosmos/love-score/father-cutout.png"}
-                alt="Cha Vũ Trụ dang tay chào đón trong ánh sáng vàng và xanh sapphire"
+                alt={t(
+                  "A welcoming figure in gold and sapphire light",
+                  "Cha Vũ Trụ dang tay chào đón trong ánh sáng vàng và xanh sapphire",
+                )}
                 width="1024"
                 height="1536"
                 fetchPriority="high"
@@ -90,26 +111,31 @@ function LoveScoreWorld() {
             </div>
             <div className="ls-hero-copy">
               <a className="tw-back" href="/">
-                ← FUN COSMOS / Thế giới Love Score
+                ← FUN COSMOS / {t("Love Score world", "Thế giới Love Score")}
               </a>
               <h1 id="love-title" className="tw-metal">
                 LOVE SCORE
               </h1>
               <span className="ls-ribbon">Verified Positive Contribution</span>
-              <p className="ls-hero-line">MỖI ĐÓNG GÓP, MỘT VÌ SAO.</p>
+              <p className="ls-hero-line">
+                {t("EVERY CONTRIBUTION, A STAR.", "MỖI ĐÓNG GÓP, MỘT VÌ SAO.")}
+              </p>
               <div className="ls-hero-actions">
                 <a className="tw-button" href="#what">
-                  Bước vào thế giới <ArrowDown size={18} />
+                  {t("Enter the world", "Bước vào thế giới")} <ArrowDown size={18} />
                 </a>
                 <a className="tw-outline" href="#journey">
-                  Xem hành trình ghi nhận
+                  {t("See the recognition journey", "Xem hành trình ghi nhận")}
                 </a>
               </div>
             </div>
             <div className="ls-figure ls-angel">
               <img
                 src={"/cosmos/love-score/angel-light.webp"}
-                alt="Angel ánh sáng bay giữa bầu trời thiên giới"
+                alt={t(
+                  "A luminous angel in the sky",
+                  "Angel ánh sáng bay giữa bầu trời thiên giới",
+                )}
                 width="1024"
                 height="1536"
                 loading="eager"
@@ -117,13 +143,16 @@ function LoveScoreWorld() {
             </div>
           </div>
         </section>
-        <nav className="tw-local" aria-label="Trong thế giới Love Score">
-          <a href="#what">Love Score là gì</a>
-          <a href="#contributions">Đóng góp được ghi nhận</a>
-          <a href="#journey">Hành trình</a>
-          <a href="#history">Lịch sử</a>
+        <nav
+          className="tw-local"
+          aria-label={t("In the Love Score world", "Trong thế giới Love Score")}
+        >
+          <a href="#what">{t("What is Love Score?", "Love Score là gì")}</a>
+          <a href="#contributions">{t("Recognized contributions", "Đóng góp được ghi nhận")}</a>
+          <a href="#journey">{t("Journey", "Hành trình")}</a>
+          <a href="#history">{t("History", "Lịch sử")}</a>
           <a href="#plp">PureLove Protocol</a>
-          <a href="#deep-dive">Khám phá sâu</a>
+          <a href="#deep-dive">{t("Explore deeper", "Khám phá sâu")}</a>
         </nav>
         <div className="ls-body">
           <span id="what" />
@@ -131,23 +160,29 @@ function LoveScoreWorld() {
             id="contributions"
             number="02"
             eyebrow="A CONTRIBUTION BECOMES A STAR"
-            title="CHO MỘT ĐIỀU TỐT ĐẸP MỘT DẤU MỐC."
+            title={t(
+              "GIVE A GOOD DEED A PLACE IN YOUR STORY.",
+              "CHO MỘT ĐIỀU TỐT ĐẸP MỘT DẤU MỐC.",
+            )}
           >
             <div className="ls-living">
               <img
                 className="ls-witness"
                 src="/cosmos/love-score/angel-light.webp"
-                alt="Angel đồng hành"
+                alt={t("Angel companion", "Angel đồng hành")}
                 loading="lazy"
                 width="320"
                 height="480"
               />
-              <div className="ls-contribution-picks" aria-label="Chọn một đóng góp minh họa">
+              <div
+                className="ls-contribution-picks"
+                aria-label={t("Choose an example contribution", "Chọn một đóng góp minh họa")}
+              >
                 {contributions.map(([, title], i) => (
                   <button
                     key={title}
-                    aria-label={title}
-                    title={title}
+                    aria-label={locale === "en" ? contributions[i]![2] : title}
+                    title={locale === "en" ? contributions[i]![2] : title}
                     aria-pressed={node === i}
                     onClick={() => {
                       setNode(i);
@@ -163,37 +198,64 @@ function LoveScoreWorld() {
                   <ArtworkFragment kind="journey" index={step} />
                 </div>
                 <div className="ls-current" aria-live="polite">
-                  <small>CÂU CHUYỆN MINH HỌA · {step + 1} / 4</small>
-                  <h3>{steps[step]![1]}</h3>
-                  <p>{step === 0 ? selected[3] : steps[step]![3]}</p>
-                  <strong>{selected[1]}</strong>
+                  <small>
+                    {t("ILLUSTRATIVE STORY", "CÂU CHUYỆN MINH HỌA")} · {step + 1} / 4
+                  </small>
+                  <h3>{locale === "en" ? steps[step]![2] : steps[step]![1]}</h3>
+                  <p>
+                    {locale === "en"
+                      ? step === 0
+                        ? contributionDescriptionsEn[node]
+                        : stepDescriptionsEn[step]
+                      : step === 0
+                        ? selected[3]
+                        : steps[step]![3]}
+                  </p>
+                  <strong>{locale === "en" ? selected[2] : selected[1]}</strong>
                 </div>
-                <div className="ls-path-controls" aria-label="Bốn bước ghi nhận">
+                <div
+                  className="ls-path-controls"
+                  aria-label={t("Four recognition steps", "Bốn bước ghi nhận")}
+                >
                   {steps.map(([Icon, title], i) => (
                     <button key={title} aria-pressed={step === i} onClick={() => setStep(i)}>
                       <Icon size={22} />
-                      <span>{title}</span>
+                      <span>{locale === "en" ? steps[i]![2] : title}</span>
                     </button>
                   ))}
                 </div>
                 <button className="tw-button" onClick={() => setStep((step + 1) % 4)}>
-                  {step === 3 ? "Bắt đầu câu chuyện khác" : "Bước tiếp theo"}{" "}
+                  {step === 3
+                    ? t("Start another story", "Bắt đầu câu chuyện khác")
+                    : t("Next step", "Bước tiếp theo")}{" "}
                   <ArrowDown size={16} />
                 </button>
               </div>
             </div>
             <p className="ls-principle">
-              Ghi nhận đóng góp đã xác minh. Không đánh giá giá trị con người.
+              {t(
+                "Recognize verified contributions. Never judge human worth.",
+                "Ghi nhận đóng góp đã xác minh. Không đánh giá giá trị con người.",
+              )}
             </p>
           </WorldSection>
           <WorldSection
             id="history"
             number="03"
             eyebrow="YOUR CONTRIBUTION HISTORY"
-            title="TỪNG ĐÓNG GÓP, MỘT VÌ SAO."
+            title={t("EVERY CONTRIBUTION, A STAR.", "TỪNG ĐÓNG GÓP, MỘT VÌ SAO.")}
           >
-            <div className="ls-star-history" aria-label="Minh họa những dấu mốc đóng góp">
-              {["Một bài học", "Một người bạn", "Một cây xanh", "Một ý tưởng"].map((label, i) => (
+            <div
+              className="ls-star-history"
+              aria-label={t(
+                "Illustrated contribution milestones",
+                "Minh họa những dấu mốc đóng góp",
+              )}
+            >
+              {(locale === "en"
+                ? ["A lesson", "A friend", "A tree", "An idea"]
+                : ["Một bài học", "Một người bạn", "Một cây xanh", "Một ý tưởng"]
+              ).map((label, i) => (
                 <span key={label} style={{ animationDelay: `${i * -2}s` }}>
                   <i aria-hidden="true">✦</i>
                   {label}
@@ -201,17 +263,26 @@ function LoveScoreWorld() {
               ))}
             </div>
             <p className="ls-principle">
-              Minh họa lịch sử đóng góp · Chưa kết nối dữ liệu tài khoản.
+              {t(
+                "Illustrative contribution history · Not connected to account data.",
+                "Minh họa lịch sử đóng góp · Chưa kết nối dữ liệu tài khoản.",
+              )}
             </p>
             <span id="not" />
-            <ArchiveDisclosure title="Love Score ghi nhận điều gì?">
+            <ArchiveDisclosure
+              title={t("What does Love Score recognize?", "Love Score ghi nhận điều gì?")}
+            >
               <p>
-                Love Score là lịch sử những đóng góp tích cực đã được hệ thống ghi nhận: minh bạch,
-                có thể xác minh và truy vết.
+                {t(
+                  "Love Score is a history of positive contributions recognized by the system: transparent, verifiable and traceable.",
+                  "Love Score là lịch sử những đóng góp tích cực đã được hệ thống ghi nhận: minh bạch, có thể xác minh và truy vết.",
+                )}
               </p>
               <p>
-                Không đo linh hồn, độ giác ngộ, người tốt hay xấu, hoặc mức độ cao thấp của con
-                người.
+                {t(
+                  "It does not measure the soul, enlightenment, whether someone is good or bad, or human worth.",
+                  "Không đo linh hồn, độ giác ngộ, người tốt hay xấu, hoặc mức độ cao thấp của con người.",
+                )}
               </p>
             </ArchiveDisclosure>
           </WorldSection>
@@ -219,7 +290,7 @@ function LoveScoreWorld() {
             id="plp"
             number="04"
             eyebrow="PURELOVE PROTOCOL"
-            title="YÊU THƯƠNG. GHI NHẬN. TRAO GIÁ TRỊ."
+            title={t("LOVE. RECOGNIZE. GIVE VALUE.", "YÊU THƯƠNG. GHI NHẬN. TRAO GIÁ TRỊ.")}
           >
             <div className="ls-plp-flow">
               <img
@@ -238,16 +309,24 @@ function LoveScoreWorld() {
                 loading="lazy"
               />
             </div>
-            <p className="ls-principle">Love Score thuộc hệ thống PureLove Protocol.</p>
+            <p className="ls-principle">
+              {t(
+                "Love Score is part of PureLove Protocol.",
+                "Love Score thuộc hệ thống PureLove Protocol.",
+              )}
+            </p>
           </WorldSection>
           <WorldSection
             id="deep-dive"
             number="05"
             eyebrow="THE KNOWLEDGE ARCHIVE"
-            title="KHÁM PHÁ SÂU HAI TƯ LIỆU GỐC."
+            title={t("EXPLORE TWO ORIGINAL INFOGRAPHICS.", "KHÁM PHÁ SÂU HAI TƯ LIỆU GỐC.")}
           >
             <p className="tw-intro">
-              Bấm vào ảnh để mở bản đầy đủ, phóng lớn và đọc từng chi tiết.
+              {t(
+                "Open an image to zoom in and read every detail.",
+                "Bấm vào ảnh để mở bản đầy đủ, phóng lớn và đọc từng chi tiết.",
+              )}
             </p>
             <ArchiveDisclosure>
               <DeepDiveGallery
@@ -260,7 +339,7 @@ function LoveScoreWorld() {
                   {
                     thumb: "/cosmos/love-score/love-score-info-2.webp",
                     full: "/cosmos/love-score/love-score-info-2.webp",
-                    title: "Love Score là gì?",
+                    title: t("What is Love Score?", "Love Score là gì?"),
                   },
                 ]}
               />
@@ -270,16 +349,22 @@ function LoveScoreWorld() {
             id="continue"
             number="06"
             eyebrow="CONTINUE THE COSMOS"
-            title="HÀNH TRÌNH CÒN TIẾP TỤC."
+            title={t("THE JOURNEY CONTINUES.", "HÀNH TRÌNH CÒN TIẾP TỤC.")}
             className="tw-finale"
           >
-            <p>Một thế giới để khám phá. Một đóng góp để bắt đầu.</p>
+            <p>
+              {t(
+                "A world to explore. One contribution to begin.",
+                "Một thế giới để khám phá. Một đóng góp để bắt đầu.",
+              )}
+            </p>
             <div className="tw-actions">
               <a className="tw-button" href="/">
-                Trở về FUN COSMOS <ArrowUpRight size={18} />
+                {t("Back to FUN COSMOS", "Trở về FUN COSMOS")} <ArrowUpRight size={18} />
               </a>
               <a className="tw-outline" href="/angel-ai">
-                Tiếp tục hành trình: Angel AI <ArrowUpRight size={18} />
+                {t("Continue with Angel AI", "Tiếp tục hành trình: Angel AI")}{" "}
+                <ArrowUpRight size={18} />
               </a>
             </div>
           </WorldSection>

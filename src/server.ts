@@ -2,9 +2,13 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import type { AppRequestContext } from "./lib/idea-db";
 
 type ServerEntry = {
-  fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
+  fetch: (
+    request: Request,
+    options?: { context: AppRequestContext },
+  ) => Promise<Response> | Response;
 };
 
 let serverEntryPromise: Promise<ServerEntry> | undefined;
@@ -48,7 +52,9 @@ export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
+      const bindings = env && typeof env === "object" ? (env as Record<string, unknown>) : {};
+      const ideaDb = bindings["IDEAS_DB"] as AppRequestContext["ideaDb"];
+      const response = await handler.fetch(request, { context: { ideaDb } });
       return await normalizeCatastrophicSsrResponse(response);
     } catch (error) {
       console.error(error);

@@ -113,6 +113,30 @@ export const platforms = [
     "https://planet.fun.rich/",
   ],
 ] as const;
+export const platformDescriptionsEn: Record<string, string> = {
+  profile: "A Web3 social network for identity, connection and digital value.",
+  lovehub: "Offers free stays and warm meals through community care.",
+  cosmos: "A 5D New Earth role-playing game. Play the Cosmos — Live in Heaven.",
+  angel: "An AI companion designed to guide learning and creation.",
+  plp: "A system for recognizing positive contributions and shared value.",
+  money: "A currency concept within the FUN ecosystem.",
+  camly: "A currency concept that connects parts of the FUN ecosystem.",
+  play: "A Web3 video and content creation platform.",
+  wallet: "A digital wallet within the FUN ecosystem.",
+  farm: "A Web3 platform connecting farms and tables.",
+  earth: "A platform focused on restoration and care for Earth.",
+  charity: "A global network for giving and community support.",
+  academy: "A learning and rewards platform.",
+  planet: "A marketplace for children's games.",
+  urantia: "Explore the Vietnamese edition of The Urantia Book.",
+};
+export const roleAnswersEn = [
+  "How are you feeling today? We can start with one small thing together.",
+  "Would you like to explore the city of light or begin with a garden?",
+  "Let's learn how much light your favorite plant needs.",
+  "Today's journey: choose a seed, learn to care for it and design a place to plant it.",
+  "Is the home you want to create for a family, visitors or LoveHUB?",
+];
 export const loop = [
   ["Ước mơ", "Dream", "Bạn muốn tạo một khu vườn để mọi người cùng nghỉ ngơi."],
   ["Mô phỏng", "Simulate", "Thử bố trí cây, hồ nước và lối đi trong thế giới số."],

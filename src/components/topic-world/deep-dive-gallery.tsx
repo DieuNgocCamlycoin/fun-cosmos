@@ -84,7 +84,7 @@ export function DeepDiveGallery({
               "Zoom and scroll to read. At fit size, swipe or use left/right keys to change images.",
               "Phóng lớn và cuộn để đọc. Khi ảnh vừa khung, vuốt hoặc dùng phím trái/phải để đổi ảnh.",
             )}
-            {locale === "en" && (
+            {locale === "en" && !/^\/slides\/[1-5]\.jpg$/.test(current.full) && (
               <span className="tw-original-language-note">
                 {" "}
                 Original artwork contains Vietnamese text.

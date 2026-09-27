@@ -1,12 +1,13 @@
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { UrantiaCosmosScene } from "@/components/urantia-cosmos-scene";
 import { TopicGallery } from "@/components/topic-gallery";
+import { ArtworkViewer } from "@/components/story-artwork";
 import { CosmosCinema } from "@/components/cosmos-cinema";
 import { CosmosStoryGallery } from "@/components/cosmos-story-gallery";
 import { GameWorlds } from "@/components/game-worlds";
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
-import { ArrowDown, ArrowRight, ExternalLink, Download, Check, Sparkles } from "lucide-react";
+import { useEffect, useState, type CSSProperties, type MouseEvent, type ReactNode } from "react";
+import { ArrowDown, ArrowRight, ExternalLink, Download, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { platforms, roles, platformDescriptionsEn, roleAnswersEn } from "@/components/living-data";
 import { IDEA_FIELDS, exportIdea } from "@/lib/idea-submission";
@@ -75,7 +76,7 @@ function Index() {
   const [active, setActive] = useState("home"),
     [paused, setPaused] = useState(false),
     [role, setRole] = useState(1),
-    [planet, setPlanet] = useState(0),
+    [planet, setPlanet] = useState(2),
     [ideaOpen, setIdeaOpen] = useState(false),
     [notice, setNotice] = useState("");
   useEffect(() => {
@@ -123,7 +124,43 @@ function Index() {
   function download() {
     exportIdea(draft, locale);
   }
-  const selected = platforms[planet] ?? platforms[0];
+  const ecosystemPlatforms = [
+    ...platforms,
+    [
+      "urantia",
+      t("The Urantia Book", "Sách Urantia"),
+      t("A universe of learning", "Vũ trụ học hỏi"),
+      "Khám phá vũ trụ có trật tự, giáo dục và hành trình tiến hóa.",
+      "https://urantia.fun.rich/",
+    ],
+  ];
+  const selected = ecosystemPlatforms[planet] ?? ecosystemPlatforms[2]!;
+  const selectPlanet = (slug: string) => {
+    const index = ecosystemPlatforms.findIndex((platform) => platform[0] === slug);
+    if (index >= 0) setPlanet(index);
+  };
+  const handlePlanetClick = (event: MouseEvent<HTMLAnchorElement>, slug: string) => {
+    if (window.matchMedia("(hover: none)").matches && selected[0] !== slug) {
+      event.preventDefault();
+      selectPlanet(slug);
+    }
+  };
+  const ideaQuestions =
+    locale === "en"
+      ? [
+          "What would you like to do first?",
+          "Who would you like your character to become?",
+          "What place would you like to build?",
+          "How could Angel AI help?",
+          "What talent would you like to contribute?",
+        ]
+      : [
+          "Bạn muốn làm điều gì đầu tiên?",
+          "Bạn muốn nhân vật trở thành ai?",
+          "Bạn muốn xây dựng nơi nào?",
+          "Bạn muốn Angel AI giúp điều gì?",
+          "Bạn muốn đóng góp bằng tài năng nào?",
+        ];
   return (
     <main className={`lc-page ${paused ? "lc-paused" : ""}`}>
       <a className="lc-skip" href="#about">
@@ -259,53 +296,8 @@ function Index() {
           t("How can Angel AI help?", "Angel AI hỗ trợ bạn như thế nào?"),
         ]}
       />
-      <section id="love" data-chapter className="lc-section lc-love">
-        <Heading
-          label="Love Score"
-          title={t("Every contribution, a star.", "Mỗi đóng góp, một vì sao.")}
-        >
-          {t(
-            "Love Score recognizes verified positive contributions.",
-            "Love Score ghi nhận những đóng góp tích cực đã được xác minh.",
-          )}
-        </Heading>
-        <div className="lc-proof">
-          {(locale === "en"
-            ? ["Action", "Evidence", "Verification", "Recognition"]
-            : ["Hành động", "Bằng chứng", "Xác minh", "Ghi nhận"]
-          ).map((item, i) => (
-            <div key={item}>
-              <span>{["♡", "◇", "✓", "✧"][i]}</span>
-              <h3>{item}</h3>
-              <p>
-                {
-                  (locale === "en"
-                    ? [
-                        "Learn, create, help and contribute.",
-                        "Record evidence that fits the activity.",
-                        "Review the contribution before recognition.",
-                        "Keep a record of the value you created.",
-                      ]
-                    : [
-                        "Học hỏi, sáng tạo, giúp đỡ và đóng góp.",
-                        "Ghi lại kết quả phù hợp với hoạt động.",
-                        "Kiểm tra đóng góp trước khi ghi nhận.",
-                        "Lưu dấu những giá trị bạn đã tạo ra.",
-                      ])[i]
-                }
-              </p>
-            </div>
-          ))}
-        </div>
-        <p className="lc-love-note">
-          {t(
-            "Love Score is a contribution history — it does not measure the soul, enlightenment or human worth.",
-            "Love Score là lịch sử đóng góp — không đo linh hồn, mức độ giác ngộ hay giá trị con người.",
-          )}
-        </p>
-      </section>
       <TopicGallery
-        id="love-gallery"
+        id="love"
         chapter="love"
         title={t("Recognizing positive contributions", "Ghi nhận những điều tốt đẹp")}
         images={[18, 19]}
@@ -333,48 +325,54 @@ function Index() {
         <div className="lc-solar-system">
           <div className="lc-solar-ring" />
           <div className="lc-solar-ring outer" />
-          <a className="lc-sun" href="https://cosmos.fun.rich/" target="_blank" rel="noreferrer">
+          <a
+            className="lc-sun"
+            href="https://cosmos.fun.rich/"
+            target="_blank"
+            rel="noreferrer"
+            data-selected={selected[0] === "cosmos"}
+            onPointerEnter={(event) => {
+              if (event.pointerType !== "touch") selectPlanet("cosmos");
+            }}
+            onFocus={() => {
+              if (!window.matchMedia("(hover: none)").matches) selectPlanet("cosmos");
+            }}
+            onClick={(event) => handlePlanetClick(event, "cosmos")}
+          >
             <img src="/cosmos/cosmos.png" alt={t("Open FUN COSMOS", "Mở FUN COSMOS")} />
             <span>FUN COSMOS</span>
           </a>
           <div className="eco-outer-orbit">
-            {[
-              ...platforms.filter((p) => !["cosmos", "money", "camly"].includes(p[0])),
-              [
-                "urantia",
-                t("The Urantia Book", "Sách Urantia"),
-                "",
-                "",
-                "https://urantia.fun.rich/",
-              ],
-            ].map((p, i, all) => (
-              <div
-                className="eco-position"
-                key={p[0]}
-                style={{
-                  left: `${(50 + 43 * Math.cos((i / all.length) * 2 * Math.PI - Math.PI / 2)).toFixed(4)}%`,
-                  top: `${(50 + 43 * Math.sin((i / all.length) * 2 * Math.PI - Math.PI / 2)).toFixed(4)}%`,
-                }}
-              >
-                <a
-                  className="eco-logo"
-                  href={p[4]}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={p[1]}
-                  onMouseEnter={() => {
-                    const index = platforms.findIndex((v) => v[0] === p[0]);
-                    if (index >= 0) setPlanet(index);
-                  }}
-                  onFocus={() => {
-                    const index = platforms.findIndex((v) => v[0] === p[0]);
-                    if (index >= 0) setPlanet(index);
+            {ecosystemPlatforms
+              .filter((p) => !["cosmos", "money", "camly"].includes(p[0]))
+              .map((p, i, all) => (
+                <div
+                  className="eco-position"
+                  key={p[0]}
+                  style={{
+                    left: `${(50 + 43 * Math.cos((i / all.length) * 2 * Math.PI - Math.PI / 2)).toFixed(4)}%`,
+                    top: `${(50 + 43 * Math.sin((i / all.length) * 2 * Math.PI - Math.PI / 2)).toFixed(4)}%`,
                   }}
                 >
-                  <img src={`/cosmos/${p[0]}.png`} alt={p[1]} loading="lazy" />
-                </a>
-              </div>
-            ))}
+                  <a
+                    className="eco-logo"
+                    href={p[4]}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={p[1]}
+                    data-selected={selected[0] === p[0]}
+                    onPointerEnter={(event) => {
+                      if (event.pointerType !== "touch") selectPlanet(p[0]);
+                    }}
+                    onFocus={() => {
+                      if (!window.matchMedia("(hover: none)").matches) selectPlanet(p[0]);
+                    }}
+                    onClick={(event) => handlePlanetClick(event, p[0])}
+                  >
+                    <img src={`/cosmos/${p[0]}.png`} alt={p[1]} loading="lazy" />
+                  </a>
+                </div>
+              ))}
           </div>
           <div className="eco-money-orbit">
             {Array.from({ length: 12 }, (_, i) => {
@@ -394,6 +392,14 @@ function Index() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={type === "money" ? "FUN Money" : "Camly Coin"}
+                    data-selected={selected[0] === type}
+                    onPointerEnter={(event) => {
+                      if (event.pointerType !== "touch") selectPlanet(type);
+                    }}
+                    onFocus={() => {
+                      if (!window.matchMedia("(hover: none)").matches) selectPlanet(type);
+                    }}
+                    onClick={(event) => handlePlanetClick(event, type)}
                   >
                     <img src={`/cosmos/${type}.png`} alt="" />
                   </a>
@@ -407,7 +413,12 @@ function Index() {
           <div>
             <small>{selected[2]}</small>
             <h3>{selected[1]}</h3>
-            <p>{locale === "en" ? platformDescriptionsEn[selected[0]] : selected[3]}</p>
+            <p>
+              {locale === "en"
+                ? (platformDescriptionsEn[selected[0]] ??
+                  "Explore the Urantia Book and a universe of learning.")
+                : selected[3]}
+            </p>
           </div>
           <a className="lc-outline" href={selected[4]} target="_blank" rel="noreferrer">
             {t("Explore", "Khám phá")} <ExternalLink size={16} />
@@ -416,12 +427,17 @@ function Index() {
         <details className="lc-platform-list">
           <summary>{t("All platforms — open list", "Tất cả nền tảng — mở danh sách")}</summary>
           <div>
-            {platforms.map((p) => (
+            {ecosystemPlatforms.map((p) => (
               <a key={p[0]} href={p[4]} target="_blank" rel="noreferrer">
                 <img src={`/cosmos/${p[0]}.png`} alt="" loading="lazy" />
                 <div>
                   <h3>{p[1]} ↗</h3>
-                  <p>{locale === "en" ? platformDescriptionsEn[p[0]] : p[3]}</p>
+                  <p>
+                    {locale === "en"
+                      ? (platformDescriptionsEn[p[0]] ??
+                        "Explore the Urantia Book and a universe of learning.")
+                      : p[3]}
+                  </p>
                 </div>
               </a>
             ))}
@@ -440,75 +456,51 @@ function Index() {
           ↗
         </a>
       </section>
-      <TopicGallery
+      <section
         id="ecosystem-gallery"
-        chapter="ecosystem"
-        title={t("Connected FUN Ecosystem", "Kết nối FUN Ecosystem")}
-        images={[24]}
-        labels={[t("One world — many destinations", "Một thế giới — nhiều điểm đến")]}
-      />
-      <section id="create" data-chapter className="lc-section lc-create">
-        <Heading
-          label="Your turn"
-          title={t("The cosmos begins with your idea.", "Vũ trụ bắt đầu từ ý tưởng của bạn.")}
-        >
-          {t(
-            "You don't need to know everything. Start with what you love most.",
-            "Bạn không cần biết tất cả. Hãy bắt đầu từ điều mình yêu thích nhất.",
-          )}
-        </Heading>
-        <div className="lc-questions">
-          {(locale === "en"
-            ? [
-                "What would you like to do first?",
-                "Who would you like your character to become?",
-                "What place would you like to build?",
-                "How could Angel AI help?",
-                "What talent would you like to contribute?",
-              ]
-            : [
-                "Bạn muốn làm điều gì đầu tiên?",
-                "Bạn muốn nhân vật trở thành ai?",
-                "Bạn muốn xây dựng nơi nào?",
-                "Bạn muốn Angel AI giúp điều gì?",
-                "Bạn muốn đóng góp bằng tài năng nào?",
-              ]
-          ).map((q, i) => (
-            <button key={q} onClick={openIdea}>
-              <small>0{i + 1}</small>
-              <span>{q}</span>
-              <ArrowRight size={20} />
-            </button>
-          ))}
-        </div>
-        <div className="lc-create-cta">
-          <Sparkles />
-          <h3>Imagine it. Create it. Share it.</h3>
+        data-chapter="ecosystem"
+        className="lc-feature-artwork"
+        aria-label={t("FUN Ecosystem map", "Bản đồ FUN Ecosystem")}
+      >
+        <ArtworkViewer id={24} />
+      </section>
+      <section
+        id="create"
+        data-chapter
+        className="lc-your-turn-gallery"
+        aria-label={t("Your Turn", "Đến lượt bạn")}
+      >
+        <aside className="lc-your-turn-guide">
+          <span className="lc-eyebrow">✧ YOUR TURN</span>
+          <h2>{t("Your idea begins here", "Ý tưởng của bạn bắt đầu từ đây")}</h2>
+          <ol>
+            {ideaQuestions.map((question, index) => (
+              <li key={question}>
+                <span>0{index + 1}</span>
+                {question}
+              </li>
+            ))}
+          </ol>
           <button className="lc-gold" onClick={openIdea}>
             {t("Create an idea card", "Tạo thẻ ý tưởng")} <ArrowRight size={18} />
           </button>
-          <p>
-            {t(
-              "Seven small steps to sketch the world you want to create.",
-              "Bảy bước nhỏ để phác thảo thế giới bạn muốn tạo.",
-            )}
-          </p>
-          <a className="lc-outline" href="/your-turn">
-            {t("Explore Your Turn", "Khám phá Your Turn")} ↗
-          </a>
+        </aside>
+        <div className="lc-your-turn-scenes">
+          {[
+            [27, "99.999 Happy Camly Coin"],
+            [21, t("What will you create?", "Bạn sẽ tạo điều gì?")],
+            [26, t("Five questions to begin", "Năm câu hỏi khởi đầu")],
+          ].map(([id, label], index) => (
+            <figure className="lc-your-turn-scene" key={id}>
+              <ArtworkViewer id={Number(id)} />
+              <figcaption>
+                <span>0{index + 1} / 03</span>
+                {label}
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </section>
-      <TopicGallery
-        id="create-gallery"
-        chapter="create"
-        title={t("Your idea begins here", "Ý tưởng của bạn bắt đầu từ đây")}
-        images={[21, 26, 27]}
-        labels={[
-          t("Your Turn — What will you create?", "Your Turn — Bạn muốn tạo điều gì?"),
-          t("Five questions to inspire an idea", "Năm câu hỏi tìm ý tưởng"),
-          "Mini game — 99.999 Happy Camly Coin",
-        ]}
-      />
       <SiteFooter paused={paused} onPause={() => setPaused(!paused)} />
       <Dialog open={ideaOpen} onOpenChange={setIdeaOpen}>
         <DialogContent className="lc-idea-dialog">

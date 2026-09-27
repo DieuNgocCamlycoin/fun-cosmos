@@ -3109,3 +3109,146 @@
  .tg-banner .tg-art .tg-thumbnails img{height:42px;}
 }
 @media(prefers-reduced-motion: reduce){.tg-logo{transition:none;}.tg-logo:hover,.tg-logo:focus-visible{transform:none;}}
+
+/* Single infographic and the three distinct Your Turn chapters. */
+.lc-feature-artwork {
+  padding: clamp(18px, 3vw, 42px);
+  scroll-margin-top: var(--lc-nav-height);
+  display: grid;
+  place-items: center;
+}
+.lc-feature-artwork .lc-art-open {
+  width: min(100%, calc((100svh - var(--lc-nav-height) - 90px) * 16 / 9));
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border: 1px solid #d9b766;
+  border-radius: 24px;
+  background: #071a3c;
+}
+.lc-feature-artwork .lc-art-open img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.lc-your-turn-gallery {
+  display: grid;
+  grid-template-columns: minmax(260px, 29%) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(20px, 2.5vw, 42px);
+  padding: clamp(18px, 3vw, 44px);
+  scroll-margin-top: var(--lc-nav-height);
+}
+.lc-your-turn-guide {
+  position: sticky;
+  top: calc(var(--lc-nav-height) + 18px);
+  padding: clamp(20px, 2.2vw, 32px);
+  border: 1px solid #dfbd72;
+  border-radius: 26px;
+  background: linear-gradient(145deg, #153f69ed, #09274dda);
+  box-shadow:
+    0 18px 48px #061d4070,
+    inset 0 1px #ffffff40;
+  color: #f4f7ff;
+  max-height: calc(100svh - var(--lc-nav-height) - 32px);
+  overflow: auto;
+}
+.lc-page .lc-your-turn-guide h2 {
+  margin: 10px 0 18px;
+  font-size: clamp(26px, 2.5vw, 38px);
+  line-height: 1.12;
+  color: #ffe093;
+}
+.lc-your-turn-guide ol {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+}
+.lc-your-turn-guide li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 11px 0;
+  border-bottom: 1px solid #f6d89138;
+  font-size: clamp(14px, 1.1vw, 17px);
+  line-height: 1.4;
+}
+.lc-your-turn-guide li span {
+  flex: none;
+  color: #f6ce72;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+.lc-your-turn-guide .lc-gold {
+  width: 100%;
+  justify-content: center;
+  min-height: 52px;
+}
+.lc-your-turn-scenes {
+  display: grid;
+  gap: clamp(22px, 3vw, 46px);
+  min-width: 0;
+}
+.lc-your-turn-scene {
+  margin: 0;
+  min-width: 0;
+}
+.lc-your-turn-scene .lc-art-open {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border: 1px solid #e7c574;
+  border-radius: 22px;
+  background: #081e45;
+}
+.lc-your-turn-scene .lc-art-open img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+.lc-your-turn-scene .lc-art-open:hover img {
+  transform: scale(1.015);
+}
+.lc-your-turn-scene figcaption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  color: #fff3d2;
+  font-size: clamp(14px, 1.2vw, 18px);
+  font-weight: 600;
+  text-shadow: 0 2px 8px #00142b;
+}
+.lc-your-turn-scene figcaption span {
+  color: #f8d06e;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+}
+@media (max-width: 850px) {
+  .lc-your-turn-gallery {
+    grid-template-columns: 1fr;
+    padding: 18px 12px;
+  }
+  .lc-your-turn-guide {
+    position: static;
+    max-height: none;
+  }
+  .lc-feature-artwork {
+    padding: 18px 12px;
+  }
+  .lc-feature-artwork .lc-art-open,
+  .lc-your-turn-scene .lc-art-open {
+    border-radius: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lc-your-turn-scene .lc-art-open img {
+    transition: none;
+  }
+  .lc-your-turn-scene .lc-art-open:hover img {
+    transform: none;
+  }
+}

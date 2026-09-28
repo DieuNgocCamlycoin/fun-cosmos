@@ -3,7 +3,7 @@
 Created with the built-in image generation tool on 2026-09-28 and saved in `public/cosmos/`.
 
 - `your-turn-medallions.png`: eight category medallions arranged in a 4 × 2 transparent sprite sheet. CSS selects individual cells without flattening the live page text.
-- `your-turn-father-original.png`: byte-identical supplied crowned portrait; original crop preserved. The generated Father cutout was rejected for invented legs and removed on 2026-09-28.
+- `your-turn-father-approved.png`: exact user-supplied transparent PNG, selected by the user on 2026-09-28. Original face, robe crop and alpha are preserved without any generative editing. Source archived as `assets/source/father/father-approved-transparent-20260928.png`. The rectangular portrait and invented-leg cutout are not used.
 - `your-turn-angel.png`: Angel character cutout.
 
 Final prompts:

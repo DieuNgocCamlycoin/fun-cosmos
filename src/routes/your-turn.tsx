@@ -68,16 +68,12 @@ function YourTurnWorld() {
         <section className="nw-arrival yw-arrival" aria-labelledby="your-turn-title">
           <img
             className="yw-father"
-            src="/cosmos/your-turn-father-original.png"
+            src="/cosmos/your-turn-father-approved.png"
             alt=""
             aria-hidden="true"
           />
           <img className="yw-angel" src="/cosmos/your-turn-angel.png" alt="" aria-hidden="true" />
           <div className="nw-arrival-copy">
-            <a className="tw-back" href="/">
-              ← {t("Back to FUN COSMOS", "Về FUN COSMOS")}
-            </a>
-            <p className="tw-eyebrow">IMAGINE IT · CREATE IT · SHARE IT</p>
             <h1 id="your-turn-title" className="tw-metal">
               YOUR TURN
             </h1>
@@ -85,11 +81,6 @@ function YourTurnWorld() {
               {t("The cosmos begins", "Vũ trụ bắt đầu")}
               <br />
               {t("with your idea.", "từ ý tưởng của bạn.")}
-            </p>
-            <p>
-              {t("You don't need to know everything.", "Bạn không cần biết tất cả.")}
-              <br />
-              {t("Start with what you love most.", "Hãy bắt đầu từ điều mình yêu thích nhất.")}
             </p>
             <a className="tw-button" href="#sketch">
               {t("Create an idea card", "Tạo thẻ ý tưởng")} <ArrowDown size={18} />
@@ -99,7 +90,6 @@ function YourTurnWorld() {
             className="yw-invitations"
             aria-label={t("What will you create?", "Bạn sẽ sáng tạo điều gì?")}
           >
-            <img className="yw-brand" src="/cosmos/cosmos.png" alt="FUN COSMOS" />
             <p>
               {t("What will you create in FUN COSMOS?", "Bạn sẽ sáng tạo gì trong FUN COSMOS?")}
             </p>

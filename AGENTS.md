@@ -44,4 +44,4 @@
 - Pointer activity over artwork suspends autoplay until eight seconds without further activity; then the regular five-second cycle continues.
 
 ## Character artwork correction (2026-09-28)
-- Preserve supplied character anatomy, pose and original crop. Never invent legs, extend bodies or outpaint missing anatomy. Use exact originals; do not reuse the rejected generated Your Turn Father cutout.
+- Preserve supplied character anatomy, pose and original crop. Never invent legs, extend bodies or outpaint missing anatomy. Use approved source artwork. Use the exact user-approved transparent Father PNG supplied on 2026-09-28 (`father-approved-transparent-20260928.png`). Never use the rejected invented-leg asset or a portrait with a rectangular background.

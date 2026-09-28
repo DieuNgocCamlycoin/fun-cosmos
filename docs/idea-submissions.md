@@ -2,7 +2,9 @@
 
 The Home and Your Turn editors share a seven-field draft in browser storage. English is the default; visitors can select Vietnamese from the shared header or footer. The draft stays on the device until a visitor submits it with a contact email and explicit consent.
 
-`GET /api/public/ideas` reports whether the private ideas inbox is connected. The form disables sending and explains how to keep a draft when it is not. `POST /api/public/ideas` validates the payload, caps requests at 12 KB, checks the request origin, applies a honeypot, limits one email to five submissions in 24 hours, and returns a reference code. Submission records are private. The endpoint intentionally returns `503 {"code":"unavailable"}` until a D1 database is bound. Do not advertise submissions as live before provisioning the binding.
+`GET /api/public/ideas` reports whether a private inbox is connected. The form disables sending and explains how to keep a draft when it is not. `POST /api/public/ideas` validates the payload, caps requests at 32 KB (including seven Unicode answers), checks the request origin, applies a honeypot, limits one email to five submissions in 24 hours, and returns a reference code. Submission records are private. The endpoint uses the D1 binding when present and otherwise calls the restricted Supabase submission function. Do not advertise submissions as live until one backend has been provisioned and tested.
+
+For the project's existing Supabase connection, apply `supabase/migrations/20260928050000_your_turn_inbox.sql` through the normal migration workflow. It creates a private table with no direct public access and a validated submission RPC. The public form will become available once the migration is live. Only database administrators and the service role may inspect the records. After applying it, submit a test idea in both languages and confirm the returned reference codes and rows in `cosmos_idea_inbox`.
 
 To enable delivery on Cloudflare:
 

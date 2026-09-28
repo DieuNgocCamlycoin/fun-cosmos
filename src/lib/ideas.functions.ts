@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
@@ -9,7 +8,6 @@ import {
   storyExcerpt,
   storyTooShortMessage,
 } from "@/lib/idea-content";
-import type { Database } from "@/integrations/supabase/types";
 
 /** Story columns are recent; generated types may lag behind. */
 type StoryFields = {
@@ -83,22 +81,6 @@ async function adminClient() {
   return (await import("@/integrations/supabase/client.server")).supabaseAdmin;
 }
 
-function publicClient() {
-  const key = process.env["SUPABASE_PUBLISHABLE_KEY"]!;
-  return createClient<Database>(process.env["SUPABASE_URL"]!, key, {
-    auth: { persistSession: false, autoRefreshToken: false, storage: undefined },
-    global: {
-      fetch: (input, init) => {
-        const headers = new Headers(init?.headers);
-        if (key.startsWith("sb_") && headers.get("Authorization") === `Bearer ${key}`)
-          headers.delete("Authorization");
-        headers.set("apikey", key);
-        return fetch(input, { ...init, headers });
-      },
-    },
-  });
-}
-
 export const EMAIL_NOT_VERIFIED = "Vui lòng xác minh email để gửi ý tưởng.";
 
 /** Authoritative email-verification check straight from Supabase Auth. */
@@ -114,7 +96,10 @@ async function requireAdmin(context: { supabase: { rpc?: unknown }; userId: stri
   const client = context.supabase as unknown as {
     from: (table: string) => {
       select: (columns: string) => {
-        eq: (column: string, value: string) => {
+        eq: (
+          column: string,
+          value: string,
+        ) => {
           eq: (column: string, value: string) => { maybeSingle: () => Promise<{ data: unknown }> };
         };
       };
@@ -156,13 +141,8 @@ export const saveIdeaDraft = createServerFn({ method: "POST" })
     await requireVerifiedEmail(context.userId);
     const admin = await adminClient();
     const displayName =
-      (
-        await admin
-          .from("profiles")
-          .select("display_name")
-          .eq("id", context.userId)
-          .maybeSingle()
-      ).data?.display_name ?? "Người sáng tạo FUN COSMOS";
+      (await admin.from("profiles").select("display_name").eq("id", context.userId).maybeSingle())
+        .data?.display_name ?? "Người sáng tạo FUN COSMOS";
 
     let ideaId = data.id ?? null;
     if (ideaId) {
@@ -201,7 +181,7 @@ export const saveIdeaDraft = createServerFn({ method: "POST" })
       ideaId = created.id;
     }
 
-    await admin.from("idea_private_details").upsert(
+    const { error: privateError } = await admin.from("idea_private_details").upsert(
       {
         idea_id: ideaId!,
         email: context.claims["email"] ? String(context.claims["email"]) : "",
@@ -215,10 +195,16 @@ export const saveIdeaDraft = createServerFn({ method: "POST" })
       { onConflict: "idea_id" },
     );
 
-    await admin.from("idea_tags").delete().eq("idea_id", ideaId!);
+    if (privateError) throw new Error("Chưa lưu được thông tin xác minh. Vui lòng thử lại.");
+    const { error: tagDeleteError } = await admin.from("idea_tags").delete().eq("idea_id", ideaId!);
+    if (tagDeleteError) throw new Error("Chưa cập nhật được thẻ ý tưởng.");
     const tags = [...new Set(data.tags.map((tag) => tag.trim()).filter(Boolean))];
-    if (tags.length)
-      await admin.from("idea_tags").insert(tags.map((tag) => ({ idea_id: ideaId!, tag })));
+    if (tags.length) {
+      const { error: tagError } = await admin
+        .from("idea_tags")
+        .insert(tags.map((tag) => ({ idea_id: ideaId!, tag })));
+      if (tagError) throw new Error("Chưa lưu được thẻ ý tưởng.");
+    }
 
     const { data: saved } = await admin
       .from("ideas")
@@ -236,11 +222,7 @@ export const submitIdea = createServerFn({ method: "POST" })
     if (data.website) throw new Error("Không thể gửi bài.");
     await requireVerifiedEmail(context.userId);
     const admin = await adminClient();
-    const { data: idea } = await admin
-      .from("ideas")
-      .select("*")
-      .eq("id", data.id)
-      .maybeSingle();
+    const { data: idea } = await admin.from("ideas").select("*").eq("id", data.id).maybeSingle();
     if (!idea || idea.creator_user_id !== context.userId)
       throw new Error("Không tìm thấy ý tưởng của bạn.");
     if (!["draft", "needs_revision"].includes(idea.status))
@@ -281,53 +263,31 @@ export const submitIdea = createServerFn({ method: "POST" })
     if (!details || details.recipient_wallet.trim().length < 20) missing.push("ví nhận CAMLY");
     if (missing.length) throw new Error(`Cần hoàn thiện: ${missing.join(", ")}.`);
 
-    // Duplicate signal only — a creator may submit as many ideas as they wish.
-    const { data: similar } = await admin
-      .from("ideas")
-      .select("id")
-      .neq("id", idea.id)
-      .ilike("title", idea.title.trim())
-      .in("status", ["submitted", "under_review", ...PUBLIC_STATUSES])
-      .limit(1);
-    const duplicateFlag = (similar ?? []).length > 0;
-
-    let code = idea.public_code;
-    if (!code) {
-      const { data: generated, error: codeError } = await admin.rpc("next_idea_public_code");
-      if (codeError || !generated) throw new Error("Chưa thể tạo mã ý tưởng. Vui lòng thử lại.");
-      code = generated as string;
-    }
-
-    const submittedAt = new Date().toISOString();
-    const { error } = await admin
-      .from("ideas")
-      .update({
-        public_code: code,
-        status: "submitted",
-        submitted_at: submittedAt,
-        duplicate_flag: duplicateFlag,
-        duplicate_reasons: duplicateFlag ? ["title"] : [],
-        creator_message: null,
-      })
-      .eq("id", idea.id)
-      .in("status", ["draft", "needs_revision"]);
-    if (error) throw new Error("Chưa gửi được ý tưởng. Vui lòng thử lại.");
-
-    await admin.from("idea_audit_events").insert({
-      idea_id: idea.id,
-      actor_user_id: context.userId,
-      actor_type: "creator",
-      action: "idea_submitted",
-      old_status: idea.status,
-      new_status: "submitted",
+    // One database transaction creates the idea, participation, reward record and audit events.
+    // Fail closed until the additive RPC migration has been applied.
+    const rpc = admin.rpc.bind(admin) as unknown as (
+      name: string,
+      args: Record<string, unknown>,
+    ) => Promise<{
+      data: { id: string; code: string; submittedAt: string } | null;
+      error: { message: string } | null;
+    }>;
+    const { data: submitted, error } = await rpc("submit_cosmos_story", {
+      p_idea_id: idea.id,
+      p_creator_id: context.userId,
     });
-    return { id: idea.id, code: code!, submittedAt };
+    if (error || !submitted)
+      throw new Error(
+        "Chưa gửi được ý tưởng. Hệ thống cần kết nối giao dịch gửi bài; bản nháp vẫn được giữ lại.",
+      );
+    return submitted;
   });
 
 export const listMyIdeas = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data, error } = await context.supabase
+    const admin = await adminClient();
+    const { data, error } = await admin
       .from("ideas")
       .select(
         "id,public_code,title,summary,category,status,reward_status,creator_message,created_at,updated_at,submitted_at,published_at",
@@ -365,7 +325,7 @@ const hubSchema = z.object({
 export const listPublicIdeas = createServerFn({ method: "POST" })
   .inputValidator((input) => hubSchema.parse(input))
   .handler(async ({ data }) => {
-    const supabase = publicClient();
+    const supabase = await adminClient();
     let query = supabase
       .from("ideas")
       .select(
@@ -387,18 +347,18 @@ export const listPublicIdeas = createServerFn({ method: "POST" })
     const { data: rows, error } = await query;
     if (error) return { ideas: [], error: "Chưa tải được danh sách ý tưởng." };
     // Only a short excerpt of the story travels to the hub cards.
-    const ideas = ((rows ?? []) as (typeof rows extends null ? never : NonNullable<typeof rows>[number] & StoryFields)[]).map(
-      ({ story, ...rest }) => ({ ...rest, story_excerpt: storyExcerpt(story ?? "") }),
-    );
+    const ideas = (
+      (rows ?? []) as (typeof rows extends null
+        ? never
+        : NonNullable<typeof rows>[number] & StoryFields)[]
+    ).map(({ story, ...rest }) => ({ ...rest, story_excerpt: storyExcerpt(story ?? "") }));
     return { ideas, error: null };
   });
 
 export const getPublicIdea = createServerFn({ method: "POST" })
-  .inputValidator((input) =>
-    z.object({ code: z.string().trim().max(32) }).parse(input),
-  )
+  .inputValidator((input) => z.object({ code: z.string().trim().max(32) }).parse(input))
   .handler(async ({ data }) => {
-    const supabase = publicClient();
+    const supabase = await adminClient();
     const { data: idea } = await supabase
       .from("ideas")
       .select(
@@ -431,7 +391,10 @@ export const listAdminIdeas = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) =>
     z
-      .object({ search: z.string().trim().max(120).default(""), status: z.string().max(30).default("") })
+      .object({
+        search: z.string().trim().max(120).default(""),
+        status: z.string().max(30).default(""),
+      })
       .parse(input),
   )
   .handler(async ({ data, context }) => {

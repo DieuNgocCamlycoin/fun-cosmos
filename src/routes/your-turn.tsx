@@ -2,12 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Download, Save } from "lucide-react";
 import { TopicWorldShell, WorldSection } from "@/components/topic-world/topic-world";
-import { LivingScene, ArchiveDisclosure } from "@/components/topic-world/living-scene";
+import { ArchiveDisclosure } from "@/components/topic-world/living-scene";
 import { CuratedArchive } from "@/components/topic-world/curated-archive";
 import { IDEA_FIELDS, exportIdea } from "@/lib/idea-submission";
 import { useIdeaDraft } from "@/lib/use-idea-draft";
 import { useI18n } from "@/lib/i18n";
-import { IdeaSubmissionForm } from "@/components/idea-submission-form";
 import { externalLink } from "@/lib/links";
 import "@/components/topic-world/next-worlds.css";
 
@@ -25,24 +24,19 @@ export const Route = createFileRoute("/your-turn")({
   }),
   component: YourTurnWorld,
 });
-const starts = [
-  ["Câu chuyện", "Một câu chuyện bạn muốn kể bắt đầu ở đâu?"],
-  ["Nhân vật", "Người bạn muốn trở thành có điều gì đặc biệt?"],
-  ["Thế giới", "Bạn muốn tạo khu vườn, thành phố hay một nơi gặp gỡ?"],
-  ["Âm nhạc", "Âm thanh nào khiến thế giới của bạn trở nên sống động?"],
-  ["Game & code", "Bạn muốn tạo một nhiệm vụ hay một trải nghiệm mới?"],
-  ["Cộng đồng", "Bạn muốn cùng ai làm nên điều gì?"],
-];
+const invitations = [
+  ["Story", "Câu chuyện"],
+  ["Character", "Nhân vật"],
+  ["World", "Thế giới"],
+  ["Music", "Âm nhạc"],
+  ["AI", "Trí tuệ nhân tạo"],
+  ["Game", "Trò chơi"],
+  ["Code", "Mã code"],
+  ["Community", "Cộng đồng"],
+] as const;
+const stepArt = [1, 2, 5, 4, 0, 2, 7] as const;
 function YourTurnWorld() {
   const { locale, t } = useI18n();
-  const startsEn = [
-    ["Story", "Where does the story you want to tell begin?"],
-    ["Character", "What is special about the person you want to become?"],
-    ["World", "Would you build a garden, a city or a place to meet?"],
-    ["Music", "What sound makes your world come alive?"],
-    ["Game & code", "Would you make a quest or a new experience?"],
-    ["Community", "Who would you create something with?"],
-  ];
   const { draft, update, save: saveDraft, ready, saveError } = useIdeaDraft();
   const ideaFields = IDEA_FIELDS.map((field) => field[locale]);
   const ideaHints = IDEA_FIELDS.map((field) => (locale === "en" ? field.hintEn : field.hintVi));
@@ -52,7 +46,7 @@ function YourTurnWorld() {
   const count = draft.filter((v) => v.trim()).length;
   function go(next: number) {
     setStep(next);
-    requestAnimationFrame(() => input.current?.focus());
+    requestAnimationFrame(() => input.current?.focus({ preventScroll: true }));
   }
   function save() {
     setNotice(
@@ -72,6 +66,8 @@ function YourTurnWorld() {
     <TopicWorldShell>
       <div className="nw yw">
         <section className="nw-arrival yw-arrival" aria-labelledby="your-turn-title">
+          <img className="yw-father" src="/cosmos/your-turn-father.png" alt="" aria-hidden="true" />
+          <img className="yw-angel" src="/cosmos/your-turn-angel.png" alt="" aria-hidden="true" />
           <div className="nw-arrival-copy">
             <a className="tw-back" href="/">
               ← {t("Back to FUN COSMOS", "Về FUN COSMOS")}
@@ -94,45 +90,45 @@ function YourTurnWorld() {
               {t("Create an idea card", "Tạo thẻ ý tưởng")} <ArrowDown size={18} />
             </a>
           </div>
-          <div className="yw-seed" aria-hidden="true">
-            <img src="/cosmos/urantia-traveler.png" alt="" width="640" height="640" />
-            <i />
-            <i />
+          <div
+            className="yw-invitations"
+            aria-label={t("What will you create?", "Bạn sẽ sáng tạo điều gì?")}
+          >
+            <img className="yw-brand" src="/cosmos/cosmos.png" alt="FUN COSMOS" />
+            <p>
+              {t("What will you create in FUN COSMOS?", "Bạn sẽ sáng tạo gì trong FUN COSMOS?")}
+            </p>
+            <div className="yw-invitation-grid">
+              {invitations.map(([en, vi], index) => (
+                <a href="#sketch" key={en} onClick={() => go([1, 0, 1, 2, 3, 2, 2, 6][index] ?? 0)}>
+                  <span
+                    className="yw-medallion"
+                    style={{
+                      backgroundPosition: `${((index % 4) * 100) / 3}% ${Math.floor(index / 4) * 100}%`,
+                    }}
+                    aria-hidden="true"
+                  />
+                  <span>{t(en, vi)}</span>
+                </a>
+              ))}
+            </div>
           </div>
         </section>
         <nav className="tw-local" aria-label={t("In Your Turn", "Trong Your Turn")}>
-          <a href="#inspiration">{t("Find inspiration", "Tìm cảm hứng")}</a>
           <a href="#sketch">{t("Seven small steps", "Bảy bước phác thảo")}</a>
           <a href="#idea-preview">{t("Idea card", "Thẻ ý tưởng")}</a>
           <a href="#archive">{t("Original artwork", "Tư liệu gốc")}</a>
         </nav>
         <WorldSection
-          id="inspiration"
-          number="02"
-          eyebrow="START WITH WHAT YOU LOVE"
-          title={t("WHAT INSPIRES YOU TO BEGIN?", "ĐIỀU GÌ KHIẾN BẠN MUỐN BẮT ĐẦU?")}
-        >
-          <LivingScene
-            label={t("Choose an inspiration", "Chọn nguồn cảm hứng")}
-            character="/cosmos/urantia-traveler.png"
-            onChoose={(index) => go([1, 0, 1, 2, 2, 6][index] ?? 0)}
-            moments={starts.map(([title, text], i) => ({
-              title: locale === "en" ? startsEn[i]![0]! : title!,
-              text: locale === "en" ? startsEn[i]![1]! : text!,
-              asset: `/cosmos/${["planet", "profile", "earth", "play", "cosmos", "lovehub"][i]}.png`,
-            }))}
-          />
-        </WorldSection>
-        <WorldSection
           id="sketch"
-          number="03"
+          number="02"
           eyebrow="SEVEN SMALL STEPS"
           title={t("FROM AN IDEA TO A FIRST SKETCH.", "TỪ Ý TƯỞNG ĐẾN MỘT BẢN PHÁC THẢO.")}
         >
           <p className="tw-intro">
             {t(
-              "Your draft is saved on this device and has not been submitted. Fill the steps in any order.",
-              "Bản nháp lưu trên trình duyệt của bạn; chưa gửi đến hệ thống. Bạn có thể điền theo thứ tự bất kỳ.",
+              "Write in any order. Your draft stays on this device until you send it.",
+              "Bạn có thể điền theo thứ tự bất kỳ. Bản nháp ở trên thiết bị cho đến khi bạn gửi.",
             )}
           </p>
           <div className="yw-workshop">
@@ -144,31 +140,18 @@ function YourTurnWorld() {
                   `Bản phác thảo: ${count} trên 7 thành phần đã viết`,
                 )}
               >
-                {["cosmos", "planet", "play", "angel", "plp", "earth", "lovehub"].map(
-                  (asset, i) => (
-                    <img
-                      key={asset}
-                      src={`/cosmos/${asset}.png`}
-                      alt=""
-                      width="72"
-                      height="72"
-                      loading="lazy"
-                      data-active={step === i}
-                      style={{
-                        width: 64,
-                        height: 64,
-                        left: `${12 + (i % 3) * 29}%`,
-                        top: `${14 + Math.floor(i / 3) * 25}%`,
-                        opacity: draft[i]?.trim() || step === i ? 1 : 0.26,
-                        transform: `scale(${draft[i]?.trim() || step === i ? 1 : 0.75})`,
-                      }}
-                    />
-                  ),
-                )}
-                <small>
-                  {count} / 7 · {t("Sketch progress", "Minh họa tiến độ phác thảo")}
-                </small>
+                <span
+                  className="yw-active-medallion yw-medallion"
+                  style={{
+                    backgroundPosition: `${((stepArt[step]! % 4) * 100) / 3}% ${Math.floor(stepArt[step]! / 4) * 100}%`,
+                  }}
+                  aria-hidden="true"
+                />
+                <strong>{ideaFields[step]}</strong>
+                <p>{ideaHints[step]}</p>
               </div>
+            </div>
+            <div className="yw-editor">
               <nav className="yw-steps" aria-label={t("Sketch steps", "Các bước phác thảo")}>
                 {ideaFields.map((field, i) => (
                   <button
@@ -182,11 +165,6 @@ function YourTurnWorld() {
                   </button>
                 ))}
               </nav>
-            </div>
-            <div className="yw-editor">
-              <p className="tw-eyebrow">
-                {step + 1} / 7 · {count} {t("parts written", "phần đã viết")}
-              </p>
               <label htmlFor="idea-answer">{ideaFields[step]}</label>
               <textarea
                 id="idea-answer"
@@ -239,56 +217,72 @@ function YourTurnWorld() {
         </WorldSection>
         <WorldSection
           id="idea-preview"
-          number="04"
-          eyebrow="YOUR IDEA CARD"
-          title={t("THIS IS YOUR BEGINNING.", "ĐÂY LÀ KHỞI ĐẦU CỦA BẠN.")}
+          number="03"
+          eyebrow="REVIEW & SEND"
+          title={t("SEND YOUR IDEA INTO THE COSMOS.", "GỬI Ý TƯỞNG VÀO VŨ TRỤ.")}
         >
-          <article className="yw-preview">
-            <header>
-              <img src="/cosmos/cosmos.png" alt="" width="64" height="64" />
-              <div>
-                <h3>{t("My FUN COSMOS", "FUN COSMOS của tôi")}</h3>
-                <p>
-                  {count} / 7 {t("parts · First sketch", "thành phần · Bản phác thảo")}
-                </p>
-              </div>
-            </header>
-            <dl>
-              {count ? (
-                ideaFields.map((field, i) =>
-                  draft[i]?.trim() ? (
-                    <div key={field}>
-                      <dt>{field}</dt>
-                      <dd>{draft[i].trim()}</dd>
-                    </div>
-                  ) : null,
-                )
-              ) : (
-                <div className="yw-preview-empty">
-                  <dt>{t("Your first spark", "Tia sáng đầu tiên của bạn")}</dt>
-                  <dd>
-                    {t(
-                      "Choose an inspiration above, then write one line to begin.",
-                      "Chọn một cảm hứng phía trên, rồi viết một dòng để bắt đầu.",
-                    )}
-                  </dd>
-                </div>
+          <div className="yw-save">
+            <p>
+              {t(
+                "Turn your seven seeds into a story, share it, then submit for review.",
+                "Kết nối bảy hạt giống thành câu chuyện, chia sẻ rồi gửi duyệt.",
               )}
-            </dl>
-            <div className="yw-preview-actions">
-              <a className="tw-outline" href="#sketch">
-                {t("Continue editing", "Tiếp tục chỉnh sửa")} <ArrowRight size={16} />
-              </a>
-              <button className="tw-button" onClick={download} disabled={!count}>
-                <Download size={18} /> {t("Download idea card", "Tải thẻ ý tưởng")}
-              </button>
-            </div>
-          </article>
-          <IdeaSubmissionForm fields={draft} />
+            </p>
+            <a className="tw-button" href="/tao-y-tuong">
+              {t("Continue to Idea Creator", "Tiếp tục tạo câu chuyện")} <ArrowRight size={18} />
+            </a>
+            <a className="tw-outline" href="/idea-hub">
+              {t("Explore Idea Hub", "Khám phá Idea Hub")}
+            </a>
+          </div>
+          <details className="yw-preview-details">
+            <summary>{t("Review my idea card", "Xem lại thẻ ý tưởng của tôi")}</summary>
+            <article className="yw-preview">
+              <header>
+                <img src="/cosmos/cosmos.png" alt="" width="64" height="64" />
+                <div>
+                  <h3>{t("My FUN COSMOS", "FUN COSMOS của tôi")}</h3>
+                  <p>
+                    {count} / 7 {t("parts · First sketch", "thành phần · Bản phác thảo")}
+                  </p>
+                </div>
+              </header>
+              <dl>
+                {count ? (
+                  ideaFields.map((field, i) =>
+                    draft[i]?.trim() ? (
+                      <div key={field}>
+                        <dt>{field}</dt>
+                        <dd>{draft[i].trim()}</dd>
+                      </div>
+                    ) : null,
+                  )
+                ) : (
+                  <div className="yw-preview-empty">
+                    <dt>{t("Your first spark", "Tia sáng đầu tiên của bạn")}</dt>
+                    <dd>
+                      {t(
+                        "Choose a step above, then write one line to begin.",
+                        "Chọn một mục phía trên, rồi viết một dòng để bắt đầu.",
+                      )}
+                    </dd>
+                  </div>
+                )}
+              </dl>
+              <div className="yw-preview-actions">
+                <a className="tw-outline" href="#sketch">
+                  {t("Continue editing", "Tiếp tục chỉnh sửa")} <ArrowRight size={16} />
+                </a>
+                <button className="tw-button" onClick={download} disabled={!count}>
+                  <Download size={18} /> {t("Download idea card", "Tải thẻ ý tưởng")}
+                </button>
+              </div>
+            </article>
+          </details>
         </WorldSection>
         <WorldSection
           id="archive"
-          number="05"
+          number="04"
           eyebrow="KNOWLEDGE ARCHIVE"
           title={t("MORE INSPIRATION FOR YOUR IDEA.", "THÊM CẢM HỨNG CHO Ý TƯỞNG.")}
         >
@@ -298,7 +292,7 @@ function YourTurnWorld() {
         </WorldSection>
         <WorldSection
           id="continue"
-          number="06"
+          number="05"
           eyebrow="CONTINUE YOUR JOURNEY"
           title={t("TAKE YOUR IDEA INTO THE WORLD.", "MANG THEO Ý TƯỞNG. BƯỚC VÀO THẾ GIỚI.")}
           className="tw-finale"

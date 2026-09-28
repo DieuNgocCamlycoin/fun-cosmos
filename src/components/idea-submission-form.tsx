@@ -15,19 +15,24 @@ export function IdeaSubmissionForm({ fields }: { fields: readonly string[] }) {
   const requestId = useRef<string | null>(null);
   const submittedFields = useRef("");
 
-  useEffect(() => {
-    let active = true;
-    fetch("/api/public/ideas", { cache: "no-store" })
-      .then(async (response) => {
-        const result = (await response.json()) as { available?: boolean };
-        if (active) setService(response.ok && result.available ? "ready" : "unavailable");
-      })
-      .catch(() => {
-        if (active) setService("unavailable");
+  async function checkInbox(signal?: AbortSignal) {
+    setService("checking");
+    try {
+      const response = await fetch("/api/public/ideas", {
+        cache: "no-store",
+        ...(signal ? { signal } : {}),
       });
-    return () => {
-      active = false;
-    };
+      const result = (await response.json()) as { available?: boolean };
+      if (!signal?.aborted) setService(response.ok && result.available ? "ready" : "unavailable");
+    } catch {
+      if (!signal?.aborted) setService("unavailable");
+    }
+  }
+
+  useEffect(() => {
+    const controller = new AbortController();
+    void checkInbox(controller.signal);
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -141,6 +146,11 @@ export function IdeaSubmissionForm({ fields }: { fields: readonly string[] }) {
                 "Hộp nhận ý tưởng chưa được kết nối. Bản nháp vẫn lưu trên thiết bị; bạn có thể tải thẻ ở phía trên.",
               )}
         </p>
+      )}
+      {service === "unavailable" && (
+        <button type="button" className="tw-outline" onClick={() => void checkInbox()}>
+          {t("Check connection again", "Kiểm tra kết nối lại")}
+        </button>
       )}
       <label htmlFor="idea-contact-email">{t("Contact email", "Email liên hệ")}</label>
       <input

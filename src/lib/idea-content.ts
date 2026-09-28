@@ -88,8 +88,7 @@ export const creatorSteps = [
     english: "Create",
     helper:
       "Có thể là một ngôi nhà, khu vườn, thành phố, doanh nghiệp, thế giới, cộng đồng, hành trình hoặc bất kỳ điều gì bạn tưởng tượng.",
-    placeholder:
-      "Ví dụ: Một khu vườn xanh bên hồ dành cho mọi người gặp gỡ và học về thiên nhiên.",
+    placeholder: "Ví dụ: Một khu vườn xanh bên hồ dành cho mọi người gặp gỡ và học về thiên nhiên.",
     optional: false,
   },
   {
@@ -113,7 +112,8 @@ export const creatorSteps = [
     key: "worldChange",
     title: "THẾ GIỚI FUN COSMOS THAY ĐỔI RA SAO?",
     english: "World Change",
-    helper: "Ý tưởng của bạn làm thế giới trở nên đẹp hơn, thú vị hơn hoặc hữu ích hơn như thế nào?",
+    helper:
+      "Ý tưởng của bạn làm thế giới trở nên đẹp hơn, thú vị hơn hoặc hữu ích hơn như thế nào?",
     placeholder: "Ví dụ: Một vùng đất trống trở thành khu vườn xanh nơi cộng đồng cùng chăm sóc.",
     optional: false,
   },
@@ -197,7 +197,29 @@ export const PROGRAM_HASHTAGS = "#FUNCOSMOS #FUNCOSMOSCuaCon #99999HappyCamlyCoi
 export const buildShareText = (title: string, story: string) =>
   `${title ? `${title}\n\n` : ""}${story}\n\n${PROGRAM_HASHTAGS}`;
 
-export const FACEBOOK_POST_PATTERN = /^https?:\/\/(www\.|m\.|web\.|business\.)?facebook\.com\/.+/i;
+/** Require a parseable HTTPS Facebook URL; reject lookalike domains and credentials. */
+export function isFacebookPostUrl(value: string) {
+  try {
+    const url = new URL(value.trim());
+    return (
+      url.protocol === "https:" &&
+      !url.username &&
+      !url.password &&
+      !url.port &&
+      [
+        "facebook.com",
+        "www.facebook.com",
+        "m.facebook.com",
+        "web.facebook.com",
+        "business.facebook.com",
+      ].includes(url.hostname) &&
+      url.pathname !== "/"
+    );
+  } catch {
+    return false;
+  }
+}
+export const FACEBOOK_POST_PATTERN = { test: isFacebookPostUrl };
 
 export const storyExcerpt = (story: string, length = 220) => {
   const text = story.replace(/\s+/g, " ").trim();

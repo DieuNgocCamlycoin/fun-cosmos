@@ -1,0 +1,987 @@
+NÂNG CẤP YOUR TURN — FUN COSMOS IDEA CREATOR
+
+PHASE 1.1 — STORY-DRIVEN IDEA SUBMISSION
+
+Hãy nâng cấp luồng “TẠO Ý TƯỞNG” hiện tại của FUN COSMOS theo yêu cầu dưới đây.
+
+QUAN TRỌNG:
+
+- KHÔNG xây lại hệ thống từ đầu.
+
+- KHÔNG xóa dữ liệu hiện có.
+
+- KHÔNG phá các submission hiện tại.
+
+- KHÔNG thay đổi các trang FUN COSMOS khác.
+
+- Giữ nguyên authentication, profiles, Idea Hub, admin, reward management, RLS và hệ thống submission hiện tại nếu đang hoạt động tốt.
+
+- Trước khi sửa, hãy kiểm tra schema/database/code hiện tại và tái sử dụng tối đa.
+
+- Migration phải backward-compatible.
+
+- Các bài cũ vẫn phải đọc và quản trị được.
+
+- Chỉ mở rộng luồng tạo ý tưởng để STORY / CÂU CHUYỆN trở thành nội dung chính.
+
+==================================================
+
+I. TRIẾT LÝ MỚI CỦA FORM
+
+==================================================
+
+7 mục đầu tiên chỉ là “HẠT GIỐNG Ý TƯỞNG”.
+
+Người dùng KHÔNG cần viết dài.
+
+KHÔNG đặt minimum character cho 7 mục này.
+
+Cho phép câu trả lời ngắn gọn, đơn giản, dễ tham gia.
+
+Phần quan trọng nhất là:
+
+08 — CÂU CHUYỆN FUN COSMOS CỦA BẠN
+
+Đây sẽ là phần nội dung chính để cộng đồng đọc, admin đánh giá và FUN COSMOS có thể phát triển thành game concept trong tương lai.
+
+Flow:
+
+7 HẠT GIỐNG Ý TƯỞNG
+
+↓
+
+CÂU CHUYỆN
+
+↓
+
+CHIA SẺ FACEBOOK
+
+↓
+
+XEM LẠI
+
+↓
+
+GỬI Ý TƯỞNG
+
+↓
+
+ADMIN DUYỆT
+
+↓
+
+IDEA HUB
+
+==================================================
+
+II. GIỮ 7 MỤC Ý TƯỞNG NHƯNG VIẾT LẠI UX COPY
+
+==================================================
+
+01 — NHÂN VẬT CỦA BẠN LÀ AI?
+
+Helper text:
+
+“Tên, tuổi, nghề nghiệp hoặc vai trò. Viết ngắn gọn cũng được.”
+
+Placeholder:
+
+“Ví dụ: Anna, 22 tuổi, yêu thiên nhiên và thích sáng tạo.”
+
+--------------------------------------------------
+
+02 — ƯỚC MƠ CỦA NHÂN VẬT LÀ GÌ?
+
+Helper text:
+
+“Điều nhân vật thật sự muốn đạt được, trải nghiệm hoặc trở thành.”
+
+Placeholder:
+
+“Ví dụ: Anna ước mơ tạo nên một khu vườn chữa lành cho cộng đồng.”
+
+--------------------------------------------------
+
+03 — BẠN MUỐN KIẾN TẠO ĐIỀU GÌ TRONG FUN COSMOS?
+
+Helper text:
+
+“Có thể là một ngôi nhà, khu vườn, thành phố, doanh nghiệp, thế giới, cộng đồng, hành trình hoặc bất kỳ điều gì bạn tưởng tượng.”
+
+Placeholder:
+
+“Ví dụ: Một khu vườn xanh bên hồ dành cho mọi người gặp gỡ và học về thiên nhiên.”
+
+--------------------------------------------------
+
+04 — ANGEL AI SẼ ĐỒNG HÀNH NHƯ THẾ NÀO?
+
+Helper text:
+
+“Angel AI có thể hướng dẫn, gợi ý, dạy học, giao nhiệm vụ hoặc cùng nhân vật sáng tạo.”
+
+Placeholder:
+
+“Ví dụ: Angel AI hướng dẫn Anna thiết kế khu vườn và học cách chăm sóc cây.”
+
+--------------------------------------------------
+
+05 — THÀNH QUẢ BẠN MONG MUỐN LÀ GÌ?
+
+Helper text:
+
+“Nhân vật học được gì, tạo ra gì hoặc thay đổi như thế nào?”
+
+Placeholder:
+
+“Ví dụ: Anna hoàn thành khu vườn, học được kỹ năng mới và kết nối thêm nhiều người bạn.”
+
+--------------------------------------------------
+
+06 — THẾ GIỚI FUN COSMOS THAY ĐỔI RA SAO?
+
+Helper text:
+
+“Ý tưởng của bạn làm thế giới trở nên đẹp hơn, thú vị hơn hoặc hữu ích hơn như thế nào?”
+
+Placeholder:
+
+“Ví dụ: Một vùng đất trống trở thành khu vườn xanh nơi cộng đồng cùng chăm sóc.”
+
+--------------------------------------------------
+
+07 — KẾT NỐI VỚI ĐỜI THẬT
+
+Đây là mục TÙY CHỌN.
+
+Helper text:
+
+“Điều gì trong câu chuyện có thể được học, thực hành hoặc kiến tạo ngoài đời thật?”
+
+Placeholder:
+
+“Ví dụ: Người chơi có thể tham gia một hoạt động Green Earth và trồng cây thật.”
+
+Hiển thị badge:
+
+“TÙY CHỌN”
+
+==================================================
+
+III. THÊM BƯỚC 08 — CÂU CHUYỆN FUN COSMOS CỦA BẠN
+
+==================================================
+
+Đây phải là bước nổi bật nhất trong toàn bộ Idea Creator.
+
+Heading:
+
+08
+
+CÂU CHUYỆN FUN COSMOS CỦA BẠN
+
+Subheading:
+
+“BIẾN Ý TƯỞNG THÀNH MỘT CUỘC PHIÊU LƯU.”
+
+Description:
+
+“Hãy kết nối những ý tưởng phía trên thành một câu chuyện hoàn chỉnh về nhân vật của bạn trong FUN COSMOS.”
+
+Hiển thị một visual journey nhỏ:
+
+ƯỚC MƠ
+
+→
+
+BƯỚC VÀO FUN COSMOS
+
+→
+
+GẶP ANGEL AI
+
+→
+
+KHÁM PHÁ
+
+→
+
+HỌC HỎI
+
+→
+
+SÁNG TẠO
+
+→
+
+THỬ THÁCH
+
+→
+
+THÀNH QUẢ
+
+→
+
+THẾ GIỚI THAY ĐỔI
+
+→
+
+KẾT NỐI ĐỜI THẬT
+
+Thêm text:
+
+“Bạn không cần phải là nhà văn.
+
+Hãy kể câu chuyện bằng trí tưởng tượng của mình. Bạn cũng có thể nhờ Angel AI giúp phát triển 7 hạt giống ý tưởng phía trên thành một câu chuyện FUN COSMOS hoàn chỉnh.”
+
+--------------------------------------------------
+
+STORY FIELD
+
+--------------------------------------------------
+
+Tạo textarea/editor lớn, thoải mái để viết truyện.
+
+Label:
+
+“Câu chuyện của bạn”
+
+Placeholder:
+
+“Một ngày nọ, Anna bước qua cánh cổng FUN COSMOS...
+
+Cô mang theo một ước mơ...
+
+Angel AI xuất hiện và hỏi cô rằng...”
+
+YÊU CẦU:
+
+- story là required.
+
+- Minimum 1.000 ký tự.
+
+- Không đặt maximum quá thấp.
+
+- Có thể dùng giới hạn kỹ thuật khoảng 20.000–30.000 ký tự nếu database cần.
+
+- Hiển thị character counter realtime.
+
+Ví dụ:
+
+842 / 1.000 ký tự tối thiểu
+
+Khi đạt:
+
+1.248 ký tự ✓
+
+Không cho submit final nếu story < 1.000 ký tự.
+
+Nhưng vẫn cho phép SAVE DRAFT bất cứ lúc nào.
+
+Thông báo validation thân thiện:
+
+“Câu chuyện cần ít nhất 1.000 ký tự để đủ không gian phát triển hành trình FUN COSMOS của bạn.”
+
+==================================================
+
+IV. THÊM “NHỜ ANGEL AI VIẾT CÙNG TÔI”
+
+==================================================
+
+Trong bước CÂU CHUYỆN, thêm CTA nổi bật:
+
+✨ NHỜ ANGEL AI VIẾT CÙNG TÔI
+
+Mục đích:
+
+Người dùng có thể lấy 7 câu trả lời phía trên và nhờ Angel AI phát triển thành cốt truyện.
+
+PHASE NÀY:
+
+Nếu hệ thống chưa có API Angel AI phù hợp thì KHÔNG tự tạo AI backend giả.
+
+Thay vào đó, khi bấm nút hãy mở modal:
+
+“NHỜ ANGEL AI PHÁT TRIỂN CÂU CHUYỆN”
+
+Tự động tạo một PROMPT dựa trên nội dung người dùng đã nhập.
+
+Ví dụ cấu trúc:
+
+“Hãy giúp tôi phát triển ý tưởng sau thành một câu chuyện FUN COSMOS hấp dẫn.
+
+NHÂN VẬT:
+
+{character}
+
+ƯỚC MƠ:
+
+{dream}
+
+ĐIỀU MUỐN KIẾN TẠO:
+
+{experience}
+
+ANGEL AI:
+
+{angel_ai}
+
+THÀNH QUẢ:
+
+{reward}
+
+THẾ GIỚI THAY ĐỔI:
+
+{world_change}
+
+KẾT NỐI ĐỜI THẬT:
+
+{real_world_connection}
+
+Hãy viết thành một câu chuyện có mở đầu, hành trình, thử thách, khám phá, sáng tạo, cao trào và kết thúc.
+
+Giữ tinh thần FUN COSMOS:
+
+khám phá → học hỏi → sáng tạo → kết nối → đóng góp → phát triển.
+
+Không biến câu chuyện thành quảng cáo.
+
+Ưu tiên trải nghiệm nhân vật và thế giới game.”
+
+Có nút:
+
+“SAO CHÉP PROMPT”
+
+Sau khi người dùng có nội dung từ Angel AI, họ có thể paste lại vào Story Editor.
+
+Code/component nên thiết kế để sau này có thể thay chức năng copy prompt bằng API Angel AI thực sự mà không phải xây lại UI.
+
+==================================================
+
+V. THÊM BƯỚC CHIA SẺ FACEBOOK
+
+==================================================
+
+Sau Story, tạo section:
+
+📣 CHIA SẺ CÂU CHUYỆN CỦA BẠN
+
+Heading:
+
+“ĐƯA Ý TƯỞNG RA CỘNG ĐỒNG”
+
+Description:
+
+“Hãy chia sẻ câu chuyện FUN COSMOS của bạn lên Facebook để bạn bè cùng đọc, trao đổi và khám phá ý tưởng.”
+
+Tạo workflow:
+
+1. HOÀN THÀNH CÂU CHUYỆN
+
+2. SAO CHÉP CÂU CHUYỆN
+
+3. ĐĂNG LÊN FACEBOOK
+
+4. QUAY LẠI VÀ DÁN LINK BÀI VIẾT
+
+Có nút:
+
+“SAO CHÉP CÂU CHUYỆN”
+
+Sau khi copy:
+
+“✓ Đã sao chép câu chuyện”
+
+Có nút/link:
+
+“ĐĂNG LÊN FACEBOOK ↗”
+
+Không cố tự động đăng bài thay người dùng.
+
+Chỉ mở Facebook để người dùng tự đăng.
+
+Sau đó có field:
+
+“LINK BÀI VIẾT FACEBOOK”
+
+Placeholder:
+
+“Dán link bài viết Facebook của bạn tại đây...”
+
+Helper:
+
+“Đảm bảo đường dẫn có thể được Ban quản trị mở để kiểm tra bài tham gia.”
+
+Validate đây là URL hợp lệ.
+
+==================================================
+
+VI. CHƯƠNG TRÌNH 99.999 HAPPY CAMLY COIN
+
+==================================================
+
+Giữ nguyên dữ liệu và hệ thống reward hiện có.
+
+KHÔNG xóa:
+
+- Facebook
+
+- Telegram
+
+- FUN.Rich
+
+- CAMLY wallet
+
+- email
+
+- participant/submission/reward records
+
+- duplicate protection
+
+- spam protection
+
+- honeypot
+
+- audit logs
+
+Nhưng cập nhật UX để giải thích rõ:
+
+“🎁 THỰC HÀNH NGAY — NHẬN LIỀN TAY
+
+99.999 HAPPY CAMLY COIN”
+
+Bên dưới:
+
+“Dành cho bài tham gia hợp lệ theo thể lệ chương trình.”
+
+Không dùng ngôn ngữ:
+
+- đầu tư
+
+- lợi nhuận
+
+- sinh lời
+
+- cam kết giá trị tài chính
+
+Nếu Facebook post URL là điều kiện của chương trình 99.999 hiện tại, hãy lưu URL đó cùng submission/reward verification data để admin có thể kiểm tra.
+
+==================================================
+
+VII. REVIEW SCREEN
+
+==================================================
+
+Trước khi gửi, tạo:
+
+XEM LẠI Ý TƯỞNG CỦA BẠN
+
+Hiển thị:
+
+01 Nhân vật
+
+02 Ước mơ
+
+03 Điều muốn kiến tạo
+
+04 Angel AI
+
+05 Thành quả
+
+06 Thế giới thay đổi
+
+07 Kết nối đời thật
+
+08 Câu chuyện FUN COSMOS
+
+và
+
+LINK FACEBOOK
+
+THÔNG TIN CHƯƠNG TRÌNH 99.999
+
+Mỗi section có:
+
+“Chỉnh sửa”
+
+Story hiển thị đẹp như một bài viết, không chỉ là textarea.
+
+CTA cuối:
+
+“🚀 GỬI Ý TƯỞNG VÀO FUN COSMOS”
+
+Trong lúc submit:
+
+- disable button
+
+- loading state
+
+- chống double submit
+
+==================================================
+
+VIII. SAU KHI GỬI
+
+==================================================
+
+Giữ màn congratulations hiện tại nhưng nâng cấp copy:
+
+✨ Ý TƯỞNG ĐÃ BAY VÀO FUN COSMOS!
+
+Hiển thị public idea code.
+
+Ví dụ:
+
+FC-2026-000128
+
+Status:
+
+ĐÃ GỬI • CHỜ DUYỆT
+
+Text:
+
+“Câu chuyện của bạn đã được gửi đến FUN COSMOS.
+
+Sau khi được Ban quản trị duyệt đăng, ý tưởng sẽ xuất hiện trong IDEA HUB để cộng đồng cùng khám phá.”
+
+Buttons:
+
+SAO CHÉP MÃ Ý TƯỞNG
+
+XEM Ý TƯỞNG CỦA TÔI
+
+KHÁM PHÁ IDEA HUB
+
+TẠO Ý TƯỞNG MỚI
+
+==================================================
+
+IX. IDEA HUB — ƯU TIÊN STORY
+
+==================================================
+
+Không tự động public bài vừa gửi.
+
+Giữ workflow:
+
+SUBMITTED
+
+→ UNDER REVIEW
+
+→ PUBLISHED
+
+Chỉ PUBLISHED mới xuất hiện công khai.
+
+Nhưng khi một idea được PUBLISHED:
+
+Idea Hub card nên ưu tiên:
+
+- Tiêu đề
+
+- Mã FC
+
+- Tên người sáng tạo
+
+- Tóm tắt
+
+- Danh mục / tags
+
+- excerpt ngắn lấy từ story
+
+- ngày đăng
+
+Trang chi tiết Idea Hub:
+
+Phần đầu:
+
+TITLE
+
+CREATOR
+
+PUBLIC CODE
+
+CATEGORY
+
+TAGS
+
+Sau đó đặt:
+
+📖 CÂU CHUYỆN FUN COSMOS
+
+là section nổi bật nhất.
+
+Hiển thị story với typography đọc dài tốt:
+
+- chiều rộng nội dung hợp lý
+
+- line-height thoáng
+
+- paragraph spacing
+
+- mobile readable
+
+Sau Story mới có:
+
+7 HẠT GIỐNG Ý TƯỞNG
+
+01 Nhân vật
+
+02 Ước mơ
+
+03 Điều muốn kiến tạo
+
+04 Angel AI
+
+05 Thành quả
+
+06 Thế giới thay đổi
+
+07 Kết nối đời thật
+
+Không bao giờ public:
+
+- email
+
+- Telegram
+
+- Facebook contact/profile nếu là private participant data
+
+- CAMLY wallet
+
+- auth ID
+
+- internal admin notes
+
+- reward verification data
+
+Facebook story URL chỉ public nếu product policy hiện tại xác định rõ nó là public content; nếu chưa có quyết định này thì mặc định KHÔNG expose URL trong Idea Hub.
+
+==================================================
+
+X. ADMIN
+
+==================================================
+
+Trong admin review hiện tại, thêm:
+
+“CÂU CHUYỆN FUN COSMOS”
+
+Hiển thị full story để admin đọc.
+
+Thêm:
+
+“BÀI ĐĂNG FACEBOOK”
+
+với button:
+
+“MỞ BÀI VIẾT ↗”
+
+Admin vẫn có các action hiện tại:
+
+Đang xem xét
+
+Đăng công khai
+
+Yêu cầu bổ sung
+
+Từ chối
+
+Lưu trữ
+
+và cập nhật development stage.
+
+Không làm mất bất kỳ chức năng quản trị reward nào hiện tại.
+
+==================================================
+
+XI. DATABASE / MIGRATION
+
+==================================================
+
+Trước tiên hãy INSPECT schema hiện tại.
+
+Không đoán tên cột nếu database đã có field tương đương.
+
+Nếu ideas chưa có các field cần thiết thì thêm backward-compatible fields tương ứng, ví dụ:
+
+story text
+
+facebook_post_url text
+
+Chỉ thêm field khi thật sự chưa tồn tại.
+
+Không xóa hoặc rename column đang được production code sử dụng nếu chưa migration an toàn.
+
+Các bài cũ không có story:
+
+- vẫn phải hiển thị được trong admin.
+
+- không crash Idea Hub.
+
+- không bị buộc phải có story retroactively.
+
+Validation minimum 1.000 ký tự chỉ áp dụng cho NEW FINAL SUBMISSIONS sau khi feature này được triển khai.
+
+Draft có thể story rỗng hoặc dưới 1.000 ký tự.
+
+==================================================
+
+XII. QUAN TRỌNG — TRANSACTION SUBMISSION
+
+==================================================
+
+Giữ nguyên nguyên tắc hiện tại:
+
+Một lần final submit phải tạo/cập nhật IDEA và FUN COSMOS SUBMISSION tương ứng một cách nhất quán.
+
+Không để xảy ra trường hợp:
+
+- idea tạo thành công nhưng submission thất bại
+
+hoặc
+
+- submission thành công nhưng idea mất.
+
+Nếu hệ thống hiện đã có server function / RPC / transaction đảm nhiệm việc này thì mở rộng function hiện tại.
+
+Không chuyển logic nhạy cảm sang browser.
+
+Service role key không bao giờ được expose client-side.
+
+==================================================
+
+XIII. RLS & PRIVACY
+
+==================================================
+
+Giữ nguyên RLS.
+
+Public:
+
+chỉ đọc ideas đã PUBLISHED.
+
+Authenticated creator:
+
+đọc idea của chính mình.
+
+sửa DRAFT.
+
+sửa NEEDS_REVISION nếu workflow hiện tại cho phép.
+
+Creator KHÔNG được tự:
+
+- publish
+
+- approve
+
+- thay development stage
+
+- cấp reward
+
+Admin:
+
+quản trị theo role hiện tại.
+
+Không bao giờ expose private participant data qua public API/query.
+
+==================================================
+
+XIV. RESPONSIVE DESIGN
+
+==================================================
+
+Giữ đúng visual system FUN COSMOS hiện tại:
+
+- bright sapphire
+
+- cosmic blue
+
+- pearl white
+
+- champagne gold
+
+- glassmorphism
+
+- luminous
+
+- premium
+
+- magical but readable
+
+KHÔNG chuyển sang nền đen nặng.
+
+Story Editor phải đặc biệt dễ dùng trên mobile.
+
+Test:
+
+1440 desktop
+
+1177 desktop/tablet
+
+tablet
+
+390px
+
+320px
+
+==================================================
+
+XV. KHÔNG LÀM TRONG TASK NÀY
+
+==================================================
+
+Không xây:
+
+- comment system
+
+- reaction/heart
+
+- follow
+
+- notification
+
+- file attachment
+
+- co-development request
+
+- social feed
+
+- AI API mới nếu chưa có integration thật
+
+Các tính năng này để Phase 2.
+
+==================================================
+
+XVI. ACCEPTANCE TEST
+
+==================================================
+
+Trước khi báo hoàn thành, tự kiểm tra:
+
+TEST 1:
+
+Người chưa đăng nhập → xem Idea Hub được.
+
+TEST 2:
+
+Người chưa đăng nhập → bấm Tạo ý tưởng → được yêu cầu đăng nhập.
+
+TEST 3:
+
+Creator nhập rất ngắn ở 7 mục đầu → vẫn Next được.
+
+TEST 4:
+
+Step 7 để trống → vẫn Next được.
+
+TEST 5:
+
+Story 500 ký tự → Save Draft được nhưng Final Submit không được.
+
+TEST 6:
+
+Story >= 1.000 ký tự → vượt validation.
+
+TEST 7:
+
+Copy Angel AI prompt hoạt động.
+
+TEST 8:
+
+Copy Story hoạt động.
+
+TEST 9:
+
+Facebook URL validation hoạt động.
+
+TEST 10:
+
+Review screen hiển thị đủ 8 phần.
+
+TEST 11:
+
+Double-click submit không tạo hai submission.
+
+TEST 12:
+
+Submission mới xuất hiện trong Admin.
+
+TEST 13:
+
+Submission chưa duyệt KHÔNG xuất hiện Idea Hub.
+
+TEST 14:
+
+Admin PUBLISH → idea xuất hiện Idea Hub.
+
+TEST 15:
+
+Public Idea Detail hiển thị Story + 7 hạt giống nhưng tuyệt đối không lộ email, Telegram, wallet hoặc admin notes.
+
+TEST 16:
+
+Các submission cũ vẫn hoạt động và không crash.
+
+TEST 17:
+
+Reward workflow 99.999 hiện tại không bị hỏng.
+
+TEST 18:
+
+Các trang Trang chủ, URANTIA, Angel AI, Love Score, FUN Ecosystem và 3 game cards không thay đổi.
+
+==================================================
+
+XVII. CÁCH TRIỂN KHAI
+
+==================================================
+
+Hãy làm theo thứ tự:
+
+1. Inspect code + database/schema hiện tại.
+
+2. Báo ngắn gọn những component/table/function hiện tại sẽ tái sử dụng.
+
+3. Tạo migration tối thiểu nếu cần.
+
+4. Nâng cấp Idea Creator.
+
+5. Thêm Story + Facebook sharing flow.
+
+6. Nâng cấp Review.
+
+7. Nâng cấp Admin.
+
+8. Nâng cấp Idea Hub Detail.
+
+9. Test RLS/privacy.
+
+10. Chạy acceptance tests.
+
+11. Báo lại chính xác:
+
+   - đã sửa file nào
+
+   - migration nào đã chạy
+
+   - database field nào đã thêm
+
+   - test nào PASS/FAIL
+
+   - có vấn đề nào cần tôi quyết định hay không.
+
+ƯU TIÊN:
+
+Không phá hệ thống đang chạy.
+
+Không tạo dữ liệu giả.
+
+Không tạo số liệu giả.
+
+Không tự động publish.
+
+Không expose private data.
+
+Không thay đổi thiết kế toàn website ngoài phạm vi YOUR TURN / IDEA HUB / ADMIN liên quan.
+
+BẮT ĐẦU BẰNG VIỆC KIỂM TRA HỆ THỐNG HIỆN TẠI TRƯỚC KHI SỬA.

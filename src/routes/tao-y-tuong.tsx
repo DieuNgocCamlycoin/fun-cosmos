@@ -37,6 +37,7 @@ import {
   storyPlaceholder,
   storyTooShortMessage,
 } from "@/lib/idea-content";
+import { IDEA_STORAGE_KEY } from "@/lib/idea-submission";
 import "@/living.css";
 import "@/components/idea-hub.css";
 
@@ -147,6 +148,8 @@ function CreateIdeaPage() {
   const [copied, setCopied] = useState("");
   const [promptOpen, setPromptOpen] = useState(false);
   const [result, setResult] = useState<{ code: string; submittedAt: string } | null>(null);
+  const submitLock = useRef(false);
+  const [cacheReady, setCacheReady] = useState(false);
   const firstField = useRef<HTMLTextAreaElement | HTMLInputElement>(null);
 
   useEffect(() => {
@@ -203,8 +206,25 @@ function CreateIdeaPage() {
       try {
         const cached = JSON.parse(localStorage.getItem(DRAFT_CACHE_KEY) || "null") as Draft | null;
         if (cached && !cached.id && !cancelled) setDraft({ ...emptyDraft(), ...cached });
+        else if (!cached && !cancelled) {
+          const seeds: unknown = JSON.parse(localStorage.getItem(IDEA_STORAGE_KEY) || "null");
+          if (
+            Array.isArray(seeds) &&
+            seeds.length === 7 &&
+            seeds.every((value) => typeof value === "string")
+          ) {
+            setDraft({
+              ...emptyDraft(),
+              ...Object.fromEntries(
+                stepKeys.map((key, index) => [key, (seeds[index] ?? "").slice(0, 2000)]),
+              ),
+            });
+          }
+        }
       } catch {
         /* cache is optional */
+      } finally {
+        if (!cancelled) setCacheReady(true);
       }
     })();
     return () => {
@@ -213,14 +233,14 @@ function CreateIdeaPage() {
   }, [session, load]);
 
   useEffect(() => {
-    if (!draft.id) {
+    if (cacheReady && !draft.id) {
       try {
         localStorage.setItem(DRAFT_CACHE_KEY, JSON.stringify(draft));
       } catch {
         /* storage may be unavailable */
       }
     }
-  }, [draft]);
+  }, [draft, cacheReady]);
 
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) =>
     setDraft((current) => ({ ...current, [key]: value }));
@@ -260,7 +280,11 @@ function CreateIdeaPage() {
       const saved = await save({ data: { ...draft, clientUpdatedAt: serverUpdatedAt } });
       setDraft((current) => ({ ...current, id: saved.id }));
       setServerUpdatedAt(saved.updatedAt);
-      localStorage.removeItem(DRAFT_CACHE_KEY);
+      try {
+        localStorage.removeItem(DRAFT_CACHE_KEY);
+      } catch {
+        /* cache is optional */
+      }
       if (!silent) setStatus("Đã lưu bản nháp.");
       return saved.id;
     } catch (cause) {
@@ -273,7 +297,7 @@ function CreateIdeaPage() {
   }
 
   async function finalSubmit() {
-    if (busy) return;
+    if (busy || submitLock.current) return;
     if (!storyReady) {
       setStep(STORY_STEP);
       setError(storyTooShortMessage);
@@ -284,17 +308,26 @@ function CreateIdeaPage() {
       setError("Hãy dán link bài viết Facebook của câu chuyện để hoàn tất bài tham gia.");
       return;
     }
+    submitLock.current = true;
     const id = await persist(true);
-    if (!id) return;
+    if (!id) {
+      submitLock.current = false;
+      return;
+    }
     setBusy(true);
     setError("");
     try {
       const response = await send({ data: { id, website: "" } });
       setResult({ code: response.code, submittedAt: response.submittedAt });
-      localStorage.removeItem(DRAFT_CACHE_KEY);
+      try {
+        localStorage.removeItem(DRAFT_CACHE_KEY);
+      } catch {
+        /* cache is optional */
+      }
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Chưa gửi được ý tưởng. Vui lòng thử lại.");
     } finally {
+      submitLock.current = false;
       setBusy(false);
     }
   }
@@ -302,7 +335,7 @@ function CreateIdeaPage() {
   function go(next: number) {
     setStep(next);
     setStatus("");
-    requestAnimationFrame(() => firstField.current?.focus());
+    requestAnimationFrame(() => firstField.current?.focus({ preventScroll: true }));
   }
 
   if (!ready)
@@ -374,7 +407,8 @@ function CreateIdeaPage() {
             <p className="ih-note">{rewardNotice}</p>
             <div className="lc-actions">
               <Button onClick={() => void copy(result.code, "code")}>
-                <Copy aria-hidden="true" /> {copied === "code" ? "✓ Đã sao chép" : "Sao chép mã ý tưởng"}
+                <Copy aria-hidden="true" />{" "}
+                {copied === "code" ? "✓ Đã sao chép" : "Sao chép mã ý tưởng"}
               </Button>
               <Button variant="outline" onClick={() => navigate({ to: "/y-tuong-cua-toi" })}>
                 Xem ý tưởng của tôi
@@ -418,6 +452,26 @@ function CreateIdeaPage() {
     <div className="tw yt-hub">
       <SiteHeader />
       <main className="ih-page ih-creator">
+        <nav className="ih-creator-tabs" aria-label="Idea creator steps / Các bước tạo ý tưởng">
+          {[
+            ...creatorSteps.map((item) => item.english),
+            "Story / Câu chuyện",
+            "Facebook",
+            "Thông tin bài",
+            "Xác minh",
+            "Xem lại",
+          ].map((label, index) => (
+            <button
+              key={label}
+              type="button"
+              disabled={busy}
+              aria-current={step === index ? "step" : undefined}
+              onClick={() => go(index)}
+            >
+              {String(index + 1).padStart(2, "0")} · {label}
+            </button>
+          ))}
+        </nav>
         <header className="ih-creator-head">
           <p className="lc-eyebrow">✧ YOUR TURN • CO-CREATE FUN COSMOS</p>
           <h1>TẠO Ý TƯỞNG CỦA BẠN</h1>
@@ -469,8 +523,8 @@ function CreateIdeaPage() {
             <h2>CÂU CHUYỆN FUN COSMOS CỦA BẠN</h2>
             <p className="ih-story-sub">BIẾN Ý TƯỞNG THÀNH MỘT CUỘC PHIÊU LƯU.</p>
             <p>
-              Hãy kết nối những ý tưởng phía trên thành một câu chuyện hoàn chỉnh về nhân vật của bạn
-              trong FUN COSMOS.
+              Hãy kết nối những ý tưởng phía trên thành một câu chuyện hoàn chỉnh về nhân vật của
+              bạn trong FUN COSMOS.
             </p>
             <ol className="ih-story-journey">
               {storyJourney.map((stage) => (
@@ -504,7 +558,12 @@ function CreateIdeaPage() {
         )}
 
         {promptOpen && (
-          <div className="ih-modal" role="dialog" aria-modal="true" aria-label="Nhờ Angel AI phát triển câu chuyện">
+          <div
+            className="ih-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Nhờ Angel AI phát triển câu chuyện"
+          >
             <div className="ih-modal-panel">
               <header>
                 <h2>NHỜ ANGEL AI PHÁT TRIỂN CÂU CHUYỆN</h2>
@@ -519,7 +578,8 @@ function CreateIdeaPage() {
               <pre className="ih-prompt">{angelPrompt}</pre>
               <div className="lc-actions">
                 <Button onClick={() => void copy(angelPrompt, "prompt")}>
-                  <Copy aria-hidden="true" /> {copied === "prompt" ? "✓ Đã sao chép prompt" : "SAO CHÉP PROMPT"}
+                  <Copy aria-hidden="true" />{" "}
+                  {copied === "prompt" ? "✓ Đã sao chép prompt" : "SAO CHÉP PROMPT"}
                 </Button>
                 <Button variant="outline" onClick={() => setPromptOpen(false)}>
                   Đóng
@@ -552,7 +612,8 @@ function CreateIdeaPage() {
                 disabled={!draft.story.trim()}
                 onClick={() => void copy(buildShareText(draft.title, draft.story), "story")}
               >
-                <Copy aria-hidden="true" /> {copied === "story" ? "✓ Đã sao chép câu chuyện" : "SAO CHÉP CÂU CHUYỆN"}
+                <Copy aria-hidden="true" />{" "}
+                {copied === "story" ? "✓ Đã sao chép câu chuyện" : "SAO CHÉP CÂU CHUYỆN"}
               </Button>
               <a
                 className="lc-button"
@@ -575,9 +636,7 @@ function CreateIdeaPage() {
                 onChange={(e) => set("facebookPostUrl", e.target.value)}
                 aria-invalid={draft.facebookPostUrl.trim() !== "" && !facebookReady}
               />
-              <small>
-                Đảm bảo đường dẫn có thể được Ban quản trị mở để kiểm tra bài tham gia.
-              </small>
+              <small>Đảm bảo đường dẫn có thể được Ban quản trị mở để kiểm tra bài tham gia.</small>
             </label>
             {draft.facebookPostUrl.trim() !== "" && !facebookReady && (
               <p className="fc-form-error">Đây chưa phải là đường dẫn bài viết Facebook hợp lệ.</p>
@@ -691,7 +750,9 @@ function CreateIdeaPage() {
                 value={draft.funRichUrl}
                 onChange={(e) => set("funRichUrl", e.target.value)}
               />
-              <small>Bắt buộc khi gửi bài để xác minh người tham gia. Không hiển thị công khai.</small>
+              <small>
+                Bắt buộc khi gửi bài để xác minh người tham gia. Không hiển thị công khai.
+              </small>
             </label>
             <label>
               Ví nhận CAMLY (BNB Smart Chain)

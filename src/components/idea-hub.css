@@ -37,6 +37,12 @@
   max-width: 1180px;
   margin: 0 auto;
 }
+.ih-creator-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.ih-creator-tabs button { border: 1px solid var(--lc-border); border-radius: 14px; padding: 9px 12px; background: var(--lc-blue-deep); color: var(--lc-gold-light); font: inherit; }
+.ih-creator-tabs button[aria-current="step"] { background: var(--lc-gold-light); color: var(--lc-blue-deep); font-weight: 700; }
+.ih-creator { min-width: 0; }
+.ih-creator .ih-card { min-width: 0; }
+.ih-creator .ih-review { overflow-wrap: anywhere; }
 .ih-page h1 {
   font-size: clamp(28px, 5vw, 58px);
   font-family: "Noto Sans", Arial, sans-serif;

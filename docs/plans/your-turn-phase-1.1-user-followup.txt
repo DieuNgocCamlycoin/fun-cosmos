@@ -1,0 +1,523 @@
+Lovable ơi ❤️
+
+Mình làm tiếp phần YOUR TURN — Phase 1.1 nha.
+
+Phần database mình đã làm giúp Lovable xong rồi nè ✨
+
+Trong bảng public.ideas hiện đã có đủ 3 cột:
+
+- story
+
+- facebook_post_url
+
+- facebook_post_public_consent
+
+Mình đã kiểm tra trong Supabase và cả 3 cột đều có rồi, nên Lovable không cần tạo migration lại nữa nha.
+
+Bây giờ Lovable giúp mình nối nốt phần giao diện + logic để hoàn thiện hành trình tạo ý tưởng nhé ❤️
+
+━━━━━━━━━━━━━━━━━━
+
+🌱 1. GIỮ 7 HẠT GIỐNG Ý TƯỞNG THẬT NHẸ NHÀNG
+
+━━━━━━━━━━━━━━━━━━
+
+7 câu hỏi hiện tại mình giữ lại nha.
+
+Mục đích của 7 câu này chỉ là giúp mọi người gieo những “hạt giống” đầu tiên cho ý tưởng của mình.
+
+Mọi người có thể trả lời rất ngắn cũng được.
+
+Ví dụ:
+
+Nhân vật:
+
+Anna
+
+Ước mơ:
+
+Tạo một khu rừng xanh.
+
+Angel AI:
+
+Người bạn đồng hành.
+
+Không cần bắt mỗi câu phải viết dài nữa nha.
+
+Riêng câu số 07 — KẾT NỐI ĐỜI THẬT:
+
+để TÙY CHỌN.
+
+Điều quan trọng nhất của bài tham gia sẽ nằm ở phần CÂU CHUYỆN phía sau.
+
+━━━━━━━━━━━━━━━━━━
+
+📖 2. CÂU CHUYỆN FUN COSMOS — ĐÂY LÀ TRÁI TIM CỦA BÀI
+
+━━━━━━━━━━━━━━━━━━
+
+Sau 7 hạt giống, mình có:
+
+08 — CÂU CHUYỆN FUN COSMOS CỦA BẠN
+
+Subtitle:
+
+“BIẾN Ý TƯỞNG THÀNH MỘT CUỘC PHIÊU LƯU.”
+
+Đây là phần quan trọng và nổi bật nhất ❤️
+
+Người dùng sẽ dựa trên 7 hạt giống phía trên để kể thành một câu chuyện FUN COSMOS hoàn chỉnh.
+
+Giữ bộ đếm ký tự realtime.
+
+Ví dụ khi chưa đủ:
+
+842 / 1.000 ký tự tối thiểu
+
+Khi đủ:
+
+1.248 ký tự ✓
+
+Để GỬI CHÍNH THỨC:
+
+câu chuyện cần tối thiểu 1.000 ký tự.
+
+Tối đa:
+
+30.000 ký tự.
+
+Nhưng nếu người dùng chỉ LƯU BẢN NHÁP thì chưa đủ 1.000 ký tự vẫn lưu bình thường nha.
+
+━━━━━━━━━━━━━━━━━━
+
+✨ 3. NHỜ ANGEL AI VIẾT CÙNG TÔI
+
+━━━━━━━━━━━━━━━━━━
+
+Giữ nút:
+
+✨ NHỜ ANGEL AI VIẾT CÙNG TÔI
+
+Khi bấm vào, Lovable tự ghép 7 câu trả lời phía trên thành một prompt thật đẹp để người dùng copy.
+
+Có nút:
+
+SAO CHÉP PROMPT
+
+Mình chưa tích hợp Angel AI thật ở giai đoạn này nên đừng giả lập câu trả lời AI nha.
+
+Sau này mình sẽ nối Angel AI thật vào đúng chỗ này ❤️
+
+━━━━━━━━━━━━━━━━━━
+
+📱 4. SAU KHI VIẾT XONG → CHIA SẺ CÂU CHUYỆN
+
+━━━━━━━━━━━━━━━━━━
+
+Mình muốn flow này cực kỳ dễ hiểu:
+
+VIẾT CÂU CHUYỆN
+
+↓
+
+SAO CHÉP
+
+↓
+
+ĐĂNG FACEBOOK
+
+↓
+
+LẤY LINK BÀI VIẾT
+
+↓
+
+DÁN LINK VÀO FUN COSMOS
+
+↓
+
+GỬI Ý TƯỞNG 🚀
+
+Có nút:
+
+📋 SAO CHÉP CÂU CHUYỆN
+
+Khi copy, tự thêm cuối bài:
+
+#FUNCOSMOS
+
+#FUNCOSMOSCuaCon
+
+#99999HappyCamlyCoin
+
+Sau khi copy báo:
+
+✓ Đã sao chép câu chuyện
+
+Có nút:
+
+ĐĂNG LÊN FACEBOOK ↗
+
+Nút này chỉ mở Facebook để người dùng tự đăng nha.
+
+FUN COSMOS không tự đăng thay người dùng.
+
+━━━━━━━━━━━━━━━━━━
+
+🔗 5. LINK BÀI VIẾT FACEBOOK
+
+━━━━━━━━━━━━━━━━━━
+
+Sau khi đăng xong, người dùng quay lại và dán:
+
+LINK BÀI VIẾT FACEBOOK
+
+Hệ thống kiểm tra đó là URL Facebook hợp lệ.
+
+Khi LƯU NHÁP:
+
+không cần link Facebook.
+
+Khi GỬI CHÍNH THỨC để tham gia chương trình 99.999:
+
+cần có link bài viết Facebook hợp lệ.
+
+━━━━━━━━━━━━━━━━━━
+
+💛 6. CHO NGƯỜI DÙNG TỰ QUYẾT ĐỊNH VIỆC HIỂN THỊ LINK
+
+━━━━━━━━━━━━━━━━━━
+
+Mình đã tạo field:
+
+facebook_post_public_consent
+
+Lovable nối field này vào giao diện giúp mình nha.
+
+Cho một checkbox thật rõ ràng:
+
+☐ Tôi đồng ý cho FUN COSMOS hiển thị công khai link bài viết Facebook này trên Idea Hub nếu ý tưởng của tôi được duyệt đăng.
+
+Quan trọng:
+
+Không được tự tick.
+
+Không được hiểu rằng “đã nhập link Facebook = đồng ý công khai”.
+
+Người dùng phải tự mình chọn ❤️
+
+━━━━━━━━━━━━━━━━━━
+
+🎁 7. CHƯƠNG TRÌNH 99.999 HAPPY CAMLY COIN
+
+━━━━━━━━━━━━━━━━━━
+
+Giữ nguyên hệ thống phần thưởng hiện tại nha.
+
+Không thay đổi:
+
+- dữ liệu người tham gia
+
+- reward
+
+- chống trùng
+
+- chống spam
+
+- audit log
+
+- admin workflow
+
+Chỉ trình bày phần này đẹp và dễ hiểu hơn:
+
+🎁 THỰC HÀNH NGAY — NHẬN LIỀN TAY
+
+99.999 HAPPY CAMLY COIN
+
+Hoàn thành câu chuyện FUN COSMOS và chia sẻ bài viết theo thể lệ chương trình.
+
+#FUNCOSMOS
+
+#FUNCOSMOSCuaCon
+
+#99999HappyCamlyCoin
+
+Dành cho bài tham gia hợp lệ theo thể lệ chương trình.
+
+━━━━━━━━━━━━━━━━━━
+
+👀 8. XEM LẠI TRƯỚC KHI GỬI
+
+━━━━━━━━━━━━━━━━━━
+
+Trước khi gửi, cho người dùng xem lại toàn bộ bài của mình.
+
+Hiển thị:
+
+01–07 · 7 hạt giống ý tưởng
+
+08 · Câu chuyện FUN COSMOS
+
+Link bài viết Facebook
+
+Trạng thái đồng ý hiển thị công khai
+
+Thông tin chương trình 99.999
+
+Mỗi phần đều có:
+
+CHỈNH SỬA
+
+Riêng CÂU CHUYỆN hãy trình bày thật đẹp như một bài viết:
+
+chữ dễ đọc, xuống đoạn rõ ràng, khoảng cách thoáng.
+
+Cuối cùng là nút lớn:
+
+🚀 GỬI Ý TƯỞNG VÀO FUN COSMOS
+
+Khi đang gửi thì khóa nút lại để người dùng không vô tình gửi 2 lần.
+
+━━━━━━━━━━━━━━━━━━
+
+🎉 9. GỬI XONG THÌ ĂN MỪNG MỘT CHÚT HÍHI
+
+━━━━━━━━━━━━━━━━━━
+
+Màn hình thành công:
+
+✨ Ý TƯỞNG ĐÃ BAY VÀO FUN COSMOS!
+
+Hiển thị mã:
+
+FC-2026-XXXXXX
+
+Trạng thái:
+
+ĐÃ GỬI • CHỜ DUYỆT
+
+Và 4 lựa chọn:
+
+📋 SAO CHÉP MÃ
+
+💫 Ý TƯỞNG CỦA TÔI
+
+🌌 KHÁM PHÁ IDEA HUB
+
+✨ TẠO Ý TƯỞNG MỚI
+
+━━━━━━━━━━━━━━━━━━
+
+🌌 10. IDEA HUB
+
+━━━━━━━━━━━━━━━━━━
+
+Idea Hub chỉ hiển thị những ý tưởng đã được Admin duyệt đăng.
+
+Người dùng vừa gửi bài xong:
+
+KHÔNG tự động xuất hiện trên Idea Hub nha.
+
+Trên mỗi thẻ ý tưởng, hiển thị:
+
+Tên ý tưởng
+
+Mã FC
+
+Tên người sáng tạo
+
+Danh mục
+
+Tags
+
+Một đoạn trích ngắn từ CÂU CHUYỆN
+
+Ngày đăng
+
+Không tạo lượt thích, lượt xem hoặc số liệu giả để trang nhìn đông vui nha 😆
+
+Nếu chưa có bài:
+
+giữ trạng thái rỗng đẹp như hiện tại.
+
+━━━━━━━━━━━━━━━━━━
+
+📖 11. TRANG CHI TIẾT Ý TƯỞNG
+
+━━━━━━━━━━━━━━━━━━
+
+Khi người dùng mở một ý tưởng:
+
+Phần nổi bật nhất phải là:
+
+📖 CÂU CHUYỆN FUN COSMOS
+
+Cho câu chuyện một khu vực đọc thật đẹp:
+
+- không quá rộng
+
+- chữ dễ đọc
+
+- line-height thoáng
+
+- xuống đoạn rõ
+
+- điện thoại đọc thoải mái
+
+Sau CÂU CHUYỆN mới đến:
+
+🌱 7 HẠT GIỐNG Ý TƯỞNG
+
+Nếu bài đã được duyệt đăng
+
+VÀ người sáng tạo đã tick đồng ý công khai link Facebook
+
+thì mới hiển thị:
+
+XEM BÀI VIẾT TRÊN FACEBOOK ↗
+
+Nếu họ không đồng ý:
+
+tuyệt đối không hiện link.
+
+━━━━━━━━━━━━━━━━━━
+
+🔐 12. NHỚ GIỮ RIÊNG TƯ CHO MỌI NGƯỜI NHA
+
+━━━━━━━━━━━━━━━━━━
+
+Idea Hub công khai TUYỆT ĐỐI không được làm lộ:
+
+Email
+
+Telegram
+
+Facebook cá nhân/profile
+
+Ví CAMLY
+
+Ghi chú Admin
+
+Thông tin nội bộ
+
+Thông tin riêng tư của chương trình
+
+Chỉ tên hiển thị công khai của người sáng tạo được xuất hiện.
+
+Link BÀI VIẾT Facebook chỉ xuất hiện khi chính người dùng đã consent.
+
+━━━━━━━━━━━━━━━━━━
+
+🛠️ 13. ADMIN
+
+━━━━━━━━━━━━━━━━━━
+
+Trong Admin, cho mình đọc được:
+
+📖 CÂU CHUYỆN FUN COSMOS
+
+và:
+
+🌐 BÀI ĐĂNG FACEBOOK
+
+[MỞ BÀI VIẾT ↗]
+
+Nhưng giữ nguyên toàn bộ chức năng Admin hiện tại:
+
+duyệt bài, yêu cầu bổ sung, từ chối, lưu trữ, cập nhật chặng phát triển, quản lý reward 99.999 và audit log.
+
+━━━━━━━━━━━━━━━━━━
+
+❤️ 14. NHỚ GIỮ AN TOÀN DỮ LIỆU CŨ
+
+━━━━━━━━━━━━━━━━━━
+
+Đừng xóa hay sửa bài cũ.
+
+Những bài cũ chưa có câu chuyện vẫn phải:
+
+- mở được
+
+- Admin xem được
+
+- không crash
+
+- không làm hỏng Idea Hub
+
+Không cần ép bài cũ phải có story chỉ để xem lại.
+
+━━━━━━━━━━━━━━━━━━
+
+🧪 15. LÀM XONG LOVABLE TEST GIÚP MÌNH NHA
+
+━━━━━━━━━━━━━━━━━━
+
+Test ít nhất các trường hợp quan trọng:
+
+Lưu nháp khi story chưa đủ 1.000 → được.
+
+Gửi khi story chưa đủ 1.000 → chặn.
+
+Story đủ 1.000 → qua điều kiện story.
+
+Thiếu link Facebook khi gửi chính thức → chặn.
+
+Link Facebook sai → báo rõ cho người dùng.
+
+Không gửi trùng khi bấm nút nhiều lần.
+
+Vừa gửi xong → chưa xuất hiện Idea Hub.
+
+Admin duyệt đăng → xuất hiện Idea Hub.
+
+Consent bật → được hiện link bài Facebook.
+
+Consent tắt → không được public link.
+
+Bài cũ không có story → vẫn hoạt động.
+
+Public Idea Hub/API → không lộ private data.
+
+Kiểm tra cả desktop, tablet và mobile 390px / 320px.
+
+━━━━━━━━━━━━━━━━━━
+
+🌟 CUỐI CÙNG
+
+━━━━━━━━━━━━━━━━━━
+
+Lovable làm xong thì ĐỪNG Publish production vội nha ❤️
+
+Hãy báo lại cho mình thật đơn giản:
+
+1. Đã làm xong những gì?
+
+2. File nào đã sửa?
+
+3. Test nào PASS?
+
+4. Còn lỗi hoặc blocker nào không?
+
+5. Có đụng vào database/RLS/grants ngoài 3 field đã có không?
+
+6. Dữ liệu riêng tư có được bảo vệ không?
+
+7. Bài cũ có còn hoạt động bình thường không?
+
+Sau đó dừng lại để mình vào Preview chơi thử toàn bộ hành trình trước.
+
+Mục tiêu là làm cho trải nghiệm này thật dễ thương và đơn giản:
+
+🌱 Một vài hạt giống
+
+→ 📖 Một câu chuyện
+
+→ 📱 Một bài chia sẻ
+
+→ 🌌 Một ý tưởng bay vào FUN COSMOS
+
+Mình muốn ngay cả một người chưa từng biết game design cũng có cảm giác:
+
+“Ồ! Mình cũng có thể góp một ý tưởng để cùng xây FUN COSMOS.” ❤️✨
+
+Làm tiếp giúp mình nha Lovable ơi! 🚀🌌

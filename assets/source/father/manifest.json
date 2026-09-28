@@ -1,0 +1,17 @@
+[
+  {
+    "file": "father-cosmos-blue-20260927.png",
+    "bytes": 2808116,
+    "sha256": "c104b20aa5d4c367ae1244eb265981cad8e6a938984ce38804e7cb4c42d03b41"
+  },
+  {
+    "file": "father-cosmos-gold-20260927.png",
+    "bytes": 2926476,
+    "sha256": "a31913c5f8354b29386d3ef38de7ae7b0386cb708cf93c3bef0dd16467745850"
+  },
+  {
+    "file": "father-cosmos-staff-20260821.png",
+    "bytes": 3150222,
+    "sha256": "f8134a64ff94dacc036e7a6d7b6476c8102c6bc2dcef45e15e4e1aaee58a1518"
+  }
+]

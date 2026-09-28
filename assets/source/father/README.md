@@ -1,0 +1,7 @@
+# Supplied Father artwork
+
+Three original PNGs supplied by the user on 2026-09-28. Archived without resizing, recoloring or background changes; not automatically substituted into approved scenes. The manifest records size and SHA-256 for each source.
+
+- father-cosmos-gold-20260927.png: white/gold robe, open hand, golden city.
+- father-cosmos-blue-20260927.png: white/blue robe, sapphire jewelry, open hand.
+- father-cosmos-staff-20260821.png: standing figure with ornate staff and halo.

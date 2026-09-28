@@ -127,7 +127,6 @@ const SHARE_STEP = 8;
 const META_STEP = 9;
 const VERIFY_STEP = 10;
 const REVIEW_STEP = 11;
-const TOTAL_STEPS = 12;
 
 const formatNumber = (value: number) => value.toLocaleString("vi-VN");
 
@@ -141,7 +140,7 @@ function CreateIdeaPage() {
 
   const [draft, setDraft] = useState<Draft>(emptyDraft());
   const [serverUpdatedAt, setServerUpdatedAt] = useState<string | undefined>();
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(STORY_STEP);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -153,13 +152,26 @@ function CreateIdeaPage() {
   const firstField = useRef<HTMLTextAreaElement | HTMLInputElement>(null);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has("program") && !params.has("id")) {
+      void navigate({ to: "/your-turn", hash: "idea-preview" });
+      return;
+    }
     if (ready && !session)
-      void navigate({ to: "/tai-khoan", search: { redirect: "/tao-y-tuong" } as never });
+      void navigate({
+        to: "/tai-khoan",
+        search: { redirect: `/tao-y-tuong${window.location.search}` } as never,
+      });
   }, [ready, session, navigate]);
 
   // Database is the source of truth; the local cache is only a recovery fallback.
   useEffect(() => {
-    if (!session) return;
+    if (!session || cacheReady) return;
+    if (
+      !new URLSearchParams(window.location.search).has("program") &&
+      !new URLSearchParams(window.location.search).has("id")
+    )
+      return;
     const editing = new URLSearchParams(window.location.search).get("id");
     let cancelled = false;
     (async () => {
@@ -172,7 +184,7 @@ function CreateIdeaPage() {
             facebook_post_url?: string | null;
             facebook_post_public_consent?: boolean | null;
           };
-          setDraft({
+          const remoteDraft: Draft = {
             id: idea.id,
             title: idea.title,
             summary: idea.summary,
@@ -195,31 +207,40 @@ function CreateIdeaPage() {
             recipientWallet: remote.details?.recipient_wallet ?? "",
             consentAccuracy: remote.details?.consent_accuracy ?? false,
             consentPublic: remote.details?.consent_public ?? false,
-          });
+          };
+          // A reload must also recover edits made after the last server save.
+          try {
+            const recovery = JSON.parse(
+              localStorage.getItem(DRAFT_CACHE_KEY) || "null",
+            ) as Draft | null;
+            setDraft(recovery?.id === idea.id ? { ...remoteDraft, ...recovery } : remoteDraft);
+          } catch {
+            setDraft(remoteDraft);
+          }
           setServerUpdatedAt(idea.updated_at);
+          setCacheReady(true);
           return;
         } catch {
           setError("Không mở được ý tưởng này.");
+          setCacheReady(true);
           return;
         }
       }
       try {
         const cached = JSON.parse(localStorage.getItem(DRAFT_CACHE_KEY) || "null") as Draft | null;
-        if (cached && !cached.id && !cancelled) setDraft({ ...emptyDraft(), ...cached });
-        else if (!cached && !cancelled) {
+        if (!cancelled) {
           const seeds: unknown = JSON.parse(localStorage.getItem(IDEA_STORAGE_KEY) || "null");
+          const restored = { ...emptyDraft(), ...(cached || {}) };
           if (
             Array.isArray(seeds) &&
             seeds.length === 7 &&
             seeds.every((value) => typeof value === "string")
           ) {
-            setDraft({
-              ...emptyDraft(),
-              ...Object.fromEntries(
-                stepKeys.map((key, index) => [key, (seeds[index] ?? "").slice(0, 2000)]),
-              ),
+            stepKeys.forEach((key, index) => {
+              if (!restored[key]) restored[key] = (seeds[index] || "").slice(0, 2000);
             });
           }
+          setDraft(restored);
         }
       } catch {
         /* cache is optional */
@@ -230,10 +251,10 @@ function CreateIdeaPage() {
     return () => {
       cancelled = true;
     };
-  }, [session, load]);
+  }, [session, load, cacheReady]);
 
   useEffect(() => {
-    if (cacheReady && !draft.id) {
+    if (cacheReady) {
       try {
         localStorage.setItem(DRAFT_CACHE_KEY, JSON.stringify(draft));
       } catch {
@@ -242,8 +263,10 @@ function CreateIdeaPage() {
     }
   }, [draft, cacheReady]);
 
-  const set = <K extends keyof Draft>(key: K, value: Draft[K]) =>
+  const set = <K extends keyof Draft>(key: K, value: Draft[K]) => {
+    setError("");
     setDraft((current) => ({ ...current, [key]: value }));
+  };
 
   const storyLength = draft.story.trim().length;
   const storyReady = storyLength >= STORY_MIN;
@@ -277,11 +300,21 @@ function CreateIdeaPage() {
     setBusy(true);
     setError("");
     try {
-      const saved = await save({ data: { ...draft, clientUpdatedAt: serverUpdatedAt } });
+      const title = draft.title || draft.dream.slice(0, 140) || "Ý tưởng FUN COSMOS";
+      const summary =
+        draft.summary ||
+        stepKeys
+          .map((key) => draft[key])
+          .filter(Boolean)
+          .join(" · ")
+          .slice(0, 500);
+      const saved = await save({
+        data: { ...draft, title, summary, clientUpdatedAt: serverUpdatedAt },
+      });
       setDraft((current) => ({ ...current, id: saved.id }));
       setServerUpdatedAt(saved.updatedAt);
       try {
-        localStorage.removeItem(DRAFT_CACHE_KEY);
+        localStorage.setItem(DRAFT_CACHE_KEY, JSON.stringify({ ...draft, id: saved.id }));
       } catch {
         /* cache is optional */
       }
@@ -335,10 +368,11 @@ function CreateIdeaPage() {
   function go(next: number) {
     setStep(next);
     setStatus("");
+    setError("");
     requestAnimationFrame(() => firstField.current?.focus({ preventScroll: true }));
   }
 
-  if (!ready)
+  if (!ready || (session && !cacheReady))
     return (
       <div className="tw yt-hub">
         <SiteHeader />
@@ -435,18 +469,6 @@ function CreateIdeaPage() {
     );
 
   const contentStep = step < 7 ? creatorSteps[step]! : null;
-  const stepLabel =
-    step < 7
-      ? `${step + 1} / 7 hạt giống · ${contentStep?.english}`
-      : step === STORY_STEP
-        ? "08 · Câu chuyện FUN COSMOS"
-        : step === SHARE_STEP
-          ? "Chia sẻ Facebook"
-          : step === META_STEP
-            ? "Thông tin bài"
-            : step === VERIFY_STEP
-              ? "Xác minh tham gia"
-              : "Xem lại ý tưởng";
 
   return (
     <div className="tw yt-hub">
@@ -454,29 +476,24 @@ function CreateIdeaPage() {
       <main className="ih-page ih-creator">
         <header className="ih-creator-head">
           <p className="lc-eyebrow">✧ YOUR TURN • CO-CREATE FUN COSMOS</p>
-          <h1>TẠO Ý TƯỞNG CỦA BẠN</h1>
-          <div className="ih-progress" aria-label={`Bước ${step + 1} trên ${TOTAL_STEPS}`}>
-            <span style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }} />
-          </div>
-          <p className="ih-progress-label">{stepLabel}</p>
+          <h1>THAM GIA CHƯƠNG TRÌNH CÂU CHUYỆN</h1>
+          <a href="/your-turn#idea-preview">Gửi ý tưởng ngắn từ bảy ý đã viết →</a>
         </header>
         <nav className="ih-creator-tabs" aria-label="Idea creator steps / Các bước tạo ý tưởng">
           {[
-            ...creatorSteps.map((item) => item.title),
-            "Story / Câu chuyện",
-            "Facebook",
-            "Thông tin bài",
-            "Xác minh",
-            "Xem lại",
-          ].map((label, index) => (
+            [STORY_STEP, "Câu chuyện"],
+            [SHARE_STEP, "Link Facebook"],
+            [VERIFY_STEP, "Thông tin nhận quà"],
+            [REVIEW_STEP, "Gửi bài"],
+          ].map(([index, label]) => (
             <button
               key={label}
               type="button"
               disabled={busy}
               aria-current={step === index ? "step" : undefined}
-              onClick={() => go(index)}
+              onClick={() => go(Number(index))}
             >
-              {String(index + 1).padStart(2, "0")} · {label}
+              {label}
             </button>
           ))}
         </nav>
@@ -666,7 +683,7 @@ function CreateIdeaPage() {
           </section>
         )}
 
-        {step === META_STEP && (
+        {(step === META_STEP || step === VERIFY_STEP) && (
           <section className="ih-card">
             <h2>THÔNG TIN BÀI</h2>
             <label>
@@ -887,7 +904,11 @@ function CreateIdeaPage() {
         {status && <p role="status">{status}</p>}
 
         <div className="ih-step-actions">
-          <Button variant="outline" disabled={step === 0 || busy} onClick={() => go(step - 1)}>
+          <Button
+            variant="outline"
+            disabled={step === STORY_STEP || busy}
+            onClick={() => go(step === VERIFY_STEP ? SHARE_STEP : step - 1)}
+          >
             <ArrowLeft aria-hidden="true" /> Trước
           </Button>
           <Button variant="outline" disabled={busy} onClick={() => void persist()}>
@@ -897,8 +918,7 @@ function CreateIdeaPage() {
             <Button
               disabled={busy}
               onClick={async () => {
-                if (step === VERIFY_STEP) await persist(true);
-                go(step + 1);
+                go(step === SHARE_STEP ? VERIFY_STEP : step + 1);
               }}
             >
               Tiếp theo <ArrowRight aria-hidden="true" />

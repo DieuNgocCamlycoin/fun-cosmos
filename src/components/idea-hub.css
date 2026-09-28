@@ -618,3 +618,20 @@
   .ih-creator .ih-card { padding: 16px; }
   .ih-creator-tabs button { font-size: 13px; padding: 7px 9px; }
 }
+
+
+/* Keep guidance and confirmations readable on creator cards. */
+.tw .ih-creator .ih-card p,
+.tw .ih-creator .ih-card label,
+.tw .ih-creator .ih-card pre,
+.tw .ih-creator .ih-card .ih-edit {
+  color: #173d62;
+  text-shadow: none;
+}
+.tw .ih-creator .ih-card input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0;
+  flex: 0 0 20px;
+}

@@ -5,6 +5,7 @@ import { TopicWorldShell, WorldSection } from "@/components/topic-world/topic-wo
 import { ArchiveDisclosure } from "@/components/topic-world/living-scene";
 import { CuratedArchive } from "@/components/topic-world/curated-archive";
 import { IDEA_FIELDS, exportIdea } from "@/lib/idea-submission";
+import { IdeaSketchSubmit } from "@/components/idea-sketch-submit";
 import { useIdeaDraft } from "@/lib/use-idea-draft";
 import { useI18n } from "@/lib/i18n";
 import { externalLink } from "@/lib/links";
@@ -187,7 +188,7 @@ function YourTurnWorld() {
                   </button>
                 ) : (
                   <a className="tw-button" href="#idea-preview">
-                    {t("Review idea card", "Xem thẻ ý tưởng")} <ArrowDown size={16} />
+                    {t("Review & send", "Xem lại và gửi")} <ArrowDown size={16} />
                   </a>
                 )}
               </div>
@@ -216,20 +217,7 @@ function YourTurnWorld() {
           eyebrow="REVIEW & SEND"
           title={t("SEND YOUR IDEA INTO THE COSMOS.", "GỬI Ý TƯỞNG VÀO VŨ TRỤ.")}
         >
-          <div className="yw-save">
-            <p>
-              {t(
-                "Turn your seven seeds into a story, share it, then submit for review.",
-                "Kết nối bảy hạt giống thành câu chuyện, chia sẻ rồi gửi duyệt.",
-              )}
-            </p>
-            <a className="tw-button" href="/tao-y-tuong">
-              {t("Continue to Idea Creator", "Tiếp tục tạo câu chuyện")} <ArrowRight size={18} />
-            </a>
-            <a className="tw-outline" href="/idea-hub">
-              {t("Explore Idea Hub", "Khám phá Idea Hub")}
-            </a>
-          </div>
+          <IdeaSketchSubmit fields={draft} />
           <details className="yw-preview-details">
             <summary>{t("Review my idea card", "Xem lại thẻ ý tưởng của tôi")}</summary>
             <article className="yw-preview">

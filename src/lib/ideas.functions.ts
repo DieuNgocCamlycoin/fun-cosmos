@@ -283,6 +283,72 @@ export const submitIdea = createServerFn({ method: "POST" })
     return submitted;
   });
 
+/** Short sketches go to the idea review queue. Reward applications use submitIdea. */
+export const submitIdeaSketch = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => submitSchema.parse(input))
+  .handler(async ({ data, context }) => {
+    await requireVerifiedEmail(context.userId);
+    const admin = await adminClient();
+    const { data: idea, error: readError } = await admin
+      .from("ideas")
+      .select(
+        "id,public_code,status,submitted_at,title,summary,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection",
+      )
+      .eq("id", data.id)
+      .eq("creator_user_id", context.userId)
+      .maybeSingle();
+    if (readError || !idea)
+      throw new Error("Không mở được bản nháp của bạn. Nội dung vẫn được giữ lại.");
+    if (idea.public_code && idea.submitted_at)
+      return { code: idea.public_code, submittedAt: idea.submitted_at };
+    if (!["draft", "needs_revision"].includes(idea.status))
+      throw new Error("Ý tưởng này không thể gửi lại.");
+    if (
+      ![
+        idea.character_description,
+        idea.dream,
+        idea.gameplay,
+        idea.angel_ai,
+        idea.reward,
+        idea.world_change,
+        idea.real_world_connection,
+      ].some((value) => value.trim())
+    )
+      throw new Error("Hãy viết ít nhất một ý trước khi gửi.");
+    const { data: details } = await admin
+      .from("idea_private_details")
+      .select("consent_accuracy")
+      .eq("idea_id", idea.id)
+      .maybeSingle();
+    if (!details?.consent_accuracy) throw new Error("Vui lòng xác nhận đây là ý tưởng của bạn.");
+    const { data: code, error: codeError } = await admin.rpc("next_idea_public_code");
+    if (codeError || !code)
+      throw new Error("Chưa tạo được mã tiếp nhận. Bản nháp vẫn được giữ lại.");
+    const submittedAt = new Date().toISOString();
+    const { data: submitted, error } = await admin
+      .from("ideas")
+      .update({ status: "submitted", public_code: code, submitted_at: submittedAt })
+      .eq("id", idea.id)
+      .eq("creator_user_id", context.userId)
+      .in("status", ["draft", "needs_revision"])
+      .select("public_code,submitted_at")
+      .maybeSingle();
+    if (error) throw new Error("Chưa gửi được ý tưởng. Bản nháp vẫn được giữ lại; hãy thử lại.");
+    if (submitted?.public_code && submitted.submitted_at)
+      return { code: submitted.public_code, submittedAt: submitted.submitted_at };
+    // A concurrent retry may already have completed the same submission.
+    const { data: receipt } = await admin
+      .from("ideas")
+      .select("public_code,submitted_at")
+      .eq("id", idea.id)
+      .eq("creator_user_id", context.userId)
+      .maybeSingle();
+    if (!receipt?.public_code || !receipt.submitted_at)
+      throw new Error("Chưa xác nhận được việc gửi. Bản nháp vẫn được giữ lại.");
+    return { code: receipt.public_code, submittedAt: receipt.submitted_at };
+  });
+
 export const listMyIdeas = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {

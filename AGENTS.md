@@ -42,3 +42,6 @@
 - Remove the gallery count/eyebrow and text pause button; use compact icon controls for next image and pause/resume.
 - Keep caption height stable across slides. The gold activity line travels continuously forward without rewinding.
 - Pointer activity over artwork suspends autoplay until eight seconds without further activity; then the regular five-second cycle continues.
+
+## Character artwork correction (2026-09-28)
+- Preserve supplied character anatomy, pose and original crop. Never invent legs, extend bodies or outpaint missing anatomy. Use exact originals; do not reuse the rejected generated Your Turn Father cutout.

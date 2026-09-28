@@ -36,15 +36,23 @@ export function useResendVerification() {
     setBusy(true);
     setMessage("");
     try {
-      await supabase.auth.resend({
+      const { error } = await supabase.auth.resend({
         type: "signup",
         email,
         options: { emailRedirectTo: window.location.origin + VERIFY_REDIRECT },
       });
-      // Không tiết lộ trạng thái tài khoản: luôn báo cùng một thông điệp.
-      setMessage("Nếu email này cần xác minh, liên kết mới đã được gửi. Hãy kiểm tra hộp thư.");
-    } catch {
-      setMessage("Nếu email này cần xác minh, liên kết mới đã được gửi. Hãy kiểm tra hộp thư.");
+      if (error) throw error;
+      // Không tiết lộ trạng thái tài khoản.
+      setMessage(
+        "Nếu email này cần xác minh, yêu cầu gửi liên kết đã được tiếp nhận. Hãy kiểm tra cả thư rác.",
+      );
+    } catch (cause) {
+      const code = (cause as { code?: string })?.code;
+      setMessage(
+        code === "over_email_send_rate_limit" || code === "over_request_rate_limit"
+          ? "Hệ thống đã chạm giới hạn gửi email. Vui lòng thử lại sau; quản trị viên cần kiểm tra cấu hình email Supabase."
+          : "Chưa thể gửi yêu cầu xác minh. Vui lòng thử lại sau hoặc liên hệ hỗ trợ.",
+      );
     } finally {
       startCooldown();
       setBusy(false);

@@ -598,3 +598,23 @@
   display: block;
   margin-top: 0.45rem;
 }
+
+/* Compact creator controls; pearl surfaces keep the original canvas visible. */
+.ih-page.ih-creator { padding-top: 32px; padding-bottom: 36px; gap: 16px; min-height: calc(100svh - 82px); }
+.ih-creator-head h1 { font-size: clamp(28px, 3.2vw, 42px); margin-block: 8px 12px; }
+.ih-creator-head .lc-eyebrow { margin: 0; }
+.ih-creator-tabs { gap: 6px; }
+.ih-creator-tabs button { font-size: 14px; padding: 8px 11px; line-height: 1.4; }
+.ih-creator .ih-card { padding: 20px; gap: 12px; background: #fffaf0ed; color: #173d64; text-shadow: none; backdrop-filter: none; }
+.ih-creator .ih-card h2 { color: #173d64; font-size: clamp(22px, 2vw, 28px); }
+.ih-creator .ih-card .lc-eyebrow { color: #795a20; }
+.ih-creator .ih-card input, .ih-creator .ih-card textarea, .ih-creator .ih-card select { background: #fff; color: #173d64; border-color: #a1b5c5; }
+.ih-creator .ih-card input::placeholder, .ih-creator .ih-card textarea::placeholder { color: #647a8c; opacity: 1; }
+.ih-creator .ih-card textarea { min-height: 130px; }
+.ih-creator .ih-card textarea.ih-story-textarea { min-height: 260px; }
+.ih-creator .ih-step-actions button { min-height: 40px; height: auto; padding: 9px 16px; border: 1px solid #c7a14e; background: #ffe9a5; color: #173d64; }
+@media (max-width: 650px) {
+  .ih-page.ih-creator { padding-top: 20px; gap: 12px; }
+  .ih-creator .ih-card { padding: 16px; }
+  .ih-creator-tabs button { font-size: 13px; padding: 7px 9px; }
+}

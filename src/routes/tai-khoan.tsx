@@ -106,7 +106,8 @@ function AccountPage() {
             <div className="fc-account-signed">
               <h2>KIỂM TRA EMAIL CỦA BẠN ✨</h2>
               <p>
-                FUN COSMOS vừa gửi một liên kết xác minh đến: <strong>{pendingEmail}</strong>
+                Nếu tài khoản cần xác minh, vui lòng kiểm tra liên kết trong hộp thư của:{" "}
+                <strong>{pendingEmail}</strong>
               </p>
               <p>
                 Hãy mở email và nhấn vào liên kết xác minh để kích hoạt tài khoản người sáng tạo.

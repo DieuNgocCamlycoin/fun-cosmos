@@ -452,9 +452,17 @@ function CreateIdeaPage() {
     <div className="tw yt-hub">
       <SiteHeader />
       <main className="ih-page ih-creator">
+        <header className="ih-creator-head">
+          <p className="lc-eyebrow">✧ YOUR TURN • CO-CREATE FUN COSMOS</p>
+          <h1>TẠO Ý TƯỞNG CỦA BẠN</h1>
+          <div className="ih-progress" aria-label={`Bước ${step + 1} trên ${TOTAL_STEPS}`}>
+            <span style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }} />
+          </div>
+          <p className="ih-progress-label">{stepLabel}</p>
+        </header>
         <nav className="ih-creator-tabs" aria-label="Idea creator steps / Các bước tạo ý tưởng">
           {[
-            ...creatorSteps.map((item) => item.english),
+            ...creatorSteps.map((item) => item.title),
             "Story / Câu chuyện",
             "Facebook",
             "Thông tin bài",
@@ -472,14 +480,6 @@ function CreateIdeaPage() {
             </button>
           ))}
         </nav>
-        <header className="ih-creator-head">
-          <p className="lc-eyebrow">✧ YOUR TURN • CO-CREATE FUN COSMOS</p>
-          <h1>TẠO Ý TƯỞNG CỦA BẠN</h1>
-          <div className="ih-progress" aria-label={`Bước ${step + 1} trên ${TOTAL_STEPS}`}>
-            <span style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }} />
-          </div>
-          <p className="ih-progress-label">{stepLabel}</p>
-        </header>
 
         {step < 7 && contentStep && (
           <section className="ih-card">

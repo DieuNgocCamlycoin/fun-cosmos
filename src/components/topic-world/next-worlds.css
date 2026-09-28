@@ -830,3 +830,55 @@
 @media(max-width:950px){.yw-father,.yw-angel{height:64%;max-width:38%;}.yw-invitations{width:min(76%,700px);}.yw-workshop{grid-template-columns:1fr;}.yw-building{position:static;min-height:220px;}.yw-editor .yw-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));overflow:visible;}.yw-editor .yw-steps button{flex:auto;}}
 @media(max-width:650px){.yw-arrival{min-height:calc(100svh - var(--lc-nav-height,70px));padding:20px 12px;justify-content:flex-start;}.yw-arrival .nw-arrival-copy{width:100%;padding:0;}.yw-arrival .nw-arrival-copy .tw-back{font-size:12px;}.yw-arrival .nw-arrival-copy h1{font-size:clamp(40px,12vw,58px);}.yw-arrival .nw-arrival-copy .nw-lead{font-size:20px;}.yw-father,.yw-angel{top:27%;bottom:auto;height:31%;max-width:49%;}.yw-father{left:-9%;}.yw-angel{right:-9%;}.yw-invitations{width:100%;margin-top:auto;padding:12px 8px;}.yw-invitation-grid{gap:4px;}.yw-medallion{width:clamp(48px,17vw,68px);}.yw-invitation-grid a{font-size:11px;}.yw-editor .yw-steps{grid-template-columns:repeat(2,minmax(0,1fr));}.yw-editor .yw-steps button{min-height:52px;font-size:12px;}.yw-building{min-height:200px;}}
 @media(prefers-reduced-motion:reduce){.yw-invitation-grid a:hover .yw-medallion,.yw-invitation-grid a:focus-visible .yw-medallion{transform:none;}}
+
+/* Your Turn: preserve source artwork and let the supplied canvas stay luminous. */
+.yw .tw-section { background: transparent; min-height: auto; padding-block: 36px; }
+.yw-arrival { background: url('/cosmos/balcony.jpg') center / cover; gap: 10px; padding-block: 22px; }
+.yw-arrival::after { display: none; }
+.yw-arrival .nw-arrival-copy { width: 58%; }
+.yw-arrival .nw-arrival-copy h1 { font-size: clamp(40px, 4.6vw, 68px); }
+.yw-arrival .nw-arrival-copy .nw-lead { font-size: clamp(20px, 2vw, 28px); }
+.yw-father { left: 1%; bottom: 0; height: 72%; max-width: 25%; border-radius: 140px 140px 0 0; filter: none; }
+.yw-angel { right: 0; bottom: 0; height: 76%; max-width: 28%; filter: drop-shadow(0 0 12px #fff4); }
+.yw-invitations { width: 48%; background: none; border: 0; box-shadow: none; padding: 8px; }
+.yw-invitations > p { color: #173d64; text-shadow: 0 1px 3px #fff; }
+.yw-invitation-grid a { color: #173d64; text-shadow: 0 1px 3px #fff; }
+.yw-brand { width: 64px; }
+.yw-medallion { width: clamp(48px, 4.5vw, 66px); }
+.yw .tw-section-heading { margin-bottom: 20px; }
+.yw .tw-section-heading h2 { font-size: clamp(27px, 3vw, 42px); }
+.yw-building { min-height: 280px; padding: 20px; background: url('/cosmos/balcony.jpg') center / cover; }
+.yw-building strong, .yw-building p { color: #173d64; text-shadow: 0 1px 4px #fff; background: #fff9; border-radius: 10px; padding: 5px 10px; }
+.yw-building .yw-active-medallion { width: clamp(110px, 12vw, 170px); }
+.yw-editor { padding: 20px; }
+.yw-editor .yw-steps { margin-bottom: 16px; }
+.yw-editor .yw-steps button { min-height: 46px; padding: 8px; font-size: 14px; background: #edf4fa; color: #173d64; }
+.yw-editor .yw-steps button[aria-current] { background: #ffeab0; }
+.yw-editor .yw-steps small { color: #76591e; }
+.yw-editor textarea { min-height: 160px; }
+.yw-preview-details summary { background: #fff9; color: #173d64; }
+@media (min-width: 951px) and (max-height: 760px) {
+  .yw-arrival { gap: 4px; padding-block: 12px; }
+  .yw-arrival .nw-arrival-copy h1 { font-size: 44px; }
+  .yw-arrival .nw-arrival-copy .tw-button { margin-top: 6px; padding-block: 10px; }
+  .yw-brand { width: 48px; }
+  .yw-medallion { width: 48px; }
+}
+@media (max-width: 950px) {
+  .yw-arrival .nw-arrival-copy { width: 90%; }
+  .yw-father, .yw-angel { height: 48%; max-width: 27%; }
+  .yw-invitations { width: 52%; }
+  .yw-building { min-height: 220px; }
+}
+@media (max-width: 650px) {
+  .yw-arrival { min-height: 780px; padding: 20px 12px; }
+  .yw-arrival .nw-arrival-copy { width: 100%; }
+  .yw-father, .yw-angel { top: 250px; bottom: auto; height: 240px; max-width: 44%; }
+  .yw-father { left: 2%; border-radius: 70px 70px 0 0; }
+  .yw-angel { right: 0; }
+  .yw-invitations { width: 100%; margin-top: 260px; }
+  .yw-editor .yw-steps button { min-height: 46px; font-size: 14px; }
+  .yw .tw-section { padding-block: 26px; }
+}
+.nw.yw { background: url('/cosmos/cosmic-clouds.png') center top / cover fixed; }
+@media (max-width: 650px) { .nw.yw { background-attachment: scroll; } }

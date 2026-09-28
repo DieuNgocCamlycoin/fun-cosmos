@@ -66,7 +66,12 @@ function YourTurnWorld() {
     <TopicWorldShell>
       <div className="nw yw">
         <section className="nw-arrival yw-arrival" aria-labelledby="your-turn-title">
-          <img className="yw-father" src="/cosmos/your-turn-father.png" alt="" aria-hidden="true" />
+          <img
+            className="yw-father"
+            src="/cosmos/your-turn-father-original.png"
+            alt=""
+            aria-hidden="true"
+          />
           <img className="yw-angel" src="/cosmos/your-turn-angel.png" alt="" aria-hidden="true" />
           <div className="nw-arrival-copy">
             <a className="tw-back" href="/">

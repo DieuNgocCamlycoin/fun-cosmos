@@ -348,6 +348,18 @@ export type Database = {
           },
         ]
       }
+      idea_community_comments: {
+        Row: { id: string; idea_id: string; author_user_id: string; author_name: string; kind: string; body: string; status: string; created_at: string }
+        Insert: { id?: string; idea_id: string; author_user_id: string; author_name?: string; kind: string; body: string; status?: string; created_at?: string }
+        Update: { id?: string; idea_id?: string; author_user_id?: string; author_name?: string; kind?: string; body?: string; status?: string; created_at?: string }
+        Relationships: []
+      }
+      idea_community_likes: {
+        Row: { idea_id: string; user_id: string; created_at: string }
+        Insert: { idea_id: string; user_id: string; created_at?: string }
+        Update: { idea_id?: string; user_id?: string; created_at?: string }
+        Relationships: []
+      }
       idea_private_details: {
         Row: {
           consent_accuracy: boolean

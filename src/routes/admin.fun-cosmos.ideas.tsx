@@ -6,6 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { listAdminIdeas, updateAdminIdea, updateAdminIdeaReward } from "@/lib/ideas.functions";
 import { categoryLabel, ideaStatusLabel, rewardStatusLabel } from "@/lib/idea-content";
+import { makeFunRichBatch, splitFunRichBatch } from "@/lib/idea-program";
+import { listPendingIdeaComments, moderateIdeaComment } from "@/lib/idea-community.functions";
 import "@/living.css";
 import "@/components/idea-hub.css";
 
@@ -49,6 +51,9 @@ function AdminIdeasPage() {
   const list = useServerFn(listAdminIdeas);
   const updateIdea = useServerFn(updateAdminIdea);
   const updateReward = useServerFn(updateAdminIdeaReward);
+  const listComments = useServerFn(listPendingIdeaComments);
+  const moderateComment = useServerFn(moderateIdeaComment);
+  const [comments, setComments] = useState<Awaited<ReturnType<typeof listPendingIdeaComments>>>([]);
   const [rows, setRows] = useState<Awaited<ReturnType<typeof listAdminIdeas>>>([]);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -65,12 +70,17 @@ function AdminIdeasPage() {
         return;
       }
       setRows(await list({ data: { search, status } }));
+      try {
+        setComments(await listComments());
+      } catch {
+        setComments([]);
+      }
     } catch {
       setError("Bạn không có quyền quản trị hoặc phiên đăng nhập đã hết hạn.");
     } finally {
       setBusy(false);
     }
-  }, [list, navigate, search, status]);
+  }, [list, listComments, navigate, search, status]);
 
   useEffect(() => {
     void load();
@@ -134,6 +144,41 @@ function AdminIdeasPage() {
         </Button>
       </form>
 
+      <Button
+        type="button"
+        variant="outline"
+        onClick={() => {
+          const csv = makeFunRichBatch(
+            rows.map((row) => {
+              const detail = Array.isArray(row.idea_private_details)
+                ? row.idea_private_details[0]
+                : row.idea_private_details;
+              return {
+                rewardStatus: row.reward_status,
+                rewardAmount: Number(row.reward_amount),
+                wallet: detail?.recipient_wallet ?? "",
+              };
+            }),
+          );
+          if (!csv) {
+            setError("Chưa có bài đã duyệt thưởng với ví hợp lệ để xuất.");
+            return;
+          }
+          splitFunRichBatch(csv).forEach((part, index) => {
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(new Blob([part], { type: "text/csv;charset=utf-8" }));
+            link.download = `fun-cosmos-fun-rich-rewards-${new Date().toISOString().slice(0, 10)}-${index + 1}.csv`;
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+          });
+        }}
+      >
+        Xuất CSV hàng loạt cho FUN.Rich
+      </Button>
+      <p>
+        Chỉ gồm ví của bài đã duyệt thưởng; mỗi dòng là địa chỉ ví,số CAMLY. Xuất file chưa đánh dấu
+        đã trao.
+      </p>
       {error && (
         <p className="fc-form-error" role="alert">
           {error}
@@ -176,10 +221,6 @@ function AdminIdeasPage() {
                 <div>
                   <dt>Facebook</dt>
                   <dd>{details?.facebook_url || "—"}</dd>
-                </div>
-                <div>
-                  <dt>Telegram</dt>
-                  <dd>{details?.telegram || "—"}</dd>
                 </div>
                 <div>
                   <dt>Ví CAMLY</dt>
@@ -225,6 +266,7 @@ function AdminIdeasPage() {
                   const extra = row as typeof row & {
                     story?: string | null;
                     facebook_post_url?: string | null;
+                    fun_rich_post_url?: string | null;
                     facebook_post_public_consent?: boolean | null;
                   };
                   return (
@@ -238,6 +280,19 @@ function AdminIdeasPage() {
                           <p key={index}>{paragraph}</p>
                         ))}
                       {!extra.story?.trim() && <p>(Bài cũ — chưa có câu chuyện)</p>}
+                      <h4>BÀI ĐĂNG FUN.RICH</h4>
+                      {extra.fun_rich_post_url ? (
+                        <a
+                          className="lc-button"
+                          href={extra.fun_rich_post_url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                        >
+                          MỞ BÀI FUN.RICH ↗
+                        </a>
+                      ) : (
+                        <p>Chưa có link.</p>
+                      )}
                       <h4>BÀI ĐĂNG FACEBOOK</h4>
                       {extra.facebook_post_url ? (
                         <a
@@ -263,7 +318,11 @@ function AdminIdeasPage() {
               </details>
 
               <div className="fc-admin-actions">
-                <select defaultValue={row.status} id={`idea-status-${row.id}`} aria-label="Trạng thái ý tưởng">
+                <select
+                  defaultValue={row.status}
+                  id={`idea-status-${row.id}`}
+                  aria-label="Trạng thái ý tưởng"
+                >
                   {ideaStatuses.map((value) => (
                     <option key={value} value={value}>
                       {ideaStatusLabel[value]}
@@ -278,6 +337,9 @@ function AdminIdeasPage() {
                     ) as HTMLSelectElement | null;
                     const noteEl = document.getElementById(
                       `idea-note-${row.id}`,
+                    ) as HTMLInputElement | null;
+                    const amountEl = document.getElementById(
+                      `idea-amount-${row.id}`,
                     ) as HTMLInputElement | null;
                     if (!statusEl) return;
                     try {
@@ -310,10 +372,20 @@ function AdminIdeasPage() {
                     </option>
                   ))}
                 </select>
+                <label>
+                  Số CAMLY (từ 99.999)
+                  <input
+                    type="number"
+                    min={99999}
+                    step={1}
+                    id={`idea-amount-${row.id}`}
+                    defaultValue={row.reward_amount}
+                  />
+                </label>
                 <input
                   id={`idea-tx-${row.id}`}
                   defaultValue={row.reward_tx_hash ?? ""}
-                  placeholder="TX hash thật trên BNB Smart Chain"
+                  placeholder="Mã giao dịch hoặc biên nhận FUN.Rich"
                 />
                 <Button
                   onClick={async () => {
@@ -323,6 +395,9 @@ function AdminIdeasPage() {
                     const txEl = document.getElementById(
                       `idea-tx-${row.id}`,
                     ) as HTMLInputElement | null;
+                    const amountEl = document.getElementById(
+                      `idea-amount-${row.id}`,
+                    ) as HTMLInputElement | null;
                     if (!statusEl) return;
                     try {
                       await updateReward({
@@ -330,12 +405,15 @@ function AdminIdeasPage() {
                           id: row.id,
                           rewardStatus: statusEl.value as (typeof rewardStatuses)[number],
                           txHash: txEl?.value ?? "",
+                          rewardAmount: amountEl ? Number(amountEl.value) : undefined,
                           note: "",
                         },
                       });
                       await load();
                     } catch (cause) {
-                      setError(cause instanceof Error ? cause.message : "Không thể cập nhật quà tặng.");
+                      setError(
+                        cause instanceof Error ? cause.message : "Không thể cập nhật quà tặng.",
+                      );
                     }
                   }}
                 >
@@ -346,6 +424,43 @@ function AdminIdeasPage() {
           );
         })}
       </div>
+      <section className="fc-admin-list" aria-labelledby="comments-heading">
+        <h2 id="comments-heading">GÓP Ý CỘNG ĐỒNG CẦN DUYỆT · {comments.length}</h2>
+        {comments.map((item) => (
+          <article key={item.id}>
+            <strong>{item.author_name}</strong> ·{" "}
+            {item.kind === "experience" ? "Trải nghiệm" : "Góp ý"}
+            <p>{item.body}</p>
+            <div className="fc-admin-actions">
+              <Button
+                onClick={async () => {
+                  try {
+                    await moderateComment({ data: { id: item.id, status: "approved" } });
+                    await load();
+                  } catch (cause) {
+                    setError(cause instanceof Error ? cause.message : "Chưa duyệt được");
+                  }
+                }}
+              >
+                Duyệt hiển thị
+              </Button>
+              <Button
+                variant="outline"
+                onClick={async () => {
+                  try {
+                    await moderateComment({ data: { id: item.id, status: "rejected" } });
+                    await load();
+                  } catch (cause) {
+                    setError(cause instanceof Error ? cause.message : "Chưa từ chối được");
+                  }
+                }}
+              >
+                Từ chối
+              </Button>
+            </div>
+          </article>
+        ))}
+      </section>
     </main>
   );
 }

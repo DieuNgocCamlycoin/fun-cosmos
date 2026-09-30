@@ -153,15 +153,11 @@ function CreateIdeaPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (!params.has("program") && !params.has("id")) {
-      void navigate({ to: "/your-turn", hash: "idea-preview" });
-      return;
-    }
-    if (ready && !session)
-      void navigate({
-        to: "/tai-khoan",
-        search: { redirect: `/tao-y-tuong${window.location.search}` } as never,
-      });
+    void navigate({
+      to: "/your-turn",
+      search: params.has("id") ? ({ id: params.get("id") } as never) : ({} as never),
+      hash: "idea-preview",
+    });
   }, [ready, session, navigate]);
 
   // Database is the source of truth; the local cache is only a recovery fallback.

@@ -41,7 +41,7 @@ function AccountPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [pendingEmail, setPendingEmail] = useState("");
-  const [redirectTo, setRedirectTo] = useState("/tao-y-tuong");
+  const [redirectTo, setRedirectTo] = useState("/your-turn");
   const resend = useResendVerification();
 
   useEffect(() => {
@@ -160,7 +160,7 @@ function AccountPage() {
                 </div>
               )}
               <div className="lc-actions">
-                <Button onClick={() => navigate({ to: "/tao-y-tuong" })}>Tạo ý tưởng</Button>
+                <Button onClick={() => navigate({ to: "/your-turn" })}>Tạo ý tưởng</Button>
                 <Button variant="outline" onClick={() => navigate({ to: "/y-tuong-cua-toi" })}>
                   Ý tưởng của tôi
                 </Button>

@@ -42,9 +42,11 @@ function VerifyPage() {
       // Nguồn xác thực duy nhất: Supabase Auth.
       const { data } = await supabase.auth.getUser();
       if (!active) return;
-      const user = data.user as
-        | ({ email?: string; email_confirmed_at?: string | null; confirmed_at?: string | null })
-        | null;
+      const user = data.user as {
+        email?: string;
+        email_confirmed_at?: string | null;
+        confirmed_at?: string | null;
+      } | null;
       if (user && (user.email_confirmed_at || user.confirmed_at)) {
         setEmail(user.email ?? "");
         setState("ok");
@@ -82,9 +84,7 @@ function VerifyPage() {
               </p>
               {email && <p>Tài khoản: {email}</p>}
               <div className="lc-actions">
-                <Button onClick={() => navigate({ to: "/tao-y-tuong" })}>
-                  Tạo ý tưởng đầu tiên
-                </Button>
+                <Button onClick={() => navigate({ to: "/your-turn" })}>Tạo ý tưởng đầu tiên</Button>
                 <Button variant="outline" onClick={() => navigate({ to: "/idea-hub" })}>
                   Khám phá Idea Hub
                 </Button>

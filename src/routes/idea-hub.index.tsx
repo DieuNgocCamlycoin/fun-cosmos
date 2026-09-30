@@ -118,7 +118,7 @@ function IdeaHubPage() {
           <Button type="submit">
             <Search aria-hidden="true" /> Tìm
           </Button>
-          <Button type="button" variant="outline" onClick={() => navigate({ to: "/tao-y-tuong" })}>
+          <Button type="button" variant="outline" onClick={() => navigate({ to: "/your-turn" })}>
             <Plus aria-hidden="true" /> Tạo ý tưởng
           </Button>
         </form>
@@ -184,11 +184,13 @@ function IdeaHubPage() {
           <section className="ih-empty">
             <h2>VŨ TRỤ ĐANG CHỜ Ý TƯỞNG ĐẦU TIÊN.</h2>
             <p>Hãy gieo hạt giống đầu tiên cho cộng đồng đồng sáng tạo FUN COSMOS.</p>
-            <Button onClick={() => navigate({ to: "/tao-y-tuong" })}>✨ TẠO Ý TƯỞNG ĐẦU TIÊN</Button>
+            <Button onClick={() => navigate({ to: "/your-turn" })}>✨ TẠO Ý TƯỞNG ĐẦU TIÊN</Button>
           </section>
         )}
 
-        <p className="ih-note">{phaseTwoNote}</p>
+        <p className="ih-note">
+          Các bài đã được duyệt có thể nhận lượt thích, góp ý và chia sẻ trải nghiệm từ cộng đồng.
+        </p>
       </main>
       <SiteFooter />
     </div>

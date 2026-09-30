@@ -961,3 +961,22 @@
   .yw-invitation-grid .yw-medallion { width: 18svh; }
   .yw-invitations { gap: 8px; }
 }
+
+.yw-program { max-width: 980px; margin: 0 auto 28px; }
+.yw-optional-prompts { margin-top: 18px; }
+.yw-optional-prompts > summary { display: inline-flex; align-items: center; min-height: 48px; padding: 10px 18px; border: 1px solid #e8c579; border-radius: 999px; background: #082b52d9; color: #ffe7a5; font-weight: 700; cursor: pointer; }
+.yw-optional-prompts[open] > summary { margin-bottom: 18px; }
+.yw-program-steps { display:flex; flex-wrap:wrap; gap:10px; }
+.yw-program-steps button { padding:10px 16px; border:1px solid #edc66f; border-radius:999px; background:#0b315a; color:#ffebac; font:inherit; cursor:pointer; }
+.yw-program-steps button[aria-current="step"] { background:#ffdf83; color:#092e55; font-weight:800; }
+.yw-program-panel { display:grid; gap:12px; }
+.yw-program-panel label { font-weight:700; }
+.yw-program-panel > input, .yw-program-panel > textarea { width:100%; box-sizing:border-box; padding:13px 16px; border:1px solid #a9bfca; border-radius:12px; background:#fffdf8; color:#12375c; font:inherit; }
+.yw-program-panel > textarea { min-height:280px; resize:vertical; line-height:1.6; }
+.yw-program-panel .tw-button, .yw-program-panel .tw-outline { justify-self:start; }
+.yw-program-panel p { overflow-wrap:anywhere; }
+.ih-community-comments { display:grid; gap:12px; margin:20px 0; }
+.ih-community-comments article { padding:16px; border:1px solid #c7d6e8; border-radius:14px; background:#fffdf8; }
+.ih-community-form { display:grid; gap:10px; max-width:780px; margin:20px 0; }
+.ih-community-form select,.ih-community-form textarea { padding:12px; border:1px solid #9eb7ce; border-radius:10px; background:#fff; color:#12375c; font:inherit; }
+.ih-community-form textarea { min-height:110px; }

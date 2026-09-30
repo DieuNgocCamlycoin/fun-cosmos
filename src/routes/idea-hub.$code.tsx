@@ -4,12 +4,9 @@ import { useServerFn } from "@tanstack/react-start";
 import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 import { Button } from "@/components/ui/button";
 import { getPublicIdea } from "@/lib/ideas.functions";
-import {
-  categoryLabel,
-  ideaStatusLabel,
-  journeyStages,
-  phaseTwoNote,
-} from "@/lib/idea-content";
+import { getIdeaCommunity, sendIdeaComment, toggleIdeaLike } from "@/lib/idea-community.functions";
+import { useCreatorAuth } from "@/hooks/use-creator-auth";
+import { categoryLabel, ideaStatusLabel, journeyStages, phaseTwoNote } from "@/lib/idea-content";
 import "@/living.css";
 import "@/components/idea-hub.css";
 
@@ -37,6 +34,18 @@ export const Route = createFileRoute("/idea-hub/$code")({
 function IdeaDetailPage() {
   const { code } = useParams({ from: "/idea-hub/$code" });
   const fetchIdea = useServerFn(getPublicIdea);
+  const fetchCommunity = useServerFn(getIdeaCommunity);
+  const postComment = useServerFn(sendIdeaComment);
+  const toggleLike = useServerFn(toggleIdeaLike);
+  const { session } = useCreatorAuth();
+  const [community, setCommunity] = useState<Awaited<ReturnType<typeof getIdeaCommunity>> | null>(
+    null,
+  );
+  const [body, setBody] = useState("");
+  const [kind, setKind] = useState<"feedback" | "experience">("feedback");
+  const [communityError, setCommunityError] = useState("");
+  const [communityStatus, setCommunityStatus] = useState("");
+  const [communityBusy, setCommunityBusy] = useState(false);
   const navigate = useNavigate();
   const [state, setState] = useState<{
     busy: boolean;
@@ -60,6 +69,49 @@ function IdeaDetailPage() {
     };
   }, [code, fetchIdea]);
 
+  useEffect(() => {
+    let active = true;
+    void fetchCommunity({ data: { code } })
+      .then((data) => {
+        if (active) setCommunity(data);
+      })
+      .catch(() => {
+        if (active) setCommunityError("Chưa tải được thảo luận.");
+      });
+    return () => {
+      active = false;
+    };
+  }, [code, fetchCommunity]);
+  async function like() {
+    setCommunityBusy(true);
+    setCommunityError("");
+    try {
+      const result = await toggleLike({ data: { code } });
+      setCommunity((current) =>
+        current
+          ? { ...current, likes: Math.max(0, current.likes + (result.liked ? 1 : -1)) }
+          : current,
+      );
+      setCommunityStatus(result.liked ? "Đã thích ý tưởng." : "Đã bỏ thích.");
+    } catch (cause) {
+      setCommunityError(cause instanceof Error ? cause.message : "Chưa thích được ý tưởng.");
+    } finally {
+      setCommunityBusy(false);
+    }
+  }
+  async function comment() {
+    setCommunityBusy(true);
+    setCommunityError("");
+    try {
+      await postComment({ data: { code, kind, body } });
+      setBody("");
+      setCommunityStatus("Đã nhận góp ý. Bình luận sẽ hiện sau khi Admin duyệt.");
+    } catch (cause) {
+      setCommunityError(cause instanceof Error ? cause.message : "Chưa gửi được góp ý.");
+    } finally {
+      setCommunityBusy(false);
+    }
+  }
   const found = state.data?.found ? state.data : null;
   const idea = found?.idea;
 
@@ -108,6 +160,7 @@ function IdeaDetailPage() {
               const extra = idea as typeof idea & {
                 story?: string | null;
                 facebook_post_url?: string | null;
+                fun_rich_post_url?: string | null;
               };
               const paragraphs = (extra.story ?? "")
                 .split(/\n+/)
@@ -128,6 +181,16 @@ function IdeaDetailPage() {
                       rel="noreferrer noopener"
                     >
                       XEM BÀI ĐĂNG FACEBOOK ↗
+                    </a>
+                  )}
+                  {extra.fun_rich_post_url && (
+                    <a
+                      className="lc-button"
+                      href={extra.fun_rich_post_url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      XEM BÀI ĐĂNG FUN.RICH ↗
                     </a>
                   )}
                 </section>
@@ -180,15 +243,74 @@ function IdeaDetailPage() {
                 ))}
               </ol>
               <p className="ih-note">
-                Mỗi ý tưởng có hành trình riêng. Một số ý tưởng có thể được lựa chọn để tiếp tục đồng
-                phát triển và thử nghiệm.
+                Mỗi ý tưởng có hành trình riêng. Một số ý tưởng có thể được lựa chọn để tiếp tục
+                đồng phát triển và thử nghiệm.
               </p>
             </section>
 
-            <section className="ih-card">
-              <h2>💬 THẢO LUẬN &amp; GÓP Ý</h2>
-              <p className="ih-note">{phaseTwoNote}</p>
-              <Button onClick={() => navigate({ to: "/tao-y-tuong" })}>TẠO Ý TƯỞNG CỦA TÔI</Button>
+            <section className="ih-card ih-community">
+              <h2>💬 BUILD &amp; BOUNTY · THẢO LUẬN</h2>
+              <p>Cùng chia sẻ trải nghiệm và góp ý để phát triển ý tưởng.</p>
+              <button
+                type="button"
+                className="lc-button"
+                disabled={!session || communityBusy}
+                onClick={() => void like()}
+              >
+                ♡ Thích · {community?.likes ?? 0}
+              </button>
+              {!session && (
+                <a href="/tai-khoan?redirect=%2Fidea-hub">Đăng nhập FUN COSMOS để thích và góp ý</a>
+              )}
+              <div className="ih-community-comments">
+                {community?.comments.map((item) => (
+                  <article key={item.id}>
+                    <strong>{item.author_name}</strong> ·{" "}
+                    {item.kind === "experience" ? "Chia sẻ trải nghiệm" : "Góp ý"}
+                    <p>{item.body}</p>
+                    <small>{new Date(item.created_at).toLocaleDateString("vi-VN")}</small>
+                  </article>
+                ))}
+                {community && community.comments.length === 0 && (
+                  <p>Chưa có góp ý được duyệt. Hãy chia sẻ suy nghĩ đầu tiên.</p>
+                )}
+              </div>
+              {session && (
+                <div className="ih-community-form">
+                  <label htmlFor="ih-comment-kind">Bạn muốn chia sẻ</label>
+                  <select
+                    id="ih-comment-kind"
+                    value={kind}
+                    onChange={(e) => setKind(e.target.value as "feedback" | "experience")}
+                  >
+                    <option value="feedback">Góp ý ý tưởng</option>
+                    <option value="experience">Trải nghiệm của tôi</option>
+                  </select>
+                  <label htmlFor="ih-comment-body">Nội dung</label>
+                  <textarea
+                    id="ih-comment-body"
+                    value={body}
+                    maxLength={1000}
+                    onChange={(e) => setBody(e.target.value)}
+                    placeholder="Ý tưởng này khiến bạn nghĩ đến điều gì?"
+                  />
+                  <button
+                    type="button"
+                    className="lc-button"
+                    disabled={communityBusy || body.trim().length < 3}
+                    onClick={() => void comment()}
+                  >
+                    GỬI GÓP Ý
+                  </button>
+                </div>
+              )}
+              {communityStatus && <p role="status">{communityStatus}</p>}
+              {communityError && (
+                <p role="alert" className="fc-form-error">
+                  {communityError}
+                </p>
+              )}
+              <Button onClick={() => navigate({ to: "/your-turn" })}>TẠO Ý TƯỞNG CỦA TÔI</Button>
             </section>
           </>
         )}

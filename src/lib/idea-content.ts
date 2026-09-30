@@ -37,7 +37,7 @@ export const rewardStatusLabel: Record<string, string> = {
   eligible: "Đủ điều kiện xét quà",
   approved: "Đã phê duyệt quà tặng",
   reward_pending: "Đang chuẩn bị trao quà",
-  rewarded: "Đã trao 99.999 CAMLY",
+  rewarded: "Đã trao CAMLY",
   reward_failed: "Trao quà chưa thành công",
 };
 
@@ -72,7 +72,7 @@ export const creatorSteps = [
     english: "Character",
     helper: "Tên, tuổi, nghề nghiệp hoặc vai trò. Viết ngắn gọn cũng được.",
     placeholder: "Ví dụ: Anna, 22 tuổi, yêu thiên nhiên và thích sáng tạo.",
-    optional: false,
+    optional: true,
   },
   {
     key: "dream",
@@ -80,7 +80,7 @@ export const creatorSteps = [
     english: "Dream",
     helper: "Điều nhân vật thật sự muốn đạt được, trải nghiệm hoặc trở thành.",
     placeholder: "Ví dụ: Anna ước mơ tạo nên một khu vườn chữa lành cho cộng đồng.",
-    optional: false,
+    optional: true,
   },
   {
     key: "gameplay",
@@ -89,7 +89,7 @@ export const creatorSteps = [
     helper:
       "Có thể là một ngôi nhà, khu vườn, thành phố, doanh nghiệp, thế giới, cộng đồng, hành trình hoặc bất kỳ điều gì bạn tưởng tượng.",
     placeholder: "Ví dụ: Một khu vườn xanh bên hồ dành cho mọi người gặp gỡ và học về thiên nhiên.",
-    optional: false,
+    optional: true,
   },
   {
     key: "angelAi",
@@ -97,7 +97,7 @@ export const creatorSteps = [
     english: "Angel AI",
     helper: "Angel AI có thể hướng dẫn, gợi ý, dạy học, giao nhiệm vụ hoặc cùng nhân vật sáng tạo.",
     placeholder: "Ví dụ: Angel AI hướng dẫn Anna thiết kế khu vườn và học cách chăm sóc cây.",
-    optional: false,
+    optional: true,
   },
   {
     key: "reward",
@@ -106,7 +106,7 @@ export const creatorSteps = [
     helper: "Nhân vật học được gì, tạo ra gì hoặc thay đổi như thế nào?",
     placeholder:
       "Ví dụ: Anna hoàn thành khu vườn, học được kỹ năng mới và kết nối thêm nhiều người bạn.",
-    optional: false,
+    optional: true,
   },
   {
     key: "worldChange",
@@ -115,7 +115,7 @@ export const creatorSteps = [
     helper:
       "Ý tưởng của bạn làm thế giới trở nên đẹp hơn, thú vị hơn hoặc hữu ích hơn như thế nào?",
     placeholder: "Ví dụ: Một vùng đất trống trở thành khu vườn xanh nơi cộng đồng cùng chăm sóc.",
-    optional: false,
+    optional: true,
   },
   {
     key: "realWorldConnection",

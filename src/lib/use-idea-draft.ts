@@ -41,5 +41,12 @@ export function useIdeaDraft() {
     save(next);
   }
 
-  return { draft, update, save, ready, saveError };
+  function replace(values: string[]) {
+    if (values.length !== 7) return;
+    const next = values.map((value) => value.slice(0, 1000));
+    setDraft(next);
+    save(next);
+  }
+
+  return { draft, update, replace, save, ready, saveError };
 }

@@ -13,6 +13,7 @@ import {
 type StoryFields = {
   story?: string | null;
   facebook_post_url?: string | null;
+  fun_rich_post_url?: string | null;
   facebook_post_public_consent?: boolean | null;
 };
 
@@ -60,6 +61,7 @@ const draftSchema = z.object({
   realWorldConnection: optionalText(2000),
   story: z.string().max(STORY_MAX).default(""),
   facebookPostUrl: optionalText(500),
+  funRichPostUrl: optionalText(500),
   /** Opt-in only. Pasting a link never implies consent to publish it. */
   facebookPostPublicConsent: z.boolean().default(false),
   facebookUrl: optionalText(500),
@@ -118,6 +120,7 @@ function contentRow(data: z.output<typeof draftSchema>) {
   return {
     story: data.story,
     facebook_post_url: data.facebookPostUrl,
+    fun_rich_post_url: data.funRichPostUrl,
     facebook_post_public_consent: data.facebookPostPublicConsent,
     title: data.title,
     summary: data.summary,
@@ -132,6 +135,19 @@ function contentRow(data: z.output<typeof draftSchema>) {
     real_world_connection: data.realWorldConnection,
   };
 }
+
+/** Fail visibly if the external Supabase project has not received the additive migrations yet. */
+export const getUnifiedProgramStatus = createServerFn({ method: "GET" }).handler(async () => {
+  const admin = await adminClient();
+  const [story, community] = await Promise.all([
+    admin
+      .from("ideas")
+      .select("fun_rich_post_url" as "id")
+      .limit(0),
+    admin.from("idea_community_comments").select("id").limit(0),
+  ]);
+  return { ready: !story.error && !community.error };
+});
 
 /** Save (create or update) a draft. Database is the source of truth for drafts. */
 export const saveIdeaDraft = createServerFn({ method: "POST" })
@@ -148,12 +164,31 @@ export const saveIdeaDraft = createServerFn({ method: "POST" })
     if (ideaId) {
       const { data: existing } = await admin
         .from("ideas")
-        .select("id,creator_user_id,status,updated_at")
+        .select(
+          "id,creator_user_id,status,updated_at,public_code,story" as "id,creator_user_id,status,updated_at,public_code",
+        )
         .eq("id", ideaId)
         .maybeSingle();
       if (!existing || existing.creator_user_id !== context.userId)
         throw new Error("Không tìm thấy ý tưởng của bạn.");
-      if (!["draft", "needs_revision"].includes(existing.status))
+      if (
+        existing.status === "submitted" &&
+        ((existing as typeof existing & StoryFields).story ?? "").trim().length < STORY_MIN
+      ) {
+        const { data: participation } = await admin
+          .from("fun_cosmos_submissions")
+          .select("id")
+          .eq("public_submission_code", existing.public_code ?? "")
+          .maybeSingle();
+        if (participation)
+          throw new Error("Bài đã tham gia chương trình; cần Admin yêu cầu bổ sung.");
+        const { error: reopenError } = await admin
+          .from("ideas")
+          .update({ status: "needs_revision" })
+          .eq("id", ideaId)
+          .eq("creator_user_id", context.userId);
+        if (reopenError) throw new Error("Chưa mở được bài cũ để bổ sung.");
+      } else if (!["draft", "needs_revision"].includes(existing.status))
         throw new Error("Ý tưởng này đã gửi nên không thể chỉnh sửa trực tiếp.");
       if (
         data.clientUpdatedAt &&
@@ -238,8 +273,11 @@ export const submitIdea = createServerFn({ method: "POST" })
     const storyFields = idea as typeof idea & StoryFields;
     const story = (storyFields.story ?? "").trim();
     const facebookPostUrl = (storyFields.facebook_post_url ?? "").trim();
+    const funRichPostUrl = (storyFields.fun_rich_post_url ?? "").trim();
     if (story.length < STORY_MIN) throw new Error(storyTooShortMessage);
     if (story.length > STORY_MAX) throw new Error("Câu chuyện quá dài. Tối đa 30.000 ký tự.");
+    if (!/^https:\/\/(?:www\.)?fun\.rich\/[^\s]+$/i.test(funRichPostUrl))
+      throw new Error("Cần link bài đăng FUN.Rich công khai.");
     if (!FACEBOOK_POST_PATTERN.test(facebookPostUrl))
       throw new Error(
         "Cần link bài viết Facebook hợp lệ (bài đăng câu chuyện kèm 3 hashtag của chương trình).",
@@ -248,19 +286,11 @@ export const submitIdea = createServerFn({ method: "POST" })
     const missing: string[] = [];
     if (idea.title.trim().length < 3) missing.push("tiêu đề ý tưởng");
     if (idea.summary.trim().length < 10) missing.push("tóm tắt ngắn");
-    if (idea.character_name.trim().length < 1 && idea.character_description.trim().length < 1)
-      missing.push("nhân vật");
     if (!details?.consent_accuracy) missing.push("xác nhận thông tin chính xác");
-    if (!details || !/^https:\/\/(www\.)?facebook\.com\//i.test(details.facebook_url))
-      missing.push("liên kết Facebook hợp lệ");
-    if (
-      !details ||
-      !/^(?:@[A-Za-z0-9_]{5,32}|https:\/\/t\.me\/[A-Za-z0-9_]{5,32}\/?)$/i.test(details.telegram)
-    )
-      missing.push("Telegram hợp lệ");
-    if (!details || !url.safeParse(details.fun_rich_url).success)
+    if (!details || !/^https:\/\/(?:www\.)?fun\.rich\/[^\s]+$/i.test(details.fun_rich_url))
       missing.push("liên kết hồ sơ FUN.Rich");
-    if (!details || details.recipient_wallet.trim().length < 20) missing.push("ví nhận CAMLY");
+    if (!details || !/^0x[a-fA-F0-9]{40}$/.test(details.recipient_wallet.trim()))
+      missing.push("ví BNB Smart Chain hợp lệ");
     if (missing.length) throw new Error(`Cần hoàn thiện: ${missing.join(", ")}.`);
 
     // One database transaction creates the idea, participation, reward record and audit events.
@@ -283,70 +313,27 @@ export const submitIdea = createServerFn({ method: "POST" })
     return submitted;
   });
 
-/** Short sketches go to the idea review queue. Reward applications use submitIdea. */
-export const submitIdeaSketch = createServerFn({ method: "POST" })
+/** Reuse reward identity from the creator's latest saved participation. */
+export const getMyRewardIdentity = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input) => submitSchema.parse(input))
-  .handler(async ({ data, context }) => {
-    await requireVerifiedEmail(context.userId);
+  .handler(async ({ context }) => {
     const admin = await adminClient();
-    const { data: idea, error: readError } = await admin
+    const { data: rows } = await admin
       .from("ideas")
-      .select(
-        "id,public_code,status,submitted_at,title,summary,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection",
-      )
-      .eq("id", data.id)
+      .select("id")
       .eq("creator_user_id", context.userId)
-      .maybeSingle();
-    if (readError || !idea)
-      throw new Error("Không mở được bản nháp của bạn. Nội dung vẫn được giữ lại.");
-    if (idea.public_code && idea.submitted_at)
-      return { code: idea.public_code, submittedAt: idea.submitted_at };
-    if (!["draft", "needs_revision"].includes(idea.status))
-      throw new Error("Ý tưởng này không thể gửi lại.");
-    if (
-      ![
-        idea.character_description,
-        idea.dream,
-        idea.gameplay,
-        idea.angel_ai,
-        idea.reward,
-        idea.world_change,
-        idea.real_world_connection,
-      ].some((value) => value.trim())
-    )
-      throw new Error("Hãy viết ít nhất một ý trước khi gửi.");
-    const { data: details } = await admin
-      .from("idea_private_details")
-      .select("consent_accuracy")
-      .eq("idea_id", idea.id)
-      .maybeSingle();
-    if (!details?.consent_accuracy) throw new Error("Vui lòng xác nhận đây là ý tưởng của bạn.");
-    const { data: code, error: codeError } = await admin.rpc("next_idea_public_code");
-    if (codeError || !code)
-      throw new Error("Chưa tạo được mã tiếp nhận. Bản nháp vẫn được giữ lại.");
-    const submittedAt = new Date().toISOString();
-    const { data: submitted, error } = await admin
-      .from("ideas")
-      .update({ status: "submitted", public_code: code, submitted_at: submittedAt })
-      .eq("id", idea.id)
-      .eq("creator_user_id", context.userId)
-      .in("status", ["draft", "needs_revision"])
-      .select("public_code,submitted_at")
-      .maybeSingle();
-    if (error) throw new Error("Chưa gửi được ý tưởng. Bản nháp vẫn được giữ lại; hãy thử lại.");
-    if (submitted?.public_code && submitted.submitted_at)
-      return { code: submitted.public_code, submittedAt: submitted.submitted_at };
-    // A concurrent retry may already have completed the same submission.
-    const { data: receipt } = await admin
-      .from("ideas")
-      .select("public_code,submitted_at")
-      .eq("id", idea.id)
-      .eq("creator_user_id", context.userId)
-      .maybeSingle();
-    if (!receipt?.public_code || !receipt.submitted_at)
-      throw new Error("Chưa xác nhận được việc gửi. Bản nháp vẫn được giữ lại.");
-    return { code: receipt.public_code, submittedAt: receipt.submitted_at };
+      .order("updated_at", { ascending: false })
+      .limit(20);
+    for (const row of rows ?? []) {
+      const { data: details } = await admin
+        .from("idea_private_details")
+        .select("fun_rich_url,recipient_wallet")
+        .eq("idea_id", row.id)
+        .maybeSingle();
+      if (details?.fun_rich_url && details?.recipient_wallet)
+        return { funRichUrl: details.fun_rich_url, recipientWallet: details.recipient_wallet };
+    }
+    return { funRichUrl: "", recipientWallet: "" };
   });
 
 export const listMyIdeas = createServerFn({ method: "GET" })
@@ -425,14 +412,27 @@ export const getPublicIdea = createServerFn({ method: "POST" })
   .inputValidator((input) => z.object({ code: z.string().trim().max(32) }).parse(input))
   .handler(async ({ data }) => {
     const supabase = await adminClient();
-    const { data: idea } = await supabase
+    const selected = await supabase
       .from("ideas")
       .select(
-        "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at,story,facebook_post_url,facebook_post_public_consent" as "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at",
+        "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at,story,facebook_post_url,fun_rich_post_url,facebook_post_public_consent" as "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at",
       )
       .eq("public_code", data.code.toUpperCase())
       .in("status", [...PUBLIC_STATUSES])
       .maybeSingle();
+    // Existing public stories remain readable until the additive column migration runs.
+    const fallback =
+      selected.error?.code === "42703"
+        ? await supabase
+            .from("ideas")
+            .select(
+              "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at,story,facebook_post_url,facebook_post_public_consent" as "id,public_code,title,summary,category,status,creator_display_name_snapshot,cover_image_url,character_name,character_description,dream,gameplay,angel_ai,reward,world_change,real_world_connection,published_at",
+            )
+            .eq("public_code", data.code.toUpperCase())
+            .in("status", [...PUBLIC_STATUSES])
+            .maybeSingle()
+        : null;
+    const idea = fallback?.data ?? selected.data;
     if (!idea) return { found: false as const };
     const { data: tags } = await supabase.from("idea_tags").select("tag").eq("idea_id", idea.id);
     // The Facebook post link leaves the server ONLY with explicit creator consent.
@@ -441,7 +441,11 @@ export const getPublicIdea = createServerFn({ method: "POST" })
     const safeIdea = consent
       ? rest
       : (() => {
-          const { facebook_post_url: _hidden, ...withoutLink } = rest;
+          const {
+            facebook_post_url: _hidden,
+            fun_rich_post_url: _hiddenFun,
+            ...withoutLink
+          } = rest;
           return withoutLink;
         })();
     return {
@@ -551,6 +555,7 @@ export const updateAdminIdeaReward = createServerFn({ method: "POST" })
           "reward_failed",
         ]),
         txHash: z.string().trim().max(200).default(""),
+        rewardAmount: z.number().int().min(99999).max(1000000000000).optional(),
         note: z.string().max(2000).default(""),
       })
       .parse(input),
@@ -558,24 +563,26 @@ export const updateAdminIdeaReward = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await requireAdmin(context);
     if (data.rewardStatus === "rewarded" && data.txHash.trim().length < 6)
-      throw new Error("Cần mã giao dịch thật trên BNB Smart Chain trước khi đánh dấu đã trao quà.");
+      throw new Error("Cần mã giao dịch hoặc biên nhận FUN.Rich trước khi đánh dấu đã trao quà.");
     const admin = await adminClient();
     const { data: current } = await admin
       .from("ideas")
-      .select("reward_status")
+      .select("reward_status,reward_amount")
       .eq("id", data.id)
       .maybeSingle();
     if (!current) throw new Error("Không tìm thấy ý tưởng.");
-    const { error } = await admin
-      .from("ideas")
-      .update({
-        reward_status: data.rewardStatus,
-        reward_tx_hash: data.txHash.trim() || null,
-        rewarded_at: data.rewardStatus === "rewarded" ? new Date().toISOString() : null,
-        rewarded_by: data.rewardStatus === "rewarded" ? context.userId : null,
-      })
-      .eq("id", data.id);
-    if (error) throw new Error(error.message);
+    const rpc = admin.rpc.bind(admin) as unknown as (
+      name: string,
+      args: Record<string, unknown>,
+    ) => Promise<{ error: { message: string } | null }>;
+    const { error } = await rpc("update_cosmos_idea_reward", {
+      p_idea_id: data.id,
+      p_status: data.rewardStatus,
+      p_amount: data.rewardAmount ?? Number(current.reward_amount),
+      p_reference: data.txHash.trim(),
+      p_admin_id: context.userId,
+    });
+    if (error) throw new Error("Chưa cập nhật được quà tặng: " + error.message);
     await admin.from("idea_audit_events").insert({
       idea_id: data.id,
       actor_user_id: context.userId,

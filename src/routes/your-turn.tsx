@@ -2,10 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, Download, Save } from "lucide-react";
 import { TopicWorldShell, WorldSection } from "@/components/topic-world/topic-world";
-import { ArchiveDisclosure } from "@/components/topic-world/living-scene";
 import { CuratedArchive } from "@/components/topic-world/curated-archive";
 import { IDEA_FIELDS, exportIdea } from "@/lib/idea-submission";
-import { IdeaSketchSubmit } from "@/components/idea-sketch-submit";
+import { IdeaProgramSubmit } from "@/components/idea-program-submit";
 import { useIdeaDraft } from "@/lib/use-idea-draft";
 import { useI18n } from "@/lib/i18n";
 import { externalLink } from "@/lib/links";
@@ -38,7 +37,7 @@ const invitations = [
 const stepArt = [1, 2, 5, 4, 0, 2, 7] as const;
 function YourTurnWorld() {
   const { locale, t } = useI18n();
-  const { draft, update, save: saveDraft, ready, saveError } = useIdeaDraft();
+  const { draft, update, replace, save: saveDraft, ready, saveError } = useIdeaDraft();
   const ideaFields = IDEA_FIELDS.map((field) => field[locale]);
   const ideaHints = IDEA_FIELDS.map((field) => (locale === "en" ? field.hintEn : field.hintVi));
   const [step, setStep] = useState(0);
@@ -111,105 +110,118 @@ function YourTurnWorld() {
           </div>
         </section>
         <nav className="tw-local" aria-label={t("In Your Turn", "Trong Your Turn")}>
-          <a href="#sketch">{t("Seven small steps", "Bảy bước phác thảo")}</a>
+          <a href="#sketch">{t("Seven optional prompts", "Bảy gợi ý tùy chọn")}</a>
           <a href="#idea-preview">{t("Idea card", "Thẻ ý tưởng")}</a>
+          <a href="/y-tuong-cua-toi">{t("My ideas", "Ý tưởng của tôi")}</a>
+          <a href="/idea-hub">Build &amp; Bounty</a>
           <a href="#archive">{t("Original artwork", "Tư liệu gốc")}</a>
         </nav>
         <WorldSection
           id="sketch"
           number="02"
           eyebrow="SEVEN SMALL STEPS"
-          title={t("FROM AN IDEA TO A FIRST SKETCH.", "TỪ Ý TƯỞNG ĐẾN MỘT BẢN PHÁC THẢO.")}
+          title={t("SEVEN OPTIONAL PROMPTS.", "BẢY GỢI Ý ĐỂ PHÁT TRIỂN Ý TƯỞNG.")}
         >
           <p className="tw-intro">
             {t(
-              "Write in any order. Your draft stays on this device until you send it.",
-              "Bạn có thể điền theo thứ tự bất kỳ. Bản nháp ở trên thiết bị cho đến khi bạn gửi.",
+              "Use any prompt you like, or write your story directly below. Your draft saves here as you write.",
+              "Bạn có thể chọn gợi ý bất kỳ hoặc viết thẳng câu chuyện bên dưới. Nội dung tự lưu khi bạn viết.",
             )}
           </p>
-          <div className="yw-workshop">
-            <div>
-              <div
-                className="yw-building"
-                aria-label={t(
-                  `Sketch: ${count} of 7 parts written`,
-                  `Bản phác thảo: ${count} trên 7 thành phần đã viết`,
-                )}
-              >
-                <span
-                  className="yw-active-medallion yw-medallion"
-                  style={{
-                    backgroundPosition: `${((stepArt[step]! % 4) * 100) / 3}% ${Math.floor(stepArt[step]! / 4) * 100}%`,
+          <a className="tw-button" href="#idea-preview">
+            {t("Write my story", "Viết câu chuyện của tôi")} <ArrowDown size={16} />
+          </a>
+          <details className="yw-optional-prompts">
+            <summary>
+              {t(
+                "Open the seven idea prompts (optional)",
+                "Mở 7 gợi ý phát triển ý tưởng (tùy chọn)",
+              )}
+            </summary>
+            <div className="yw-workshop">
+              <div>
+                <div
+                  className="yw-building"
+                  aria-label={t(
+                    `Sketch: ${count} of 7 parts written`,
+                    `Bản phác thảo: ${count} trên 7 thành phần đã viết`,
+                  )}
+                >
+                  <span
+                    className="yw-active-medallion yw-medallion"
+                    style={{
+                      backgroundPosition: `${((stepArt[step]! % 4) * 100) / 3}% ${Math.floor(stepArt[step]! / 4) * 100}%`,
+                    }}
+                    aria-hidden="true"
+                  />
+                  <strong>{ideaFields[step]}</strong>
+                  <p>{ideaHints[step]}</p>
+                </div>
+              </div>
+              <div className="yw-editor">
+                <nav className="yw-steps" aria-label={t("Sketch steps", "Các bước phác thảo")}>
+                  {ideaFields.map((field, i) => (
+                    <button
+                      key={field}
+                      aria-current={step === i ? "step" : undefined}
+                      onClick={() => go(i)}
+                    >
+                      <small>{String(i + 1).padStart(2, "0")}</small>
+                      <span>{field}</span>
+                      {draft[i]?.trim() && <span aria-label={t("Completed", "Đã điền")}>✓</span>}
+                    </button>
+                  ))}
+                </nav>
+                <label htmlFor="idea-answer">{ideaFields[step]}</label>
+                <textarea
+                  id="idea-answer"
+                  ref={input}
+                  disabled={!ready}
+                  maxLength={1000}
+                  value={draft[step]}
+                  placeholder={ideaHints[step]}
+                  aria-describedby="idea-limit"
+                  onChange={(e) => {
+                    update(step, e.target.value);
+                    setNotice("");
                   }}
-                  aria-hidden="true"
                 />
-                <strong>{ideaFields[step]}</strong>
-                <p>{ideaHints[step]}</p>
+                <small id="idea-limit">
+                  {draft[step]?.length ?? 0} / 1000 {t("characters", "ký tự")}
+                </small>
+                <div className="yw-step-actions">
+                  <button className="tw-outline" disabled={step === 0} onClick={() => go(step - 1)}>
+                    <ArrowLeft size={16} /> {t("Previous", "Trước")}
+                  </button>
+                  {step < 6 ? (
+                    <button className="tw-button" onClick={() => go(step + 1)}>
+                      {t("Next", "Tiếp theo")} <ArrowRight size={16} />
+                    </button>
+                  ) : (
+                    <a className="tw-button" href="#idea-preview">
+                      {t("Review & send", "Xem lại và gửi")} <ArrowDown size={16} />
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="yw-editor">
-              <nav className="yw-steps" aria-label={t("Sketch steps", "Các bước phác thảo")}>
-                {ideaFields.map((field, i) => (
-                  <button
-                    key={field}
-                    aria-current={step === i ? "step" : undefined}
-                    onClick={() => go(i)}
-                  >
-                    <small>{String(i + 1).padStart(2, "0")}</small>
-                    <span>{field}</span>
-                    {draft[i]?.trim() && <span aria-label={t("Completed", "Đã điền")}>✓</span>}
-                  </button>
-                ))}
-              </nav>
-              <label htmlFor="idea-answer">{ideaFields[step]}</label>
-              <textarea
-                id="idea-answer"
-                ref={input}
-                disabled={!ready}
-                maxLength={1000}
-                value={draft[step]}
-                placeholder={ideaHints[step]}
-                aria-describedby="idea-limit"
-                onChange={(e) => {
-                  update(step, e.target.value);
-                  setNotice("");
-                }}
-              />
-              <small id="idea-limit">
-                {draft[step]?.length ?? 0} / 1000 {t("characters", "ký tự")}
-              </small>
-              <div className="yw-step-actions">
-                <button className="tw-outline" disabled={step === 0} onClick={() => go(step - 1)}>
-                  <ArrowLeft size={16} /> {t("Previous", "Trước")}
-                </button>
-                {step < 6 ? (
-                  <button className="tw-button" onClick={() => go(step + 1)}>
-                    {t("Next", "Tiếp theo")} <ArrowRight size={16} />
-                  </button>
-                ) : (
-                  <a className="tw-button" href="#idea-preview">
-                    {t("Review & send", "Xem lại và gửi")} <ArrowDown size={16} />
-                  </a>
-                )}
-              </div>
+            <div className="yw-save">
+              <button className="tw-button" onClick={save} disabled={!ready || !count}>
+                <Save size={18} /> {t("Save draft", "Lưu bản nháp")}
+              </button>
+              <button className="tw-outline" onClick={download} disabled={!count}>
+                <Download size={18} /> {t("Download idea card", "Tải thẻ ý tưởng")}
+              </button>
+              <span>
+                {saveError
+                  ? t("Local saving is unavailable", "Không thể lưu bản nháp trên thiết bị")
+                  : t("Draft saves as you write", "Bản nháp tự lưu khi bạn viết")}
+              </span>
             </div>
-          </div>
-          <div className="yw-save">
-            <button className="tw-button" onClick={save} disabled={!ready || !count}>
-              <Save size={18} /> {t("Save draft", "Lưu bản nháp")}
-            </button>
-            <button className="tw-outline" onClick={download} disabled={!count}>
-              <Download size={18} /> {t("Download idea card", "Tải thẻ ý tưởng")}
-            </button>
-            <span>
-              {saveError
-                ? t("Local saving is unavailable", "Không thể lưu bản nháp trên thiết bị")
-                : t("Draft saves as you write", "Bản nháp tự lưu khi bạn viết")}
-            </span>
-          </div>
-          <p className="yw-status" role="status">
-            {notice}
-          </p>
+            <p className="yw-status" role="status">
+              {notice}
+            </p>
+          </details>
         </WorldSection>
         <WorldSection
           id="idea-preview"
@@ -217,7 +229,7 @@ function YourTurnWorld() {
           eyebrow="REVIEW & SEND"
           title={t("SEND YOUR IDEA INTO THE COSMOS.", "GỬI Ý TƯỞNG VÀO VŨ TRỤ.")}
         >
-          <IdeaSketchSubmit fields={draft} />
+          <IdeaProgramSubmit fields={draft} restoreFields={replace} />
           <details className="yw-preview-details">
             <summary>{t("Review my idea card", "Xem lại thẻ ý tưởng của tôi")}</summary>
             <article className="yw-preview">
@@ -269,9 +281,7 @@ function YourTurnWorld() {
           eyebrow="KNOWLEDGE ARCHIVE"
           title={t("MORE INSPIRATION FOR YOUR IDEA.", "THÊM CẢM HỨNG CHO Ý TƯỞNG.")}
         >
-          <ArchiveDisclosure>
-            <CuratedArchive images={[21, 26, 27]} />
-          </ArchiveDisclosure>
+          <CuratedArchive images={[21, 26, 27]} />
         </WorldSection>
         <WorldSection
           id="continue"

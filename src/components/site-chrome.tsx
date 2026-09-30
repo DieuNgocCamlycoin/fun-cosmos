@@ -224,7 +224,13 @@ export function SiteHeader({ home = false, active = "" }: { home?: boolean; acti
     </header>
   );
 }
-export function SiteFooter({ paused, onPause }: { paused: boolean; onPause: () => void }) {
+export function SiteFooter({
+  paused = false,
+  onPause,
+}: {
+  paused?: boolean;
+  onPause?: () => void;
+}) {
   const { t } = useI18n();
   return (
     <footer className="fc-footer">
@@ -239,10 +245,14 @@ export function SiteFooter({ paused, onPause }: { paused: boolean; onPause: () =
       </a>
       <a href="/ecosystem">{t("Ecosystem", "Hệ sinh thái")}</a>
       <a href="/your-turn">{t("Create together", "Cùng sáng tạo")}</a>
-      <button aria-pressed={paused} onClick={onPause}>
-        {paused ? <Play size={16} /> : <Pause size={16} />}{" "}
-        {paused ? t("Resume motion", "Bật chuyển động") : t("Pause motion", "Tạm dừng chuyển động")}
-      </button>
+      {onPause && (
+        <button aria-pressed={paused} onClick={onPause}>
+          {paused ? <Play size={16} /> : <Pause size={16} />}{" "}
+          {paused
+            ? t("Resume motion", "Bật chuyển động")
+            : t("Pause motion", "Tạm dừng chuyển động")}
+        </button>
+      )}
       <LanguageMenu />
     </footer>
   );

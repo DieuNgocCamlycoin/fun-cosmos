@@ -70,7 +70,7 @@ function MyIdeasPage() {
           <h1>Ý TƯỞNG CỦA TÔI</h1>
         </header>
         <div className="ih-filters">
-          <Button onClick={() => navigate({ to: "/tao-y-tuong" })}>
+          <Button onClick={() => navigate({ to: "/your-turn" })}>
             <Plus aria-hidden="true" /> Tạo ý tưởng
           </Button>
           <Button variant="outline" onClick={() => void load()}>
@@ -88,7 +88,9 @@ function MyIdeasPage() {
             <section className="ih-empty">
               <h2>BẠN CHƯA CÓ Ý TƯỞNG NÀO</h2>
               <p>Hãy bắt đầu từ điều bạn yêu thích nhất.</p>
-              <Button onClick={() => navigate({ to: "/tao-y-tuong" })}>✨ Tạo ý tưởng đầu tiên</Button>
+              <Button onClick={() => navigate({ to: "/your-turn" })}>
+                ✨ Tạo ý tưởng đầu tiên
+              </Button>
             </section>
           )}
           {rows.map((row) => (
@@ -109,14 +111,19 @@ function MyIdeasPage() {
                 {["draft", "needs_revision"].includes(row.status) ? (
                   <Button
                     variant="outline"
-                    onClick={() => navigate({ to: "/tao-y-tuong", search: { id: row.id } as never })}
+                    onClick={() => navigate({ to: "/your-turn", search: { id: row.id } as never })}
                   >
                     Tiếp tục chỉnh sửa
                   </Button>
                 ) : row.public_code &&
-                  ["published", "selected", "in_development", "prototype", "playtest", "implemented"].includes(
-                    row.status,
-                  ) ? (
+                  [
+                    "published",
+                    "selected",
+                    "in_development",
+                    "prototype",
+                    "playtest",
+                    "implemented",
+                  ].includes(row.status) ? (
                   <Button
                     variant="outline"
                     onClick={() =>
